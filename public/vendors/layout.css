@@ -1,0 +1,107 @@
+
+
+.menu-left-item:hover{
+background-color:#ffffff;
+color: chocolate !important;
+}
+
+
+
+.img_size{
+  height: 100vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  position: relative;
+  background-size:cover ;
+}
+
+/* The sidebar menu */
+.sidebar {
+height: 100%; /* 100% Full-height */
+width: 0; /* 0 width - change this with JavaScript */
+position: fixed; /* Stay in place */
+z-index: 200; /* Stay on top */
+top: 0;
+left: 0;
+background-color: #111; /* Black*/
+overflow-x: hidden; /* Disable horizontal scroll */
+padding-top: 60px; /* Place content 60px from the top */
+transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+/* The sidebar links */
+.sidebar a {
+padding: 8px 8px 8px 32px;
+text-decoration: none;
+font-size: 25px;
+color: #818181;
+display: block;
+transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+position: absolute;
+top: 0;
+right: 25px;
+font-size: 36px;
+margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+font-size: 20px;
+cursor: pointer;
+background-color: #111;
+color: white;
+padding: 10px 15px;
+border: none;
+}
+
+.openbtn:hover {
+background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+
+#main {
+transition: margin-left .4s;
+padding: 20px;
+overflow: hidden;
+background-color: transparent;
+position: absolute;
+
+background-size:cover;
+}
+
+.navbar{
+  position:absolute;
+  width:100%;
+  z-index:10;
+  max-width:100%;
+}
+#logo {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px !important;  /* 50% of your logo width */
+  display: block;
+}
+#nav {
+  width:750px;
+  margin:0 auto;
+  list-style:none;
+  }
+  #nav li {
+  float:left;
+  }
+  #nav a {
+  display:block;
+  text-align:center;
+  width:150px; /* fixed width */
+  text-decoration:none; 
+  }
