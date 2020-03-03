@@ -7,9 +7,14 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import javax.servlet.http.HttpServlet;
 
 public class Main {
-
+  /**
+   * 
+   * Couche IHM : instancie le serveur et les servlets.
+   * 
+   * @param args
+   * @throws Exception
+   */
   public static void main(String[] args) throws Exception {
-    Server server = new Server(80);
     WebAppContext context = new WebAppContext();
 
     System.out.println(context.getContextPath());
@@ -19,6 +24,7 @@ public class Main {
     context.addServlet(new ServletHolder(rootServlet), "/");
     context.setResourceBase("public");
 
+    Server server = new Server(80);
     server.setHandler(context);
     server.start();
   }
