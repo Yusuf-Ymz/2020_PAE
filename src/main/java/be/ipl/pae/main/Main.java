@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServlet;
 
 public class Main {
   /**
-   * 
    * Couche IHM : instancie le serveur et les servlets.
    * 
-   * @param args
-   * @throws Exception
+   * @param args tableau de String
+   * @throws Exception est une RuntimeException
    */
   public static void main(String[] args) throws Exception {
     WebAppContext context = new WebAppContext();
