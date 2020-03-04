@@ -84,6 +84,7 @@ background-size:cover;
   width:100%;
   z-index:10;
   max-width:100%;
+ 
 }
 #logo {
   position: absolute;
@@ -105,3 +106,62 @@ background-size:cover;
   width:150px; /* fixed width */
   text-decoration:none; 
   }
+
+  /*--------------Style pour formulaire------*/
+
+
+  input:valid:focus{
+    background-color: #a7db9a ; 
+    border: 2px solid rgb(61, 158, 6);
+    box-shadow: 4px 4px 20px rgba(20, 209, 67, 0.85);
+  }
+  input:invalid:focus{
+    background-color: #f1c2c2;
+    border: 2px solid #e23737;
+    box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+  }
+  
+  
+  .register{
+    background: -webkit-linear-gradient(left,  #47b188, #6cdbb1);
+    margin-top: 5%;
+    padding: 3%;
+   
+  }
+  .register-left{
+    text-align: center;
+    color: rgb(19, 18, 18);
+    margin-top: 4%;
+  }
+  
+  .register-left button{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 60%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-top: 30%;
+    margin-bottom: 3%;
+    cursor: pointer;
+  }
+  .login-card-color {
+    border-radius:  50px 0  0 50px !important;
+  }
+  .register-left img{
+    margin-top: 15%;
+    margin-bottom: 5%;
+    width: 70%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+  }
+  @-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+  @keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+  

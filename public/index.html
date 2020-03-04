@@ -5,30 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - GreenTrees</title>
   <link rel="stylesheet" href="vendors/bootstrap.min.css">
+  <link rel="stylesheet" href="vendors/all.min.css">
   <link rel="stylesheet" href="vendors/layout.css">
-  
+
 </head>
 
 <body style="overflow-x: hidden;">
- 
-  
-   <nav class="navbar navbar-expand-lg navbar-light mb-0" style="padding-top: 0px;">
-        <button class="openbtn" style="font-size: 20;">&#9776; Menu</button> 
-        <button class="navbar-toggler left" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" style="margin-left: 36%;" href="#"><img src="images/logo.png" class="rounded" style="width: 200px; height: 150px;"></a>
-        <div class="collapse navbar-collapse pt-0" style="margin: 0px;" id="navbarText">
-          <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item mt-3">
-              <a class="btn btn-dark" style="font-size: 20;margin-top: 0px;" href="#" tabindex="0" aria-disabled="true">S'authentifier</a>
-            </li>
-            <li class="nav-item active ml-2 mt-3">
-              <a class="btn btn-dark" style="font-size: 20;"href="#" tabindex="1" aria-disabled="true">Accueil</a>
-            </li>
-          </ul> 
-        </div>
-    </nav>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light mb-0" style="padding-top: 0px;">
+    <button class="openbtn" style="font-size: 20;">&#9776; Menu</button>
+    <button class="navbar-toggler left" type="button" data-toggle="collapse" data-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a id="logo" class="navbar-brand" style="margin-left: 36%;" href="#"><img src="images/logo.png" class="rounded"
+        style="width: 200px; height: 150px;"></a>
+    <div class="collapse navbar-collapse pt-0" style="margin: 0px;" id="navbarText">
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item mt-3">
+          <a id="nav_connect" class="btn btn-dark  redirection_connect" style="font-size: 20;margin-top: 0px;" href="#" tabindex="0"
+            aria-disabled="true">S'authentifier</a>
+        </li>
+        <li class="nav-item active ml-2 mt-3">
+          <a id="home" class="btn btn-dark" style="font-size: 20;" href="#" tabindex="1"
+            aria-disabled="true">Accueil</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <div id="mySidebar" class="sidebar ">
     <a href="#" class="closebtn" id="closebtn">&times;</a>
@@ -38,12 +43,11 @@
     <a class="menu-left-item" href="#">Contact</a>
   </div>
 
- 
-  
+
+
   <div id="carouselExampleIndicators" class="carousel slide my-carousel" data-ride="carousel">
-    
+
     <ol class="carousel-indicators">
-      
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -81,23 +85,24 @@
         </div>
       </div>
     </div>
-   
-  <div class="container text-center"style="position:absolute;bottom:50vh;left:0;right:0;display:inline;font-size:18;font-color:white;">
-    <div class="row">
-      <div class="col col-lg-3 col-xs-12">
-        One of three columns
-      </div>
-      <div class="col col-lg-3 col-xs-12">
-        One of three columns
-      </div>
-      <div class="col col-lg-3 col-xs-12">
-        One of three columns
-      </div>
-      <div class="col col-lg-3 col-xs-12">
-        One of three columns
+
+    <div class="container text-center"
+      style="position:absolute;bottom:50vh;left:0;right:0;display:inline;font-size:18;font-color:white;">
+      <div class="row">
+        <div class="col col-lg-3 col-xs-12">
+          One of three columns
+        </div>
+        <div class="col col-lg-3 col-xs-12">
+          One of three columns
+        </div>
+        <div class="col col-lg-3 col-xs-12">
+          One of three columns
+        </div>
+        <div class="col col-lg-3 col-xs-12">
+          One of three columns
+        </div>
       </div>
     </div>
-  </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -106,6 +111,117 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
+  </div>
+  <!------Form ------------->
+
+  <div class="container register" style="display: none;">
+    <!---style="display: none;"-->
+    <div class="row">
+      <div class="col-md-3 register-left">
+        <img src="./images/logo.PNG" alt="logo rose et le lilas" />
+        <h3>Bienvenue</h3>
+        <p>GreenTrees</p>
+      </div>
+      <!---------------Formulaire de login------------->
+      <div class="col-9" id="login_form">
+        <div class="login-card-color p-3 shadow-lg rounded">
+          <div class="pt-3">
+            <h2 class="text-white ">Connexion</h2>
+          </div>
+          <form class="mt-5">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input id="pseudo" type="text" class="form-control" placeholder="Pseudo" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              </div>
+              <input id="mdp" type="text" class="form-control" placeholder="Mot de passe" required>
+            </div>
+            <div class="mt-5">
+              <button class="btn btn-sm btn-light col">Se connecter</button>
+            </div>
+            <div class="mt-5">
+              <p class="text-white text-center">
+                Vous n'avez pas encore de compte?
+                <a id="redirection_inscrit" href="#">Cliquez ici pour vous inscrire!</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!------------------------------------Formulaire d'inscription------------------------->
+      <div class="col-9" id="inscription_form">
+        <div class="login-card-color p-3 shadow-lg rounded">
+          <div class="pt-3">
+            <h2 class="text-white ">Inscription</h2>
+          </div>
+          <form class="mt-5" id="form_inscription">
+
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <!---Nom-->
+              <input id="nom" type="text" class="form-control" placeholder="Nom" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <!---Prenom-->
+              <input id="prenom" type="text" class="form-control" placeholder="Prenom" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+              </div>
+              <!---Pseudo-->
+              <input id="pseudo_inscription" type="text" class="form-control" placeholder="Pseudo" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <!---Mail-->
+              <input id="email" type="email" class="form-control" placeholder="e-mail" required
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$">
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-home"></i></span>
+              </div>
+              <input id="ville" type="text" class="form-control" placeholder="Ville de residence" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              </div>
+              <input id="mdp_inscription" type="password" class="form-control" placeholder="Mot de passe" required>
+            </div>
+            <div class="input-group form-group ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              </div>
+              <input id="re_mdp_inscription" type="password" class="form-control" placeholder=" Confirmer mot de passe"
+                required>
+            </div>
+            <div class="mt-5">
+              <button id="inscription" class="btn btn-sm btn-light col">S'inscrire</button>
+            </div>
+            <div class="mt-5">
+              <p class="text-white text-center">
+                Vous avez deja un compte?
+                <a class="redirection_connect" href="#">Cliquez ici pour vous connecter!</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="vendors/jquery.min.js"></script>
   <script src="vendors/bootstrap.min.js"></script>
