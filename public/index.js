@@ -1,3 +1,4 @@
+"use strict";
 import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token=undefined;
 const API_NAME = "/";
@@ -80,7 +81,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#logout_menu_item").click(e => {
+  $("#logout").click(e => {
     e.preventDefault();
     //remove the token from localStorage
     localStorage.removeItem("token");
@@ -99,7 +100,7 @@ const  HideToHome = () =>{
 }
 
 const HomeUser = () =>{
-  $("#login_board").html("");
+  $("#login_message").html("");
   $("#nav_connect").hide();
   $(".register").hide();
   $("#carouselExampleIndicators").hide();
@@ -107,7 +108,7 @@ const HomeUser = () =>{
 }
 
 const LoginForm = (errorMessage = "") =>{
-  $("#login_board").html(errorMessage);
+  $("#login_message").html(errorMessage);
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
     $(".register").show();
@@ -120,7 +121,10 @@ const LoginForm = (errorMessage = "") =>{
     $("#login_form").show();
 };
 
-const RegisterForm = () =>{
+const RegisterForm = (errorMessage = "") =>{
+  $("#inscription_message").html(errorMessage);
+  if (errorMessage === "") $("#inscription_message").hide();
+  else $("#inscription_message").show();
    $(".register").show();
    $("#logo").hide();
    $("#carouselExampleIndicators").hide();
@@ -156,17 +160,34 @@ function onPostLogin(response) {
     console.error("Error:", response);
     LoginForm(response.error);
   }
+}
 
-  function onErrorLogin(err) {
-    console.error("Error :", err);
-    LoginForm(response.error);
+function onErrorLogin(err) {
+  console.error("Error :", err);
+  LoginForm(response.error);
+}
+
+function onPostInscription(response) {
+  $("#nom").val("");
+  $("#prenom").val("");
+  $("#pseudo_inscription").val("");
+  $("#email").val("");
+  $("#ville").val("");
+  $("#mdp_inscription").val("");
+  $("#re_mdp_inscription").val("");
+  if (response.success === "true") {
+    // store the jwt in localstorage
+    localStorage.setItem("token", response.token);
+    token = response.token;
+    HomeUser();
+  } else {
+    //show error message
+    console.error("Error:", response);
+    RegisterForm(response.error);
   }
 }
 
-function onPostInscription() {
-
-}
-
-function onErrorInscription() {
-  
+function onErrorInscription(err) {
+  console.error("Error :", err);
+  LoginForm(response.error);
 }

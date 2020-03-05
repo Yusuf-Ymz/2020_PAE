@@ -1,12 +1,9 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.ihm.RootServlet;
-
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
-
-import javax.servlet.http.HttpServlet;
 
 public class Main {
   /**
@@ -21,9 +18,7 @@ public class Main {
     System.out.println(context.getContextPath());
     context.setContextPath("/");
 
-    HttpServlet rootServlet = new RootServlet();
-    // context.addServlet(new ServletHolder(new DefaultServlet()), "/");
-    context.addServlet(new ServletHolder(rootServlet), "/");
+    context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.setResourceBase("public");
 
     Server server = new Server(8080);
