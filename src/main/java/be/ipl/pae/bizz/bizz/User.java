@@ -1,7 +1,8 @@
 package be.ipl.pae.bizz.bizz;
 
-import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 class User implements UserBiz {
 
@@ -18,15 +19,15 @@ class User implements UserBiz {
 
 
   /**
-   * <<<<<<< HEAD Creer un nouvel utilisateur ======= Créer un utilisateur >>>>>>> branch 'master'
-   * of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-09
+   * Creer un nouvel utilisateur.
+   *
    */
   public User() {
     dateInscription = LocalDate.now();
   }
 
   /**
-   * renvoie le pseudo de l'utilisateur
+   * Renvoie le pseudo de l'utilisateur.
    * 
    * @return pseudo : le pseudo de l'utilisateur
    */
@@ -35,7 +36,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le pseudo de l'utilisateur
+   * Modifie le pseudo de l'utilisateur.
    * 
    * @param pseudo : la nouvelle valeur du pseudo
    */
@@ -44,7 +45,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie le nom de l'utilisateur
+   * Renvoie le nom de l'utilisateur.
    * 
    * @return nom : nom de l'utilisateur
    */
@@ -53,7 +54,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le nom de l'utilisateur
+   * Modifie le nom de l'utilisateur.
    * 
    * @param nom : la nouvelle valeur du nom
    */
@@ -62,7 +63,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie le prenom de l'utilisateur
+   * Renvoie le prenom de l'utilisateur.
    * 
    * @return prenom : le prenom de l'utilisateur
    */
@@ -71,7 +72,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le prenom de l'utilisateur
+   * Modifie le prenom de l'utilisateur.
    * 
    * @param prenom :la nouvelle valeur du prenom
    */
@@ -80,7 +81,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Renvoie le mail de l'utilisateur
+   * Renvoie le mail de l'utilisateur.
    * 
    * @return email : le mail de l'utilisateur
    * 
@@ -99,7 +100,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Renvoie la ville de l'utilisateur
+   * Renvoie la ville de l'utilisateur.
    * 
    * @return ville : la ville de l'utilisateur
    */
@@ -108,7 +109,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie la ville de l'utilisateur
+   * Modifie la ville de l'utilisateur.
    * 
    * @param ville :la nouvelle valeur de la ville
    */
@@ -117,7 +118,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie si l'utlisateur est un ouvrier
+   * Renvoie si l'utlisateur est un ouvrier.
    * 
    *
    */
@@ -126,7 +127,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le boolean de ouvrier
+   * Modifie le boolean de ouvrier.
    * 
    * @param ouvrier: le boolean a modifié
    */
@@ -144,7 +145,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifier le boolean confirme
+   * Modifier le boolean confirme.
    * 
    * @param confimer : la nouvelle valeur
    */
@@ -153,7 +154,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie la date d'inscription
+   * Renvoie la date d'inscription.
    * 
    * @return dateInscription : la date d'inscription
    */
@@ -162,7 +163,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie la date d'inscription
+   * Modifie la date d'inscription.
    * 
    * @param dateInscription : la nouvelle date
    */
@@ -171,7 +172,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie le mot de passe de l'utilisateur
+   * Renvoie le mot de passe de l'utilisateur.
    * 
    * @return password : le mot de passe
    */
@@ -180,7 +181,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le password de l'utilisateur
+   * Modifie le password de l'utilisateur.
    * 
    * @param password : le nouveau password
    */
@@ -189,7 +190,7 @@ class User implements UserBiz {
   }
 
   /**
-   * renvoie l'id de l'utilisateur
+   * Renvoie l'id de l'utilisateur.
    * 
    * @return userId : l'id de l'utilisateur
    */
@@ -198,7 +199,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie l'id de l'utilisateur
+   * Modifie l'id de l'utilisateur.
    * 
    * @param userId : le nouvelle id
    * 
