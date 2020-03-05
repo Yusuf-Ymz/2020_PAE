@@ -1,7 +1,8 @@
 package be.ipl.pae.main.biz.biz;
 
-import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 public class User implements UserBiz {
 
@@ -18,7 +19,11 @@ public class User implements UserBiz {
 
 
   /**
+<<<<<<< HEAD
    * Creer un nouvel utilisateur
+=======
+   * Créer un utilisateur
+>>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-09
    */
   public User() {
     dateInscription = LocalDate.now();
