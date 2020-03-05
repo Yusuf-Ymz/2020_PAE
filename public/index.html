@@ -12,39 +12,56 @@
 
 <body style="overflow-x: hidden;">
 
-
-  <nav class="navbar navbar-expand-lg navbar-light mb-0" style="padding-top: 0px;">
-    <button class="openbtn" style="font-size: 20;">&#9776; Menu</button>
-    <button class="navbar-toggler left" type="button" data-toggle="collapse" data-target="#navbarText"
+  <!----Navbar ------------>
+  <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
+    <span class="navbar-toggler-icon  leftmenu"></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a id="logo" class="navbar-brand" style="margin-left: 36%;" href="#"><img src="./images/logo.PNG" class="rounded"
-        style="width: 200px; height: 150px;"></a>
-    <div class="collapse navbar-collapse pt-0" style="margin: 0px;" id="navbarText">
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item mt-3">
-          <a id="nav_connect" class="btn btn-dark  redirection_connect" style="font-size: 20;margin-top: 0px;" href="#" tabindex="0"
-            aria-disabled="true">S'authentifier</a>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav animate slide-nav">
+        <li class="nav-item">
+          <a style="margin-top: +20;" class="nav-link" href="#">Rechercher sur mes devis</a>
         </li>
-        <li class="nav-item active ml-2 mt-3">
-          <a id="home" class="btn btn-dark" style="font-size: 20;" href="#" tabindex="1"
-            aria-disabled="true">Accueil</a>
+        <div id="slide-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Introduire nouveau devis</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">Rechercher clients</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Rechercher utilisateurs inscrits</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Rechercher aménagements</a>
+          </li>
+
+        </div>
+      </ul>
+      <ul class="navbar-nav  mr-auto">
+        <li class="nav-item  hoz-link">
+          <a id="home" class="navbar-brand" href="#"><img src="./images/logo.PNG" class="rounded"></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-md-auto  d-md-flex">
+        <li class="nav-item  hoz-link">
+          <a id="home" class="nav-link hoz-link " href="#"><i class="fa fa-home"></i> Acceuil</a>
+        </li>
+        <li class="nav-item  hoz-link">
+          <a style="display: none;" id="logout" class="nav-link hoz-link" href="#"><i class="fas fa-sign-out-alt"></i>
+            Se deconnecter</a>
+        </li>
+        <li class="nav-item  hoz-link">
+          <a id="nav_connect" class="nav-link hoz-link redirection_connect" href="#"><i class="fas fa-sign-in-alt"></i>
+            S'authentifier</a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <div id="mySidebar" class="sidebar ">
-    <a href="#" class="closebtn" id="closebtn">&times;</a>
-    <a class="menu-left-item" href="#">About</a>
-    <a class="menu-left-item" href="#">Services</a>
-    <a class="menu-left-item" href="#">Clients</a>
-    <a class="menu-left-item" href="#">Contact</a>
-  </div>
-
-
-
+  <!--------Carousel----------->
   <div id="carouselExampleIndicators" class="carousel slide my-carousel" data-ride="carousel">
 
     <ol class="carousel-indicators">
@@ -142,7 +159,7 @@
               <input id="mdp" type="text" class="form-control" placeholder="Mot de passe" required>
             </div>
             <div class="mt-5">
-              <button type="submit" class="btn btn-sm btn-light col" id ="login_btn">Se connecter</button>
+              <button type="submit" class="btn btn-sm btn-light col" id="login_btn">Se connecter</button>
             </div>
             <div class="mt-5">
               <p class="text-white text-center">
@@ -227,7 +244,7 @@
   </div>
   <script src="vendors/jquery.min.js"></script>
   <script src="vendors/bootstrap.min.js"></script>
-  <script src="./index.js" type= "module"></script>
+  <script src="./index.js" type="module"></script>
 </body>
 
 </html>
