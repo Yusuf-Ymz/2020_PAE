@@ -18,7 +18,7 @@ public class User implements UserBiz {
   private int userId;
 
   /**
-   * Créer un utilisateur
+   * CrÃ©er un utilisateur
    */
   public User() {
     dateInscription = LocalDate.now();
