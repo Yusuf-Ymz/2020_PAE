@@ -1,15 +1,17 @@
 package be.ipl.pae.main.ihm;
 
+import be.ipl.pae.main.biz.biz.DtoFactory;
+import be.ipl.pae.main.biz.dto.UserDto;
+import be.ipl.pae.main.biz.ucc.UserUcc;
+
+import com.owlike.genson.Genson;
+
 import java.io.IOException;
-import java.util.Objects;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.owlike.genson.Genson;
-import be.ipl.pae.main.biz.dto.UserDto;
-import be.ipl.pae.main.biz.factory.DtoFactory;
-import be.ipl.pae.main.biz.ucc.UserUcc;
 
 public class AuthentificationServlet extends HttpServlet {
 
@@ -18,6 +20,12 @@ public class AuthentificationServlet extends HttpServlet {
   private Genson genson;
   private String secret;
 
+  /**
+   * 
+   * @param secret cle secrete
+   * @param userUcc use case controller utilisateur
+   * @param dtoFactory factory data transfer object
+   */
   public AuthentificationServlet(String secret, UserUcc userUcc, DtoFactory dtoFactory) {
     this.secret = secret;
     this.userUcc = userUcc;
@@ -35,9 +43,6 @@ public class AuthentificationServlet extends HttpServlet {
     String pseudo = req.getParameter("pseudo");
     String password = req.getParameter("password");
     UserDto userDto = userUcc.seConnecter(pseudo, password);
-    if (Objects.nonNull(userDto)) {
-
-    }
     userDto.setPassword(null);
     return userDto;
   }
