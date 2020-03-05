@@ -1,6 +1,6 @@
-package be.ipl.pae.main.dal.dao;
+package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.main.biz.dto.UserDto;
+import be.ipl.pae.bizz.dto.UserDto;
 
 public class UserDaoImpl implements UserDao {
 

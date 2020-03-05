@@ -1,6 +1,6 @@
-package be.ipl.pae.main.biz.biz;
+package be.ipl.pae.bizz.bizz;
 
-import be.ipl.pae.main.biz.dto.UserDto;
+import be.ipl.pae.bizz.dto.UserDto;
 
 public class DtoFactoryImpl implements DtoFactory {
 

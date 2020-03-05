@@ -1,4 +1,4 @@
-package be.ipl.pae.main.biz.dto;
+package be.ipl.pae.bizz.dto;
 
 import java.time.LocalDate;
 

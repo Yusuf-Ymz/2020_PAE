@@ -1,4 +1,4 @@
-package be.ipl.pae.main.biz.biz;
+package be.ipl.pae.bizz.bizz;
 
 import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;

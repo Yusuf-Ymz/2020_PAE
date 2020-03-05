@@ -1,4 +1,4 @@
-package be.ipl.pae.main;
+package be.ipl.pae.ihm;
 
 import java.io.File;
 import java.io.IOException;

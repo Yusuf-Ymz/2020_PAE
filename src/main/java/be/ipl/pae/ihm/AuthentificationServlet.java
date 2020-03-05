@@ -1,8 +1,8 @@
-package be.ipl.pae.main.ihm;
+package be.ipl.pae.ihm;
 
-import be.ipl.pae.main.biz.biz.DtoFactory;
-import be.ipl.pae.main.biz.dto.UserDto;
-import be.ipl.pae.main.biz.ucc.UserUcc;
+import be.ipl.pae.bizz.bizz.DtoFactory;
+import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.ucc.UserUcc;
 
 import com.owlike.genson.Genson;
 
@@ -11,6 +11,9 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
+
+
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthentificationServlet extends HttpServlet {
