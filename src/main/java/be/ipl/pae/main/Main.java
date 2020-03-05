@@ -1,5 +1,6 @@
 package be.ipl.pae.main;
 
+import be.ipl.pae.main.ihm.RootServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
