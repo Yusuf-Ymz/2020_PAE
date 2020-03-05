@@ -1,4 +1,4 @@
-package be.ipl.pae.persistence.dal;
+package be.ipl.pae.persistance.dal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
