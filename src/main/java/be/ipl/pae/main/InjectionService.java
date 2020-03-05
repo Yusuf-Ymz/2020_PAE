@@ -30,21 +30,26 @@ public class InjectionService {
     return value;
   }
 
-  public static <T> T getDependency(Class<?> c) {
+  public static <T> T getDependency(Class<?> c, Object... params) {
     String implName = props.getProperty(c.getName());
     if (dependencies.containsKey(implName)) {
       return (T) dependencies.get(implName);
     }
     try {
-      Constructor<?> constructor = Class.forName(implName).getDeclaredConstructor();
-      constructor.setAccessible(true);
-      Object dependency = constructor.newInstance();
-      dependencies.put(implName, dependency);
-      return (T) dependency;
+      Class<?> implClass = Class.forName(implName);
+      for (Constructor<?> constructeur : implClass.getDeclaredConstructors()) {
+        Class<?>[] paramsConstruct = constructeur.getParameterTypes();
+        if (params.length != paramsConstruct.length) {
+          continue;
+        }
+        constructeur.setAccessible(true);
+        return (T) constructeur.newInstance(params);
+      }
     } catch (Throwable e) {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
+    return null;
   }
 
 }

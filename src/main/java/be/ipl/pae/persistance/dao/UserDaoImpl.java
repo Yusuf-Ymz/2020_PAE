@@ -14,13 +14,13 @@ public class UserDaoImpl implements UserDao {
   private DtoFactory fact;
 
 
-  public UserDaoImpl(DalService dal) {
+  public UserDaoImpl(DalService dal, DtoFactory fact) {
     this.dal = dal;
+    this.fact = fact;
   }
 
   @Override
   public UserDto obtenirUser(UserDto usr) {
-    // TODO Auto-generated method stub
     PreparedStatement prepareStatement = dal.createStatement(DalService.GET_USER, usr.getPseudo());
     try {
       ResultSet rs = prepareStatement.executeQuery();

@@ -23,7 +23,7 @@ public class DalServiceImpl implements DalService {
    * @param usr le USR de la DB
    * @param password le mot de passe de la db
    */
-  public DalServiceImpl(String url, String usr, String password) {
+  public DalServiceImpl() {
 
     try {
       Class.forName("org.postgresql.Driver");
@@ -45,8 +45,8 @@ public class DalServiceImpl implements DalService {
    * Crée et exécute un querry.
    * 
    * @param statement Le querry à exécuter
-   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry,
-   *        null si aucun attributs.
+   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
+   *        si aucun attributs.
    * @return
    */
   public PreparedStatement createStatement(String statement, Object... attributes) {
