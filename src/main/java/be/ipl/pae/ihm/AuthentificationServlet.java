@@ -3,17 +3,11 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
-
 import com.owlike.genson.Genson;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-
-
-
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthentificationServlet extends HttpServlet {
@@ -45,7 +39,8 @@ public class AuthentificationServlet extends HttpServlet {
   private UserDto login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     String pseudo = req.getParameter("pseudo");
     String password = req.getParameter("password");
-    UserDto userDto = userUcc.seConnecter(pseudo, password);
+    UserDto user = dtoFactory.getUserDto();
+    UserDto userDto = userUcc.seConnecter(user);
     userDto.setPassword(null);
     return userDto;
   }
