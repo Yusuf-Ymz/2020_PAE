@@ -20,10 +20,11 @@ public class Main {
     context.setContextPath("/");
 
     HttpServlet rootServlet = new RootServlet();
+    // context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.addServlet(new ServletHolder(rootServlet), "/");
     context.setResourceBase("public");
 
-    Server server = new Server(80);
+    Server server = new Server(8080);
     server.setHandler(context);
     server.start();
   }
