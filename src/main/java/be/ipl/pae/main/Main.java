@@ -3,7 +3,6 @@ package be.ipl.pae.main;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
-
 import javax.servlet.http.HttpServlet;
 
 public class Main {
@@ -23,7 +22,7 @@ public class Main {
     context.addServlet(new ServletHolder(rootServlet), "/");
     context.setResourceBase("public");
 
-    Server server = new Server(80);
+    Server server = new Server(8080);
     server.setHandler(context);
     server.start();
   }
