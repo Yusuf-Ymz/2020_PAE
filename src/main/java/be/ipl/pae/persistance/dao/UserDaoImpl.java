@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
         return null;
       }
       UserDto user = fact.getUserDto();
-      user.setPseudo(rs.getString(1)); // TODO à completer
+      user.setPseudo(rs.getString(1)); // TODO a completer
 
     } catch (SQLException e) {
 
