@@ -17,7 +17,7 @@ $(document).ready(function () {
 
   $('#redirection_inscrit').on('click', function (e) {
     e.preventDefault();
-    page = RegisterForm();
+    RegisterForm();
 
   });
 
@@ -27,7 +27,7 @@ $(document).ready(function () {
   });
   
 
-  $("#home").on('click', function (e) {
+  $(".home").on('click', function (e) {
      HideToHome();
   });
 
@@ -95,6 +95,7 @@ const HomeUser = () =>{
 
 const LoginForm = (errorMessage = "") =>{
   $("#login_message").html(errorMessage);
+ 
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
     $(".register").show();
