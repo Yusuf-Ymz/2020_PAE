@@ -15,7 +15,7 @@ CREATE TABLE pae.clients(
 
 CREATE TABLE pae.utilisateurs(
 	utilisateur_id SERIAL PRIMARY KEY,
-	confirme boolean NOT NULL,
+	confirmer boolean NOT NULL,
 	ouvrier boolean NOT NULL,
 	date_inscription DATE NOT NULL,
 	pseudo VARCHAR NOT NULL,
@@ -51,14 +51,11 @@ CREATE TABLE pae.photos(
 	photo_id SERIAL PRIMARY KEY,
 	avant_apres boolean NOT NULL,
 	visible boolean NOT NULL,
-	type_amenagement INTEGER,
-	devis_apres INTEGER,
-	devis_avant INTEGER REFERENCES pae.devis(devis_id),
-	constraint Fk_travaux FOREIGN KEY (devis_apres,type_amenagement) REFERENCES pae.travaux(devis_id,type_amenagement)
+	type_amenagement INTEGER REFERENCES pae.types_amenagements(type_amenagement),
+	devis INTEGER REFERENCES pae.devis(devis_id) NOT NULL
 );
 
 ALTER TABLE pae.devis ADD photo_preferee INTEGER REFERENCES pae.photos(photo_id);
 
-INSERT INTO pae.utilisateurs(confirme,ouvrier,date_inscription,pseudo,mot_de_passe,nom,prenom,ville,email) VALUES(true,false,'2019-01-01','yusuf','$2y$10$.Nd/c40gBv1CkByMuxMjW.anHngmsBguZ4DNiv71fkW7x2/4222iK','Yilmaz','Yusuf','Bruxelles','yusuf.yilmaz@student.vinci.be');
 
 
