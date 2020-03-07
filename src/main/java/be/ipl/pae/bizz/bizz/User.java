@@ -1,7 +1,6 @@
 package be.ipl.pae.bizz.bizz;
 
 import org.mindrot.bcrypt.BCrypt;
-
 import java.time.LocalDate;
 
 class User implements UserBiz {
@@ -91,7 +90,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Modifie le mail de l'utilisateur
+   * Modifie le mail de l'utilisateur.
    * 
    * @param email : la nouvelle valeur du mail
    */
@@ -136,7 +135,7 @@ class User implements UserBiz {
   }
 
   /**
-   * Renvoie si l'utilisateur est confirmé
+   * Renvoie si l'utilisateur est confirmé.
    * 
    * @return confirmer : le boolean
    */

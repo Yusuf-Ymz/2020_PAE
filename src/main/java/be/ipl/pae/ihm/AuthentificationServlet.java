@@ -18,6 +18,7 @@ public class AuthentificationServlet extends HttpServlet {
   private String secret;
 
   /**
+   * Instancie les attributs du servlet.
    * 
    * @param secret cle secrete
    * @param userUcc use case controller utilisateur

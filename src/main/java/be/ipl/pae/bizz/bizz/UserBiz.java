@@ -8,6 +8,7 @@ public interface UserBiz extends UserDto {
    * 
    * @param pwd : le mot de passe a verifié
    * 
+   * @return true si le mot de passe est valide false sinon
    */
   boolean checkValidePassword(String pwd);
 }

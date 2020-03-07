@@ -30,9 +30,9 @@ public class UserDaoImpl implements UserDao {
       UserDto user = fact.getUserDto();
       user.setPseudo(rs.getString(1)); // TODO a completer
 
-    } catch (SQLException e) {
+    } catch (SQLException exception) {
 
-      e.printStackTrace();
+      exception.printStackTrace();
     }
     return null;
   }

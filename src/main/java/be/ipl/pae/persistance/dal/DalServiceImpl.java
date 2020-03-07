@@ -6,12 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- * à tester!
- * 
- * @author brunoloverius
- *
- */
 
 public class DalServiceImpl implements DalService {
   private Connection conn = null;
@@ -19,47 +13,44 @@ public class DalServiceImpl implements DalService {
   /**
    * Crée une connexion à la DB.
    * 
-   * @param url l'URL de la DB à laquelle il faut se connecte.
-   * @param usr le USR de la DB
-   * @param password le mot de passe de la db
    */
   public DalServiceImpl() {
 
     try {
       Class.forName("org.postgresql.Driver");
-    } catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException exception) {
       System.out.println("Driver PostgreSQL manquant !");
+      exception.printStackTrace();
       System.exit(1);
     }
     try {
       this.conn = DriverManager.getConnection(InjectionService.getConfiguration("url"),
           InjectionService.getConfiguration("user"), InjectionService.getConfiguration("password"));
-    } catch (SQLException e) {
+    } catch (SQLException exception) {
       System.out.println("Impossible de joindre le server !");
-      e.printStackTrace();
+      exception.printStackTrace();
       System.exit(1);
     }
   }
 
   /**
-   * Crée et exécute un querry.
+   * Crée un PreparedStatement et le renvoie.
    * 
    * @param statement Le querry à exécuter
    * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
    *        si aucun attributs.
-   * @return
+   * @return stmt : le PreparedStatement créé
    */
   public PreparedStatement createStatement(String statement, Object... attributes) {
-
+    PreparedStatement stmt = null;
     try {
-      PreparedStatement stmt = conn.prepareStatement(statement);
+      stmt = conn.prepareStatement(statement);
       for (int i = 0; i < attributes.length; i++) {
         stmt.setObject(i + 1, attributes[i]);
       }
-      return stmt;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
+    return stmt;
   }
 }

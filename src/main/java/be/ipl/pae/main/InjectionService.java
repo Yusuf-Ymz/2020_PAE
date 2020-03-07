@@ -16,14 +16,13 @@ public class InjectionService {
       FileInputStream file = new FileInputStream("prod.properties");
       props.load(file);
       file.close();
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
+    } catch (Throwable exception) {
+      throw new RuntimeException(exception);
     }
   }
 
 
   /**
-   * 
    * renvoie la valeur de la propiete passée en paramétre.
    * 
    * @param propriete le nom (la clé) de la propriete recherché
@@ -39,15 +38,14 @@ public class InjectionService {
   }
 
   /**
-   * 
    * Crée par introspection l'implementation de l'interface passée en parametre et la renvoie.
    * 
-   * @param c la class de l'interface dont on veut l'implementation
+   * @param classe la class de l'interface dont on veut l'implementation
    * @param params la liste des paramétres à fournir pour pouvoir instancier l'objet
    * @return l'objet créer
    */
-  public static <T> T getDependency(Class<?> c, Object... params) {
-    String implName = props.getProperty(c.getName());
+  public static <T> T getDependency(Class<?> classe, Object... params) {
+    String implName = props.getProperty(classe.getName());
     if (dependencies.containsKey(implName)) {
       return (T) dependencies.get(implName);
     }
