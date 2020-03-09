@@ -11,4 +11,5 @@ public interface UserBiz extends UserDto {
    * @return true si le mot de passe est valide false sinon
    */
   boolean checkValidePassword(String pwd);
+
 }

@@ -1,6 +1,7 @@
 package be.ipl.pae.bizz.bizz;
 
 import org.mindrot.bcrypt.BCrypt;
+
 import java.time.LocalDate;
 
 class User implements UserBiz {
@@ -211,7 +212,5 @@ class User implements UserBiz {
   public boolean checkValidePassword(String pwd) {
     return BCrypt.checkpw(pwd, this.password);
   }
-
-
 
 }

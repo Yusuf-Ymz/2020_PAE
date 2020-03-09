@@ -1,6 +1,7 @@
 package be.ipl.pae.persistance.dal;
 
 import be.ipl.pae.main.InjectionService;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,8 +38,8 @@ public class DalServiceImpl implements DalService {
    * Crée un PreparedStatement et le renvoie.
    * 
    * @param statement Le querry à exécuter
-   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
-   *        si aucun attributs.
+   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry,
+   *        null si aucun attributs.
    * @return stmt : le PreparedStatement créé
    */
   public PreparedStatement createStatement(String statement, Object... attributes) {

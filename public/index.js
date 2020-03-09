@@ -31,12 +31,12 @@ $(document).ready(function () {
      HideToHome();
   });
 
-  $("#login_btn").submit(e => {
+  $("#login_btn").click(e => {
     e.preventDefault();
     if ($("#pseudo")[0].checkValidity() && $("#mdp")[0].checkValidity()) {
       const data = {
         pseudo: $("#pseudo").val(),
-        mdp: $("#mdp").val()
+        password: $("#mdp").val()
       };
       postData("/authentification", data, token, onPostLogin, onErrorLogin);
     } else {
@@ -144,7 +144,7 @@ function onPostLogin(response) {
     HomeUser();
   } else {
     //show error message
-    console.error("Error:", response);
+    console.error("Error:" + response.error);
     LoginForm(response.error);
   }
 }

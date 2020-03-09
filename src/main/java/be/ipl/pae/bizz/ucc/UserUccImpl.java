@@ -16,10 +16,11 @@ class UserUccImpl implements UserUcc {
   public UserDto seConnecter(UserDto usr) {
     UserDto newUserDto = userDao.obtenirUser(usr);
     UserBiz userBiz = (UserBiz) newUserDto;
-    if (newUserDto == null || userBiz.checkValidePassword(usr.getPassword())) {
+
+    if (userBiz == null || !userBiz.checkValidePassword(usr.getPassword())
+        || !userBiz.isConfirme()) {
       return null;
     }
-
     return newUserDto;
   }
 

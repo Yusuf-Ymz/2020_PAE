@@ -2,12 +2,16 @@ package be.ipl.pae.main;
 
 import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.persistance.dal.DalService;
 import be.ipl.pae.persistance.dao.UserDao;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import javax.servlet.http.HttpServlet;
 
 public class Main {
   /**
@@ -30,6 +34,10 @@ public class Main {
 
     context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.setResourceBase("public");
+
+    HttpServlet authentificationServlet = new AuthentificationServlet(
+        InjectionService.getConfiguration("JwtSecret"), userUcc, dtoFactory);
+    context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
 
     Server server = new Server(Integer.parseInt(InjectionService.getConfiguration("port")));
     server.setHandler(context);
