@@ -43,8 +43,8 @@ public class AuthentificationServlet extends HttpServlet {
       throws ServletException, IOException {
     try {
       login(req, resp);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
   }
 
@@ -54,10 +54,11 @@ public class AuthentificationServlet extends HttpServlet {
 
     try {
       BufferedReader reader = req.getReader();
-      while ((line = reader.readLine()) != null)
+      while ((line = reader.readLine()) != null) {
         jb.append(line);
-    } catch (Exception e) {
-      e.printStackTrace();
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
 
     Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);

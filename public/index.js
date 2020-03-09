@@ -150,8 +150,8 @@ function onPostLogin(response) {
 }
 
 function onErrorLogin(err) {
-  console.error("Error :", err);
-  LoginForm(response.error);
+  console.error("Error :" + err);
+  LoginForm(err);
 }
 
 function onPostInscription(response) {

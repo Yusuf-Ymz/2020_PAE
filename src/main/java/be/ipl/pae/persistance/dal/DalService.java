@@ -6,5 +6,5 @@ public interface DalService {
 
   String GET_USER = "SELECT p.* FROM pae.utilisateurs p WHERE p.pseudo = ?";
 
-  public PreparedStatement createStatement(String statement, Object... attributes);
+  PreparedStatement createStatement(String statement, Object... attributes);
 }
