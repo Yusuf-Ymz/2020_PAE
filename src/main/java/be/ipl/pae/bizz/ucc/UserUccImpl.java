@@ -13,12 +13,11 @@ class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto seConnecter(UserDto usr) {
-    UserDto newUserDto = userDao.obtenirUser(usr);
+  public UserDto seConnecter(String pseudo, String password) {
+    UserDto newUserDto = userDao.obtenirUser(pseudo);
     UserBiz userBiz = (UserBiz) newUserDto;
 
-    if (userBiz == null || !userBiz.checkValidePassword(usr.getPassword())
-        || !userBiz.isConfirme()) {
+    if (userBiz == null || !userBiz.checkValidePassword(password) || !userBiz.isConfirme()) {
       return null;
     }
     return newUserDto;

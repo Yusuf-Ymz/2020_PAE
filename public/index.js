@@ -40,7 +40,9 @@ $(document).ready(function () {
       };
       postData("/authentification", data, token, onPostLogin, onErrorLogin);
     } else {
-      alert("Veuillez entrer des données valides.");
+     // alert("Veuillez entrer des données valides.");
+      $("#login_message").show();
+      $("#login_message").html("Veuillez entrer des données valides!");
     }
   });
 
@@ -95,7 +97,6 @@ const HomeUser = () =>{
 
 const LoginForm = (errorMessage = "") =>{
   $("#login_message").html(errorMessage);
- 
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
     $(".register").show();
@@ -137,21 +138,17 @@ const initialisation = () => {
 function onPostLogin(response) {
   $("#pseudo").val("");
   $("#mdp").val("");
-  if (response.success === "true") {
-    // store the jwt in localstorage
-    localStorage.setItem("token", response.token);
-    token = response.token;
-    HomeUser();
-  } else {
-    //show error message
-    console.error("Error:" + response.error);
-    LoginForm(response.error);
-  }
+ 
+  // store the jwt in localstorage
+  localStorage.setItem("token", response.token);
+  token = response.token;
+  HomeUser();
+  
 }
 
 function onErrorLogin(err) {
-  console.error("Error :" + err);
-  LoginForm(err);
+  console.error(err.responseJSON.error);
+  LoginForm(err.responseJSON.error);
 }
 
 function onPostInscription(response) {
@@ -170,6 +167,7 @@ function onPostInscription(response) {
   } else {
     //show error message
     console.error("Error:", response);
+    
     RegisterForm(response.error);
   }
 }
