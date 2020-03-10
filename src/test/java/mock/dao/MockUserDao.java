@@ -9,12 +9,11 @@ public class MockUserDao implements UserDao {
   private DtoFactory dtoFactory;
 
   @Override
-  public UserDto obtenirUser(UserDto usr) {
+  public UserDto obtenirUser(String pseudo) {
     UserDto user = dtoFactory.getUserDto();
     user.setPseudo("pseudo");
     user.setPassword("mdp");
-    // user.setConfirme(true);
+    user.setConfirme(true);
     return user;
   }
-
 }
