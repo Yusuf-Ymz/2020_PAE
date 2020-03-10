@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,19 +9,21 @@ import java.util.Properties;
 
 public class InjectionService {
 
-  private static Properties props = new Properties();
-  private static Map<String, Object> dependencies = new HashMap<String, Object>();
+  private Properties props = new Properties();
+  private Map<String, Object> dependencies = new HashMap<String, Object>();
 
-  static {
+
+  public InjectionService(String pathname) {
+    FileInputStream file;
     try {
-      FileInputStream file = new FileInputStream("prod.properties");
+      file = new FileInputStream(pathname);
       props.load(file);
       file.close();
-    } catch (Throwable exception) {
-      throw new RuntimeException(exception);
+    } catch (IOException exception) {
+      exception.printStackTrace();
+      throw new RuntimeException();
     }
   }
-
 
   /**
    * renvoie la valeur de la propiete passée en paramétre.
@@ -28,7 +31,7 @@ public class InjectionService {
    * @param propriete le nom (la clé) de la propriete recherché
    * @return la valeur de la propriete.
    */
-  public static String getConfiguration(String propriete) {
+  public String getConfiguration(String propriete) {
     if (dependencies.containsKey(propriete)) {
       return (String) dependencies.get(propriete);
     }
@@ -44,7 +47,8 @@ public class InjectionService {
    * @param params la liste des paramétres à fournir pour pouvoir instancier l'objet
    * @return l'objet créer
    */
-  public static <T> T getDependency(Class<?> classe, Object... params) {
+  @SuppressWarnings("unchecked")
+  public <T> T getDependency(Class<?> classe, Object... params) {
     String implName = props.getProperty(classe.getName());
     if (dependencies.containsKey(implName)) {
       return (T) dependencies.get(implName);

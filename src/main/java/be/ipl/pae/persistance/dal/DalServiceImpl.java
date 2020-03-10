@@ -1,21 +1,19 @@
 package be.ipl.pae.persistance.dal;
 
-import be.ipl.pae.main.InjectionService;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-public class DalServiceImpl implements DalService {
+class DalServiceImpl implements DalService {
   private Connection conn = null;
 
   /**
    * Crée une connexion à la DB.
    * 
    */
-  public DalServiceImpl() {
+  public DalServiceImpl(String url, String user, String password) {
 
     try {
       Class.forName("org.postgresql.Driver");
@@ -25,8 +23,7 @@ public class DalServiceImpl implements DalService {
       System.exit(1);
     }
     try {
-      this.conn = DriverManager.getConnection(InjectionService.getConfiguration("url"),
-          InjectionService.getConfiguration("user"), InjectionService.getConfiguration("password"));
+      this.conn = DriverManager.getConnection(url, user, password);
     } catch (SQLException exception) {
       System.out.println("Impossible de joindre le server !");
       exception.printStackTrace();
@@ -38,8 +35,8 @@ public class DalServiceImpl implements DalService {
    * Crée un PreparedStatement et le renvoie.
    * 
    * @param statement Le querry à exécuter
-   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry,
-   *        null si aucun attributs.
+   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
+   *        si aucun attributs.
    * @return stmt : le PreparedStatement créé
    */
   public PreparedStatement createStatement(String statement, Object... attributes) {

@@ -5,12 +5,10 @@ import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.persistance.dal.DalService;
 import be.ipl.pae.persistance.dao.UserDao;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
-
 import javax.servlet.http.HttpServlet;
 
 public class Main {
@@ -21,11 +19,11 @@ public class Main {
    * @throws Exception est une RuntimeException
    */
   public static void main(String[] args) throws Exception {
-
-    DalService dalService = InjectionService.getDependency(DalService.class);
-    DtoFactory dtoFactory = InjectionService.getDependency(DtoFactory.class);
-    UserDao userDao = InjectionService.getDependency(UserDao.class, dalService, dtoFactory);
-    UserUcc userUcc = InjectionService.getDependency(UserUcc.class, userDao);
+    InjectionService inject = new InjectionService("prod.properties");
+    DalService dalService = inject.getDependency(DalService.class, inject.getConfiguration("url"),
+        inject.getConfiguration("user"), inject.getConfiguration("password"));
+    DtoFactory dtoFactory = inject.getDependency(DtoFactory.class);
+    UserDao userDao = inject.getDependency(UserDao.class, dalService, dtoFactory);
 
     WebAppContext context = new WebAppContext();
 
@@ -34,12 +32,12 @@ public class Main {
 
     context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.setResourceBase("public");
-
-    HttpServlet authentificationServlet = new AuthentificationServlet(
-        InjectionService.getConfiguration("JwtSecret"), userUcc, dtoFactory);
+    UserUcc userUcc = inject.getDependency(UserUcc.class, userDao);
+    HttpServlet authentificationServlet =
+        new AuthentificationServlet(inject.getConfiguration("JwtSecret"), userUcc, dtoFactory);
     context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
 
-    Server server = new Server(Integer.parseInt(InjectionService.getConfiguration("port")));
+    Server server = new Server(Integer.parseInt(inject.getConfiguration("port")));
     server.setHandler(context);
     server.start();
   }

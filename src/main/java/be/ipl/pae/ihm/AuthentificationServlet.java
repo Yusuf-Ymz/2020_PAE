@@ -3,15 +3,12 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.owlike.genson.Genson;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AuthentificationServlet extends HttpServlet {
 
+
+  private static final long serialVersionUID = 1L;
   private UserUcc userUcc;
   private DtoFactory dtoFactory;
   private Genson genson;
@@ -48,6 +47,7 @@ public class AuthentificationServlet extends HttpServlet {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     StringBuffer jb = new StringBuffer();
     String line = null;
