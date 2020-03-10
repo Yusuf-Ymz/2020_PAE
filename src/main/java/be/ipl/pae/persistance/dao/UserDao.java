@@ -5,5 +5,5 @@ import be.ipl.pae.bizz.dto.UserDto;
 
 
 public interface UserDao {
-  UserDto obtenirUser(UserDto usr);
+  UserDto obtenirUser(String pseudo);
 }

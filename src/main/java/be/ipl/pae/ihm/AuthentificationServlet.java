@@ -3,12 +3,15 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.owlike.genson.Genson;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,22 +68,17 @@ public class AuthentificationServlet extends HttpServlet {
     String pseudo = body.get("pseudo").toString();
     String password = body.get("password").toString();
 
-    UserDto user = dtoFactory.getUserDto();
-    user.setPseudo(pseudo);
-    user.setPassword(password);
-    user = userUcc.seConnecter(user);
+    UserDto user = userUcc.seConnecter(pseudo, password);
 
-    String json = "";
+    String json = null;
     if (user != null) {
       user.setPassword(null);
       String token = JWT.create().withClaim("id", user.getUserId()).sign(Algorithm.HMAC512(secret));
-      // demander si il faut mettre toutes les infos de l'utilisateur dans la réponse ou mettre
-      // l'objet user
-      json = "{\"success\": \"true\",\"token\":\"" + token + "\",\"user\":\"" + user + "\"}";
+      json = "{\"token\":\"" + token + "\",\"user\":" + genson.serialize(user) + "}";
       resp.setStatus(HttpServletResponse.SC_OK);
     } else {
-      json = "{\"success\": \"false\",\"error\":\"Connexion failed\"}";
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      json = "{\"error\":\"Connexion failed\"}";
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
     resp.setContentType("application/json");

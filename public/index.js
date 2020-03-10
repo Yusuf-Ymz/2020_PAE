@@ -138,19 +138,17 @@ const initialisation = () => {
 function onPostLogin(response) {
   $("#pseudo").val("");
   $("#mdp").val("");
-  if (response.success === "true") {
-    // store the jwt in localstorage
-    localStorage.setItem("token", response.token);
-    token = response.token;
-    HomeUser();
-  } 
+ 
+  // store the jwt in localstorage
+  localStorage.setItem("token", response.token);
+  token = response.token;
+  HomeUser();
+  
 }
 
 function onErrorLogin(err) {
   console.error(err.responseJSON.error);
-  console.error(err.detail);
-  LoginForm(err.status);
- // LoginForm(err.detail);
+  LoginForm(err.responseJSON.error);
 }
 
 function onPostInscription(response) {
