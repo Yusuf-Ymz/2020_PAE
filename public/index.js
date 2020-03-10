@@ -40,7 +40,9 @@ $(document).ready(function () {
       };
       postData("/authentification", data, token, onPostLogin, onErrorLogin);
     } else {
-      alert("Veuillez entrer des données valides.");
+     // alert("Veuillez entrer des données valides.");
+      $("#login_message").show();
+      $("#login_message").html("Veuillez entrer des données valides!");
     }
   });
 
@@ -95,7 +97,6 @@ const HomeUser = () =>{
 
 const LoginForm = (errorMessage = "") =>{
   $("#login_message").html(errorMessage);
- 
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
     $(".register").show();
@@ -142,16 +143,14 @@ function onPostLogin(response) {
     localStorage.setItem("token", response.token);
     token = response.token;
     HomeUser();
-  } else {
-    //show error message
-    console.error("Error:" + response.error);
-    LoginForm(response.error);
-  }
+  } 
 }
 
 function onErrorLogin(err) {
-  console.error("Error :" + err);
-  LoginForm(err);
+  console.error(err.responseJSON.error);
+  console.error(err.detail);
+  LoginForm(err.status);
+ // LoginForm(err.detail);
 }
 
 function onPostInscription(response) {
@@ -170,6 +169,7 @@ function onPostInscription(response) {
   } else {
     //show error message
     console.error("Error:", response);
+    
     RegisterForm(response.error);
   }
 }
