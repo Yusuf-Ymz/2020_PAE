@@ -17,6 +17,8 @@ class UserUccImpl implements UserUcc {
     UserDto newUserDto = userDao.obtenirUser(pseudo);
     UserBiz userBiz = (UserBiz) newUserDto;
 
+    System.out.println(newUserDto);
+
     if (userBiz == null || !userBiz.checkValidePassword(password) || !userBiz.isConfirme()) {
       return null;
     }

@@ -1,6 +1,7 @@
 package be.ipl.pae.bizz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.bizz.DtoFactoryImpl;
@@ -20,7 +21,8 @@ class UserUccImplTest {
     InjectionService injecSer = new InjectionService("test.properties");
     DalService dalService = injecSer.getDependency(DalService.class);
     dtoFactory = new DtoFactoryImpl();
-    UserDao userDao = injecSer.getDependency(UserDao.class, dalService, dtoFactory);
+    UserDao userDao = injecSer.getDependency(UserDao.class, dtoFactory);
+    System.out.println(userDao);
     ucc = new UserUccImpl(userDao);
   }
 
@@ -30,14 +32,20 @@ class UserUccImplTest {
     assertNotNull(ucc);
   }
 
-  /*
-   * @Test public void testSeConnecterMauvaisMdp() { assertNull(ucc.seConnecter("pseudo", "faux"));
-   * }
-   *
-   * @Test public void testSeConnecterMauvaisPseudo() { assertNull(ucc.seConnecter("faux", "mdp"));
-   * }
-   *
-   * @Test public void testSeConnecterOk() { assertNotNull(ucc.seConnecter("pseudo", "mdp")); }
-   */
+
+  @Test
+  public void testSeConnecterMauvaisMdp() {
+    assertNull(ucc.seConnecter("pseudo", "faux"));
+  }
+
+  @Test
+  public void testSeConnecterMauvaisPseudo() {
+    assertNull(ucc.seConnecter("faux", "mdp"));
+  }
+
+  @Test
+  public void testSeConnecterOk() {
+    assertNotNull(ucc.seConnecter("pseudo", "mdp"));
+  }
 
 }

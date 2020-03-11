@@ -8,6 +8,10 @@ public class MockUserDao implements UserDao {
 
   private DtoFactory dtoFactory;
 
+  public MockUserDao(DtoFactory dtoFactory) {
+    this.dtoFactory = dtoFactory;
+  }
+
   @Override
   public UserDto obtenirUser(String pseudo) {
     UserDto user = dtoFactory.getUserDto();
