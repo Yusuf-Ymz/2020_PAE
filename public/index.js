@@ -1,20 +1,21 @@
 "use strict";
 //import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
-let token=undefined;
+let token = undefined;
 
 
 $(document).ready(function () {
 
-  initialisation();
- 
+ token =  initialisation();
+
   //nav-bar 
   $('.leftmenu').on('click', function (e) {
     $('.slide-nav').toggleClass("active");
     e.preventDefault();
   });
   
-
+  
   $(".home").on('click', function (e) {
+    token = localStorage.getItem("token");
     if(token)
       HomeUser();
     else
@@ -42,6 +43,7 @@ const  HideToHome = () =>{
 
 const HomeUser = () =>{
   $("#logout").show();
+  $("#nav_connect").hide();
   $("#login_message").html("");
   $("#nav_connect").hide();
   $(".register").hide();
@@ -52,6 +54,7 @@ const HomeUser = () =>{
 
 const initialisation = () => {
   let token = localStorage.getItem("token");
+  console.log(token);
   if (token) {
     HomeUser();
     return token;

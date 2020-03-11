@@ -2,7 +2,7 @@ import { postData } from "./utilsAPI.js";
 import {HomeUser} from "./index.js"
 
 const LoginForm = (errorMessage = "") => {
-  $("#login_message").html(errorMessage);
+  $("#login_message").html("<i class='far fa-frown'></i>  "  + errorMessage);
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
   $(".register").show();
@@ -30,6 +30,8 @@ function onErrorLogin(err) {
   console.error(err.responseJSON.error);
   LoginForm(err.responseJSON.error);
 }
+
+
 function onPostInscription(response) {
   $("#nom").val("");
   $("#prenom").val("");
@@ -90,7 +92,8 @@ $(document).ready(function () {
     } else {
       console.log('else');
       $("#login_message").show();
-      $("#login_message").html("Veuillez entrer des données valides!");
+     
+      $("#login_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides!");
     }
   });
 
@@ -112,7 +115,7 @@ $(document).ready(function () {
       };
       postData("/inscription", data, token, onPostInscription, onErrorInscription);
     } else {
-      alert("Veuillez entrer des données valides.");
+      alert("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
     }
   });
 })
