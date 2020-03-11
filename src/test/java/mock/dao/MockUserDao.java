@@ -14,10 +14,14 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto obtenirUser(String pseudo) {
-    UserDto user = dtoFactory.getUserDto();
-    user.setPseudo("pseudo");
-    user.setPassword("$2a$10$t04039EnUaPoJn8EpR3ovOkQXj1wEZwfUBNMmvHTnhN4FxZUSR0.S");
-    user.setConfirme(true);
-    return user;
+
+    if ("pseudo".equals(pseudo)) {
+      UserDto user = dtoFactory.getUserDto();
+      user.setPseudo("pseudo");
+      user.setPassword("$2a$10$t04039EnUaPoJn8EpR3ovOkQXj1wEZwfUBNMmvHTnhN4FxZUSR0.S");
+      user.setConfirme(true);
+      return user;
+    }
+    return null;
   }
 }
