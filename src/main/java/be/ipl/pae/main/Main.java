@@ -36,8 +36,8 @@ public class Main {
     UserDao userDao = inject.getDependency(UserDao.class, dalService, dtoFactory);
     UserUcc userUcc = inject.getDependency(UserUcc.class, userDao);
 
-    HttpServlet authentificationServlet =
-        new AuthentificationServlet(inject.getConfiguration("JwtSecret"), userUcc, dtoFactory);
+    HttpServlet authentificationServlet = new AuthentificationServlet(
+        inject.getConfiguration("JwtSecret"), userUcc/* , dtoFactory */);
     context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
 
     Server server = new Server(Integer.parseInt(inject.getConfiguration("port")));

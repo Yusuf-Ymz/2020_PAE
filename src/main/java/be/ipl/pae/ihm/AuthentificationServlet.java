@@ -1,7 +1,6 @@
 package be.ipl.pae.ihm;
 
 import be.ipl.pae.bizz.dto.UserDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
 
 import com.auth0.jwt.JWT;
@@ -33,7 +32,8 @@ public class AuthentificationServlet extends HttpServlet {
    * @param userUcc use case controller utilisateur
    * @param dtoFactory factory data transfer object
    */
-  public AuthentificationServlet(String secret, UserUcc userUcc, DtoFactory dtoFactory) {
+
+  public AuthentificationServlet(String secret, UserUcc userUcc/* , DtoFactory dtoFactory */) {
     this.secret = secret;
     this.userUcc = userUcc;
     // this.dtoFactory = dtoFactory;
