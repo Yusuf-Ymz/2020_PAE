@@ -22,7 +22,7 @@ public class AuthentificationServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
   private UserUcc userUcc;
-  private DtoFactory dtoFactory;
+  // private DtoFactory dtoFactory;
   private Genson genson;
   private String secret;
 
@@ -36,7 +36,7 @@ public class AuthentificationServlet extends HttpServlet {
   public AuthentificationServlet(String secret, UserUcc userUcc, DtoFactory dtoFactory) {
     this.secret = secret;
     this.userUcc = userUcc;
-    this.dtoFactory = dtoFactory;
+    // this.dtoFactory = dtoFactory;
     this.genson = new Genson();
   }
 
