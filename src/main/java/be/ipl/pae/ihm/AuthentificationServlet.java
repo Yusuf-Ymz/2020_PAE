@@ -30,7 +30,7 @@ public class AuthentificationServlet extends HttpServlet {
    * 
    * @param secret cle secrete
    * @param userUcc use case controller utilisateur
-   * @param dtoFactory factory data transfer object
+   *
    */
 
   public AuthentificationServlet(String secret, UserUcc userUcc/* , DtoFactory dtoFactory */) {
