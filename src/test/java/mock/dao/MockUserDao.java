@@ -16,7 +16,7 @@ public class MockUserDao implements UserDao {
   public UserDto obtenirUser(String pseudo) {
     UserDto user = dtoFactory.getUserDto();
     user.setPseudo("pseudo");
-    user.setPassword("mdp");
+    user.setPassword("$2a$10$t04039EnUaPoJn8EpR3ovOkQXj1wEZwfUBNMmvHTnhN4FxZUSR0.S");
     user.setConfirme(true);
     return user;
   }

@@ -3,7 +3,6 @@ package be.ipl.pae.bizz.bizz;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import be.ipl.pae.bizz.bizz.DtoFactoryImpl;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.main.InjectionService;
@@ -29,7 +28,7 @@ class UserUccImplTest {
 
 
   @Test
-  public void testUccNoteNull() {
+  public void testUccNotNull() {
     assertNotNull(ucc);
   }
 
@@ -39,10 +38,7 @@ class UserUccImplTest {
     assertNull(ucc.seConnecter("pseudo", "faux"));
   }
 
-  @Test
-  public void testSeConnecterMauvaisPseudo() {
-    assertNull(ucc.seConnecter("faux", "mdp"));
-  }
+
 
   @Test
   public void testSeConnecterOk() {
