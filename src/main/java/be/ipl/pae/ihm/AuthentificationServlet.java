@@ -1,7 +1,7 @@
 package be.ipl.pae.ihm;
 
-import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
 
 import com.auth0.jwt.JWT;

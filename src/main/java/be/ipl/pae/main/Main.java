@@ -1,14 +1,16 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.bizz.bizz.DtoFactory;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.persistance.dal.DalService;
 import be.ipl.pae.persistance.dao.UserDao;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+
 import javax.servlet.http.HttpServlet;
 
 public class Main {

@@ -1,7 +1,7 @@
 package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dal.DalService;
 
 import java.sql.PreparedStatement;

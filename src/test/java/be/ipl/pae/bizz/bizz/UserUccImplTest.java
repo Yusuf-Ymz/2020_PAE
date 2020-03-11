@@ -1,10 +1,11 @@
-package be.ipl.pae.bizz.ucc;
+package be.ipl.pae.bizz.bizz;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import be.ipl.pae.bizz.bizz.DtoFactory;
 import be.ipl.pae.bizz.bizz.DtoFactoryImpl;
+import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.main.InjectionService;
 import be.ipl.pae.persistance.dal.DalService;
 import be.ipl.pae.persistance.dao.UserDao;
