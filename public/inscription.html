@@ -1,0 +1,68 @@
+<div id="inscription_form">
+    <div class="login-card-color p-3 shadow-lg rounded">
+        <div class="pt-3">
+            <h2 class="text-white ">Inscription</h2>
+        </div>
+        <form class="mt-5" id="form_inscription">
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <!---Nom-->
+                <input id="nom" type="text" class="form-control" placeholder="Nom" required>
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <!---Prenom-->
+                <input id="prenom" type="text" class="form-control" placeholder="Prenom" required>
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                </div>
+                <!---Pseudo-->
+                <input id="pseudo_inscription" type="text" class="form-control" placeholder="Pseudo" required>
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                <!---Mail-->
+                <input id="email" type="email" class="form-control" placeholder="e-mail" required
+                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$">
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-home"></i></span>
+                </div>
+                <input id="ville" type="text" class="form-control" placeholder="Ville de residence" required>
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                </div>
+                <input id="mdp_inscription" type="password" class="form-control" placeholder="Mot de passe" required>
+            </div>
+            <div class="input-group form-group ">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                </div>
+                <input id="re_mdp_inscription" type="password" class="form-control"
+                    placeholder=" Confirmer mot de passe" required>
+            </div>
+            <div class="mt-5">
+                <button type="submit" id="inscription" class="btn btn-sm btn-light col">S'inscrire</button>
+            </div>
+            <div class="mt-5">
+                <p class="text-white text-center">
+                    Vous avez deja un compte?
+                    <a class="redirection_connect" href="#">Cliquez ici pour vous connecter!</a>
+                </p>
+            </div>
+        </form>
+        <div id="inscription_message" class="alert alert-secondary mt-2"></div>
+    </div>
+</div>

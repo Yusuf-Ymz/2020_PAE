@@ -1,10 +1,14 @@
 "use strict";
 //import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token = undefined;
-
+$("#HeaderContent").load("header.html");
+$("#carouselContent").load("carousel.html"); 
+$("#loginContent").load("login.html");
+$("#inscriptionContent").load("inscription.html");
 
 $(document).ready(function () {
-
+   
+   // $("#loginContent").load("login.html");
  token =  initialisation();
 
   //nav-bar 
