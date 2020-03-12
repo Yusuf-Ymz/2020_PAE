@@ -7,7 +7,7 @@ public interface DalService {
   String GET_USER = "SELECT p.* FROM pae.utilisateurs p WHERE p.pseudo = ?";
 
   /**
-   * Crée un PreparedStatement relatif à la requête SQL.
+   * CrÃ©e un PreparedStatement relatif Ã  la requÃªte SQL.
    * 
    * @param statement
    * @param attributes

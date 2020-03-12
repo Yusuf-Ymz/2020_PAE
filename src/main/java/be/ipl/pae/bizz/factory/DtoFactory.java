@@ -5,7 +5,7 @@ import be.ipl.pae.bizz.dto.UserDto;
 public interface DtoFactory {
 
   /**
-   * Renvoie une instance d'une classe qui implemente UserDto.
+   * Renvoie une instance d'une classe qui implémente UserDto.
    * 
    * @return un UserDto
    */

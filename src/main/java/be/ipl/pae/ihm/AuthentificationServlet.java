@@ -51,7 +51,7 @@ public class AuthentificationServlet extends HttpServlet {
   }
 
   /**
-   * Gere la requete permettant de connecter un utilisateur
+   * Gére la requete permettant de connecter un utilisateur
    * 
    * @param req
    * @param resp

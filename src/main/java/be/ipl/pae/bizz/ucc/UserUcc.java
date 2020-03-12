@@ -4,7 +4,7 @@ import be.ipl.pae.bizz.dto.UserDto;
 
 public interface UserUcc {
   /**
-   * Verifie si l'utilisateur peut se connecter.
+   * Vérifie si l'utilisateur peut se connecter.
    * 
    * @param pseudo
    * @param password
