@@ -84,7 +84,7 @@ public class AuthentificationServlet extends HttpServlet {
       json = "{\"token\":\"" + token + "\",\"user\":" + genson.serialize(user) + "}";
       resp.setStatus(HttpServletResponse.SC_OK);
     } else {
-      json = "{\"error\":\"Connexion failed\"}";
+      json = "{\"error\":\"La connexion a échoué. Pseudo et mot de passe non correspondants.\"}";
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
