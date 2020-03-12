@@ -51,11 +51,11 @@ public class AuthentificationServlet extends HttpServlet {
   }
 
   /**
-   * Gére la requete permettant de connecter un utilisateur
+   * Gére la requete permettant de connecter un utilisateur.
    * 
-   * @param req
-   * @param resp
-   * @throws Exception
+   * @param req : la requete
+   * @param resp : le resp
+   * @throws Exception : une exception
    */
   @SuppressWarnings("unchecked")
   private void login(HttpServletRequest req, HttpServletResponse resp) throws Exception {

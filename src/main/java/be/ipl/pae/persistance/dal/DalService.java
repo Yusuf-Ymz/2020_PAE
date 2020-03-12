@@ -9,8 +9,8 @@ public interface DalService {
   /**
    * Crée un PreparedStatement relatif à la requête SQL.
    * 
-   * @param statement
-   * @param attributes
+   * @param statement : le statement
+   * @param attributes : les attributs
    * @return un PreparedStatement
    */
   PreparedStatement createStatement(String statement, Object... attributes);

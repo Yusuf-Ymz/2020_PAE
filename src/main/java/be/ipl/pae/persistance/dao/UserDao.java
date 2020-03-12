@@ -8,7 +8,7 @@ public interface UserDao {
   /**
    * Renvoie un utilisateur existant dans la DataBase.
    * 
-   * @param pseudo
+   * @param pseudo : un pseudo
    * @return un UserDto
    */
   UserDto obtenirUser(String pseudo);

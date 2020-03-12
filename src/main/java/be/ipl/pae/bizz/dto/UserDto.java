@@ -13,7 +13,7 @@ public interface UserDto {
   /**
    * Modifie l'attribut pseudo.
    * 
-   * @param pseudo
+   * @param pseudo : le pseudo de l'utilisateur
    */
   void setPseudo(String pseudo);
 
@@ -27,7 +27,7 @@ public interface UserDto {
   /**
    * Modifie le nom de l'utilisateur.
    * 
-   * @param nom
+   * @param nom : le nom de l'utilisateur
    */
   void setNom(String nom);
 
@@ -39,9 +39,9 @@ public interface UserDto {
   String getPrenom();
 
   /**
-   * Modifie le prénom de l'utilisateur
+   * Modifie le prénom de l'utilisateur.
    * 
-   * @param prenom
+   * @param prenom : le prenom de l'utilisateur
    */
   void setPrenom(String prenom);
 
@@ -55,7 +55,7 @@ public interface UserDto {
   /**
    * Modifie l'email de l'utilisateur.
    * 
-   * @param email
+   * @param email: l'email de l'utilisateur
    */
   void setEmail(String email);
 
@@ -69,7 +69,7 @@ public interface UserDto {
   /**
    * Modifie la ville de résidence de l'utilisateur.
    * 
-   * @param ville
+   * @param ville : la ville de l'utilisateur
    */
   void setVille(String ville);
 
@@ -83,7 +83,7 @@ public interface UserDto {
   /**
    * Modifie le statut de l'utilisateur.
    * 
-   * @param ouvrier
+   * @param ouvrier : la nouvelle valeur
    */
   void setOuvrier(boolean ouvrier);
 
@@ -97,7 +97,7 @@ public interface UserDto {
   /**
    * Modifier le boolean confirme.
    * 
-   * @param confimer : la nouvelle valeur
+   * @param confime : la nouvelle valeur
    */
   void setConfirme(boolean confirme);
 

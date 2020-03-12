@@ -13,10 +13,10 @@ public class InjectionService {
   private Map<String, Object> dependencies = new HashMap<String, Object>();
 
   /**
-   * Crée un objet InjectionService pour l'injection de dépendances et l'ensemble des
-   * configurations pour la connexion à la DB, le JWTSecret,...
+   * Crée un objet InjectionService pour l'injection de dépendances et l'ensemble des configurations
+   * pour la connexion à la DB, le JWTSecret,...
    * 
-   * @param pathname une string qui contient le pathname
+   * @param pathname : une string qui contient le pathname
    */
   public InjectionService(String pathname) {
     FileInputStream file;
@@ -33,7 +33,7 @@ public class InjectionService {
   /**
    * renvoie la valeur de la propiete passée en paramétre.
    * 
-   * @param propriete le nom (la clé) de la propriete recherché
+   * @param propriete : le nom (la clé) de la propriete recherché
    * @return la valeur de la propriete.
    */
   public String getConfiguration(String propriete) {
@@ -48,8 +48,8 @@ public class InjectionService {
   /**
    * Crée par introspection l'implementation de l'interface passée en parametre et la renvoie.
    * 
-   * @param classe la class de l'interface dont on veut l'implementation
-   * @param params la liste des paramétres à fournir pour pouvoir instancier l'objet
+   * @param classe : la class de l'interface dont on veut l'implementation
+   * @param params : la liste des paramétres à fournir pour pouvoir instancier l'objet
    * @return l'objet créer
    */
   @SuppressWarnings("unchecked")
