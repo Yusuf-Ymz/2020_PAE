@@ -11,18 +11,15 @@ import java.util.Map;
 public class InjectionService {
 
 
-  Map<String, Object> dependencies = new HashMap<String, Object>();
+  private Map<String, Object> dependencies = new HashMap<String, Object>();
 
   /**
-   * Crée par introspection l'implementation de l'interface passée en parametre et la renvoie.
+   * Injecte les dépendances de l'objet passé en paramètre.
    * 
-   * @param classe : la class de l'interface dont on veut l'implementation
-   * @param params : la liste des paramétres à fournir pour pouvoir instancier l'objet
-   * @return l'objet créer
+   * @param obj : l'objet dont il faut injecter les dépendances
    */
-  @SuppressWarnings("unchecked")
   public void injectDependencies(Object obj) {
-    Class classe = obj.getClass();
+    Class<?> classe = obj.getClass();
     Field[] fields = classe.getDeclaredFields();
     try {
       for (Field field : fields) {

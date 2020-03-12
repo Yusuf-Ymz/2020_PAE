@@ -10,6 +10,11 @@ public class Config {
   private static Properties props = new Properties();
   private static Map<String, Object> dependencies = new HashMap<String, Object>();
 
+  /**
+   * Charge le fichier properties.
+   * 
+   * @param pathname : le fichier properties
+   */
   public static void load(String pathname) {
     FileInputStream file;
     try {
@@ -22,6 +27,12 @@ public class Config {
     }
   }
 
+  /**
+   * Renvoie la valeur de la propriete passée en parametre.
+   * 
+   * @param propriete : la clé
+   * @return la valeur (en String)
+   */
   public static String getConfiguration(String propriete) {
     if (dependencies.containsKey(propriete)) {
       return (String) dependencies.get(propriete);
@@ -31,6 +42,12 @@ public class Config {
     return value;
   }
 
+  /**
+   * Renvoie la valeur de la propriete passée en parametre.
+   * 
+   * @param propriete : la clé
+   * @return la valeur (en int)
+   */
   public static int getConfigurationToInt(String propriete) {
 
     return Integer.parseInt(getConfiguration(propriete));
