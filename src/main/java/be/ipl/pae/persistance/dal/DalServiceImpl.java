@@ -1,5 +1,7 @@
 package be.ipl.pae.persistance.dal;
 
+import be.ipl.pae.main.Config;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +15,7 @@ class DalServiceImpl implements DalService {
    * Crée une connexion à la DB.
    * 
    */
-  public DalServiceImpl(String url, String user, String password) {
+  public DalServiceImpl() {
 
     try {
       Class.forName("org.postgresql.Driver");
@@ -23,7 +25,8 @@ class DalServiceImpl implements DalService {
       System.exit(1);
     }
     try {
-      this.conn = DriverManager.getConnection(url, user, password);
+      this.conn = DriverManager.getConnection(Config.getConfiguration("url"),
+          Config.getConfiguration("user"), Config.getConfiguration("password"));
     } catch (SQLException exception) {
       System.out.println("Impossible de joindre le server !");
       exception.printStackTrace();

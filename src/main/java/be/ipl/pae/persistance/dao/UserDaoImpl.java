@@ -1,5 +1,6 @@
 package be.ipl.pae.persistance.dao;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dal.DalService;
@@ -10,10 +11,14 @@ import java.sql.SQLException;
 
 
 class UserDaoImpl implements UserDao {
-
+  @Inject
   private DalService dal;
+  @Inject
   private DtoFactory fact;
 
+  public UserDaoImpl() {
+
+  }
 
   public UserDaoImpl(DalService dal, DtoFactory fact) {
     this.dal = dal;

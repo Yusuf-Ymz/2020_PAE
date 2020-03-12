@@ -1,16 +1,14 @@
 package mock.dao;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.UserDao;
 
 public class MockUserDao implements UserDao {
 
+  @Inject
   private DtoFactory dtoFactory;
-
-  public MockUserDao(DtoFactory dtoFactory) {
-    this.dtoFactory = dtoFactory;
-  }
 
   @Override
   public UserDto obtenirUser(String pseudo) {

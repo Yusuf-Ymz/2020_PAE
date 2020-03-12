@@ -1,15 +1,17 @@
 package be.ipl.pae.bizz.bizz;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.persistance.dao.UserDao;
 
 class UserUccImpl implements UserUcc {
 
+  @Inject
   private UserDao userDao;
 
-  public UserUccImpl(UserDao userDao) {
-    this.userDao = userDao;
+  public UserUccImpl() {
+
   }
 
   @Override

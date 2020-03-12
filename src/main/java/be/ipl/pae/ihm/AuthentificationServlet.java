@@ -1,7 +1,9 @@
 package be.ipl.pae.ihm;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.main.Config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -20,7 +22,9 @@ public class AuthentificationServlet extends HttpServlet {
 
 
   private static final long serialVersionUID = 1L;
+  @Inject
   private UserUcc userUcc;
+  // @Inject
   // private DtoFactory dtoFactory;
   private Genson genson;
   private String secret;
@@ -33,10 +37,8 @@ public class AuthentificationServlet extends HttpServlet {
    *
    */
 
-  public AuthentificationServlet(String secret, UserUcc userUcc/* , DtoFactory dtoFactory */) {
-    this.secret = secret;
-    this.userUcc = userUcc;
-    // this.dtoFactory = dtoFactory;
+  public AuthentificationServlet() {
+    this.secret = Config.getConfiguration("secret");
     this.genson = new Genson();
   }
 

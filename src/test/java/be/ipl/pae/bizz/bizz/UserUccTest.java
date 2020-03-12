@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
-import be.ipl.pae.persistance.dao.UserDao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,10 @@ class UserUccTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    InjectionService injecSer = new InjectionService("test.properties");
-    dtoFactory = new DtoFactoryImpl();
-    UserDao userDao = injecSer.getDependency(UserDao.class, dtoFactory);
-    ucc = new UserUccImpl(userDao);
+    Config.load("test.properties");
+    InjectionService injecSer = new InjectionService();
+    ucc = new UserUccImpl();
+    injecSer.injectDependencies(ucc);
   }
 
 

@@ -1,10 +1,6 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.bizz.factory.DtoFactory;
-import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.ihm.AuthentificationServlet;
-import be.ipl.pae.persistance.dal.DalService;
-import be.ipl.pae.persistance.dao.UserDao;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -29,18 +25,14 @@ public class Main {
     context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.setResourceBase("public");
 
-    InjectionService inject = new InjectionService("prod.properties");
-    DalService dalService = inject.getDependency(DalService.class, inject.getConfiguration("url"),
-        inject.getConfiguration("user"), inject.getConfiguration("password"));
-    DtoFactory dtoFactory = inject.getDependency(DtoFactory.class);
-    UserDao userDao = inject.getDependency(UserDao.class, dalService, dtoFactory);
-    UserUcc userUcc = inject.getDependency(UserUcc.class, userDao);
+    Config.load("prod.properties");
+    InjectionService injectionService = new InjectionService();
 
-    HttpServlet authentificationServlet = new AuthentificationServlet(
-        inject.getConfiguration("JwtSecret"), userUcc/* , dtoFactory */);
+    HttpServlet authentificationServlet = new AuthentificationServlet();
+    injectionService.injectDependencies(authentificationServlet);
     context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
 
-    Server server = new Server(Integer.parseInt(inject.getConfiguration("port")));
+    Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);
     server.start();
   }
