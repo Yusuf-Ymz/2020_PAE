@@ -55,7 +55,7 @@ public interface UserDto {
   /**
    * Modifie l'email de l'utilisateur.
    * 
-   * @param email: l'email de l'utilisateur
+   * @param email : l'email de l'utilisateur
    */
   void setEmail(String email);
 
@@ -97,7 +97,7 @@ public interface UserDto {
   /**
    * Modifier le boolean confirme.
    * 
-   * @param confime : la nouvelle valeur
+   * @param confirme : la nouvelle valeur
    */
   void setConfirme(boolean confirme);
 
