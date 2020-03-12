@@ -50,6 +50,13 @@ public class AuthentificationServlet extends HttpServlet {
     }
   }
 
+  /**
+   * Gere la requete permettant de connecter un utilisateur.
+   * 
+   * @param req
+   * @param resp
+   * @throws Exception
+   */
   @SuppressWarnings("unchecked")
   private void login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     StringBuffer jb = new StringBuffer();

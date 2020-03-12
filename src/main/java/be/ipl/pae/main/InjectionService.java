@@ -13,8 +13,8 @@ public class InjectionService {
   private Map<String, Object> dependencies = new HashMap<String, Object>();
 
   /**
-   * Crée un objet InjectionService pour l'injection de dépendances et l'ensemble des configurations
-   * pour la connexion à la DB, le JWTSecret,...
+   * Crée un objet InjectionService pour l'injection de dépendances et l'ensemble des
+   * configurations pour la connexion à la DB, le JWTSecret,...
    * 
    * @param pathname une string qui contient le pathname
    */
