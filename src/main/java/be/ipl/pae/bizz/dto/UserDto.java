@@ -32,14 +32,14 @@ public interface UserDto {
   void setNom(String nom);
 
   /**
-   * Renvoie le prénom de l'utilisateur.
+   * Renvoie le prï¿½nom de l'utilisateur.
    * 
-   * @return le prénom
+   * @return le prï¿½nom
    */
   String getPrenom();
 
   /**
-   * Modifie le prénom de l'utilisateur
+   * Modifie le prï¿½nom de l'utilisateur
    * 
    * @param prenom
    */
@@ -60,14 +60,14 @@ public interface UserDto {
   void setEmail(String email);
 
   /**
-   * Renvoie la ville de résidence de l'utilisateur.
+   * Renvoie la ville de rï¿½sidence de l'utilisateur.
    * 
    * @return la ville
    */
   String getVille();
 
   /**
-   * Modifie la ville de résidence de l'utilisateur.
+   * Modifie la ville de rï¿½sidence de l'utilisateur.
    * 
    * @param ville
    */
@@ -88,7 +88,7 @@ public interface UserDto {
   void setOuvrier(boolean ouvrier);
 
   /**
-   * Renvoie true si l'utilisateur a été confirmé false sinon.
+   * Renvoie true si l'utilisateur a ï¿½tï¿½ confirmï¿½ false sinon.
    * 
    * @return un boolean
    */
@@ -113,6 +113,7 @@ public interface UserDto {
    * 
    * @param dateInscription : la nouvelle date
    */
+
   void setDateInscription(LocalDate dateInscription);
 
   /**
