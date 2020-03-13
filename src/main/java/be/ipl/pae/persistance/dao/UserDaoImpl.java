@@ -3,6 +3,7 @@ package be.ipl.pae.persistance.dao;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalService;
 
 import java.sql.PreparedStatement;
@@ -40,8 +41,8 @@ class UserDaoImpl implements UserDao {
       return user;
     } catch (SQLException exception) {
       exception.printStackTrace();
+      throw new FatalException();
     }
-    return null;
   }
 
 

@@ -1,6 +1,7 @@
 package be.ipl.pae.persistance.dal;
 
 import be.ipl.pae.annotation.FieldDB;
+import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
 
 import java.lang.reflect.Field;
@@ -35,7 +36,7 @@ class DalServiceImpl implements DalService {
     } catch (SQLException exception) {
       System.out.println("Impossible de joindre le server !");
       exception.printStackTrace();
-      System.exit(1);
+      throw new FatalException();
     }
   }
 
@@ -52,7 +53,7 @@ class DalServiceImpl implements DalService {
     try {
       stmt = conn.prepareStatement(statement);
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      throw new FatalException();
     }
     return stmt;
   }
@@ -78,7 +79,10 @@ class DalServiceImpl implements DalService {
           field.set(obj, dbObject);
         }
       }
-    } catch (SQLException | IllegalArgumentException | IllegalAccessException exception) {
+    } catch (SQLException sqlException) {
+      sqlException.printStackTrace();
+      throw new FatalException();
+    } catch (IllegalArgumentException | IllegalAccessException exception) {
       exception.printStackTrace();
     }
   }
