@@ -3,7 +3,6 @@ package be.ipl.pae.bizz.bizz;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UserUccTest {
-  private DtoFactory dtoFactory;
   private UserUcc ucc;
 
   @BeforeEach

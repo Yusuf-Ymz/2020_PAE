@@ -27,32 +27,22 @@ class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto obtenirUser(String pseudo) {
-    PreparedStatement prepareStatement = dal.createStatement(DalService.GET_USER, pseudo);
+    String query = "SELECT u.* FROM pae.utilisateurs u WHERE u.pseudo = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
     try {
+      prepareStatement.setString(1, pseudo);
       ResultSet rs = prepareStatement.executeQuery();
       if (!rs.next()) {
         return null;
       }
       UserDto user = fact.getUserDto();
-      user.setUserId(rs.getInt(1));
-      user.setConfirme(rs.getBoolean(2));
-      user.setOuvrier(rs.getBoolean(3));
-      user.setDateInscription(rs.getDate(4).toLocalDate());
-      user.setPseudo(pseudo);
-      user.setPassword(rs.getString(6));
-      // user.setClientId(rs.getInt(7));
-      user.setNom(rs.getString(8));
-      user.setPrenom(rs.getString(9));
-      user.setVille(rs.getString(10));
-      user.setEmail(rs.getString(11));
-
-
+      dal.fillObject(user, rs);
       return user;
     } catch (SQLException exception) {
-
       exception.printStackTrace();
     }
     return null;
   }
+
 
 }

@@ -31,7 +31,7 @@ public class InjectionService {
           if (dependencies.containsKey(classAIjnjecterName)) {
             fieldObjet = dependencies.get(classAIjnjecterName);
           } else {
-            String implName = Config.getConfiguration(classAIjnjecter.getName());
+            String implName = Config.getConfiguration(classAIjnjecterName);
             Class<?> classImpl = Class.forName(implName);
             Constructor<?> constructor = classImpl.getDeclaredConstructor();
             constructor.setAccessible(true);
