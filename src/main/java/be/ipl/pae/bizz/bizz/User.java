@@ -1,40 +1,40 @@
 package be.ipl.pae.bizz.bizz;
 
-import be.ipl.pae.annotation.FieldDB;
+import be.ipl.pae.annotation.FieldDb;
 
 import org.mindrot.bcrypt.BCrypt;
 
 import java.time.LocalDate;
 
 class User implements UserBiz {
-  @FieldDB("pseudo")
+  @FieldDb("pseudo")
   private String pseudo;
 
-  @FieldDB("nom")
+  @FieldDb("nom")
   private String nom;
 
-  @FieldDB("prenom")
+  @FieldDb("prenom")
   private String prenom;
 
-  @FieldDB("email")
+  @FieldDb("email")
   private String email;
 
-  @FieldDB("ville")
+  @FieldDb("ville")
   private String ville;
 
-  @FieldDB("ouvrier")
+  @FieldDb("ouvrier")
   private boolean ouvrier;
 
-  @FieldDB("confirme")
+  @FieldDb("confirme")
   private boolean confirme;
 
-  @FieldDB("date_inscription")
+  @FieldDb("date_inscription")
   private LocalDate dateInscription;
 
-  @FieldDB("mot_de_passe")
+  @FieldDb("mot_de_passe")
   private String password;
 
-  @FieldDB("utilisateur_id")
+  @FieldDb("utilisateur_id")
   private int userId;
 
 

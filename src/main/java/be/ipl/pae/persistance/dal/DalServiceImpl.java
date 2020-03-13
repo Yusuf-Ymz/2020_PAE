@@ -1,6 +1,6 @@
 package be.ipl.pae.persistance.dal;
 
-import be.ipl.pae.annotation.FieldDB;
+import be.ipl.pae.annotation.FieldDb;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
 
@@ -40,14 +40,7 @@ class DalServiceImpl implements DalService {
     }
   }
 
-  /**
-   * Crée un PreparedStatement et le renvoie.
-   * 
-   * @param statement Le querry à exécuter
-   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
-   *        si aucun attributs.
-   * @return stmt : le PreparedStatement créé
-   */
+
   public PreparedStatement createStatement(String statement) {
     PreparedStatement stmt = null;
     try {
@@ -58,21 +51,15 @@ class DalServiceImpl implements DalService {
     return stmt;
   }
 
-  /**
-   * Rempli les attributs par introspection de l'objet passé en paramètre à partir des données en DB
-   * (le ResultSet)
-   * 
-   * @param obj : l'objet
-   * @param rs : le ResultSet
-   */
+
   public void fillObject(Object obj, ResultSet rs) {
     Class<?> className = obj.getClass();
     Field[] fields = className.getDeclaredFields();
     try {
       for (Field field : fields) {
-        if (field.isAnnotationPresent(FieldDB.class)) {
+        if (field.isAnnotationPresent(FieldDb.class)) {
           field.setAccessible(true);
-          Object dbObject = rs.getObject(field.getAnnotation(FieldDB.class).value());
+          Object dbObject = rs.getObject(field.getAnnotation(FieldDb.class).value());
           if (field.getType().equals(LocalDate.class)) {
             dbObject = ((Date) dbObject).toLocalDate();
           }

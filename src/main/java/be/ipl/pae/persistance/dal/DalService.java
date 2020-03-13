@@ -6,13 +6,23 @@ import java.sql.ResultSet;
 public interface DalService {
 
 
+
   /**
-   * Crée un PreparedStatement relatif à la requête SQL.
+   * Crée un PreparedStatement relatif à la requête SQL et le renvoie.
    * 
-   * @param statement : le statement
-   * @return un PreparedStatement
+   * @param statement Le querry à exécuter
+   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
+   *        si aucun attributs.
+   * @return stmt : le PreparedStatement créé
    */
   PreparedStatement createStatement(String statement);
 
-  public void fillObject(Object obj, ResultSet rs);
+  /**
+   * Rempli les attributs par introspection de l'objet passé en paramètre à partir des données en DB
+   * (le ResultSet).
+   * 
+   * @param obj : l'objet
+   * @param rs : le ResultSet
+   */
+  void fillObject(Object obj, ResultSet rs);
 }
