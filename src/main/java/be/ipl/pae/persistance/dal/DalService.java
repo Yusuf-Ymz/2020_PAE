@@ -11,9 +11,7 @@ public interface DalService {
    * Crée un PreparedStatement relatif à la requête SQL et le renvoie.
    * 
    * @param statement Le querry à exécuter
-   * @param attributes un tableau d'attributs classés dans l'ordre d'apparition dans le querry, null
-   *        si aucun attributs.
-   * @return stmt : le PreparedStatement créé
+   * @return le PreparedStatement créé
    */
   PreparedStatement createStatement(String statement);
 
