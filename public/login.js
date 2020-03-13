@@ -115,7 +115,9 @@ $(document).ready(function () {
       };
       postData("/inscription", data, token, onPostInscription, onErrorInscription);
     } else {
-      alert("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
+      $("#inscription_message").show();
+       $("#inscription_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
+       
     }
   });
 })
