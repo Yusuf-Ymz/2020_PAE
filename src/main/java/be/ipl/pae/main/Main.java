@@ -32,9 +32,9 @@ public class Main {
     HttpServlet authentificationServlet = new AuthentificationServlet();
     injectionService.injectDependencies(authentificationServlet);
     context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
-    HttpServlet OuvrierServlet = new OuvrierServlet();
-    injectionService.injectDependencies(OuvrierServlet);
-    context.addServlet(new ServletHolder(OuvrierServlet), "/listeUser");
+    HttpServlet ouvrierServlet = new OuvrierServlet();
+    injectionService.injectDependencies(ouvrierServlet);
+    context.addServlet(new ServletHolder(ouvrierServlet), "/listeUser");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);

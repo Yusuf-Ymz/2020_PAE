@@ -48,7 +48,7 @@ class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public List<UserDto> ObtenirListeUser() {
+  public List<UserDto> obtenirListeUser() {
     String query = "SELECT * FROM pae.utilisateurs ORDER BY nom";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {

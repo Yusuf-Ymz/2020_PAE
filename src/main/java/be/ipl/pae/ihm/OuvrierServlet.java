@@ -57,7 +57,7 @@ public class OuvrierServlet extends HttpServlet {
       DecodedJWT jwt = verifier.verify(token);
       boolean isConfirme = jwt.getClaim("confirme").asBoolean();
       if (isConfirme) {
-        List<UserDto> listeUser = userUcc.ListerUsers();
+        List<UserDto> listeUser = userUcc.listerUsers();
         json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
         resp.setStatus(HttpServletResponse.SC_OK);
       } else {

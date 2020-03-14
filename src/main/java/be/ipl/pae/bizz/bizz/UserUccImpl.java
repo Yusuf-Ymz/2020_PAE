@@ -29,7 +29,7 @@ class UserUccImpl implements UserUcc {
 
 
   @Override
-  public List<UserDto> ListerUsers() {
-    return userDao.ObtenirListeUser();
+  public List<UserDto> listerUsers() {
+    return userDao.obtenirListeUser();
   }
 }

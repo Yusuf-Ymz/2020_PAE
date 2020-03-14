@@ -19,5 +19,5 @@ public interface UserUcc {
    * 
    * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
    */
-  List<UserDto> ListerUsers();
+  List<UserDto> listerUsers();
 }
