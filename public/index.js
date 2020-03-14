@@ -5,6 +5,7 @@ $("#HeaderContent").load("header.html");
 $("#carouselContent").load("carousel.html"); 
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
+$("#confirmerInscription").load("confirmerInscription.html");
 
 $(document).ready(function () {
    
@@ -43,6 +44,7 @@ const  HideToHome = () =>{
   $("#carouselExampleIndicators").show();
   $("#logo").show();
   $("#logout").hide();
+  $("#users_preinscrit_component").hide();
 }
 
 const HomeUser = () =>{
@@ -53,6 +55,7 @@ const HomeUser = () =>{
   $(".register").hide();
   $("#carouselExampleIndicators").hide();
   $("#logo").hide();
+  $("#users_preinscrit_component").hide();
 }
 
 
