@@ -61,12 +61,12 @@ public class OuvrierServlet extends HttpServlet {
         json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
         resp.setStatus(HttpServletResponse.SC_OK);
       } else {
-        json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+        json = "{\"error\":\"Vous n'avez pas accÃ©s Ã  ces informations\"}";
         resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       }
 
     } else {
-      json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+      json = "{\"error\":\"Vous n'avez pas accÃ©s Ã  ces informations\"}";
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
     resp.setContentType("application/json");
