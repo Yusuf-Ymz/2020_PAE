@@ -5,6 +5,8 @@ import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.UserDao;
 
+import java.util.List;
+
 public class MockUserDao implements UserDao {
 
   @Inject
@@ -20,6 +22,12 @@ public class MockUserDao implements UserDao {
       user.setConfirme(true);
       return user;
     }
+    return null;
+  }
+
+  @Override
+  public List<UserDto> ObtenirListeUser() {
+    // TODO Auto-generated method stub
     return null;
   }
 }

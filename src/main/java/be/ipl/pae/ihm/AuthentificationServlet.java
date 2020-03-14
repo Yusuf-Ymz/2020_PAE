@@ -79,7 +79,8 @@ public class AuthentificationServlet extends HttpServlet {
     String json = null;
     if (user != null) {
       user.setPassword(null);
-      String token = JWT.create().withClaim("id", user.getUserId()).sign(Algorithm.HMAC512(secret));
+      String token = JWT.create().withClaim("id", user.getUserId())
+          .withClaim("confirme", user.isConfirme()).sign(Algorithm.HMAC512(secret));
       json = "{\"token\":\"" + token + "\",\"user\":" + genson.serialize(user) + "}";
       resp.setStatus(HttpServletResponse.SC_OK);
     } else {

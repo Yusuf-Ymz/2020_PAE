@@ -2,6 +2,8 @@ package be.ipl.pae.bizz.ucc;
 
 import be.ipl.pae.bizz.dto.UserDto;
 
+import java.util.List;
+
 public interface UserUcc {
   /**
    * Vérifie si l'utilisateur peut se connecter.
@@ -11,4 +13,11 @@ public interface UserUcc {
    * @return un UserDto si le pseudo existe dans la DB null sinon
    */
   UserDto seConnecter(String pseudo, String password);
+
+  /**
+   * Renvoie la liste des utilisateurs.
+   * 
+   * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
+   */
+  List<UserDto> ListerUsers();
 }
