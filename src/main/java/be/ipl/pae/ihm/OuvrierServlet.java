@@ -29,6 +29,9 @@ public class OuvrierServlet extends HttpServlet {
   private Genson genson;
   private String secret;
 
+  /**
+   * Instancie un servlet.
+   */
   public OuvrierServlet() {
     super();
     this.genson = new Genson();
@@ -45,7 +48,13 @@ public class OuvrierServlet extends HttpServlet {
     }
   }
 
-
+  /**
+   * Gére la requete permettant de lister tous les utilisateurs inscrit.
+   * 
+   * @param req : la requete
+   * @param resp : le resp
+   * @throws Exception : une exception
+   */
   private void renvoyerListeUser(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
 
