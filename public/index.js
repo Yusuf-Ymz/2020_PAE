@@ -2,15 +2,11 @@
 import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 import affichageListeUser from "./listeUser.js";
 let token = undefined;
-<<<<<<< HEAD
-$("#HeaderContent").load("header.html");
-$("#carouselContent").load("carousel.html"); 
-$("#loginContent").load("login.html");
+
+
 $("#inscriptionContent").load("inscription.html");
 $("#confirmerInscription").load("confirmerInscription.html");
-=======
 let thtabUser = ["date_inscription","prenom","nom","pseudo","ville"];
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-09
 
 $(document).ready(function () {
 
@@ -59,11 +55,8 @@ const HideToHome = () => {
   $("#carouselContent").show();
   $("#logo").show();
   $("#logout").hide();
-<<<<<<< HEAD
   $("#users_preinscrit_component").hide();
-=======
   $("#listeUser").hide();
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-09
 }
 
 const HomeUser = () => {
@@ -75,11 +68,9 @@ const HomeUser = () => {
   $(".register").hide();
   $("#carouselContent").hide();
   $("#logo").hide();
-<<<<<<< HEAD
   $("#users_preinscrit_component").hide();
-=======
   $("#listeUser").hide();
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-09
+
 }
 
 
