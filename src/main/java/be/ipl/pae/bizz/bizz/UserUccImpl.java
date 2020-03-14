@@ -5,6 +5,8 @@ import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.persistance.dao.UserDao;
 
+import java.util.List;
+
 class UserUccImpl implements UserUcc {
 
   @Inject
@@ -25,4 +27,9 @@ class UserUccImpl implements UserUcc {
     return newUserDto;
   }
 
+
+  @Override
+  public List<UserDto> listerUsers() {
+    return userDao.obtenirListeUser();
+  }
 }

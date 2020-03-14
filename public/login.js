@@ -71,7 +71,8 @@ const RegisterForm = (errorMessage = "") => {
   $("#users_preinscrit_component").hide();
 };
 
-$(document).ready(function () {
+$(document).ready(function ()  {
+
   $('#redirection_inscrit').on('click', function (e) {
     e.preventDefault();
     RegisterForm();
@@ -82,8 +83,9 @@ $(document).ready(function () {
     LoginForm();
   });
 
-  $("#login_btn").click(e => {
+  $("#login_btn").on('click', function (e){
     e.preventDefault();
+    //alert("je passe");
     if ($("#pseudo")[0].checkValidity() && $("#mdp")[0].checkValidity()) {
       const data = {
         pseudo: $("#pseudo").val(),
@@ -99,7 +101,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#inscription").click(e => {
+  $("#inscription").on('click', function (e){
     e.preventDefault();
     if ($("#mdp_inscription")[0].checkValidity() && $("#re_mdp_inscription")[0] === $("#mdp_inscription")) {
       alert("Le mot de passe est invalideS");
@@ -122,4 +124,4 @@ $(document).ready(function () {
        
     }
   });
-})
+});
