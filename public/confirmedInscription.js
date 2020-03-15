@@ -1,12 +1,12 @@
 "use strict";
 
 import { getData,postData } from "./utilsAPI.js";
-import create_dynamic_HTML_table from "./utilsHTML.js";
+import create_dynamic_HTML_table from "./tableConfirmerInscription.js/index.js";
 
 const propriete_utilisateur = ["nom", "prenom", "pseudo","ville", "email"];
 
 $(document).ready(function(){
-    $("#link_confirmer_inscription").on("click",function(){
+    $("#confirmed_inscriptions").on("click",function(){
         //mettre une condition pour les ouvriers
         getData(API_NAME, token, onGet,onError); 
         confirmerInscriptionVue();

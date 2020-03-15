@@ -5,6 +5,7 @@ $("#HeaderContent").load("header.html");
 $("#carouselContent").load("carousel.html"); 
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
+$("#confirmedInscriptionContent").load("confirmedInscription.html");
 
 $(document).ready(function () {
    
@@ -44,6 +45,7 @@ const  HideToHome = () =>{
   $("#logo").show();
   $("#logout").hide();
   $("#listeUser").hide();
+  $("#users_preinscrit_component").hide();
 }
 
 const HomeUser = () =>{
@@ -55,6 +57,7 @@ const HomeUser = () =>{
   $("#carouselExampleIndicators").hide();
   $("#logo").hide();
   $("#listeUser").hide();
+  $("#users_preinscrit_component").hide();
 }
 const HomeUserWhenAuthentified = ()=>{
   $("#logout").show();
@@ -65,6 +68,7 @@ const HomeUserWhenAuthentified = ()=>{
   $("#carouselExampleIndicators").show();
   $("#logo").hide();
   $("#listeUser").hide();
+  $("#users_preinscrit_component").hide();
 }
 
 
