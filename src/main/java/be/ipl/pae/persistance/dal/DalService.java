@@ -2,6 +2,7 @@ package be.ipl.pae.persistance.dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 
 public interface DalService {
 
@@ -22,5 +23,7 @@ public interface DalService {
    * @param obj : l'objet
    * @param rs : le ResultSet
    */
-  void fillObject(Object obj, ResultSet rs);
+  void fillObject(Object obj, Map<String, Object> dbObjects);
+
+  Map<String, Object> convertResulSetToMap(ResultSet rs);
 }

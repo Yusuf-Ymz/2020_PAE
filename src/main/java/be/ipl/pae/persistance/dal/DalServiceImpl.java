@@ -10,8 +10,11 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 
 class DalServiceImpl implements DalService {
@@ -52,25 +55,43 @@ class DalServiceImpl implements DalService {
   }
 
 
-  public void fillObject(Object obj, ResultSet rs) {
+  public void fillObject(Object obj, Map<String, Object> dbObjects) {
     Class<?> className = obj.getClass();
     Field[] fields = className.getDeclaredFields();
     try {
       for (Field field : fields) {
         if (field.isAnnotationPresent(FieldDb.class)) {
           field.setAccessible(true);
-          Object dbObject = rs.getObject(field.getAnnotation(FieldDb.class).value());
-          if (field.getType().equals(LocalDate.class)) {
-            dbObject = ((Date) dbObject).toLocalDate();
+          Object dbObject = dbObjects.get(field.getAnnotation(FieldDb.class).value());
+          if (dbObject != null) {
+            if (field.getType().equals(LocalDate.class)) {
+              dbObject = ((Date) dbObject).toLocalDate();
+            }
+            field.set(obj, dbObject);
           }
-          field.set(obj, dbObject);
         }
       }
-    } catch (SQLException sqlException) {
-      sqlException.printStackTrace();
-      throw new FatalException();
     } catch (IllegalArgumentException | IllegalAccessException exception) {
       exception.printStackTrace();
     }
+  }
+
+  @Override
+  public Map<String, Object> convertResulSetToMap(ResultSet rs) {
+    Map<String, Object> dbObjects = new HashMap<String, Object>();
+    try {
+      ResultSetMetaData rsmd = rs.getMetaData();
+      int columnCount = rsmd.getColumnCount();
+      for (int i = 1; i <= columnCount; i++) {
+        String columnName = rsmd.getColumnName(i);
+        Object obj = rs.getObject(i);
+        dbObjects.put(columnName, obj);
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+    return dbObjects;
+
   }
 }

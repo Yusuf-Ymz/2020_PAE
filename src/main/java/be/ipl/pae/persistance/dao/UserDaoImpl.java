@@ -39,7 +39,7 @@ class UserDaoImpl implements UserDao {
         return null;
       }
       UserDto user = fact.getUserDto();
-      dal.fillObject(user, rs);
+      dal.fillObject(user, dal.convertResulSetToMap(rs));
       return user;
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -57,7 +57,7 @@ class UserDaoImpl implements UserDao {
       List<UserDto> listeUsers = new ArrayList<UserDto>();
       while (rs.next()) {
         UserDto user = fact.getUserDto();
-        dal.fillObject(user, rs);
+        dal.fillObject(user, dal.convertResulSetToMap(rs));
         listeUsers.add(user);
       }
       return listeUsers;
