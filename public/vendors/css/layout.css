@@ -1,5 +1,9 @@
 
 
+body{
+
+  background-color: darkgray;
+}
 /*------navbar------------*/
 
 .navbar-expand-lg .navbar-nav.side-nav{
@@ -113,9 +117,10 @@ li{
   
   
   .register{
-    background: -webkit-linear-gradient(left,  #47b188, #6cdbb1);
-    margin-top: 5%;
+    background: -webkit-linear-gradient(left,  #454d4a, #86918c);
+    margin-top: +3%;
     padding: 3%;
+    height: 70%;
    
   }
   .mt{

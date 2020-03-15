@@ -14,6 +14,7 @@ const LoginForm = (errorMessage = "") => {
   $("#inscription_form").addClass("d-none");
   $("#login_form").show();
   $("#users_preinscrit_component").hide();
+  $("#card").show();
 };
 
 
@@ -67,6 +68,7 @@ const RegisterForm = (errorMessage = "") => {
   $("#inscription_form").removeClass("d-none");
   $("#login_form").hide();
   $("#users_preinscrit_component").hide();
+  $("#card").show();
 };
 
 $(document).ready(function ()  {

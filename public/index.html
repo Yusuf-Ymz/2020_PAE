@@ -7,10 +7,12 @@
   <link rel="stylesheet" href="vendors/css/bootstrapOveride.css">
   <link rel="stylesheet" href="vendors/css/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/css/all.min.css">
+  <link rel="stylesheet" href="vendors/css/tableStyle.css">
   <link rel="stylesheet" href="vendors/css/layout.css">
+
   <script src="vendors/js/jquery.min.js"></script>
   <script src="vendors/js/bootstrap.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script><!---a changer avec  les fichiers hors ligne-->
   <script src="./index.js" type="module"></script>
   <script src="./login.js" type="module"></script>
   <script src="./rechercherUtilisateur.js" type="module"></script>
@@ -23,24 +25,31 @@
   <!--------Carousel----------->
   <div id="carouselContent"></div>
   <!--------Form ------------->
-  <div class="container register" style="display: none;">
-    <!---style="display: none;"-->
-    <div class="row">
-      <div class="col-md-3 register-left">
-        <img src="./images/logo.PNG" alt="logo rose et le lilas" />
-        <h3>Bienvenue</h3>
-        <p>GreenTrees</p>
+  <div  id="card" class="container">
+  <div class="card mt-5" style=" width: 100% ; height: 100%;">
+    <div class="card-body ">
+      <!----<h5 class="card-title"></h5>-->
+      <div class="container register" style="display: none;">
+        <!---style="display: none;"-->
+        <div class="row">
+          <div class="col-md-3 register-left">
+            <img src="./images/logo.PNG" alt="logo rose et le lilas" />
+            <h3>Bienvenue</h3>
+            <p>GreenTrees</p>
+          </div>
+          <!---------------Formulaire de login------------->
+          <div class="col-9">
+            <div id="loginContent"></div>
+            <!----------Formulaire d'inscription----------->
+            <div id="inscriptionContent"></div>
+          </div>
+          <div id="confirmedInscriptionContent"></div>
+        </div>
       </div>
-      <!---------------Formulaire de login------------->
-      <div class="col-9">
-        <div id="loginContent"></div>
-        <!----------Formulaire d'inscription----------->
-        <div id="inscriptionContent"></div>
-      </div>
-      <div id="confirmedInscriptionContent"></div>
+      <div id="listeUser" class=" container-fluid mt-4 "></div>
     </div>
   </div>
-  <div id="listeUser" class="mt"></div>
+</div>
 </body>
 
 </html>

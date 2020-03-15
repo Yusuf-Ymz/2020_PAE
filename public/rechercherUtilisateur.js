@@ -58,6 +58,15 @@ $(document).ready(function () {
 
     function onUserListError(err) {
         console.error(err);
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            timerProgressBar: true,
+            title: err.responseJSON.error,
+            showConfirmButton: false,
+            timer: 1500
+          })
     }
 
 
