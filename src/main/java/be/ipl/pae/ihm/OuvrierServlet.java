@@ -19,7 +19,6 @@ import com.owlike.genson.stream.ObjectReader;
 import com.owlike.genson.stream.ObjectWriter;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -44,8 +43,8 @@ public class OuvrierServlet extends HttpServlet {
    */
   public OuvrierServlet() {
     super();
-    this.genson = new GensonBuilder().useDateFormat(new SimpleDateFormat("yyyy-MM-dd"))
-        .exclude("password").withContextualFactory(new DateFactory()).create();
+    this.genson =
+        new GensonBuilder().exclude("password").withContextualFactory(new DateFactory()).create();
     this.secret = Config.getConfiguration("secret");
   }
 
