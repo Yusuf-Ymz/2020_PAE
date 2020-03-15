@@ -1,4 +1,3 @@
-
 function create_dynamic_HTML_table(
   targetHtmlElementId,
   arrayToPrint,

@@ -19,7 +19,6 @@ const LoginForm = (errorMessage = "") => {
 
 
 function onPostLogin(response) {
-  console.log("onPostLogin");
   $("#pseudo").val("");
   $("#mdp").val("");
   localStorage.setItem("token", response.token);
@@ -27,7 +26,6 @@ function onPostLogin(response) {
 }
 
 function onErrorLogin(err) {
-  console.log("onErrorLogin");
   console.error(err.responseJSON.error);
   LoginForm(err.responseJSON.error);
 }
@@ -85,16 +83,13 @@ $(document).ready(function ()  {
 
   $("#login_btn").on('click', function (e){
     e.preventDefault();
-    //alert("je passe");
     if ($("#pseudo")[0].checkValidity() && $("#mdp")[0].checkValidity()) {
       const data = {
         pseudo: $("#pseudo").val(),
         password: $("#mdp").val()
       };
-      console.log('envoi');
       postData("/authentification", data, null, onPostLogin, onErrorLogin);
     } else {
-      console.log('else');
       $("#login_message").show();
      
       $("#login_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides!");

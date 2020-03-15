@@ -9,9 +9,19 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.owlike.genson.Context;
+import com.owlike.genson.Converter;
 import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.convert.ContextualFactory;
+import com.owlike.genson.reflect.BeanProperty;
+import com.owlike.genson.stream.ObjectReader;
+import com.owlike.genson.stream.ObjectWriter;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -34,7 +44,8 @@ public class OuvrierServlet extends HttpServlet {
    */
   public OuvrierServlet() {
     super();
-    this.genson = new Genson();
+    this.genson = new GensonBuilder().useDateFormat(new SimpleDateFormat("yyyy-MM-dd"))
+        .exclude("password").withContextualFactory(new DateFactory()).create();
     this.secret = Config.getConfiguration("secret");
   }
 
@@ -84,4 +95,28 @@ public class OuvrierServlet extends HttpServlet {
 
   }
 
+  private static class DateFactory implements ContextualFactory<LocalDate> {
+
+    @Override
+    public Converter<LocalDate> create(BeanProperty property, Genson genson) {
+      return new DateConverter();
+    }
+
+  }
+
+  private static class DateConverter implements Converter<LocalDate> {
+
+    @Override
+    public LocalDate deserialize(ObjectReader reader, Context ctx) throws Exception {
+      return null;
+    }
+
+    @Override
+    public void serialize(LocalDate object, ObjectWriter writer, Context ctx) throws Exception {
+      writer.writeString(object.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+    }
+
+
+  }
 }

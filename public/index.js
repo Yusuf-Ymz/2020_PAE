@@ -1,16 +1,14 @@
 "use strict";
-import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
-import affichageListeUser from "./listeUser.js";
+//import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token = undefined;
-
-
+$("#HeaderContent").load("header.html");
+$("#carouselContent").load("carousel.html"); 
+$("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
-$("#confirmerInscription").load("confirmerInscription.html");
-let thtabUser = ["date_inscription","prenom","nom","pseudo","ville"];
 
 $(document).ready(function () {
-
-  token = initialisation();
+   
+ token =  initialisation();
 
   //nav-bar 
   $('.leftmenu').on('click', function (e) {
@@ -18,19 +16,12 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
-  //mettre dans un autre ficher 
-  $("#rechercher_user").on('click', function (e) {
-    console.log(token);
-    token = localStorage.getItem("token");
-    getData("/listeUser", token, onGetUserList, onUserListError);
   
-  });
-
-
+  
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
-    if (token)
-      HomeUser();
+    if(token)
+      HomeUserWhenAuthentified();
     else
       HideToHome();
   });
@@ -45,65 +36,48 @@ $(document).ready(function () {
   });
 });
 
-$("#HeaderContent").load("header.html");
-$("#carouselContent").load("carousel.html");
-$("#loginContent").load("login.html");
 
-const HideToHome = () => {
+const  HideToHome = () =>{
   $("#nav_connect").show();
   $(".register").hide();
-  $("#carouselContent").show();
+  $("#carouselExampleIndicators").show();
   $("#logo").show();
   $("#logout").hide();
-  $("#users_preinscrit_component").hide();
   $("#listeUser").hide();
 }
 
-const HomeUser = () => {
-  $("#nav_connect").hide();
+const HomeUser = () =>{
   $("#logout").show();
- 
+  $("#nav_connect").hide();
   $("#login_message").html("");
   $("#nav_connect").hide();
   $(".register").hide();
-  $("#carouselContent").hide();
+  $("#carouselExampleIndicators").hide();
   $("#logo").hide();
-  $("#users_preinscrit_component").hide();
   $("#listeUser").hide();
-
+}
+const HomeUserWhenAuthentified = ()=>{
+  $("#logout").show();
+  $("#nav_connect").hide();
+  $("#login_message").html("");
+  $("#nav_connect").hide();
+  $(".register").hide();
+  $("#carouselExampleIndicators").show();
+  $("#logo").hide();
+  $("#listeUser").hide();
 }
 
 
 const initialisation = () => {
   let token = localStorage.getItem("token");
-
-  console.log(token);
   if (token) {
     HomeUser();
     return token;
-
+ 
   } else {
     HideToHome();
     return;
   }
 };
 
-/**
- * A bouger   
- */
-function onGetUserList(response) {
-  $("#listeUser").show();
-  affichageListeUser("listeUser", response.listeUser,thtabUser);
- 
-}
-
-
-/**
- * A bouger 
- */
-function onUserListError(err) {
-  alert(err);
-}
-export { HomeUser };
-
-
+export {HomeUser};

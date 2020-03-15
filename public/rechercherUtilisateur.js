@@ -1,12 +1,15 @@
-function affichageListeUser(
-    containerElementId,
-    arrayToPrint,
-    thTab) {
+import { getData } from "./utilsAPI.js";
 
+
+function affichageListeUser(containerElementId, arrayToPrint, thTab) {
+    
+    $("#carouselExampleIndicators").hide();
+    console.log(arrayToPrint);
     let div_container = document.getElementById(containerElementId);
     div_container.innerHTML = "";
-
+    $("#"+containerElementId).show();
     let table = document.createElement("table");
+    table.className = "table";
     table.className = "mt-10";
     div_container.appendChild(table);
 
@@ -27,22 +30,9 @@ function affichageListeUser(
         const user = arrayToPrint[x];
         for (const propriete in user) {
             if (propriete === "nom" || propriete === "prenom" || propriete === "dateInscription"
-                || propriete === "pseudo" || propriete === "ville") {
+                || propriete === "pseudo" || propriete === "ville" || propriete === "email") {
                 let monChamp = document.createElement("td");
-              
-
-                // changer la  date soit ici soit en java
-                if (propriete === "dateInscription") {
-                     console.log(JSON.stringify(input));
-                    var input = user[propriete];        
-                    var date = new Date(JSON.stringify(input));
-                    console.log(date);
-                    monChamp.innerHTML = date;
-                } else {
-
-                    monChamp.innerHTML = user[propriete];
-                }
-
+                monChamp.innerHTML = user[propriete];
                 trData.appendChild(monChamp);
 
             }
@@ -53,5 +43,22 @@ function affichageListeUser(
 
 
 }
+$(document).ready(function () {
+    $("#rechercher_user").on('click', function (e) {
+        let token = localStorage.getItem("token");
+        console.log(token);
+        getData("/listeUser", token, onGetUserList, onUserListError);
+    });
+    function onGetUserList(response) {
+        $("#listeUser").show();
+        let thtabUser = new Array("Nom", "Prénom", "Pseudo", "Ville de résidence", "e-mail", "Date d'inscription");
+        affichageListeUser("listeUser", response.listeUser, thtabUser);
 
-export default affichageListeUser;
+    }
+
+    function onUserListError(err) {
+        console.error(err);
+    }
+
+
+});
