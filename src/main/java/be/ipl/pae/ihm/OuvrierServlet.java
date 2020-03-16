@@ -74,8 +74,8 @@ public class OuvrierServlet extends HttpServlet {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
-      boolean isConfirme = jwt.getClaim("confirme").asBoolean();
-      if (isConfirme) {
+      boolean isOuvrier = jwt.getClaim("estOuvrier").asBoolean();
+      if (isOuvrier) {
         List<UserDto> listeUser = userUcc.listerUsers();
         json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
         resp.setStatus(HttpServletResponse.SC_OK);
