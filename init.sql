@@ -63,3 +63,5 @@ INSERT INTO pae.utilisateurs VALUES(DEFAULT,true,false,'2020-03-09','soumaya','$
 INSERT INTO pae.utilisateurs VALUES(DEFAULT,true,false,'2020-03-09','antoine','$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u',null,'antoine','visschers','Bruxelles','antoine.visschers@student.vinci.be');
 INSERT INTO pae.utilisateurs VALUES(DEFAULT,true,false,'2020-03-09','mustapha','$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u',null,'mustapha','ayadi','Bruxelles','mustapha.ayadi@student.vinci.be');
 INSERT INTO pae.utilisateurs VALUES(DEFAULT,true,false,'2020-03-09','bruno','$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u',null,'bruno','loverius','Bruxelles','bruno.loverius@student.vinci.be');
+
+--INSERT INTO pae.utilisateurs VALUES(DEFAULT,true,true,'2020-03-16','boss','$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u',null,'boss','big','Bruxelles','big.boss@student.vinci.be');
