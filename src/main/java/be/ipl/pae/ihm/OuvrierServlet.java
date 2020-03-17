@@ -69,7 +69,7 @@ public class OuvrierServlet extends HttpServlet {
       throws IOException {
 
     String token = req.getHeader("Authorization");
-    String json;
+    String json = null;
     if (token != null) {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
@@ -77,9 +77,18 @@ public class OuvrierServlet extends HttpServlet {
       int userId = jwt.getClaim("id").asInt();
       UserDto userConnecte = userUcc.obtenirUser(userId);
       if (userConnecte.isOuvrier()) {
-        List<UserDto> listeUser = userUcc.listerUsers();
-        json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
-        resp.setStatus(HttpServletResponse.SC_OK);
+        if (req.getParameter("action").equals("listeUser")) {
+          List<UserDto> listeUser = userUcc.listerUsers();
+          json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
+          resp.setStatus(HttpServletResponse.SC_OK);
+        }
+
+        if (req.getParameter("action").equals("confirmerInscription")) {
+          List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit();
+          json = "{\"success\": \"true\", \"data\":" + genson.serialize(listeUsersPreinscrit) + "}";
+          resp.setStatus(HttpServletResponse.SC_OK);
+        }
+
       } else {
         json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
         resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

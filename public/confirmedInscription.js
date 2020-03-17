@@ -1,27 +1,29 @@
-"use strict";
 
 import { getData,postData } from "./utilsAPI.js";
-import create_dynamic_HTML_table from "./tableConfirmerInscription.js/index.js";
+import create_dynamic_HTML_table from "./tableConfirmerInscription.js";
 
 const propriete_utilisateur = ["nom", "prenom", "pseudo","ville", "email"];
 
 $(document).ready(function(){
     $("#confirmed_inscriptions").on("click",function(){
-        //mettre une condition pour les ouvriers
-        getData(API_NAME, token, onGet,onError); 
+        let token = localStorage.getItem("token");
+        const data = {
+          action: 'confirmerInscription'
+        };
+        getData("/ouvrier",data, token, onGet,onError); 
         confirmerInscriptionVue();
     });
-
 
 });
 
 function onGet(response) {
-    if (response.success) {
-      if (response.data.length > 0) {      
+  
+    if (response.success) { 
+      if (response.data.length > 0) { 
         let id;     
         create_dynamic_HTML_table(
           "table_users_preinscrit",
-          response.data,
+        response.data,
         confirmerInscription,
         confirmerOuvrier,
         lierUtilisateurClient,
@@ -31,13 +33,21 @@ function onGet(response) {
     } else $("#table_users_preinscrit").text(JSON.stringify(response.error));
   }
 
-const  confirmerInscriptionVue = () =>{
-    $("#logout").show();
+  function onError(err) {
+    console.error(err);
+    confirmerInscriptionVue(err.responseJSON.error);
+}
+
+const  confirmerInscriptionVue = (errorMessage = "") =>{
+  $("#table_users_preinscrit").html("<i class='far fa-frown'></i>  "  + errorMessage);
+  $("#table_users_preinscrit").show();
+  $("#logout").show();
   $("#nav_connect").hide();
   $("#login_message").html("");
   $(".register").hide();
   $("#carouselExampleIndicators").hide();
   $("#logo").hide();
+  $("#listeUser").hide();
   $("#users_preinscrit_component").show();
   }
 
@@ -52,4 +62,6 @@ const confirmerOuvrier = (id, item) => {
 const lierUtilisateurClient = (id, item) => {
     postData("confirmerInscription/lienClient/" + id, item, token);
 }
+
+
 

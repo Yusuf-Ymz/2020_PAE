@@ -4,6 +4,7 @@ import { getData } from "./utilsAPI.js";
 function affichageListeUser(containerElementId, arrayToPrint, thTab) {
     
     $("#carouselExampleIndicators").hide();
+    $("#users_preinscrit_component").hide();
     console.log(arrayToPrint);
     let div_container = document.getElementById(containerElementId);
     div_container.innerHTML = "";
@@ -37,23 +38,21 @@ function affichageListeUser(containerElementId, arrayToPrint, thTab) {
 
             }
         }
-
-
     }
-
-
 }
 $(document).ready(function () {
     $("#rechercher_user").on('click', function (e) {
         let token = localStorage.getItem("token");
         console.log(token);
-        getData("/listeUser", token, onGetUserList, onUserListError);
+        const data = {
+            action: 'listeUser'
+          };
+        getData("/ouvrier",data , token, onGetUserList, onUserListError);
     });
     function onGetUserList(response) {
         $("#listeUser").show();
         let thtabUser = new Array("Nom", "Prénom", "Pseudo", "Ville de résidence", "e-mail", "Date d'inscription");
         affichageListeUser("listeUser", response.listeUser, thtabUser);
-
     }
 
     function onUserListError(err) {

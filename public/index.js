@@ -38,7 +38,7 @@ $(document).ready(function () {
 });
 
 
-const HideToHome = () =>{
+const  HideToHome = () =>{
   $("#nav_connect").show();
   $(".register").hide();
   $("#carouselExampleIndicators").show();
@@ -46,7 +46,6 @@ const HideToHome = () =>{
   $("#logout").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
-  $("#card").hide();
 }
 
 const HomeUser = () =>{
@@ -59,12 +58,9 @@ const HomeUser = () =>{
   $("#logo").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
-  $("#card").show();
 }
-
 const HomeUserWhenAuthentified = ()=>{
   $("#logout").show();
-  $("#card").hide();
   $("#nav_connect").hide();
   $("#login_message").html("");
   $("#nav_connect").hide();

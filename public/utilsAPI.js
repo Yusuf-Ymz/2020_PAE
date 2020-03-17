@@ -23,7 +23,7 @@ function postData(url = "", data = {}, token,onPost,onError) {
   });
   }
   
-  function getData(url = "", token, onGet, onError) {
+  function getData(url = "", data="", token, onGet, onError) {
     let headers;
     if (token)
       headers = {
@@ -39,6 +39,7 @@ function postData(url = "", data = {}, token,onPost,onError) {
     type: "get",
     url: url,
     headers: headers,
+    data: data,
     dataType: "json",
     success: onGet,
     error: onError
