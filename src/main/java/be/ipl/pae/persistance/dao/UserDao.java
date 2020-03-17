@@ -25,4 +25,14 @@ public interface UserDao {
 
 
   List<UserDto> obtenirListeUsersPreInscrit();
+
+
+
+  /**
+   * Renvoie l'utilisateur dont l'id est passer en parametre.
+   * 
+   * @param id : l'id de l'utilisateur rechercher
+   * @return un userDto
+   */
+  UserDto obtenirUserAvecId(int id);
 }

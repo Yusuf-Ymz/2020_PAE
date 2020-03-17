@@ -72,8 +72,9 @@ public class ConfirmerInscriptionsServlet extends HttpServlet {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
-      boolean isOuvrier = jwt.getClaim("estOuvrier").asBoolean();
-      if (isOuvrier) {
+      int userId = jwt.getClaim("id").asInt();
+      UserDto userConnecte = userUcc.obtenirUser(userId);
+      if (userConnecte.isOuvrier()) {
         List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit();
         json = "{\"listeUser\":" + genson.serialize(listeUsersPreinscrit) + "}";
         resp.setStatus(HttpServletResponse.SC_OK);

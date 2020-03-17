@@ -36,4 +36,10 @@ public class MockUserDao implements UserDao {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public UserDto obtenirUserAvecId(int id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

@@ -90,5 +90,26 @@ class UserDaoImpl implements UserDao {
     return null;
   }
 
+  @Override
+  public UserDto obtenirUserAvecId(int id) {
+    String query = "Select * FROM pae.utilisateurs WHERE utilisateur_id = ? ";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, id);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+        return null;
+      }
+      UserDto user = fact.getUserDto();
+      dal.fillObject(user, dal.convertResulSetToMap(rs));
+      return user;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+
+  }
+
+
 
 }

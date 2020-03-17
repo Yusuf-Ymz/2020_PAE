@@ -38,4 +38,8 @@ class UserUccImpl implements UserUcc {
     return userDao.obtenirListeUsersPreInscrit();
   }
 
+  @Override
+  public UserDto obtenirUser(int id) {
+    return this.userDao.obtenirUserAvecId(id);
+  }
 }
