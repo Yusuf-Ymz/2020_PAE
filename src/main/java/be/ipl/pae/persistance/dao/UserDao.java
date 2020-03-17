@@ -22,4 +22,7 @@ public interface UserDao {
    * @return une liste de tous les utilisteurs ou null s'il n'y a pas d'utilisateur
    */
   List<UserDto> obtenirListeUser();
+
+
+  List<UserDto> obtenirListeUsersPreInscrit();
 }

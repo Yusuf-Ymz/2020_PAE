@@ -68,5 +68,27 @@ class UserDaoImpl implements UserDao {
     return null;
   }
 
+  @Override
+  public List<UserDto> obtenirListeUsersPreInscrit() {
+    String query = "SELECT * FROM pae.utilisateurs u WHERE u.confirme = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setBoolean(1, false);
+      ResultSet rs = prepareStatement.executeQuery();
+
+      List<UserDto> listeUsers = new ArrayList<UserDto>();
+      while (rs.next()) {
+        UserDto user = fact.getUserDto();
+        dal.fillObject(user, dal.convertResulSetToMap(rs));
+        listeUsers.add(user);
+      }
+      return listeUsers;
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+    return null;
+  }
+
 
 }

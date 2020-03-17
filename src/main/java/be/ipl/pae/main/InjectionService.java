@@ -26,18 +26,18 @@ public class InjectionService {
         field.setAccessible(true);
         if (field.isAnnotationPresent(Inject.class)) {
           Object fieldObjet = null;
-          Class<?> classAIjnjecter = field.getType();
-          String classAIjnjecterName = classAIjnjecter.getName();
-          if (dependencies.containsKey(classAIjnjecterName)) {
-            fieldObjet = dependencies.get(classAIjnjecterName);
+          Class<?> classAInjecter = field.getType();
+          String classAInjecterName = classAInjecter.getName();
+          if (dependencies.containsKey(classAInjecterName)) {
+            fieldObjet = dependencies.get(classAInjecterName);
           } else {
-            String implName = Config.getConfiguration(classAIjnjecterName);
+            String implName = Config.getConfiguration(classAInjecterName);
             Class<?> classImpl = Class.forName(implName);
             Constructor<?> constructor = classImpl.getDeclaredConstructor();
             constructor.setAccessible(true);
             fieldObjet = constructor.newInstance();
             injectDependencies(fieldObjet);
-            dependencies.put(classAIjnjecterName, fieldObjet);
+            dependencies.put(classAInjecterName, fieldObjet);
           }
           field.set(obj, fieldObjet);
         }

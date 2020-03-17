@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.ihm.AuthentificationServlet;
+import be.ipl.pae.ihm.ConfirmerInscriptionsServlet;
 import be.ipl.pae.ihm.OuvrierServlet;
 
 import org.eclipse.jetty.server.Server;
@@ -35,6 +36,9 @@ public class Main {
     HttpServlet ouvrierServlet = new OuvrierServlet();
     injectionService.injectDependencies(ouvrierServlet);
     context.addServlet(new ServletHolder(ouvrierServlet), "/listeUser");
+    HttpServlet confirmerInscriptionsServlet = new ConfirmerInscriptionsServlet();
+    injectionService.injectDependencies(confirmerInscriptionsServlet);
+    context.addServlet(new ServletHolder(confirmerInscriptionsServlet), "/confirmerInscription/*");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);

@@ -30,4 +30,10 @@ public class MockUserDao implements UserDao {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public List<UserDto> obtenirListeUsersPreInscrit() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

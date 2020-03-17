@@ -20,4 +20,6 @@ public interface UserUcc {
    * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
    */
   List<UserDto> listerUsers();
+
+  List<UserDto> listerUsersPreinscrit();
 }
