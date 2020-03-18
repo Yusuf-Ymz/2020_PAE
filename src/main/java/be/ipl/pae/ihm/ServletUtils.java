@@ -1,7 +1,12 @@
 package be.ipl.pae.ihm;
 
 import be.ipl.pae.exception.FatalException;
+import be.ipl.pae.main.Config;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.owlike.genson.Context;
 import com.owlike.genson.Converter;
 import com.owlike.genson.Genson;
@@ -20,10 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 class ServletUtils {
 
   private static Genson gensonUser = new GensonBuilder().exclude("password").exclude("ouvrier")
-      .exclude("confirme").exclude("userId").withContextualFactory(new DateFactory()).create();
+      .exclude("confirme").withContextualFactory(new DateFactory()).create();
 
   private static Genson gensonDevis =
       new GensonBuilder().withContextualFactory(new DateFactory()).create();
+
+  private static String secret = Config.getConfiguration("secret");
 
   public static Genson getGensonUser() {
     return gensonUser;
@@ -34,10 +41,15 @@ class ServletUtils {
   }
 
 
-  public static boolean estConnecte(String token) {
-    if (token == null)
-      return false;
-    return true;
+  public static int estConnecte(String token) {
+    if (token != null) {
+      Algorithm algorithm = Algorithm.HMAC512(secret);
+      JWTVerifier verifier = JWT.require(algorithm).build();
+      DecodedJWT jwt = verifier.verify(token);
+      int userId = jwt.getClaim("id").asInt();
+      return userId;
+    }
+    return -1;
   }
 
   public static void sendResponse(HttpServletResponse resp, String json, int statusCode) {

@@ -42,4 +42,10 @@ public class MockUserDao implements UserDao {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public void addConfirmUserWithId(int idConfirmed) {
+    // TODO Auto-generated method stub
+
+  }
 }

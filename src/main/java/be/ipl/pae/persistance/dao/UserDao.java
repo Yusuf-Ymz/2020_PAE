@@ -35,4 +35,7 @@ public interface UserDao {
    * @return un userDto
    */
   UserDto obtenirUserAvecId(int id);
+
+
+  void addConfirmUserWithId(int idConfirmed);
 }

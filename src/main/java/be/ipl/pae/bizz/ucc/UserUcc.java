@@ -33,4 +33,6 @@ public interface UserUcc {
    * @return un userDto
    */
   UserDto obtenirUser(int id);
+
+  UserDto confirmUser(int userId, int idConfirmed);
 }

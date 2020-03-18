@@ -81,8 +81,6 @@ if (nameFunction) {
   myLine.appendChild(myCell);
   let button = document.createElement("button");
   button.value = myLine.id;
-  console.log(myLine.id);
-  console.log(button.value);
   button.className = "btn btn-primary";
   button.innerText = nameButton;
   myCell.className = "text-center";
@@ -91,7 +89,6 @@ if (nameFunction) {
   button.addEventListener("click", e => {
     e.preventDefault();
     const id = e.target.value;
-    console.log(e);
     const tr=e.target.parentNode.parentNode; 
     const elements = [...tr.childNodes];
     let data={};
@@ -103,7 +100,6 @@ if (nameFunction) {
           i++;
         })
       }
-      console.log(id);
       nameFunction(id,data);
   });
 }

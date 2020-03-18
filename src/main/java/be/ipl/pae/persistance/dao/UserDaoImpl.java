@@ -110,6 +110,23 @@ class UserDaoImpl implements UserDao {
 
   }
 
+  @Override
+  public void addConfirmUserWithId(int idConfirmed) {
+    String query = "UPDATE pae.utilisateurs SET confirme = true WHERE utilisateur_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, idConfirmed);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+
+      }
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
 
 
 }

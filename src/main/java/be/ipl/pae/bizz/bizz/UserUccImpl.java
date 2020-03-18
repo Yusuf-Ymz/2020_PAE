@@ -58,4 +58,17 @@ class UserUccImpl implements UserUcc {
   public UserDto obtenirUser(int id) {
     return this.userDao.obtenirUserAvecId(id);
   }
+
+  @Override
+  public UserDto confirmUser(int userId, int idConfirmed) {
+    UserDto userConnecte = obtenirUser(userId);
+    if (userConnecte.isOuvrier()) {
+      UserDto userConfirm = obtenirUser(idConfirmed);
+      if (!userConfirm.isConfirme()) {
+        userDao.addConfirmUserWithId(idConfirmed);
+        return userConfirm;
+      }
+    }
+    return null;
+  }
 }
