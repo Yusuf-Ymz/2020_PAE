@@ -1,10 +1,11 @@
 import { getData } from "./utilsAPI.js";
 import printTable from "./utilsHtml.js"
-
+import {homeWorker} from "./index.js";
 $(document).ready(function () {
 
     $('#rechercher_tous_les_devis').on('click',function (e) {
-        console.log("cliquer ")
+        console.log("cliquer ");
+        homeWorker();
         let token = localStorage.getItem("token");
         const data = {
             action: "tousLesDevis"
@@ -17,13 +18,12 @@ $(document).ready(function () {
 
     function onGetDevisList(response) {
         $("#listeDeTousLesDevis").show();
-        let thtabUser = new Array("Id", "Photo", "Client Id", "Date de début", "", "Date d'inscription");
+        let thtabUser = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
         printTable("listeDeTousLesDevis", response.devis, thtabUser);
     }
 
     function onDevisListError(err) {
         console.error(err);
-
         Swal.fire({
             position: 'top-end',
             icon: 'error',

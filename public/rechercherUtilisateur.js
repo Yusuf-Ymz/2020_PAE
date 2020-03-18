@@ -1,8 +1,11 @@
 import { getData } from "./utilsAPI.js";
 import printTable from "./utilsHtml.js";
+import {homeWorker} from "./index.js";
+
 
 $(document).ready(function () {
     $("#rechercher_user").on('click', function (e) {
+        homeWorker();
         let token = localStorage.getItem("token");
         console.log(token);
         const data = {
@@ -13,7 +16,7 @@ $(document).ready(function () {
 
     function onGetUserList(response) {
         $("#listeUser").show();
-        let thtabUser = new Array("Nom", "Prénom", "Pseudo", "Ville de résidence", "e-mail", "Date d'inscription");
+        let thtabUser = new Array("Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
         printTable("listeUser", response.listeUser, thtabUser);
     }
 
