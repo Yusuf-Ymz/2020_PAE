@@ -34,7 +34,7 @@ public class UserServlet extends HttpServlet {
    */
   public UserServlet() {
     super();
-    this.genson = ServletUtils.getGenson();
+    this.genson = ServletUtils.getGensonUser();
     this.secret = Config.getConfiguration("secret");
   }
 
@@ -72,7 +72,6 @@ public class UserServlet extends HttpServlet {
       if (userConnecte.isOuvrier()) {
         if (req.getParameter("action").equals("listeUser")) {
           List<UserDto> listeUser = userUcc.listerUsers();
-          System.out.println(genson.serialize(listeUser.get(0)));
           json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
           status = HttpServletResponse.SC_OK;
         }

@@ -31,7 +31,7 @@ public class DevisServlet extends HttpServlet {
 
   public DevisServlet() {
     this.secret = Config.getConfiguration("secret");
-    this.genson = ServletUtils.getGenson();
+    this.genson = ServletUtils.getGensonDevis();
   }
 
   @Override

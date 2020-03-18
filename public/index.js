@@ -50,7 +50,7 @@ const HideToHome = () =>{
   $("#users_preinscrit_component").hide();
   $("#card").hide();
   $("#slide-menu").hide();
-  $("#rechercherDevis").hide();
+  $("#rechercher_mes_devis").hide();
 
 }
 
@@ -71,10 +71,9 @@ const HomeUser = () =>{
      console.log("je passe");
      $("#slide-menu").show();   
    }
-
-   $("#rechercherDevis").show();
-  
+   $('#rechercher_mes_devis').show();
 }
+
 const HomeUserWhenAuthentified = ()=>{
 
   $("#logout").show();
@@ -87,13 +86,13 @@ const HomeUserWhenAuthentified = ()=>{
   $("#logo").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
+  $("#listeDeTousLesDevis").hide();
 
   let user = localStorage.getItem('user');
    if(user){
      $("#slide-menu").show();   
    }
    
-  
 }
 
 

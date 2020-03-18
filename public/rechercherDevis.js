@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     function onGetDevisList(response) {
         $("#listeDeTousLesDevis").show();
-        let thtabUser = new Array("Id", "Photo", "Client Id", "Date de début", "", "Date d'inscription");
+        let thtabUser = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
         printTable("listeDeTousLesDevis", response.devis, thtabUser);
     }
 

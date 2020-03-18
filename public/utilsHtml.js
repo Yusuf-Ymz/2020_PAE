@@ -31,9 +31,9 @@ function printTable(containerElementId, arrayToPrint, thTab) {
             let monChamp = document.createElement("td");
             if (propriete === "photoPreferee") {
                 if(element[propriete] == null){
-                    monChamp.innerHTML = "<img src='./images/1.jpg'/>";
+                    monChamp.innerHTML = "<img class='image' src='./images/1.jpg'/>";
                 }else{
-                    monChamp.innerHTML = "<img src='"+ element[propriete] + "'/>";
+                    monChamp.innerHTML = "<img class='image' src='"+ element[propriete] + "'/>";
                 }
             } else {
                 monChamp.innerHTML = element[propriete];

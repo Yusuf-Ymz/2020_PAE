@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     function onGetUserList(response) {
         $("#listeUser").show();
-        let thtabUser = new Array("Nom", "Prénom", "Pseudo", "Ville de résidence", "e-mail", "Date d'inscription");
+        let thtabUser = new Array("Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
         printTable("listeUser", response.listeUser, thtabUser);
     }
 
