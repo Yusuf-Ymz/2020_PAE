@@ -47,7 +47,7 @@ $(document).ready(function () {
         const data = {
             action: 'listeUser'
           };
-        getData("/ouvrier",data , token, onGetUserList, onUserListError);
+        getData("/user",data , token, onGetUserList, onUserListError);
     });
     function onGetUserList(response) {
         $("#listeUser").show();

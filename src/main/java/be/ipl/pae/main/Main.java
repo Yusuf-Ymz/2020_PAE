@@ -1,7 +1,8 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.ihm.AuthentificationServlet;
-import be.ipl.pae.ihm.OuvrierServlet;
+import be.ipl.pae.ihm.DevisServlet;
+import be.ipl.pae.ihm.UserServlet;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -32,9 +33,14 @@ public class Main {
     HttpServlet authentificationServlet = new AuthentificationServlet();
     injectionService.injectDependencies(authentificationServlet);
     context.addServlet(new ServletHolder(authentificationServlet), "/authentification");
-    HttpServlet ouvrierServlet = new OuvrierServlet();
-    injectionService.injectDependencies(ouvrierServlet);
-    context.addServlet(new ServletHolder(ouvrierServlet), "/ouvrier");
+
+    HttpServlet userServlet = new UserServlet();
+    injectionService.injectDependencies(userServlet);
+    context.addServlet(new ServletHolder(userServlet), "/user");
+
+    HttpServlet devisServlet = new DevisServlet();
+    injectionService.injectDependencies(devisServlet);
+    context.addServlet(new ServletHolder(devisServlet), "/devis");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);

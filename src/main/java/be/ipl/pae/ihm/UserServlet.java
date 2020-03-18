@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class OuvrierServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
 
   private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class OuvrierServlet extends HttpServlet {
   /**
    * Instancie un servlet.
    */
-  public OuvrierServlet() {
+  public UserServlet() {
     super();
     this.genson =
         new GensonBuilder().exclude("password").withContextualFactory(new DateFactory()).create();
@@ -53,6 +53,7 @@ public class OuvrierServlet extends HttpServlet {
       throws ServletException, IOException {
     try {
       renvoyerListeUser(req, resp);
+
     } catch (Exception exception) {
       exception.printStackTrace();
     }
