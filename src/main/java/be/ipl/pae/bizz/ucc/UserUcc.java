@@ -17,11 +17,13 @@ public interface UserUcc {
   /**
    * Renvoie la liste des utilisateurs.
    * 
+   * @param userId
+   * 
    * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
    */
-  List<UserDto> listerUsers();
+  List<UserDto> listerUsers(int userId);
 
-  List<UserDto> listerUsersPreinscrit();
+  List<UserDto> listerUsersPreinscrit(int userId);
 
 
   /**

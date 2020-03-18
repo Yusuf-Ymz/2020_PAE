@@ -29,13 +29,29 @@ class UserUccImpl implements UserUcc {
 
 
   @Override
-  public List<UserDto> listerUsers() {
-    return userDao.obtenirListeUser();
+  public List<UserDto> listerUsers(int userId) {
+    UserDto userConnecte = obtenirUser(userId);
+    if (userConnecte.isOuvrier()) {
+      return userDao.obtenirListeUser();
+    }
+    /*
+     * } else { json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+     * resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED); }
+     */
+    return null;
   }
 
   @Override
-  public List<UserDto> listerUsersPreinscrit() {
-    return userDao.obtenirListeUsersPreInscrit();
+  public List<UserDto> listerUsersPreinscrit(int userId) {
+    UserDto userConnecte = obtenirUser(userId);
+    if (userConnecte.isOuvrier()) {
+      return userDao.obtenirListeUsersPreInscrit();
+    }
+    /*
+     * } else { json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+     * resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED); }
+     */
+    return null;
   }
 
   @Override
