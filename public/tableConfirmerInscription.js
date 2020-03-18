@@ -56,7 +56,7 @@ function create_dynamic_HTML_table(
     tbody.appendChild(myLine);
     const objectToPrint = arrayToPrint[x];
     for (const property in objectToPrint) {
-      if (property === "id") {
+      if (property === "userId") {
         myLine.id = objectToPrint[property];
       }
       if (property === "nom" || property === "prenom" 
@@ -68,19 +68,21 @@ function create_dynamic_HTML_table(
       }
     }
 
-    colonneSupp(confirmerInscription,"Confirmer",myLine);
-    colonneSupp(confirmerOuvrier,"Valider",myLine);
-    colonneSupp(lierUtilisateurClient,"Lier à un client",myLine);
+    colonneSupp(confirmerInscription,"Confirmer",myLine,objectPropertiesToBeSaved);
+    colonneSupp(confirmerOuvrier,"Valider",myLine,objectPropertiesToBeSaved);
+    colonneSupp(lierUtilisateurClient,"Lier à un client",myLine,objectPropertiesToBeSaved);
   }
 }
 
 
-function colonneSupp(nameFunction,nameButton, myLine){
+function colonneSupp(nameFunction,nameButton, myLine,objectPropertiesToBeSaved){
 if (nameFunction) {
   let myCell = document.createElement("td");
   myLine.appendChild(myCell);
   let button = document.createElement("button");
   button.value = myLine.id;
+  console.log(myLine.id);
+  console.log(button.value);
   button.className = "btn btn-primary";
   button.innerText = nameButton;
   myCell.className = "text-center";
@@ -89,18 +91,20 @@ if (nameFunction) {
   button.addEventListener("click", e => {
     e.preventDefault();
     const id = e.target.value;
+    console.log(e);
     const tr=e.target.parentNode.parentNode; 
     const elements = [...tr.childNodes];
-    let item={};
+    let data={};
     let i=0;
     if(objectPropertiesToBeSaved)
       {
         objectPropertiesToBeSaved.forEach(property => {
-          item[property]=elements[i].innerHTML;
+          data[property]=elements[i].innerHTML;
           i++;
         })
       }
-      nameFunction(id,item);
+      console.log(id);
+      nameFunction(id,data);
   });
 }
 }

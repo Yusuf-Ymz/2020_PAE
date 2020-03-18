@@ -2,15 +2,15 @@
 import { getData,postData } from "./utilsAPI.js";
 import create_dynamic_HTML_table from "./tableConfirmerInscription.js";
 
-const propriete_utilisateur = ["nom", "prenom", "pseudo","ville", "email"];
-
+const propriete_utilisateur = ["email","nom", "prenom", "pseudo","ville"];
+let token = null;
 $(document).ready(function(){
     $("#confirmed_inscriptions").on("click",function(){
-        let token = localStorage.getItem("token");
+        token = localStorage.getItem("token");
         const data = {
           action: 'confirmerInscription'
         };
-        getData("/ouvrier",data, token, onGet,onError); 
+        getData("/user",data, token, onGet,onError); 
         confirmerInscriptionVue();
     });
 
@@ -51,16 +51,22 @@ const  confirmerInscriptionVue = (errorMessage = "") =>{
   $("#users_preinscrit_component").show();
   }
 
-const confirmerInscription = (id, item) => {
-    postData("confirmerInscription/utilisateur/" + id, item, token);
+const confirmerInscription = (id, data) => {
+  data["action"]= 'confirmerInscription/onlyUser';
+  data["id"] = id;
+    postData("/user", data, token);
 }
 
-const confirmerOuvrier = (id, item) => {
-    postData("confirmerInscription/ouvrier/" + id, item, token);
+const confirmerOuvrier = (id, data) => {
+  data["action"]= 'confirmerInscription/worker';
+  data["id"] = id;
+    postData("user/" + id, data, token);
 }
     
-const lierUtilisateurClient = (id, item) => {
-    postData("confirmerInscription/lienClient/" + id, item, token);
+const lierUtilisateurClient = (id, data) => {
+  data["action"]= 'confirmerInscription/lienClient'
+  data["id"] = id;
+    postData("user/" + id, data, token);
 }
 
 
