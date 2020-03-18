@@ -60,16 +60,7 @@ public class UserServlet extends HttpServlet {
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
       int userId = jwt.getClaim("id").asInt();
-<<<<<<< HEAD
-=======
-      UserDto userConnecte = userUcc.obtenirUser(userId);
-      if (userConnecte.isOuvrier()) {
-        if (req.getParameter("action").equals("listeUser")) {
-          List<UserDto> listeUser = userUcc.listerUsers();
-          json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
-          status = HttpServletResponse.SC_OK;
-        }
->>>>>>> refs/remotes/origin/master
+
 
       Genson genson = new Genson();
       Map<String, Object> map = genson.deserialize(req.getReader(), Map.class);
