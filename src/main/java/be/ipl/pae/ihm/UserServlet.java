@@ -74,7 +74,6 @@ public class UserServlet extends HttpServlet {
       System.out.println(action);
       if (action.equals("confirmerInscription/onlyUser")) {
         System.out.println("réussie");
-        System.out.println("puxh");
 
       }
       if (action.equals("confirmerInscription/worker")) {
