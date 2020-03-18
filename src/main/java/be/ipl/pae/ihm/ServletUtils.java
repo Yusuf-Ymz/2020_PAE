@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletResponse;
 
-class UtilsServlet {
+class ServletUtils {
 
   private static Genson genson =
       new GensonBuilder().exclude("password").withContextualFactory(new DateFactory()).create();
