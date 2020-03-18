@@ -7,9 +7,9 @@ public interface DevisDto {
 
   void setDevisId(int idDevis);
 
-  int getPhotoPreferee();
+  String getPhotoPreferee();
 
-  void setPhotoPreferee(int idPhoto);
+  void setPhotoPreferee(String idPhoto);
 
   int getClient();
 

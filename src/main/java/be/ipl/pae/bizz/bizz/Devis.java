@@ -9,7 +9,7 @@ class Devis implements DevisBiz {
   private int devisId;
 
   @FieldDb("photo_preferee")
-  private int photoPreferee;
+  private String photoPreferee;
 
   @FieldDb("client")
   private int client;
@@ -39,13 +39,13 @@ class Devis implements DevisBiz {
   }
 
   @Override
-  public int getPhotoPreferee() {
+  public String getPhotoPreferee() {
     // TODO Auto-generated method stub
     return this.photoPreferee;
   }
 
   @Override
-  public void setPhotoPreferee(int idPhoto) {
+  public void setPhotoPreferee(String idPhoto) {
     // TODO Auto-generated method stub
     this.photoPreferee = idPhoto;
   }

@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private String secret;
   private Genson genson;
   @Inject
@@ -27,7 +31,7 @@ public class DevisServlet extends HttpServlet {
 
   public DevisServlet() {
     this.secret = Config.getConfiguration("secret");
-    this.genson = new Genson();
+    this.genson = ServletUtils.getGenson();
   }
 
   @Override

@@ -26,11 +26,19 @@ function printTable(containerElementId, arrayToPrint, thTab) {
     for (let x = 0; x < arrayToPrint.length; x++) {
         let trData = document.createElement("tr");
         tbody.appendChild(trData);
-        const user = arrayToPrint[x];
-        for (const propriete in user) {
-                let monChamp = document.createElement("td");
-                monChamp.innerHTML = user[propriete];
-                trData.appendChild(monChamp);            
+        const element = arrayToPrint[x];
+        for (const propriete in element) {
+            let monChamp = document.createElement("td");
+            if (propriete === "photoPreferee") {
+                if(element[propriete] == null){
+                    monChamp.innerHTML = "<img src='./images/1.jpg'/>";
+                }else{
+                    monChamp.innerHTML = "<img src='"+ element[propriete] + "'/>";
+                }
+            } else {
+                monChamp.innerHTML = element[propriete];
+            }
+            trData.appendChild(monChamp);
         }
     }
 }

@@ -1,26 +1,24 @@
 package be.ipl.pae.ihm;
 
+import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.exception.FatalException;
 
 import com.owlike.genson.Context;
 import com.owlike.genson.Converter;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
-import com.owlike.genson.convert.ContextualFactory;
-import com.owlike.genson.reflect.BeanProperty;
 import com.owlike.genson.stream.ObjectReader;
 import com.owlike.genson.stream.ObjectWriter;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletResponse;
 
 class ServletUtils {
 
-  private static Genson genson =
-      new GensonBuilder().exclude("password").withContextualFactory(new DateFactory()).create();
+  private static Genson genson = new GensonBuilder().withConverters(new UserConverter()).create();
 
   public static Genson getGenson() {
     return genson;
@@ -46,28 +44,43 @@ class ServletUtils {
 
   }
 
-  private static class DateFactory implements ContextualFactory<LocalDate> {
+  static class UserConverter implements Converter<UserDto> {
 
     @Override
-    public Converter<LocalDate> create(BeanProperty property, Genson genson) {
-      return new DateConverter();
+    public void serialize(UserDto user, ObjectWriter writer, Context ctx) throws Exception {
+      System.out.println("enter");
+      writer.beginObject();
+      writer.writeString("pseudo", user.getPseudo()).writeString("nom", user.getNom())
+          .writeString("prenom", user.getPrenom()).writeString("email", user.getEmail())
+          .writeString("ville", user.getVille()).writeString("date_inscription",
+              user.getDateInscription().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+      writer.endObject();
     }
 
+    public UserDto deserialize(ObjectReader reader, Context ctx) throws Exception {
+      return null;
+    };
   }
 
-  private static class DateConverter implements Converter<LocalDate> {
+  static class DevisConverter implements Converter<DevisDto> {
 
     @Override
-    public LocalDate deserialize(ObjectReader reader, Context ctx) throws Exception {
+    public void serialize(DevisDto devis, ObjectWriter writer, Context ctx) throws Exception {
+      writer.beginObject();
+      writer.writeNumber("devisId", devis.getDevisId())
+          .writeString("photoPreferee", devis.getPhotoPreferee())
+          .writeNumber("clientId", devis.getClient())
+          .writeString("dateDebut",
+              devis.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+          .writeNumber("montantTotal", devis.getMontantTotal())
+          .writeNumber("duree", devis.getDuree()).writeString("etat", devis.getEtat());
+      writer.endObject();
+    }
+
+    @Override
+    public DevisDto deserialize(ObjectReader reader, Context ctx) throws Exception {
       return null;
     }
-
-    @Override
-    public void serialize(LocalDate date, ObjectWriter writer, Context ctx) throws Exception {
-      writer.writeString(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-
-    }
-
 
   }
 }

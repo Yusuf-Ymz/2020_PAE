@@ -9,18 +9,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.owlike.genson.Context;
-import com.owlike.genson.Converter;
 import com.owlike.genson.Genson;
-import com.owlike.genson.GensonBuilder;
-import com.owlike.genson.convert.ContextualFactory;
-import com.owlike.genson.reflect.BeanProperty;
-import com.owlike.genson.stream.ObjectReader;
-import com.owlike.genson.stream.ObjectWriter;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -43,8 +34,7 @@ public class UserServlet extends HttpServlet {
    */
   public UserServlet() {
     super();
-    this.genson =
-        new GensonBuilder().exclude("password").withContextualFactory(new DateFactory()).create();
+    this.genson = ServletUtils.getGenson();
     this.secret = Config.getConfiguration("secret");
   }
 
@@ -71,7 +61,9 @@ public class UserServlet extends HttpServlet {
 
     String token = req.getHeader("Authorization");
     String json = null;
-    if (token != null) {
+    int status = -1;
+
+    if (ServletUtils.estConnecte(token)) {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
@@ -80,53 +72,29 @@ public class UserServlet extends HttpServlet {
       if (userConnecte.isOuvrier()) {
         if (req.getParameter("action").equals("listeUser")) {
           List<UserDto> listeUser = userUcc.listerUsers();
+          System.out.println(genson.serialize(listeUser.get(0)));
           json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
-          resp.setStatus(HttpServletResponse.SC_OK);
+          status = HttpServletResponse.SC_OK;
         }
 
         if (req.getParameter("action").equals("confirmerInscription")) {
           List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit();
           json = "{\"success\": \"true\", \"data\":" + genson.serialize(listeUsersPreinscrit) + "}";
-          resp.setStatus(HttpServletResponse.SC_OK);
+          status = HttpServletResponse.SC_OK;
         }
 
       } else {
         json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        status = HttpServletResponse.SC_UNAUTHORIZED;
       }
 
     } else {
       json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      status = HttpServletResponse.SC_UNAUTHORIZED;
     }
     resp.setContentType("application/json");
     resp.setCharacterEncoding("UTF-8");
     resp.getWriter().write(json);
-
-  }
-
-  private static class DateFactory implements ContextualFactory<LocalDate> {
-
-    @Override
-    public Converter<LocalDate> create(BeanProperty property, Genson genson) {
-      return new DateConverter();
-    }
-
-  }
-
-  private static class DateConverter implements Converter<LocalDate> {
-
-    @Override
-    public LocalDate deserialize(ObjectReader reader, Context ctx) throws Exception {
-      return null;
-    }
-
-    @Override
-    public void serialize(LocalDate object, ObjectWriter writer, Context ctx) throws Exception {
-      writer.writeString(object.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-
-    }
-
 
   }
 }
