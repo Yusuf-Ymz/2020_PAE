@@ -32,13 +32,14 @@ $(document).ready(function () {
   $("#logout").click(e => {
     e.preventDefault();
     localStorage.removeItem("token");
+    localStorage.removeItem("ouvrier");
     token = undefined;
     HideToHome();
   });
 });
 
 
-const  HideToHome = () =>{
+const HideToHome = () =>{
   $("#nav_connect").show();
   $(".register").hide();
   $("#carouselExampleIndicators").show();
@@ -46,6 +47,10 @@ const  HideToHome = () =>{
   $("#logout").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
+  $("#card").hide();
+  $("#slide-menu").hide();
+  $("#rechercherDevis").hide();
+
 }
 
 const HomeUser = () =>{
@@ -58,9 +63,21 @@ const HomeUser = () =>{
   $("#logo").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
+  $("#card").show();
+  let user = localStorage.getItem('ouvrier');
+  console.log(typeof(user));
+   if(user === 'true'){
+     console.log("je passe");
+     $("#slide-menu").show();   
+   }
+
+   $("#rechercherDevis").show();
+  
 }
 const HomeUserWhenAuthentified = ()=>{
+
   $("#logout").show();
+  $("#card").show();
   $("#nav_connect").hide();
   $("#login_message").html("");
   $("#nav_connect").hide();
@@ -69,6 +86,13 @@ const HomeUserWhenAuthentified = ()=>{
   $("#logo").hide();
   $("#listeUser").hide();
   $("#users_preinscrit_component").hide();
+
+  let user = localStorage.getItem('user');
+   if(user){
+     $("#slide-menu").show();   
+   }
+   
+  
 }
 
 

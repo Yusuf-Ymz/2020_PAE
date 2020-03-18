@@ -23,6 +23,7 @@ function onPostLogin(response) {
   $("#pseudo").val("");
   $("#mdp").val("");
   localStorage.setItem("token", response.token);
+  localStorage.setItem('ouvrier',response.user.ouvrier);
   HomeUser();
 }
 
@@ -117,7 +118,7 @@ $(document).ready(function ()  {
       postData("/inscription", data, token, onPostInscription, onErrorInscription);
     } else {
       $("#inscription_message").show();
-       $("#inscription_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
+      $("#inscription_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
        
     }
   });

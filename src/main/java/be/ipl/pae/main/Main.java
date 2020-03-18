@@ -22,7 +22,7 @@ public class Main {
 
     System.out.println(context.getContextPath());
     context.setContextPath("/");
-
+    context.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
     context.addServlet(new ServletHolder(new DefaultServlet()), "/");
     context.setResourceBase("public");
 
