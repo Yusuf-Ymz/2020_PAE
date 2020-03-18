@@ -164,5 +164,40 @@ li{
     0% { transform: translateY(0); }
     100% { transform: translateY(-20px); }
   }
+
+  /*Drag and drop*/
+  #drop-container {
+    background: #ffffff;
+    min-height: 200px;
+    padding: 10px;
+    border: #07c6f1 2px dashed;
+    max-width: 600px;
+  }
+  
+  .drop-area-text {
+    text-align: center;
+    color: #e0dfdf;
+    font-size: 1.5em;
+    padding-bottom: 20px;
+  }
+  
+  .drop-image {
+    display: none;
+  }
+  
+  .preview {
+    margin: 20px;
+      width: 150px;
+      height: 150px;
+      display: inline-block;
+  }
+  
+  @media screen and (max-width: 500px) {
+    .preview {
+      margin: 15px;
+      width: 100px;
+      height: 100px;
+    }
+  }
   
 

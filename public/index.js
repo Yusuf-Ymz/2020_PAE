@@ -6,6 +6,7 @@ $("#carouselContent").load("carousel.html");
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
 $("#confirmedInscriptionContent").load("confirmedInscription.html");
+//$("#introduireDevis").load("introduireDevis.html");
 
 $(document).ready(function () {
    
