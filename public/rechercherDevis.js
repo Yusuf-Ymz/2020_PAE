@@ -1,10 +1,11 @@
 import { getData } from "./utilsAPI.js";
 import printTable from "./utilsHtml.js"
-
+import {homeWorker} from "./index.js";
 $(document).ready(function () {
 
     $('#rechercher_tous_les_devis').on('click',function (e) {
-        console.log("cliquer ")
+        console.log("cliquer ");
+        homeWorker();
         let token = localStorage.getItem("token");
         const data = {
             action: "tousLesDevis"
@@ -23,7 +24,6 @@ $(document).ready(function () {
 
     function onDevisListError(err) {
         console.error(err);
-
         Swal.fire({
             position: 'top-end',
             icon: 'error',

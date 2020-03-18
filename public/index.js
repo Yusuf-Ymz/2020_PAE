@@ -23,7 +23,7 @@ $(document).ready(function () {
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
     if(token)
-      HomeUserWhenAuthentified();
+      HomeUser();
     else
       HideToHome();
   });
@@ -66,7 +66,7 @@ const HomeUser = () =>{
   $("#users_preinscrit_component").hide();
   $("#card").show();
   let user = localStorage.getItem('ouvrier');
-  console.log(typeof(user));
+
    if(user === 'true'){
      console.log("je passe");
      $("#slide-menu").show();   
@@ -74,7 +74,7 @@ const HomeUser = () =>{
    $('#rechercher_mes_devis').show();
 }
 
-const HomeUserWhenAuthentified = ()=>{
+const homeWorker = ()=>{
 
   $("#logout").show();
   $("#card").show();
@@ -82,15 +82,16 @@ const HomeUserWhenAuthentified = ()=>{
   $("#login_message").html("");
   $("#nav_connect").hide();
   $(".register").hide();
-  $("#carouselExampleIndicators").show();
+  $("#carouselExampleIndicators").hide();
   $("#logo").hide();
   $("#listeUser").hide();
+  $("#introduireDevis").hide();
   $("#users_preinscrit_component").hide();
   $("#listeDeTousLesDevis").hide();
 
   let user = localStorage.getItem('user');
    if(user){
-     $("#slide-menu").show();   
+     $("#slide-menu").show(); 
    }
    
 }
@@ -108,4 +109,4 @@ const initialisation = () => {
   }
 };
 
-export {HomeUser};
+export {HomeUser,homeWorker};

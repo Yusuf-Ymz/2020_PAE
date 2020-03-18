@@ -1,11 +1,12 @@
 
 import { getData,postData } from "./utilsAPI.js";
 import create_dynamic_HTML_table from "./tableConfirmerInscription.js";
-
+import {homeWorker} from "./index.js";
 const propriete_utilisateur = ["nom", "prenom", "pseudo","ville", "email"];
 
 $(document).ready(function(){
     $("#confirmed_inscriptions").on("click",function(){
+        homeWorker();
         let token = localStorage.getItem("token");
         const data = {
           action: 'confirmerInscription'
