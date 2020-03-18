@@ -92,9 +92,7 @@ public class UserServlet extends HttpServlet {
       json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
       status = HttpServletResponse.SC_UNAUTHORIZED;
     }
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
-    resp.getWriter().write(json);
 
+    ServletUtils.sendResponse(resp, json, status);
   }
 }
