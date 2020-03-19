@@ -1,14 +1,17 @@
 package be.ipl.pae.main;
 
-import javax.servlet.http.HttpServlet;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
+import be.ipl.pae.ihm.AmenagementServlet;
 import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.ihm.ClientServlet;
 import be.ipl.pae.ihm.DevisServlet;
 import be.ipl.pae.ihm.UserServlet;
+
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+import javax.servlet.http.HttpServlet;
 
 public class Main {
   /**
@@ -43,6 +46,10 @@ public class Main {
     HttpServlet clientServlet = new ClientServlet();
     injectionService.injectDependencies(clientServlet);
     context.addServlet(new ServletHolder(clientServlet), "/client");
+
+    HttpServlet amenagementServlet = new AmenagementServlet();
+    injectionService.injectDependencies(amenagementServlet);
+    context.addServlet(new ServletHolder(amenagementServlet), "/amenagement");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);

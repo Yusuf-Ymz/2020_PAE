@@ -41,6 +41,14 @@ public class ClientUccImpl implements ClientUcc {
 
   }
 
+  public List<ClientDto> RechercherClients(int idOuvrier, String ville, String codePostal,
+      String nomClient, String prenomClient) {
+    UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+    if (!user.isOuvrier())
+      throw new BizException("Vous n'avez pas les droits");
+    return clientDao.RechercherClients(ville, codePostal, nomClient, prenomClient);
+  }
+
 
 
 }

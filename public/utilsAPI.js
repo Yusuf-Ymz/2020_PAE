@@ -1,5 +1,5 @@
 
-function postData(url = "", data = {}, token,onPost,onError) {
+function postData(url = "", data = {}, token, onPost, onError) {
   let headers;
   if (token)
     headers = {
@@ -12,7 +12,7 @@ function postData(url = "", data = {}, token,onPost,onError) {
     };
 
   $.ajax({
-    contentType: "json", 
+    contentType: "json",
     type: "post",
     url: url,
     headers: headers,
@@ -21,21 +21,21 @@ function postData(url = "", data = {}, token,onPost,onError) {
     success: onPost,
     error: onError
   });
-  }
-  
-  function getData(url = "", data="", token, onGet, onError) {
-    let headers;
-    if (token)
-      headers = {
-        "Content-Type": "application/json",
-        Authorization: token
-      };
-    else
-      headers = {
-        "Content-Type": "application/json"
-      };
+}
 
-    $.ajax({
+function getData(url = "", data = "", token, onGet, onError) {
+  let headers;
+  if (token)
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: token
+    };
+  else
+    headers = {
+      "Content-Type": "application/json"
+    };
+
+  $.ajax({
     type: "get",
     url: url,
     headers: headers,
@@ -46,31 +46,31 @@ function postData(url = "", data = {}, token,onPost,onError) {
   });
 }
 
-  function deleteData(url = "", token,onDelete,onError) {
-    let headers;
-    if (token)
-      headers = {
-        "Content-Type": "application/json",
-        Authorization: token
-      };
-    else
-      headers = {
-        "Content-Type": "application/json"
-      };
+function deleteData(url = "", token, onDelete, onError) {
+  let headers;
+  if (token)
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: token
+    };
+  else
+    headers = {
+      "Content-Type": "application/json"
+    };
 
-    $.ajax({
+  $.ajax({
     type: "delete",
     url: url,
     headers: headers,
     dataType: "json",
     success: onDelete,
     error: onError
-  });    
-    
-  }
+  });
 
-  function updateData(url = "", data = {}, token,onPut,onError) {
-    let headers;
+}
+
+function updateData(url = "", data = {}, token, onPut, onError) {
+  let headers;
   if (token)
     headers = {
       "Content-Type": "application/json",
@@ -90,12 +90,42 @@ function postData(url = "", data = {}, token,onPost,onError) {
     dataType: "json",
     success: onPut,
     error: onError
-  });    
-  }
+  });
+}
 
-  export {
-      getData,
-      postData,      
-      deleteData,
-      updateData,
-  }
+function specialDoGet(url = "", data = {}, token,currentRequest ,onGet, onError) {
+  let headers;
+  if (token)
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: token
+    };
+  else
+    headers = {
+      "Content-Type": "application/json"
+    };
+
+  let ajax = $.ajax({
+    type: "get",
+    url: url,
+    headers: headers,
+    data: data,
+    dataType: "json",
+    beforeSend : function()    {           
+      if(currentRequest != null) {
+          currentRequest.abort();
+      }
+    },
+    success: onGet,
+    error: onError
+  });
+
+  return ajax;
+}
+export {
+  getData,
+  postData,
+  deleteData,
+  updateData,
+  specialDoGet
+}
