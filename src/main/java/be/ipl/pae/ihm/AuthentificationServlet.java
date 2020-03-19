@@ -57,6 +57,8 @@ public class AuthentificationServlet extends HttpServlet {
     String action = (String) body.get("action");
     String json = "";
 
+    System.out.println(action);
+
     switch (action) {
       case "register":
         try {
@@ -129,6 +131,8 @@ public class AuthentificationServlet extends HttpServlet {
     dto.setEmail((String) body.get("email"));
     dto.setVille((String) body.get("ville"));
     dto.setPassword((String) body.get("mdp"));
+
+    userUcc.inscrire(dto);
 
     String token = JWT.create().withClaim("id", dto.getUserId()).sign(Algorithm.HMAC512(secret));
     String json =

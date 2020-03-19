@@ -1,16 +1,15 @@
 package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.annotation.Inject;
-import be.ipl.pae.bizz.dto.UserDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
-import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalService;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.exception.FatalException;
+import be.ipl.pae.persistance.dal.DalService;
 
 
 class UserDaoImpl implements UserDao {
@@ -180,4 +179,25 @@ class UserDaoImpl implements UserDao {
     }
   }
 
+  public void inscrirUser(UserDto user) {
+    String query = "INSERT INTO pae.utilisateurs VALUES(DEFAULT,false,false,?,?,?,null,?,?,?,?);";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      // CHANGER LA DATE.TOSTRING!!!!!!!!!!!
+      prepareStatement.setString(1, user.getDateInscription().toString());
+      prepareStatement.setString(2, user.getPseudo());
+      prepareStatement.setString(3, user.getPassword());
+      prepareStatement.setString(4, user.getNom());
+      prepareStatement.setString(5, user.getPrenom());
+      prepareStatement.setString(6, user.getVille());
+      prepareStatement.setString(7, user.getEmail());
+
+      prepareStatement.executeQuery(query);
+      System.out.println("Ajout complet");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }
+
+

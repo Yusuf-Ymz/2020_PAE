@@ -1,11 +1,10 @@
 package be.ipl.pae.bizz.bizz;
 
+import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.persistance.dao.UserDao;
-
-import java.util.List;
 
 class UserUccImpl implements UserUcc {
 
@@ -27,6 +26,9 @@ class UserUccImpl implements UserUcc {
     return newUserDto;
   }
 
+  public void inscrire(UserDto user) {
+    userDao.inscrirUser(user);
+  }
 
   @Override
   public List<UserDto> listerUsers(int userId) {

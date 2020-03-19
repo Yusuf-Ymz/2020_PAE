@@ -1,11 +1,10 @@
 package mock.dao;
 
+import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.UserDao;
-
-import java.util.List;
 
 public class MockUserDao implements UserDao {
 
@@ -63,6 +62,12 @@ public class MockUserDao implements UserDao {
 
   @Override
   public void removeConfirmUserWithId(int userId) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void inscrirUser(UserDto user) {
     // TODO Auto-generated method stub
 
   }

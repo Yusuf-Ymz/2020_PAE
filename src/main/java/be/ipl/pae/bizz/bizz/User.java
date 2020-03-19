@@ -1,12 +1,11 @@
 package be.ipl.pae.bizz.bizz;
 
+import java.time.LocalDate;
+import org.mindrot.bcrypt.BCrypt;
 import be.ipl.pae.annotation.FieldDb;
 
-import org.mindrot.bcrypt.BCrypt;
-
-import java.time.LocalDate;
-
 class User implements UserBiz {
+
   @FieldDb("pseudo")
   private String pseudo;
 
@@ -128,7 +127,7 @@ class User implements UserBiz {
 
 
   public void setPassword(String password) {
-    this.password = password;
+    this.password = BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
 
@@ -144,6 +143,14 @@ class User implements UserBiz {
   @Override
   public boolean checkValidePassword(String pwd) {
     return BCrypt.checkpw(pwd, this.password);
+  }
+
+  @Override
+  public String toString() {
+    return "User [pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email
+        + ", ville=" + ville + ", ouvrier=" + ouvrier + ", confirme=" + confirme
+        + ", dateInscription=" + dateInscription + ", password=" + password + ", userId=" + userId
+        + "]";
   }
 
 }

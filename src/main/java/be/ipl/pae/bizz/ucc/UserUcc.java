@@ -1,8 +1,7 @@
 package be.ipl.pae.bizz.ucc;
 
-import be.ipl.pae.bizz.dto.UserDto;
-
 import java.util.List;
+import be.ipl.pae.bizz.dto.UserDto;
 
 public interface UserUcc {
   /**
@@ -13,6 +12,9 @@ public interface UserUcc {
    * @return un UserDto si le pseudo existe dans la DB null sinon
    */
   UserDto seConnecter(String pseudo, String password);
+
+
+  public void inscrire(UserDto user);
 
   /**
    * Renvoie la liste des utilisateurs.
@@ -39,5 +41,6 @@ public interface UserUcc {
   UserDto confirmWorker(int userId, int idConfirmed);
 
   void initilisation();
+
 
 }

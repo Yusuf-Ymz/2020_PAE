@@ -1,8 +1,7 @@
 package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.bizz.dto.UserDto;
-
 import java.util.List;
+import be.ipl.pae.bizz.dto.UserDto;
 
 
 
@@ -47,4 +46,6 @@ public interface UserDao {
 
 
   void removeConfirmUserWithId(int userId);
+
+  public void inscrirUser(UserDto user);
 }
