@@ -13,6 +13,16 @@ $(document).ready(function () {
         getData("/devis", data, token, onGetDevisList, onDevisListError);
     });
 
+    $('#rechercher_mes_devis').on('click',function (e) {
+        console.log("cliquer ");
+        homeWorker();
+        let token = localStorage.getItem("token");
+        const data = {
+            action: "mesDevis"
+        }
+        getData("/devis", data, token, onGetDevisList, onDevisListError);
+    });
+
 
 
 

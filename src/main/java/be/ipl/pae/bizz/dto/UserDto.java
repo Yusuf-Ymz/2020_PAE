@@ -140,12 +140,22 @@ public interface UserDto {
   /**
    * Modifie l'id de l'utilisateur.
    * 
-   * @param userId : le nouvelle id
+   * @param userId : le nouvel id
    * 
    */
   void setUserId(int userId);
 
-  // int getClientId();
+  /**
+   * Renvoie l'id du client associé à l'utilisateur
+   * 
+   * @return clientId : l'id du client
+   */
+  int getClientId();
 
-  // void setClientId(int clientId);
+  /**
+   * Modifie l'id du client associé à l'utilisateur
+   * 
+   * @param clientId : le nouvel id
+   */
+  void setClientId(int clientId);
 }

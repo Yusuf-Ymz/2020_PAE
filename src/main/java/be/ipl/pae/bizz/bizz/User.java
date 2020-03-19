@@ -36,7 +36,8 @@ class User implements UserBiz {
   @FieldDb("utilisateur_id")
   private int userId;
 
-
+  @FieldDb("client_id")
+  private int clientId;
 
   public User() {
     dateInscription = LocalDate.now();
@@ -138,6 +139,14 @@ class User implements UserBiz {
 
   public void setUserId(int userId) {
     this.userId = userId;
+  }
+
+  public int getClientId() {
+    return this.clientId;
+  }
+
+  public void setClientId(int clientId) {
+    this.clientId = clientId;
   }
 
   @Override

@@ -5,10 +5,6 @@ import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.main.Config;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.owlike.genson.Genson;
 
 import java.io.IOException;
@@ -39,38 +35,35 @@ public class DevisServlet extends HttpServlet {
       throws ServletException, IOException {
     // TODO Auto-generated method stub
     try {
-      renvoyerTousLesDevis(req, resp);
+      String token = req.getHeader("Authorization");
+      int userId = ServletUtils.estConnecte(token);
+      String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+      int status = HttpServletResponse.SC_UNAUTHORIZED;
+      if (userId != -1) {
+        String action = req.getParameter("action");
+        List<DevisDto> devis = null;
+
+        switch (action) {
+          case "mesDevis":
+            devis = devisUcc.listerSesDevis(userId);
+            break;
+          case "tousLesDevis":
+            devis = devisUcc.listerTousLesDevis(userId);
+            break;
+        }
+
+        if (devis == null) {
+          ServletUtils.sendResponse(resp, json, status);
+        } else {
+          json = "{\"devis\":" + genson.serialize(devis) + "}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+        }
+      } else {
+        ServletUtils.sendResponse(resp, json, status);
+      }
     } catch (Exception exception) {
       exception.printStackTrace();
     }
-  }
-
-  private void renvoyerTousLesDevis(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-    String token = req.getHeader("Authorization");
-    String json = null;
-
-    if (token != null) {
-      Algorithm algorithm = Algorithm.HMAC512(secret);
-      JWTVerifier verifier = JWT.require(algorithm).build();
-      DecodedJWT jwt = verifier.verify(token);
-      int userId = jwt.getClaim("id").asInt();
-
-      List<DevisDto> tousLesDevis = devisUcc.listerTousLesDevis(userId);
-      if (tousLesDevis != null) {
-        json = "{\"devis\":" + genson.serialize(tousLesDevis) + "}";
-        resp.setStatus(HttpServletResponse.SC_OK);
-      } else {
-        json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      }
-    } else {
-      json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    }
-
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
-    resp.getWriter().write(json);
   }
 }

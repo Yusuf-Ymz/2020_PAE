@@ -40,9 +40,32 @@ public class DevisDaoImpl implements DevisDao {
 
   @Override
   public List<DevisDto> obtenirTousLesDevis() {
-    String query = "SELECT * FROM pae.devis ORDER BY date_debut";
+    String query =
+        "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id ORDER BY date_debut";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
+      ResultSet rs = prepareStatement.executeQuery();
+
+      List<DevisDto> listeDevis = new ArrayList<DevisDto>();
+      while (rs.next()) {
+        DevisDto devis = fact.getDevisDto();
+        dal.fillObject(devis, dal.convertResulSetToMap(rs));
+        listeDevis.add(devis);
+      }
+      return listeDevis;
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+    return null;
+  }
+
+  public List<DevisDto> obtenirSesDevis(int idClient) {
+    String query =
+        "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id WHERE d.client = ? ORDER BY date_debut";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, idClient);
       ResultSet rs = prepareStatement.executeQuery();
 
       List<DevisDto> listeDevis = new ArrayList<DevisDto>();
