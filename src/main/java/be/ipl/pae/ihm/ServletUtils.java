@@ -32,6 +32,8 @@ class ServletUtils {
 
   private static String secret = Config.getConfiguration("secret");
 
+  private static Genson gensonAmenagement = new Genson();
+
   public static Genson getGensonUser() {
     return gensonUser;
   }
@@ -63,6 +65,10 @@ class ServletUtils {
       throw new FatalException();
     }
 
+  }
+
+  public static Genson getGensonAmenagement() {
+    return gensonAmenagement;
   }
 
   private static class DateFactory implements ContextualFactory<LocalDate> {
