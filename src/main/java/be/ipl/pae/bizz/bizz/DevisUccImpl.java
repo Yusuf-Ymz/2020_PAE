@@ -23,4 +23,13 @@ class DevisUccImpl implements DevisUcc {
     return this.devisdao.obtenirTousLesDevis();
   }
 
+  public List<DevisDto> listerSesDevis(int idUser) {
+    UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+    if (user.getClientId() == 0) {
+      return null;
+    }
+
+    return this.devisdao.obtenirSesDevis(user.getClientId());
+  }
+
 }

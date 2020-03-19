@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DevisUcc {
   List<DevisDto> listerTousLesDevis(int idUser);
+
+  List<DevisDto> listerSesDevis(int idUser);
 }

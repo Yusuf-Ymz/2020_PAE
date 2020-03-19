@@ -9,4 +9,6 @@ public interface DevisDao {
   UserDto obtenirUserAvecId(int idUser);
 
   List<DevisDto> obtenirTousLesDevis();
+
+  List<DevisDto> obtenirSesDevis(int idClient);
 }
