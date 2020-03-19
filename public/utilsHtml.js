@@ -28,6 +28,7 @@ function printTable(containerElementId, arrayToPrint, thTab) {
         tbody.appendChild(trData);
         const element = arrayToPrint[x];
         for (const propriete in element) {
+            
             let monChamp = document.createElement("td");
             if (propriete === "photoPreferee") {
                 if(element[propriete] == null){
@@ -38,7 +39,10 @@ function printTable(containerElementId, arrayToPrint, thTab) {
             } else {
                 monChamp.innerHTML = element[propriete];
             }
-            trData.appendChild(monChamp);
+            
+            if(propriete !== "userId"){
+                trData.appendChild(monChamp);
+            }
         }
     }
 }

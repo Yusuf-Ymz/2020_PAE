@@ -56,18 +56,21 @@ const confirmerInscription = (id, data) => {
   data["action"]= 'confirmerInscription/onlyUser';
   data["id"] = id;
     postData("/user", data, token);
+    location.reload();
 }
 
 const confirmerOuvrier = (id, data) => {
   data["action"]= 'confirmerInscription/worker';
   data["id"] = id;
-    postData("user/" + id, data, token);
+    postData("/user", data, token);
+    location.reload();
 }
     
 const lierUtilisateurClient = (id, data) => {
   data["action"]= 'confirmerInscription/lienClient'
   data["id"] = id;
-    postData("user/" + id, data, token);
+    postData("/user", data, token);
+    location.reload();
 }
 
 
