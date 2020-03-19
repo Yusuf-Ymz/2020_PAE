@@ -1,15 +1,22 @@
 package be.ipl.pae.bizz.bizz;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.exception.BizException;
+import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.UserDao;
 
 import java.util.List;
 
 public class ClientUccImpl implements ClientUcc {
+
+  @Inject
   private UserDao userDao;
+
+  @Inject
+  private ClientDao clientDao;
 
   @Override
   public ClientDto insertClient(ClientDto client, int idOuvrier) {
@@ -21,7 +28,17 @@ public class ClientUccImpl implements ClientUcc {
 
   @Override
   public List<ClientDto> listerClients(int idClient) {
-    return null;
+
+
+    UserDto user = userDao.obtenirUserAvecId(idClient);
+
+
+    if (!user.isOuvrier())
+      return null;
+
+
+    return this.clientDao.listerClients();
+
   }
 
 
