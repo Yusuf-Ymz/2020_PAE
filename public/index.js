@@ -6,6 +6,7 @@ $("#carouselContent").load("carousel.html");
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
 $("#confirmedInscriptionContent").load("confirmedInscription.html");
+$("#linkUserClientContent").load("linkUserClient.html");
 //$("#introduireDevis").load("introduireDevis.html");
 
 $(document).ready(function () {
@@ -47,7 +48,8 @@ const HideToHome = () =>{
   $("#logo").show();
   $("#logout").hide();
   $("#listeUser").hide();
-  $("#users_preinscrit_component").hide();
+  $("#linkUserClientContent").hide();
+  $("#confirmedInscriptionContent").hide();
   $("#card").hide();
   $("#slide-menu").hide();
   $("#rechercher_mes_devis").hide();
@@ -63,7 +65,8 @@ const HomeUser = () =>{
   $("#carouselExampleIndicators").hide();
   $("#logo").hide();
   $("#listeUser").hide();
-  $("#users_preinscrit_component").hide();
+  $("#linkUserClientContent").hide();
+  $("#confirmedInscriptionContent").hide();
   $("#card").show();
   let user = localStorage.getItem('ouvrier');
 
@@ -86,7 +89,8 @@ const homeWorker = ()=>{
   $("#logo").hide();
   $("#listeUser").hide();
   $("#introduireDevis").hide();
-  $("#users_preinscrit_component").hide();
+  $("#linkUserClientContent").hide();
+  $("#confirmedInscriptionContent").hide();
   $("#listeDeTousLesDevis").hide();
 
   let user = localStorage.getItem('user');

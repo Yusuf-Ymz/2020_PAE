@@ -4,7 +4,9 @@ function create_dynamic_HTML_table(
   confirmerInscription,
   confirmerOuvrier,
   lierUtilisateurClient,
-  objectPropertiesToBeSaved
+  lierUtilisateurClientTable,
+  objectPropertiesToBeSaved,
+  thTab
 ) {
   let div_container = document.getElementById(targetHtmlElementId);
   div_container.innerHTML = "";
@@ -17,15 +19,12 @@ function create_dynamic_HTML_table(
     myTable.appendChild(thead);
     let headerLine = document.createElement("tr");
     thead.appendChild(headerLine);
-  const objectToPrint = arrayToPrint[0];
-  for (const property in objectToPrint) {
-    if (property === "nom" || property === "prenom" 
-                || property === "pseudo" || property === "ville" || property === "email") {
+
+  for (let i = 0; i < thTab.length; i++) {
     let th = document.createElement("th");
     th.className = "text-center";
-    th.innerHTML = property;
+    th.innerHTML = thTab[i];
     headerLine.appendChild(th);
-    }
   }
 
   if (confirmerInscription){
@@ -49,6 +48,13 @@ function create_dynamic_HTML_table(
     headerLine.appendChild(th);
   } 
 
+  if (lierUtilisateurClientTable){
+    let th = document.createElement("th");
+    th.className = "text-center";
+    th.innerHTML = "Lier";
+    headerLine.appendChild(th);
+  } 
+
   let tbody = document.createElement("tbody");
     myTable.appendChild(tbody);
   for (let x = 0; x < arrayToPrint.length; x++) {
@@ -59,8 +65,7 @@ function create_dynamic_HTML_table(
       if (property === "userId") {
         myLine.id = objectToPrint[property];
       }
-      if (property === "nom" || property === "prenom" 
-                || property === "pseudo" || property === "ville" || property === "email") {
+      if (property !== "userId" && property !== "dateInscription") {
       let myCell = document.createElement("td");
       myCell.className = "text-center";
       myCell.innerHTML = objectToPrint[property];
@@ -68,9 +73,18 @@ function create_dynamic_HTML_table(
       }
     }
 
-    colonneSupp(confirmerInscription,"Confirmer",myLine,objectPropertiesToBeSaved);
-    colonneSupp(confirmerOuvrier,"Valider",myLine,objectPropertiesToBeSaved);
-    colonneSupp(lierUtilisateurClient,"Lier à un client",myLine,objectPropertiesToBeSaved);
+    if(confirmerInscription){
+      colonneSupp(confirmerInscription,"Confirmer",myLine,objectPropertiesToBeSaved);
+    }
+    if(confirmerOuvrier){
+      colonneSupp(confirmerOuvrier,"Valider",myLine,objectPropertiesToBeSaved);
+    }
+    if(lierUtilisateurClient){
+      colonneSupp(lierUtilisateurClient,"Lier à un client",myLine,objectPropertiesToBeSaved);
+    }
+    if(lierUtilisateurClientTable){
+      colonneSupp(lierUtilisateurClientTable,"Lier",myLine,objectPropertiesToBeSaved);
+    }
   }
 }
 
