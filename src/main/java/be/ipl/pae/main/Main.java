@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.ihm.AuthentificationServlet;
+import be.ipl.pae.ihm.ClientServlet;
 import be.ipl.pae.ihm.DevisServlet;
 import be.ipl.pae.ihm.UserServlet;
 
@@ -41,6 +42,10 @@ public class Main {
     HttpServlet devisServlet = new DevisServlet();
     injectionService.injectDependencies(devisServlet);
     context.addServlet(new ServletHolder(devisServlet), "/devis");
+
+    HttpServlet clientServlet = new ClientServlet();
+    injectionService.injectDependencies(clientServlet);
+    context.addServlet(new ServletHolder(clientServlet), "/client");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);
