@@ -35,4 +35,9 @@ public interface UserUcc {
   UserDto obtenirUser(int id);
 
   UserDto confirmUser(int userId, int idConfirmed);
+
+  UserDto confirmWorker(int userId, int idConfirmed);
+
+  void initilisation();
+
 }

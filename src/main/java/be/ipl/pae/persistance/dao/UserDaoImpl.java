@@ -118,7 +118,7 @@ class UserDaoImpl implements UserDao {
       prepareStatement.setInt(1, idConfirmed);
       ResultSet rs = prepareStatement.executeQuery();
       if (!rs.next()) {
-
+        // exception
       }
 
     } catch (SQLException exception) {
@@ -127,6 +127,57 @@ class UserDaoImpl implements UserDao {
     }
   }
 
+  @Override
+  public void addConfirmWorkerWithId(int idConfirmed) {
+    String query =
+        "UPDATE pae.utilisateurs SET confirme = true, ouvrier = true WHERE utilisateur_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, idConfirmed);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+        // exception
+      }
 
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+  @Override
+  public void removeConfirmWorkerWithId(int userId) {
+    String query =
+        "UPDATE pae.utilisateurs SET confirme = false, ouvrier = false WHERE utilisateur_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, userId);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+        // exception
+      }
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+  @Override
+  public void removeConfirmUserWithId(int userId) {
+    String query = "UPDATE pae.utilisateurs SET confirme = false WHERE utilisateur_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, userId);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+        // exception
+      }
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
 
 }

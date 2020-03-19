@@ -38,4 +38,13 @@ public interface UserDao {
 
 
   void addConfirmUserWithId(int idConfirmed);
+
+
+  void addConfirmWorkerWithId(int idConfirmed);
+
+
+  void removeConfirmWorkerWithId(int userId);
+
+
+  void removeConfirmUserWithId(int userId);
 }

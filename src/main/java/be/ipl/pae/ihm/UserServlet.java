@@ -68,10 +68,18 @@ public class UserServlet extends HttpServlet {
         System.out.println(action);
         if (action.equals("confirmerInscription/onlyUser")) {
           UserDto userDto = userUcc.confirmUser(userId, idConfirmed);
+          if (userDto != null) {
+            throw new Error("confirmerInscription/onlyUser");
+          }
         }
         if (action.equals("confirmerInscription/worker")) {
+          UserDto userDto = userUcc.confirmWorker(userId, idConfirmed);
+          if (userDto != null) {
+            throw new Error("confirmerInscription/worker");
+          }
         }
         if (action.equals("confirmerInscription/lienClient")) {
+          userUcc.initilisation();
         }
 
       }

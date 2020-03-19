@@ -71,4 +71,38 @@ class UserUccImpl implements UserUcc {
     }
     return null;
   }
+
+  @Override
+  public UserDto confirmWorker(int userId, int idConfirmed) {
+    UserDto userConnecte = obtenirUser(userId);
+    if (userConnecte.isOuvrier()) {
+      UserDto userConfirm = obtenirUser(idConfirmed);
+      if (!userConfirm.isConfirme()) {
+        userDao.addConfirmWorkerWithId(idConfirmed);
+        return userConfirm;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public void initilisation() {
+    UserDto alain = userDao.obtenirUser("alain");
+    UserDto hary = userDao.obtenirUser("hary");
+    if (alain.isOuvrier()) {
+      userDao.removeConfirmWorkerWithId(alain.getUserId());
+    }
+    if (hary.isOuvrier()) {
+      userDao.removeConfirmWorkerWithId(hary.getUserId());
+    }
+    if (alain.isConfirme()) {
+      System.out.println("coucou");
+      userDao.removeConfirmUserWithId(alain.getUserId());
+    }
+    if (hary.isConfirme()) {
+      userDao.removeConfirmUserWithId(hary.getUserId());
+    }
+
+  }
+
 }

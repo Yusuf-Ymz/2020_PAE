@@ -48,4 +48,22 @@ public class MockUserDao implements UserDao {
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  public void addConfirmWorkerWithId(int idConfirmed) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void removeConfirmWorkerWithId(int userId) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void removeConfirmUserWithId(int userId) {
+    // TODO Auto-generated method stub
+
+  }
 }
