@@ -146,14 +146,14 @@ public interface UserDto {
   void setUserId(int userId);
 
   /**
-   * Renvoie l'id du client associé à l'utilisateur
+   * Renvoie l'id du client associÃ© Ã  l'utilisateur
    * 
    * @return clientId : l'id du client
    */
   int getClientId();
 
   /**
-   * Modifie l'id du client associé à l'utilisateur
+   * Modifie l'id du client associÃ© Ã  l'utilisateur
    * 
    * @param clientId : le nouvel id
    */
