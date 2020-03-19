@@ -59,7 +59,7 @@ public class AuthentificationServlet extends HttpServlet {
 		Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
 		String action = (String)body.get("action");
 		String json = "";
-		
+
 		switch(action) {
 		case "register" :
 			try {
@@ -87,7 +87,7 @@ public class AuthentificationServlet extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	private String login(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body) throws Exception {
-		
+
 		String pseudo = body.get("pseudo").toString();
 		String password = body.get("password").toString();
 
@@ -111,7 +111,7 @@ public class AuthentificationServlet extends HttpServlet {
 		}
 		return json;
 	}
-	
+
 	/**
 	 * The objective of this method is to register a user.
 	 * @param req : the request to the server
@@ -122,7 +122,7 @@ public class AuthentificationServlet extends HttpServlet {
 	 */
 	private String registerUser(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body) throws Exception {
 		UserDto dto = dtoFactory.getUserDto();
-		
+
 		dto.setNom((String)body.get("nom")); 
 		dto.setPrenom((String)body.get("prenom"));
 		dto.setPseudo((String)body.get("pseudo"));
@@ -136,7 +136,7 @@ public class AuthentificationServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(json);
-		
+
 		return json;
 	}
 }
