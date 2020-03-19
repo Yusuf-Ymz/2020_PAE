@@ -123,7 +123,7 @@ public class AuthentificationServlet extends HttpServlet {
 	private String registerUser(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body) throws Exception {
 		UserDto dto = dtoFactory.getUserDto();
 		
-		dto.setNom((String)body.get("nom"));
+		dto.setNom((String)body.get("nom")); 
 		dto.setPrenom((String)body.get("prenom"));
 		dto.setPseudo((String)body.get("pseudo"));
 		dto.setEmail((String)body.get("email"));
