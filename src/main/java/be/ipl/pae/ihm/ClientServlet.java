@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ClientServlet extends HttpServlet {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1254800213292593724L;
   private String secret;
   private Genson genson;
 
@@ -71,11 +75,11 @@ public class ClientServlet extends HttpServlet {
         json = "{\"clients\":" + genson.serialize(listeClients) + "}";
         resp.setStatus(HttpServletResponse.SC_OK);
       } else {
-        json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+        json = "{\"error\":\"Vous n'avez pas accÃ©s informations\"}";
         resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       }
     } else {
-      json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+      json = "{\"error\":\"Vous n'avez pas accÃ©s ces informations\"}";
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
