@@ -42,13 +42,7 @@ function onPostInscription(response) {
   $("#mdp_inscription").val("");
   $("#re_mdp_inscription").val("");
   if (response.success === "true") {
-    localStorage.setItem("token", response.token);
-    token = response.token;
-    HomeUser();
-  } else {
-    console.error("Error:", response);
-
-    RegisterForm(response.error);
+    RegisterForm(response.msg);
   }
 }
 function onErrorInscription(err) {
@@ -89,7 +83,8 @@ $(document).ready(function ()  {
     if ($("#pseudo")[0].checkValidity() && $("#mdp")[0].checkValidity()) {
       const data = {
         pseudo: $("#pseudo").val(),
-        password: $("#mdp").val()
+        password: $("#mdp").val(),
+        action: "connection"
       };
       postData("/authentification", data, null, onPostLogin, onErrorLogin);
     } else {
@@ -100,6 +95,7 @@ $(document).ready(function ()  {
   });
 
   $("#inscription").on('click', function (e){
+    console.log("clic");
     e.preventDefault();
     if ($("#mdp_inscription")[0].checkValidity() && $("#re_mdp_inscription")[0] === $("#mdp_inscription")) {
       alert("Le mot de passe est invalideS");
@@ -109,13 +105,15 @@ $(document).ready(function ()  {
       && $("#ville")[0].checkValidity()) {
       const data = {
         nom: $("#nom").val(),
-        mdp: $("#prenom").val(),
+        prenom: $("#prenom").val(),
         pseudo: $("#pseudo_inscription").val(),
         email: $("#email").val(),
         ville: $("#ville").val(),
-        mdp: $("#mdp_inscription").val()
+        mdp: $("#mdp_inscription").val(),
+        action: "register"
       };
-      postData("/inscription", data, token, onPostInscription, onErrorInscription);
+      //postData("/inscription", data, token, onPostInscription, onErrorInscription);
+      postData("/authentification", data, null, onPostInscription, onErrorInscription);
     } else {
       $("#inscription_message").show();
       $("#inscription_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
