@@ -170,7 +170,7 @@ class UserDaoImpl implements UserDao {
       prepareStatement.setInt(1, userId);
       ResultSet rs = prepareStatement.executeQuery();
       if (!rs.next()) {
-        // exception
+        // exceptions
       }
 
     } catch (SQLException exception) {
