@@ -1,16 +1,14 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.ihm.AuthentificationServlet;
-import be.ipl.pae.ihm.ClientServlet;
-import be.ipl.pae.ihm.DevisServlet;
-import be.ipl.pae.ihm.UserServlet;
-
+import javax.servlet.http.HttpServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
-
-import javax.servlet.http.HttpServlet;
+import be.ipl.pae.ihm.AuthentificationServlet;
+import be.ipl.pae.ihm.ClientServlet;
+import be.ipl.pae.ihm.DevisServlet;
+import be.ipl.pae.ihm.UserServlet;
 
 public class Main {
   /**
@@ -21,7 +19,6 @@ public class Main {
    */
   public static void main(String[] args) throws Exception {
     WebAppContext context = new WebAppContext();
-
     System.out.println(context.getContextPath());
     context.setContextPath("/");
     context.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
