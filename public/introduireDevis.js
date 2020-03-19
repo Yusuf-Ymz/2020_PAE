@@ -38,7 +38,7 @@ $(document).ready(function (e) {
         e.preventDefault();
         console.log("dragenter");
         $(this).css('border', '#39b311 2px dashed');
-        $(this).css('background', '#f1ffef' );
+        $(this).css('background', '#f1ffef');
     });
 
     /* cassé
