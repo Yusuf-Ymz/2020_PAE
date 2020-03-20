@@ -1,7 +1,6 @@
 
 
 body{
-
   background-color: darkgray;
 }
 /*------navbar------------*/
@@ -53,6 +52,7 @@ body{
 
 
 .bg-dark{
+  
   background-color:#383d41 !important;
 }
 

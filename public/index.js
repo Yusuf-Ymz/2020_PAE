@@ -55,7 +55,7 @@ const HideToHome = () =>{
   $("#card").hide();
   $("#slide-menu").hide();
   $("#rechercher_mes_devis").hide();
-
+  $("#searchCard").hide();
 }
 
 const HomeUser = () =>{
@@ -71,6 +71,7 @@ const HomeUser = () =>{
   $("#confirmedInscriptionContent").hide();
   $("#card").show();
   $("#listerClients").hide();
+  $("#searchCard").hide();
   let user = localStorage.getItem('ouvrier');
 
    if(user === 'true'){
