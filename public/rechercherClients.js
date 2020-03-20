@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     $('#rechercher_tous_les_clients').on('click',function (e) {
        homeWorker();
+    
         let token = localStorage.getItem("token");
         const data = {
             action: "/listerClients"
@@ -17,6 +18,10 @@ $(document).ready(function () {
 
     function onGetClientList(response) {
         $("#listerClients").show();
+        $("#searchCard").show();
+        $("#filtre_client").show();
+        $("#filtre_utilisateur").hide();
+        $("#filtre_amenagement").hide();
         let thtabClient = new Array("Code postal", "e-mail", "N°", "Nom", "Prénom","N° Telephone", "Devis");
         printTable("listerClients", response.clients, thtabClient);
     }

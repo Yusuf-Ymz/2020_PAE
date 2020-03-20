@@ -8,8 +8,9 @@ function printTable(containerElementId, arrayToPrint, thTab) {
     div_container.innerHTML = "";
     $("#" + containerElementId).show();
     let table = document.createElement("table");
-    table.className = "table";
-    table.className = "mt-10";
+   
+    table.className = "table table-bordered";
+    //table.className = "mt-10";
     div_container.appendChild(table);
 
     let thead = document.createElement("thead");
@@ -31,11 +32,7 @@ function printTable(containerElementId, arrayToPrint, thTab) {
             
             let monChamp = document.createElement("td");
             if (propriete === "photoPreferee") {
-                if(element[propriete] == null){
-                    monChamp.innerHTML = "<img class='image' src='./images/1.jpg'/>";
-                }else{
-                    monChamp.innerHTML = "<img class='image' src='"+ element[propriete] + "'/>";
-                }
+              monChamp.innerHTML = "<img class='image' src='"+ element[propriete] + "'/>";              
             } else {
                 monChamp.innerHTML = element[propriete];
             }

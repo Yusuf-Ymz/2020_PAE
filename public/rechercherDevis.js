@@ -28,6 +28,8 @@ $(document).ready(function () {
 
     function onGetDevisList(response) {
         $("#listeDeTousLesDevis").show();
+  
+        $("#searchCard").show();// pas encore d'option de recherche pour devis
         let thtabUser = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
         printTable("listeDeTousLesDevis", response.devis, thtabUser);
     }

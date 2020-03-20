@@ -15,14 +15,17 @@ $(document).ready(function () {
     });
 
     function onGetUserList(response) {
-        $("#listeUser").show();
-        let thtabUser = new Array("Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
+        $("#listeUser").show();     
+        $("#searchCard").show();
+        $("#filtre_utilisateur").show();
+        $("#filtre_client").hide();
+        $("#filtre_amenagement").hide();
+        let thtabUser = new Array("N° utilisateur ","Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
         printTable("listeUser", response.listeUser, thtabUser);
     }
 
     function onUserListError(err) {
         console.error(err);
-
         Swal.fire({
             position: 'top-end',
             icon: 'error',

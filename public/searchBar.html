@@ -1,0 +1,31 @@
+<div id="searchHeaderCard" class="card-header py-3">
+    <div class="display-flex align-center">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+
+                <select id="select_filter" class="form-control">
+                    <optgroup id="filtre_client" label="Choisir Filtre :">
+                        <option id="ville_client" selected>Ville</option>
+                        <option id="code_postal_client">Code Postal</option>
+                        <option id="nom_client">Nom du Client</option>
+                    </optgroup>
+                    <optgroup id="filtre_amenagement" label="Choisir filtre :">
+                        <option id="nom_client_amenagement">Nom du Client</option>
+                        <option id="types_amenagements">Types amenagements</option>
+                        <option id="date_du_devis_agmt">Date du devis</option>
+                        <option id="montant_min_amenagement">Montant min.</option>
+                        <option id="montant_max_amenagement">Montant max.</option>
+                    </optgroup>
+                    <optgroup id="filtre_utilisateur" label="Choisir filtre :">
+                        <option id="ville_utilisateur" selected>Ville</option>
+                        <option id="nom_utilisateur">Nom de l'utilisateur</option>
+                    </optgroup>
+                </select>
+            </div>
+            <input id="rechercher" type="text" class="form-control" aria-label="searchBar" placeholder="Rechercher...">
+            <div id="input_btn_search" class="input-group-append">
+                <button id="btn_rechercher" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
