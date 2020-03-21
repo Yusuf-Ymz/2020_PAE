@@ -1,5 +1,5 @@
 import { getData } from "./utilsAPI.js";
-import printTable from "./utilsHtml.js"
+import {printTable} from "./utilsHtml.js"
 import {homeWorker} from "./index.js";
 $(document).ready(function () {
 

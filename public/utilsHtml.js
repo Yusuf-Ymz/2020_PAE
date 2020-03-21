@@ -1,47 +1,94 @@
 
-function printTable(containerElementId, arrayToPrint, thTab) {
+function printTable(containerElementId, arrayToPrint, thTab, needButton = false, tabButtonValue = [], idNom, laFonction = "", url = "") {
 
-    $("#carouselExampleIndicators").hide();
-    $("#users_preinscrit_component").hide();
-    console.log(arrayToPrint);
-    let div_container = document.getElementById(containerElementId);
-    div_container.innerHTML = "";
-    $("#" + containerElementId).show();
-    let table = document.createElement("table");
-   
-    table.className = "table table-bordered";
-    //table.className = "mt-10";
-    div_container.appendChild(table);
+  $("#carouselExampleIndicators").hide();
+  $("#users_preinscrit_component").hide();
 
-    let thead = document.createElement("thead");
-    table.appendChild(thead);
-    let tr = document.createElement("tr");
-    thead.appendChild(tr);
-    for (let i = 0; i < thTab.length; i++) {
-        let th = document.createElement("th");
-        th.innerHTML = thTab[i];
-        tr.appendChild(th);
+  console.log(arrayToPrint);
+  let div_container = document.getElementById(containerElementId);
+  div_container.innerHTML = "";
+  $("#" + containerElementId).show();
+  let table = document.createElement("table");
+
+  table.className = "table table-bordered";
+  div_container.appendChild(table);
+
+  let thead = document.createElement("thead");
+  table.appendChild(thead);
+
+  let tr = document.createElement("tr");
+  thead.appendChild(tr);
+  console.log(tabButtonValue.length);
+  for (let i = 0; i < thTab.length + tabButtonValue.length; i++) {
+    console.log("je pas");
+    let th = document.createElement("th");
+    if (i < thTab.length) {
+      th.innerHTML = thTab[i];
     }
-    let tbody = document.createElement("tbody");
-    table.appendChild(tbody);
-    for (let x = 0; x < arrayToPrint.length; x++) {
-        let trData = document.createElement("tr");
-        tbody.appendChild(trData);
-        const element = arrayToPrint[x];
-        for (const propriete in element) {
-            
-            let monChamp = document.createElement("td");
-            if (propriete === "photoPreferee") {
-              monChamp.innerHTML = "<img class='image' src='"+ element[propriete] + "'/>";              
-            } else {
-                monChamp.innerHTML = element[propriete];
-            }
-            
-            if(propriete !== "userId"){
-                trData.appendChild(monChamp);
-            }
-        }
+
+    tr.appendChild(th);
+  }
+
+  let tbody = document.createElement("tbody");
+  table.appendChild(tbody);
+  let trData;
+
+  for (let x = 0; x < arrayToPrint.length; x++) {
+
+    trData = document.createElement("tr");
+    tbody.appendChild(trData);
+    const element = arrayToPrint[x];
+    for (const propriete in element) {
+      let monChamp = document.createElement("td");
+
+      if (propriete === "id") {
+        trData.id = element[propriete];
+        continue;
+      }
+
+      if (propriete === "photoPreferee") {
+        monChamp.innerHTML = "<img class='image' src='" + element[propriete] + "'/>";
+      } else {
+        monChamp.innerHTML = element[propriete];
+      }
+
+      if (propriete !== "userId") {
+        trData.appendChild(monChamp);
+      }
     }
+
+    if (needButton) {
+      console.log(tabButtonValue.length);
+      for (let i = 0; i < tabButtonValue.length; i++) {
+
+        addButton(tabButtonValue[i], trData, idNom, laFonction, url);
+      }
+    }
+
+  }
+
 }
 
-export default printTable
+
+function addButton(valeurBouton, parent, nomJsonId, functionLancee, url) {
+
+  let td = document.createElement("td");
+  parent.appendChild(td);
+  let button = document.createElement("button");
+  button.value = parent.id;
+  button.className = "btn_style";
+  button.innerText = valeurBouton;
+  td.className = "text-center";
+  td.appendChild(button);
+
+  button.addEventListener("click", e => {
+    e.preventDefault();
+    const id = e.target.value;
+    let data = {};
+    data[nomJsonId] = id;
+    functionLancee(url, data);
+  });
+
+}
+
+export { printTable } 

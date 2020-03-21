@@ -1,5 +1,5 @@
 import { getData } from "./utilsAPI.js";
-import printTable from "./utilsHtml.js";
+import {printTable} from "./utilsHtml.js";
 import {homeWorker} from "./index.js";
 
 
@@ -21,8 +21,12 @@ $(document).ready(function () {
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
         let thtabUser = new Array("N° utilisateur ","Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
+       
         printTable("listeUser", response.listeUser, thtabUser);
+        
     }
+
+    
 
     function onUserListError(err) {
         console.error(err);

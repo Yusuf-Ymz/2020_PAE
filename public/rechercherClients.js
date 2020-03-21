@@ -1,5 +1,5 @@
 import { getData } from "./utilsAPI.js";
-import  printTable  from "./utilsHtml.js"
+import {printTable} from "./utilsHtml.js"
 import {homeWorker} from "./index.js";
 $(document).ready(function () {
 
@@ -23,7 +23,14 @@ $(document).ready(function () {
         $("#filtre_utilisateur").hide();
         $("#filtre_amenagement").hide();
         let thtabClient = new Array("Code postal", "e-mail", "N°", "Nom", "Prénom","N° Telephone", "Devis");
-        printTable("listerClients", response.clients, thtabClient);
+        
+        let nombtnTab = ["visualiser devis"];
+        printTable("listerClients", response.clients, thtabClient,true,nombtnTab,"clientId",doGetClientDevis,"/client");
+
+    }
+
+    function doGetClientDevis(url,data = ""){
+        console.log("effectué");
     }
 
     function onClientListError(err) {
