@@ -8,7 +8,7 @@ $("#inscriptionContent").load("inscription.html");
 $("#confirmedInscriptionContent").load("confirmedInscription.html");
 $("#linkUserClientContent").load("linkUserClient.html");
 $("#searchContent").load("searchBar.html");
-//$("#introduireDevis").load("introduireDevis.html");
+$("#introduireDevis").load("introduireDevis.html");
 
 $(document).ready(function () {
    

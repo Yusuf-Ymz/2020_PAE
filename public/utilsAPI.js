@@ -93,7 +93,7 @@ function updateData(url = "", data = {}, token, onPut, onError) {
   });
 }
 
-function specialDoGet(url = "", data = {}, token,currentRequest ,onGet, onError) {
+function specialGetData(url = "", data = {}, token,currentRequest ,onGet, onError) {
   let headers;
   if (token)
     headers = {
@@ -127,5 +127,5 @@ export {
   postData,
   deleteData,
   updateData,
-  specialDoGet
+  specialGetData
 }

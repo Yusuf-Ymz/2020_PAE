@@ -1,17 +1,32 @@
 "use strict";
-import { getData,specialDoGet } from "./utilsAPI.js";
+import { getData, postData, specialGetData } from "./utilsAPI.js";
+//import printTable from "./utilsHtml.js"
+
 var searchVille = document.getElementById('villeSearch'),
     searchCP = document.getElementById('codePostalSearch'),
     searchName = document.getElementById('clientName'),
+    searchPrenom = document.getElementById('clientPrenom'),
+    resultsPrenom = document.getElementById('resultsPrenom'),
     resultsVille = document.getElementById('resultsVille'),
     resultsCP = document.getElementById('resultsCP'),
-    resultsVille = document.getElementById('resultsName'),
-    selectedResult = -1,
-    previousRequest, 
+    resultsName = document.getElementById('resultsName'),
+    selectedResultVille = -1,
+    selectedResultCP = -1,
+    selectedResultName = -1,
+    selectedResultPrenom = -1,
+    previousRequestPrenom,
+    previousRequestVille,
+    previousRequestCP,
+    previousRequestName,
+    previousValuePrenom = searchPrenom.value,
     previousValueVille = searchVille.value,
     previousValueCP = searchCP.value,
-    previousValueName = searchName.value; 
-
+    previousValueName = searchName.value;
+const getCp = "getCp";
+const getNames = "getNom";
+const getVille = "getVille";
+const getPrenom = "getPrenom";
+let idClient = -1;
 let i = 0;
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
@@ -24,7 +39,7 @@ function displayAmenagements(response) {
         let input = document.createElement("input");
         input.type = "checkbox";
         input.className = "form-check-input amenagements ml-2";
-        let id = "amenagement" + amenagements[i]["id"]
+        let id = "amenagement" + amenagements[i]["id"];
         input.id = id;
 
         let label = document.createElement("label");
@@ -41,10 +56,124 @@ function displayAmenagements(response) {
 }
 
 function onError(response) {
-    console.error(response);
+
+}
+
+function afficherNotif(msg){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        timerProgressBar: true,
+        title: msg,
+        showConfirmButton: false,
+        timer: 1500
+      })
 }
 
 $(document).ready(function (e) {
+
+    $("#indroduire_devis").click(function(){
+        $("#introduireDevis").show();
+        $("#searchContent").hide();
+        $("#confirmedInscriptionContent").hide();
+        $("#listeUser").hide();
+        $("#listerClients").hide();
+        $("#linkUserClientContent").hide();
+        $("#searchCard").show();
+        getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
+        getListClient();
+    });
+    $("#ajouterClient").click(function (e) {
+        e.preventDefault();
+
+        if(!$("#nomC")[0].checkValidity()){
+            afficherNotif("Erreur champ nom");
+        }else if(!$("#prenomC")[0].checkValidity()){
+            afficherNotif("Erreur champ prenom");
+        }else if(!$("#rueC")[0].checkValidity()){
+            afficherNotif("Erreur champ rue");
+        }else if(!$("#numC")[0].checkValidity()){
+            afficherNotif("Erreur champ numéro");
+        }else if(!$("#boiteC")[0].checkValidity()){
+            afficherNotif("Erreur champ boite");
+        }else if(!$("#cpC")[0].checkValidity()){
+            afficherNotif("Erreur champ nom");
+        }else if(!$("#villeC")[0].checkValidity()){
+            afficherNotif("Erreur champ nom");
+        }else if(!$("#emailC")[0].checkValidity()){
+            afficherNotif("Erreur champ nom");
+        }else if(!$("#telC")[0].checkValidity()){
+            afficherNotif("Erreur champ nom");
+        }else{
+            let data = {
+                action: "ajouterClient",
+                nom: $("#nomC").val(),
+                prenom: $("#prenomC").val(),
+                rue: $("#rueC").val(),
+                numero: $("#numC").val(),
+                boite: $("#boiteC").val(),
+                cp: $("#cpC").val(),
+                ville: $("#villeC").val(),
+                email: $("#emailC").val(),
+                telephone: $("#telC").val(),
+            };
+            $("input").val("");
+            postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
+        }
+        
+    });
+
+    function onPostSuccess(response) {
+        getListClient();
+        $("#myModal").modal('hide');
+        let client = response.client;
+        idClient = client.idClient;
+        $("#nomInfo").val(client.nom);
+        $("#prenomInfo").val(client.prenom);
+    }
+
+    function onPostError(response) {
+        console.log(response.error);
+    }
+    window.addEventListener('click', function (e) {
+        if (!resultsCP.contains(e.target) || !searchCP.contains(e.target) || !resultsName.contains(e.target)
+            || !searchName.contains(e.target) || !resultsVille.contains(e.target) || !searchVille.contains(e.target)
+            || !resultsPrenom.contains(e.target) || !searchPrenom.contains(e.target)) {
+            resultsName.style.display = 'none';
+            resultsCP.style.display = 'none';
+            resultsVille.style.display = 'none';
+            resultsPrenom.style.display = 'none';
+        }
+    });
+    searchCP.addEventListener('click', function (e) {
+        if (resultsCP.childElementCount > 0) {
+            setTimeout(() => {
+                resultsCP.style.display = 'block';
+            }, 0.2);
+        }
+
+    });
+    searchPrenom.addEventListener('click', function (e) {
+        if (resultsPrenom.childElementCount > 0)
+            setTimeout(() => {
+                resultsPrenom.style.display = 'block';
+            }, 0.2);
+
+    });
+    searchName.addEventListener('click', function (e) {
+        if (resultsName.childElementCount > 0)
+            setTimeout(() => {
+                resultsName.style.display = 'block';
+            }, 0.2);
+
+    });
+    searchVille.addEventListener('click', function (e) {
+        if (resultsVille.childElementCount > 0) {
+            setTimeout(() => {
+                resultsVille.style.display = 'block';
+            }, 0.2);
+        }
+    });
     $("#drop-container").on('dragenter', function (e) {
         e.preventDefault();
         console.log("dragenter");
@@ -52,10 +181,10 @@ $(document).ready(function (e) {
         $(this).css('background', '#f1ffef');
     });
 
-    /* cass�
+    /* cassé
     $("#drop-container").on('dragleave', function(e) {
         e.preventDefault();
-        console.log("dragleave")
+        console.log("dragleave");
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#ffffff');
     });*/
@@ -66,23 +195,31 @@ $(document).ready(function (e) {
         console.log("drop");
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#FFF');
+        let fileList = element.originalEvent.dataTransfer.files;
+        console.log(fileList);
+        for (let x = 0; x < fileList.length; x++) {
+            let file = fileList[x];
+            i+=1;
+            converFile(file,i);
+        }
 
-        var file = element.originalEvent.dataTransfer.files[0];
-        console.log(file instanceof File);
+    });
+    function converFile(file,i) {
         var reader = new FileReader();
-        i += 1;
         reader.onloadend = function () {
             let img = document.createElement("img");
             img.id = "image" + i;
-            img.className = "image rounded";
+            img.className = "image rounded imageAvant";
             $("#drop-container").append(img);
-
             $("#image" + i).attr("src", reader.result);
         }
 
         reader.readAsDataURL(file);
-
-    });
+    }
+    $("#inputFile")[0].onchange = function (e) {
+        var file = e.target.files[0];
+        converFile(file);
+    }
     $("#drop-container").on('dragover', function (e) {
         e.preventDefault();
     })
@@ -92,111 +229,427 @@ $(document).ready(function (e) {
         $("#inputFile").trigger('click');
     });
 
-    getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
+    function getResults(keywords, action) { 
+        let ajx;
+        let data = {
+            action: action,
+            keyword: keywords,
+        };
+        let previousRequest;
+        if (action === getCp) {
+            previousRequest = previousRequestCP;
+            ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsCp, onError);
+        } else if (action === getNames) {
+            previousRequest = previousRequestName;
+            ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsNames, onError);
+        } else if (action === getVille) {
+            previousRequest = previousRequestVille;
+            ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsVille, onError);
+        } else if (action === getPrenom) {
+            previousRequest = previousRequestPrenom;
+            ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsPrenom, onError);
+        }
 
-
-
-
-    function getResults(keywords) { // Effectue une requête et récupère les résultats
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', './search.php?s=' + encodeURIComponent(keywords));
-
-        xhr.addEventListener('readystatechange', function () {
-            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-
-                displayResults(xhr.responseText);
-
-            }
-        });
-
-        xhr.send(null);
-
-        return xhr;
+        return ajx;
 
     }
 
-    function displayResults(response) { // Affiche les résultats d'une requête
+    function displayResultsPrenom(response) {
+        response = response.prenoms;
+        resultsPrenom.style.display = response.length ? 'block' : 'none';
 
-        results.style.display = response.length ? 'block' : 'none'; // On cache le conteneur si on n'a pas de résultats
+        if (response.length) {
 
-        if (response.length) { // On ne modifie les résultats que si on en a obtenu
-
-            response = response.split('|');
             var responseLen = response.length;
-
-            results.innerHTML = ''; // On vide les résultats
+            if (responseLen === 1) {
+                if (searchPrenom.value === response[0]) {
+                    resultsPrenom.style.display = 'none';
+                    return;
+                }
+            }
+            resultsPrenom.innerHTML = ''; 
 
             for (var i = 0, div; i < responseLen; i++) {
 
-                div = results.appendChild(document.createElement('div'));
+                div = resultsPrenom.appendChild(document.createElement('div'));
                 div.innerHTML = response[i];
 
                 div.addEventListener('click', function (e) {
-                    chooseResult(e.target);
+                    chooseResult(e.target, searchPrenom, previousValuePrenom, selectedResultPrenom, getPrenom);
                 });
 
             }
 
         }
-
     }
 
-    function chooseResult(result) { // Choisi un des résultats d'une requête et gère tout ce qui y est attaché
+    function displayResultsCp(response) {
+        response = response.cpx;
+        resultsCP.style.display = response.length ? 'block' : 'none'; 
 
-        searchElement.value = previousValue = result.innerHTML; // On change le contenu du champ de recherche et on enregistre en tant que précédente valeur
-        results.style.display = 'none'; // On cache les résultats
-        result.className = ''; // On supprime l'effet de focus
-        selectedResult = -1; // On remet la sélection à "zéro"
-        searchElement.focus(); // Si le résultat a été choisi par le biais d'un clique alors le focus est perdu, donc on le réattribue
+        if (response.length) { 
 
+            var responseLen = response.length;
+            if (responseLen === 1) {
+                if (searchCP.value === response[0]) {
+                    resultsCP.style.display = 'none';
+                    return;
+                }
+            }
+            resultsCP.innerHTML = '';
+
+            for (var i = 0, div; i < responseLen; i++) {
+
+                div = resultsCP.appendChild(document.createElement('div'));
+                div.innerHTML = response[i];
+
+                div.addEventListener('click', function (e) {
+                    chooseResult(e.target, searchCP, previousValueCP, selectedResultCP, getCp);
+                });
+
+            }
+
+        }
+    }
+    function displayResultsNames(response) {
+        response = response.names;
+        resultsName.style.display = response.length ? 'block' : 'none';
+
+        if (response.length) { 
+
+            var responseLen = response.length;
+            if (responseLen === 1) {
+                if (searchName.value === response[0]) {
+                    resultsName.style.display = 'none';
+                    return;
+                }
+            }
+            resultsName.innerHTML = '';
+
+            for (var i = 0, div; i < responseLen; i++) {
+
+                div = resultsName.appendChild(document.createElement('div'));
+                div.innerHTML = response[i];
+
+                div.addEventListener('click', function (e) {
+                    chooseResult(e.target, searchName, previousValueName, selectedResultName, getNames);
+                });
+
+            }
+
+        }
+    }
+
+    function displayResultsVille(response) {
+        response = response.villes;
+        resultsVille.style.display = response.length ? 'block' : 'none'; 
+
+        if (response.length) { 
+
+            var responseLen = response.length;
+            if (responseLen === 1) {
+                if (searchVille.value === response[0]) {
+                    resultsVille.style.display = 'none';
+                    return;
+                }
+            }
+            resultsVille.innerHTML = ''; 
+
+            for (var i = 0, div; i < responseLen; i++) {
+
+                div = resultsVille.appendChild(document.createElement('div'));
+                div.innerHTML = response[i];
+
+                div.addEventListener('click', function (e) {
+                    chooseResult(e.target, searchVille, previousValueVille, selectedResultVille, getVille);
+                });
+
+            }
+
+        }
+    }
+
+    function chooseResult(result, searchElement, previousValue, selectedResult, action) { 
+
+        searchElement.value = previousValue = result.innerHTML;
+        result.style.display = 'none';
+        result.className = '';
+        selectedResult = -1;
+        searchElement.focus();
+        previousRequestCP = getResults(previousValue, action);
+        getListClient();
+    }
+
+    function getListClient() {
+        let data = {
+            action: "listClientsAffine",
+            cp: searchCP.value,
+            ville: searchVille.value,
+            nom: searchName.value,
+            prenom: searchPrenom.value
+        };
+        getData("/client", data, localStorage.getItem("token"), displayClient, onError);
+    }
+    function displayClient(response) {
+        let div_container = $("#tableClients")[0];
+        div_container.innerHTML = "";
+        let table = document.createElement("table");
+        table.className = "table mt-0";
+
+        div_container.appendChild(table);
+        let thead = document.createElement("thead");
+        table.appendChild(thead);
+        let tr = document.createElement("th");
+        tr.innerHTML = "Nom";
+        thead.appendChild(tr);
+
+
+        tr = document.createElement("th");
+        tr.innerHTML = "Prénom";
+        thead.appendChild(tr);
+
+        tr = document.createElement("th");
+        tr.innerHTML = "Code Postal";
+        thead.appendChild(tr);
+
+        tr = document.createElement("th");
+        tr.innerHTML = "Ville";
+        thead.appendChild(tr);
+
+        tr = document.createElement("th");
+        tr.innerHTML = "e-mail";
+        thead.appendChild(tr);
+
+        tr = document.createElement("th");
+        tr.innerHTML = "N° téléphone";
+        thead.appendChild(tr);
+
+        tr = document.createElement("th");
+        tr.innerHTML = "";
+        thead.appendChild(tr);
+        response = response.clients;
+
+        let tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+
+        for (let i = 0; i < response.length; i++) {
+            let trData = document.createElement("tr");
+            tbody.appendChild(trData);
+            const element = response[i];
+
+            let champ = document.createElement("td");
+            champ.innerHTML = element["nom"];
+            trData.appendChild(champ);
+            champ.className = "nom";
+
+            champ = document.createElement("td");
+            champ.innerHTML = element["prenom"];
+            trData.appendChild(champ);
+            champ.className = "prenom";
+
+            champ = document.createElement("td");
+            champ.innerHTML = element["codePostal"];
+            trData.appendChild(champ);
+
+            champ = document.createElement("td");
+            champ.innerHTML = element["ville"];
+            trData.appendChild(champ);
+
+            champ = document.createElement("td");
+            champ.innerHTML = element["email"];
+            trData.appendChild(champ);
+
+            champ = document.createElement("td");
+            champ.innerHTML = element["telephone"];
+            trData.appendChild(champ);
+
+            champ = document.createElement("td");
+            let button = document.createElement("button");
+            button.innerHTML = "Sélectionner";
+            button.className = "btn btn-primary"
+            button.value = element["idClient"];
+            champ.appendChild(button);
+            trData.appendChild(champ);
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                idClient = e.target.value;
+                let tr = e.target.parentNode.parentNode;
+                let nom = tr.getElementsByClassName('nom');
+                let prenom = tr.getElementsByClassName('prenom');
+                $("#nomInfo").val(nom[0].innerHTML);
+                $("#prenomInfo").val(prenom[0].innerHTML);
+            });
+        }
     }
 
 
+    searchVille.addEventListener('keyup', function (e) {
 
-    searchElement.addEventListener('keyup', function (e) {
+        var divs = resultsVille.getElementsByTagName('div');
 
-        var divs = results.getElementsByTagName('div');
+        if (e.keyCode == 38 && selectedResultVille > -1) {
 
-        if (e.keyCode == 38 && selectedResult > -1) { // Si la touche pressée est la flèche "haut"
+            divs[selectedResultVille--].className = '';
 
-            divs[selectedResult--].className = '';
-
-            if (selectedResult > -1) { // Cette condition évite une modification de childNodes[-1], qui n'existe pas, bien entendu
-                divs[selectedResult].className = 'result_focus';
+            if (selectedResultVille > -1) {
+                divs[selectedResultVille].className = 'result_focus';
             }
 
         }
 
-        else if (e.keyCode == 40 && selectedResult < divs.length - 1) { // Si la touche pressée est la flèche "bas"
+        else if (e.keyCode == 40 && selectedResultVille < divs.length - 1) {
 
-            results.style.display = 'block'; // On affiche les résultats
+            resultsVille.style.display = 'block';
 
-            if (selectedResult > -1) { // Cette condition évite une modification de childNodes[-1], qui n'existe pas, bien entendu
-                divs[selectedResult].className = '';
+            if (selectedResultVille > -1) {
+                divs[selectedResultVille].className = '';
             }
 
-            divs[++selectedResult].className = 'result_focus';
+            divs[++selectedResultVille].className = 'result_focus';
+
+        } else if (e.keyCode == 13) {
+            if (selectedResultVille > -1) {
+                chooseResult(divs[selectedResultVille], searchVille, previousRequestVille, selectedResultVille, getVille);
+            } else {
+                getListClient();
+            }
+
+        } else if (searchVille.value != previousValueVille) {
+
+            previousValueVille = searchVille.value;
+            previousRequestVille = getResults(previousValueVille, getVille);
+            selectedResultVille = -1;
 
         }
 
-        else if (e.keyCode == 13 && selectedResult > -1) { // Si la touche pressée est "Entrée"
+    });
 
-            chooseResult(divs[selectedResult]);
+    searchName.addEventListener('keyup', function (e) {
+
+        var divs = resultsName.getElementsByTagName('div');
+
+        if (e.keyCode == 38 && selectedResultName > -1) { 
+
+            divs[selectedResultName--].className = '';
+
+            if (selectedResultName > -1) {
+                divs[selectedResultName].className = 'result_focus';
+            }
 
         }
 
-        else if (searchVille.value != previousValueVille) { // Si le contenu du champ de recherche ville a changé
+        else if (e.keyCode == 40 && selectedResultName < divs.length - 1) {
 
-            previousValueVille = searchElement.value;
+            resultsName.style.display = 'block';
 
-            if (previousRequest && previousRequest.readyState < XMLHttpRequest.DONE) {
-                previousRequest.abort(); // Si on a toujours une requête en cours, on l'arrête
+            if (selectedResultName > -1) {
+                divs[selectedResultName].className = '';
             }
 
-            previousRequest = getResults(previousValue); // On stocke la nouvelle requête
+            divs[++selectedResultName].className = 'result_focus';
 
-            selectedResult = -1; // On remet la sélection à "zéro" à chaque caractère écrit
+        }
+
+        else if (e.keyCode == 13) { 
+            console.log('ici');
+            if (selectedResultName > -1) {
+                chooseResult(divs[selectedResultName], searchName, previousValueName, selectedResultName, getNames);
+            } else {
+                getListClient();
+            }
+        } else if (searchName.value != previousValueName) {
+            previousValueName = searchName.value;
+            previousRequestName = getResults(previousValueName, getNames);
+            selectedResultName = -1;
+        }
+
+    });
+    searchPrenom.addEventListener('keyup', function (e) {
+
+        var divs = resultsPrenom.getElementsByTagName('div');
+
+        if (e.keyCode == 38 && selectedResultPrenom > -1) { 
+
+            divs[selectedResultPrenom--].className = '';
+
+            if (selectedResultPrenom > -1) {
+                divs[selectedResultPrenom].className = 'result_focus';
+            }
+
+        }
+
+        else if (e.keyCode == 40 && selectedResultPrenom < divs.length - 1) {
+
+            resultsPrenom.style.display = 'block';
+
+            if (selectedResultPrenom > -1) {
+                divs[selectedResultPrenom].className = '';
+            }
+
+            divs[++selectedResultPrenom].className = 'result_focus';
+
+        }
+
+        else if (e.keyCode == 13) {
+            console.log("ici");
+            if (selectedResultPrenom > -1) {
+                chooseResult(divs[selectedResultPrenom], searchPrenom, previousValuePrenom, selectedResultPrenom, getPrenom);
+            } else {
+                getListClient();
+            }
+
+
+        }
+
+        else if (searchPrenom.value != previousValuePrenom) {
+
+            previousValuePrenom = searchPrenom.value;
+            previousRequestPrenom = getResults(previousValuePrenom, getPrenom);
+            selectedResultPrenom = -1;
+
+        }
+
+    });
+
+    searchCP.addEventListener('keyup', function (e) {
+
+        var divs = resultsCP.getElementsByTagName('div');
+
+        if (e.keyCode == 38 && selectedResultCP > -1) {
+
+            divs[selectedResultCP--].className = '';
+
+            if (selectedResultCP > -1) {
+                divs[selectedResultCP].className = 'result_focus';
+            }
+
+        }
+
+        else if (e.keyCode == 40 && selectedResultCP < divs.length - 1) { 
+
+            resultsCP.style.display = 'block'; 
+
+            if (selectedResultCP > -1) {
+                divs[selectedResultCP].className = '';
+            }
+
+            divs[++selectedResultCP].className = 'result_focus';
+
+        }
+
+        else if (e.keyCode == 13) { 
+            if (selectedResultCP > -1) {
+                chooseResult(divs[selectedResultCP], searchCP, previousValueCP, selectedResultCP, getCp);
+            } else {
+                getListClient();
+            }
+        }
+
+        else if (searchCP.value != previousValueCP) {
+
+            previousValueCP = searchCP.value;
+            previousRequestCP = getResults(previousValueCP, getCp);
+            selectedResultCP = -1;
 
         }
 
