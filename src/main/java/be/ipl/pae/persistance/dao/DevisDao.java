@@ -11,4 +11,7 @@ public interface DevisDao {
   List<DevisDto> obtenirTousLesDevis();
 
   List<DevisDto> obtenirSesDevis(int idClient);
+
+  DevisDto insererDevis(int idOuvrier, DevisDto devis);
+
 }

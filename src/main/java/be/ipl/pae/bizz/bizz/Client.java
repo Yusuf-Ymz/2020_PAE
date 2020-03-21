@@ -4,8 +4,8 @@ import be.ipl.pae.annotation.FieldDb;
 
 class Client implements ClientBiz {
 
-  @FieldDb("devis_id")
-  private int idDevis;
+  @FieldDb("client_id")
+  private int idClient;
 
   @FieldDb("nom")
   private String nom;
@@ -17,7 +17,7 @@ class Client implements ClientBiz {
   private String rue;
 
   @FieldDb("numero")
-  private int numero;
+  private String numero;
 
   @FieldDb("boite")
   private String boite;
@@ -65,12 +65,12 @@ class Client implements ClientBiz {
   }
 
   @Override
-  public int getNumero() {
+  public String getNumero() {
     return numero;
   }
 
   @Override
-  public void setNumero(int numero) {
+  public void setNumero(String numero) {
     this.numero = numero;
   }
 
@@ -125,14 +125,15 @@ class Client implements ClientBiz {
   }
 
   @Override
-  public int getIdDevis() {
-    return idDevis;
+  public int getIdClient() {
+    return idClient;
   }
 
   @Override
-  public void setIdDevis(int idDevis) {
-    this.idDevis = idDevis;
+  public void setIdClient(int idClient) {
+    this.idClient = idClient;
   }
+
 
 
 }

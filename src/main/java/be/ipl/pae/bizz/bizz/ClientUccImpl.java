@@ -10,7 +10,7 @@ import be.ipl.pae.persistance.dao.UserDao;
 
 import java.util.List;
 
-public class ClientUccImpl implements ClientUcc {
+class ClientUccImpl implements ClientUcc {
 
   @Inject
   private UserDao userDao;
@@ -23,7 +23,7 @@ public class ClientUccImpl implements ClientUcc {
     UserDto user = userDao.obtenirUserAvecId(idOuvrier);
     if (!user.isOuvrier())
       throw new BizException("Vous n'avez pas les droits");
-    return null;
+    return clientDao.insererClient(client);
   }
 
   @Override
@@ -41,12 +41,49 @@ public class ClientUccImpl implements ClientUcc {
 
   }
 
-  public List<ClientDto> RechercherClients(int idOuvrier, String ville, String codePostal,
-      String nomClient, String prenomClient) {
+  @Override
+  public List<ClientDto> listerClients(int idOuvrier, String nom, String prenom, String ville,
+      String cp) {
     UserDto user = userDao.obtenirUserAvecId(idOuvrier);
     if (!user.isOuvrier())
       throw new BizException("Vous n'avez pas les droits");
-    return clientDao.RechercherClients(ville, codePostal, nomClient, prenomClient);
+    return clientDao.rechercherClients(ville, cp, nom, prenom);
+  }
+
+  @Override
+  public List<String> listerNomsClients(int idOuvrier, String nom) {
+    UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+    if (!user.isOuvrier())
+      throw new BizException("Vous n'avez pas les droits");
+    List<String> nomsClients = clientDao.rechercherNoms(nom);
+    return nomsClients;
+  }
+
+  @Override
+  public List<String> listerVilles(int idOuvrier, String ville) {
+    UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+    if (!user.isOuvrier())
+      throw new BizException("Vous n'avez pas les droits");
+    List<String> villes = clientDao.rechercherVilles(ville);
+    return villes;
+  }
+
+  @Override
+  public List<String> listerCp(int idOuvrier, String cp) {
+    UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+    if (!user.isOuvrier())
+      throw new BizException("Vous n'avez pas les droits");
+    List<String> cpx = clientDao.rechercheCodePostaux(cp);
+    return cpx;
+  }
+
+  @Override
+  public List<String> listerPrenomsClients(int idOuvrier, String prenom) {
+    UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+    if (!user.isOuvrier())
+      throw new BizException("Vous n'avez pas les droits");
+    List<String> prenomsClients = clientDao.rechercherPrenoms(prenom);
+    return prenomsClients;
   }
 
 

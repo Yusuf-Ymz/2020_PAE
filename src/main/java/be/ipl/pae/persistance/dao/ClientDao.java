@@ -10,15 +10,16 @@ public interface ClientDao {
 
   List<ClientDto> listerClients();
 
-  List<ClientDto> RechercherClients(String ville, String codePostal, String nomClient,
+  List<ClientDto> rechercherClients(String ville, String codePostal, String nomClient,
       String prenomClient);
 
-  List<String> RechercherNomsPrenomsClients(String nomClient, String prenomClient);
+  List<String> rechercherVilles(String ville);
 
-  List<String> RechercherVilles(String villes);
+  List<String> rechercheCodePostaux(String codePostal);
 
-  public List<String> RechercheCodePostaux(String codePostal);
+  List<String> rechercherPrenoms(String prenom);
 
+  List<String> rechercherNoms(String nom);
 
-
+  ClientDto getClientById(int id);
 }

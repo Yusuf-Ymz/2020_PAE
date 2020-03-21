@@ -2,6 +2,7 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.main.Config;
 
@@ -11,8 +12,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.owlike.genson.Genson;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +24,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ClientServlet extends HttpServlet {
 
-  /**
-   * 
-   */
+
   private static final long serialVersionUID = -1254800213292593724L;
+  private static final String ACTIONGETCP = "getCP";
+  private static final String ACTIONGETNOMS = "getNom";
+  private static final String ACTIONGETVILLE = "getVille";
+  private static final String KEYWORD = "keyword";
+  private static final String ACTIONCLIENTSAFFINE = "listClientsAffine";
+  private static final String ACTIONGETPRENOM = "getPrenom";
+  private static final String ACTIONINSERTCLIENT = "ajouterClient";
   private String secret;
   private Genson genson;
 
@@ -32,6 +40,8 @@ public class ClientServlet extends HttpServlet {
 
   @Inject
   private ClientUcc clientUcc;
+  @Inject
+  private DtoFactory fact;
 
   public ClientServlet() {
 
@@ -44,17 +54,110 @@ public class ClientServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
-      this.listCustomer(req, resp);
+      String token = req.getHeader("Authorization");
+      int idUser = ServletUtils.estConnecte(token);
+      String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+      int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
+      String action = req.getParameter("action");
+      if (idUser != -1) {
+        if (ACTIONGETCP.equalsIgnoreCase(action)) {
+          List<String> cpx = clientUcc.listerCp(idUser, req.getParameter(KEYWORD));
+          json = "{\"cpx\":" + genson.serialize(cpx) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETNOMS.equalsIgnoreCase(action)) {
+          List<String> noms = clientUcc.listerNomsClients(idUser, req.getParameter(KEYWORD));
+          json = "{\"names\":" + genson.serialize(noms) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETVILLE.equalsIgnoreCase(action)) {
+          List<String> villes = clientUcc.listerVilles(idUser, req.getParameter(KEYWORD));
+          json = "{\"villes\":" + genson.serialize(villes) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONCLIENTSAFFINE.equalsIgnoreCase(action)) {
+          String nom = req.getParameter("nom");
+          String prenom = req.getParameter("prenom");
+          String ville = req.getParameter("ville");
+          String cp = req.getParameter("cp");
+          List<ClientDto> clients = clientUcc.listerClients(idUser, nom, prenom, ville, cp);
+          json = "{\"clients\":" + genson.serialize(clients) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETPRENOM.equalsIgnoreCase(action)) {
+          List<String> prenoms = clientUcc.listerPrenomsClients(idUser, req.getParameter(KEYWORD));
+          json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONINSERTCLIENT.equalsIgnoreCase(action)) {
+          ClientDto client = fact.getClientDto();
+          client.setNom(req.getParameter("nom"));
+          client.setPrenom(req.getParameter("prenom"));
+          client.setBoite(req.getParameter("boite"));
+          client.setEmail(req.getParameter("email"));
+          client.setCodePostal(req.getParameter("cp"));
+          client.setTelephone(req.getParameter("telephone"));
+          client.setRue(req.getParameter("rue"));
+          client.setVille(req.getParameter("ville"));
+          client.setNumero(req.getParameter("numero"));
+          ClientDto nClient = clientUcc.insertClient(client, idUser);
+          json = "{\"client\":" + genson.serialize(nClient) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else {// TODO completer cette condition! modifier le else en else if + rajouter une action
+          listCustomer(req, resp);// à modifer aussi
+        }
+      } else {
+        ServletUtils.sendResponse(resp, json, statusCode);
+      }
+      // this.listCustomer(req, resp);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    // TODO Auto-generated method stub
-    super.doPost(req, resp);
+    StringBuffer jb = new StringBuffer();
+    String line = null;
+
+    try {
+      BufferedReader reader = req.getReader();
+      while ((line = reader.readLine()) != null) {
+        jb.append(line);
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    }
+
+    Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
+    String action = (String) body.get("action");
+    String token = req.getHeader("Authorization");
+    int idUser = ServletUtils.estConnecte(token);
+    String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+    int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
+    if (idUser != -1) {
+      if (ACTIONINSERTCLIENT.equalsIgnoreCase(action)) {
+        ClientDto client = fact.getClientDto();
+        client.setNom((String) body.get("nom"));
+        client.setPrenom((String) body.get("prenom"));
+        client.setBoite((String) body.get("boite"));
+        client.setEmail((String) body.get("email"));
+        client.setCodePostal((String) body.get("cp"));
+        client.setTelephone((String) body.get("telephone"));
+        client.setRue((String) body.get("rue"));
+        client.setVille((String) body.get("ville"));
+        client.setNumero((String) body.get("numero"));
+        ClientDto nClient = clientUcc.insertClient(client, idUser);
+        json = "{\"client\":" + genson.serialize(nClient) + "}";
+        statusCode = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, statusCode);
+      }
+    } else {
+      ServletUtils.sendResponse(resp, json, statusCode);
+    }
   }
 
 

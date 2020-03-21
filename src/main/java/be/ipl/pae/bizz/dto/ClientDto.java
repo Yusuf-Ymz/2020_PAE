@@ -13,9 +13,9 @@ public interface ClientDto {
 
   void setRue(String rue);
 
-  int getNumero();
+  String getNumero();
 
-  void setNumero(int numero);
+  void setNumero(String numero);
 
   String getBoite();
 
@@ -37,7 +37,7 @@ public interface ClientDto {
 
   void setTelephone(String telephone);
 
-  int getIdDevis();
+  int getIdClient();
 
-  void setIdDevis(int idDevis);
+  void setIdClient(int idClient);
 }

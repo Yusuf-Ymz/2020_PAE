@@ -82,4 +82,12 @@ public class DevisDaoImpl implements DevisDao {
     return null;
   }
 
+  @Override
+  public DevisDto insererDevis(int idOuvrier, DevisDto devis) {
+    String query = "";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+
+    return null;
+  }
+
 }
