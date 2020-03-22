@@ -46,22 +46,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     return stmt;
   }
 
-  /**
-   * Ferme la connection.
-   * 
-   * @exception lance une FatalException en cas de SQLException
-   */
-  private void closeConnection() {
-    try {
-      Connection conn = connection.get();
-      connection.remove();
-      conn.close();
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException(exception.getMessage());
-    }
-  }
-
 
   public void startTransaction() {
     try {
@@ -77,6 +61,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public void commitTransaction() {
     try {
       Connection conn = connection.get();
+      connection.remove();
       conn.commit();
       conn.close();
     } catch (SQLException exception) {
@@ -89,7 +74,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     try {
       Connection conn = connection.get();
       conn.rollback();
-      closeConnection();
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException(exception.getMessage());
