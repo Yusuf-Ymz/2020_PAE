@@ -17,10 +17,11 @@ $(document).ready(function () {
     function onGetUserList(response) {
         $("#listeUser").show();     
         $("#searchCard").show();
+        $("#searchContent").show();
         $("#filtre_utilisateur").show();
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
-        let thtabUser = new Array("N° utilisateur ","Date d'inscription", "Email", "Nom", "Prenom", "Pseudo", "Ville");
+        let thtabUser = new Array("N° utilisateur ","Nom", "Prenom", "Pseudo", "E-mail", "Ville", "Date d'inscription");
        
         printTable("listeUser", response.listeUser, thtabUser);
         

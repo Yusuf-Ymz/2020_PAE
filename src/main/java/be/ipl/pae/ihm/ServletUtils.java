@@ -1,5 +1,7 @@
 package be.ipl.pae.ihm;
 
+import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
 
@@ -24,11 +26,14 @@ import javax.servlet.http.HttpServletResponse;
 
 class ServletUtils {
 
-  private static Genson gensonUser = new GensonBuilder().exclude("password").exclude("ouvrier")
-      .exclude("confirme").withContextualFactory(new DateFactory()).create();
+  private static Genson gensonUser =
+      new GensonBuilder().withConverters(new UtilisateurConverter()).create();
 
   private static Genson gensonDevis =
       new GensonBuilder().withContextualFactory(new DateFactory()).create();
+
+  private static Genson gensonClient =
+      new GensonBuilder().withConverters(new ClientConverter()).create();
 
   private static String secret = Config.getConfiguration("secret");
 
@@ -40,6 +45,10 @@ class ServletUtils {
 
   public static Genson getGensonDevis() {
     return gensonDevis;
+  }
+
+  public static Genson getGensonClient() {
+    return gensonClient;
   }
 
 
@@ -95,5 +104,56 @@ class ServletUtils {
 
 
   }
+
+
+
+  private static class ClientConverter implements Converter<ClientDto> {
+
+    @Override
+    public ClientDto deserialize(ObjectReader reader, Context ctx) throws Exception {
+      return null;
+    }
+
+    @Override
+    public void serialize(ClientDto object, ObjectWriter writer, Context ctx) throws Exception {
+      writer.beginObject();
+      writer.writeNumber("idClient", object.getIdClient()).writeString("nom", object.getNom())
+          .writeString("prenom", object.getPrenom()).writeString("email", object.getEmail())
+          .writeString("rue", object.getRue()).writeString("numero", object.getNumero())
+          .writeString("boite", object.getBoite()).writeString("ville", object.getVille())
+          .writeString("codePostal", object.getCodePostal())
+          .writeString("telephone", object.getTelephone());
+      writer.endObject();
+
+    }
+
+
+  }
+
+
+
+  private static class UtilisateurConverter implements Converter<UserDto> {
+
+    @Override
+    public UserDto deserialize(ObjectReader reader, Context ctx) throws Exception {
+      return null;
+    }
+
+    @Override
+    public void serialize(UserDto object, ObjectWriter writer, Context ctx) throws Exception {
+      writer.beginObject();
+      writer.writeNumber("idUser", object.getUserId()).writeString("nom", object.getNom())
+          .writeString("prenom", object.getPrenom()).writeString("pseudo", object.getPseudo())
+          .writeString("email", object.getEmail()).writeString("ville", object.getVille())
+          .writeString("dataInscription",
+              object.getDateInscription().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+      writer.endObject();
+
+    }
+
+
+  }
+
 
 }

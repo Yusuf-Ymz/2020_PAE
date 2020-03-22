@@ -4,6 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
 import java.io.IOException;
@@ -104,7 +105,9 @@ public class UserServlet extends HttpServlet {
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
       List<UserDto> listeUser = userUcc.listerUsers(userId);
-      json = "{\"listeUser\":" + genson.serialize(listeUser) + "}";
+      String listeSerialisee =
+          this.genson.serialize(listeUser, new GenericType<List<UserDto>>() {});
+      json = "{\"listeUser\":" + listeSerialisee + "}";
       // ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
       resp.setStatus(HttpServletResponse.SC_OK);
       resp.setContentType("application/json");

@@ -19,10 +19,11 @@ $(document).ready(function () {
     function onGetClientList(response) {
         $("#listerClients").show();
         $("#searchCard").show();
+        $("#searchContent").show();
         $("#filtre_client").show();
         $("#filtre_utilisateur").hide();
         $("#filtre_amenagement").hide();
-        let thtabClient = new Array("Code postal", "e-mail", "N°", "Nom", "Prénom","N° Telephone", "Devis");
+        let thtabClient =  new Array("N° utilisateur ","Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
         
         let nombtnTab = ["visualiser devis"];
         printTable("listerClients", response.clients, thtabClient,true,nombtnTab,"clientId",doGetClientDevis,"/client");

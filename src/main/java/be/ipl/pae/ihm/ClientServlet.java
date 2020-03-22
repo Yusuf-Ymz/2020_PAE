@@ -10,6 +10,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
 import java.io.BufferedReader;
@@ -35,6 +36,7 @@ public class ClientServlet extends HttpServlet {
   private static final String ACTIONINSERTCLIENT = "ajouterClient";
   private String secret;
   private Genson genson;
+  private Genson gensonClient;
 
 
 
@@ -47,6 +49,7 @@ public class ClientServlet extends HttpServlet {
 
     this.secret = Config.getConfiguration("secret");
     this.genson = new Genson();
+    this.gensonClient = ServletUtils.getGensonClient();
 
   }
 
@@ -175,7 +178,9 @@ public class ClientServlet extends HttpServlet {
       List<ClientDto> listeClients = this.clientUcc.listerClients(userId);
 
       if (listeClients != null) {
-        json = "{\"clients\":" + genson.serialize(listeClients) + "}";
+
+        String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
+        json = "{\"clients\":" + liste + "}";
         resp.setStatus(HttpServletResponse.SC_OK);
       } else {
         json = "{\"error\":\"Vous n'avez pas accés informations\"}";

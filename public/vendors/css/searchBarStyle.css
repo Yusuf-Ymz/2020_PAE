@@ -68,11 +68,19 @@
 #btn_rechercher{
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    background-color: transparent ;
+    background-color:white;
+    border-left-color: transparent;
+    border-bottom: #ced4da;
+    border-top:  #ced4da;
+    border-right: #ced4da; ;
 }
 
 #rechercher:focus{
     background-color: rgba(168, 223, 255, 0.85);
     border-color: #5d71e4 !important;
     box-shadow: 4px 4px 20px rgba(100, 164, 201, 0.85) !important;
+  }
+
+  #rechecher{
+    border-right-color: transparent !important;
   }
