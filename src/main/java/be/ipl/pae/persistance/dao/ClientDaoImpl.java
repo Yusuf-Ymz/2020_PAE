@@ -22,18 +22,18 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public ClientDto insererClient(ClientDto client) {
     String query =
         "INSERT INTO pae.clients VALUES( DEFAULT,?,?,?,?,?,?,?, ?,?) RETURNING client_id;";
-    PreparedStatement pStatement = dal.createStatement(query);
+    PreparedStatement prepareStatement = dal.createStatement(query);
     try {
-      pStatement.setString(1, client.getNom());
-      pStatement.setString(2, client.getPrenom());
-      pStatement.setString(3, client.getCodePostal());
-      pStatement.setString(4, client.getVille());
-      pStatement.setString(5, client.getEmail());
-      pStatement.setString(6, client.getTelephone());
-      pStatement.setString(7, client.getRue());
-      pStatement.setString(8, client.getNumero());
-      pStatement.setString(9, client.getBoite());
-      ResultSet rs = pStatement.executeQuery();
+      prepareStatement.setString(1, client.getNom());
+      prepareStatement.setString(2, client.getPrenom());
+      prepareStatement.setString(3, client.getCodePostal());
+      prepareStatement.setString(4, client.getVille());
+      prepareStatement.setString(5, client.getEmail());
+      prepareStatement.setString(6, client.getTelephone());
+      prepareStatement.setString(7, client.getRue());
+      prepareStatement.setString(8, client.getNumero());
+      prepareStatement.setString(9, client.getBoite());
+      ResultSet rs = prepareStatement.executeQuery();
       if (rs.next()) {
         return getClientById(rs.getInt(1));
       }
@@ -112,8 +112,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
       prepareStatement.setString(1, ville);
       ResultSet rs = prepareStatement.executeQuery();
       while (rs.next()) {
-        String villeDB = rs.getString(1);
-        villes.add(villeDB);
+        String villeDb = rs.getString(1);
+        villes.add(villeDb);
       }
       return villes;
     } catch (SQLException exception) {
@@ -192,10 +192,10 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   @Override
   public ClientDto getClientById(int id) {
     String query = "SELECT * FROM pae.clients c WHERE c.client_id = ?";
-    PreparedStatement pStatement = dal.createStatement(query);
+    PreparedStatement prepareStatement = dal.createStatement(query);
     try {
-      pStatement.setInt(1, id);
-      ResultSet rs = pStatement.executeQuery();
+      prepareStatement.setInt(1, id);
+      ResultSet rs = prepareStatement.executeQuery();
       ClientDto client = fact.getClientDto();
       if (rs.next()) {
         fillObject(client, rs);

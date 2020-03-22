@@ -202,8 +202,9 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       prepareStatement.setString(1, pseudo);
       ResultSet rs = prepareStatement.executeQuery();
 
-      if (rs.next())
+      if (rs.next()) {
         return true;
+      }
 
       return false;
     } catch (SQLException exception) {
@@ -212,14 +213,15 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   public boolean emailExiste(String email) {
-    String query = "SELECT * FROM pae.utilisateurs WHERE email = ?";
+    String query = "SELECT * FROM pae.utilisateurs WHERE LOWER(email) = LOWER(?)";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
       prepareStatement.setString(1, email);
       ResultSet rs = prepareStatement.executeQuery();
 
-      if (rs.next())
+      if (rs.next()) {
         return true;
+      }
 
       return false;
     } catch (SQLException exception) {

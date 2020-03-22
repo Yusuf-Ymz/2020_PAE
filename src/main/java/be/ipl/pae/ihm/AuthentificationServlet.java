@@ -35,7 +35,7 @@ public class AuthentificationServlet extends HttpServlet {
 
 
   /**
-   * Instancie un servlet
+   * Instancie l'authentification servlet.
    */
   public AuthentificationServlet() {
     this.secret = Config.getConfiguration("secret");
@@ -60,24 +60,25 @@ public class AuthentificationServlet extends HttpServlet {
 
     Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
     String action = (String) body.get("action");
-    String json = "";
 
     System.out.println(action);
 
     switch (action) {
       case "register":
         try {
-          registerUser(req, resp, body);
-        } catch (Exception e) {
-          e.printStackTrace();
+          registerUser(resp, body);
+        } catch (Exception exception) {
+          exception.printStackTrace();
         }
         break;
       case "connection":
         try {
-          login(req, resp, body);
-        } catch (Exception e) {
-          e.printStackTrace();
+          login(resp, body);
+        } catch (Exception exception) {
+          exception.printStackTrace();
         }
+        break;
+      default:
         break;
     }
   }
@@ -90,8 +91,7 @@ public class AuthentificationServlet extends HttpServlet {
    * @throws Exception : une exception
    */
   @SuppressWarnings("unchecked")
-  private void login(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body)
-      throws Exception {
+  private void login(HttpServletResponse resp, Map<String, Object> body) throws Exception {
 
     String pseudo = body.get("pseudo").toString();
     String password = body.get("password").toString();
@@ -121,8 +121,7 @@ public class AuthentificationServlet extends HttpServlet {
    * @return the JSON containing an eventual error message
    * @throws Exception if something went wrong.
    */
-  private void registerUser(HttpServletRequest req, HttpServletResponse resp,
-      Map<String, Object> body) throws Exception {
+  private void registerUser(HttpServletResponse resp, Map<String, Object> body) throws Exception {
     UserDto dto = dtoFactory.getUserDto();
 
     dto.setNom((String) body.get("nom"));
@@ -132,8 +131,7 @@ public class AuthentificationServlet extends HttpServlet {
     dto.setVille((String) body.get("ville"));
     dto.setPassword((String) body.get("mdp"));
 
-    String json =
-        "{\"success\":\"true\",\"msg\":\"Wouhou! Connexion acceptée et en attente de confirmation.\"}";
+    String json = "{\"msg\":\"Wouhou! Connexion acceptée et en attente de confirmation.\"}";
     int status = HttpServletResponse.SC_OK;
     try {
       userUcc.inscrire(dto);

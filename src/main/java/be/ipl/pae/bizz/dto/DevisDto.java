@@ -83,7 +83,7 @@ public interface DevisDto {
   /**
    * Modifie la durée des travaux du devis.
    * 
-   * @param duree
+   * @param duree : la durée en jour
    */
   void setDuree(int duree);
 

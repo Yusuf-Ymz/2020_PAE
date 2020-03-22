@@ -45,6 +45,9 @@ public class ClientServlet extends HttpServlet {
   @Inject
   private DtoFactory fact;
 
+  /**
+   * Instancie le client servlet.
+   */
   public ClientServlet() {
 
     this.secret = Config.getConfiguration("secret");
@@ -103,19 +106,21 @@ public class ClientServlet extends HttpServlet {
           client.setRue(req.getParameter("rue"));
           client.setVille(req.getParameter("ville"));
           client.setNumero(req.getParameter("numero"));
-          ClientDto nClient = clientUcc.insertClient(client, idUser);
-          json = "{\"client\":" + genson.serialize(nClient) + "}";
+          client = clientUcc.insertClient(client, idUser);
+          json = "{\"client\":" + genson.serialize(client) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
-        } else {// TODO completer cette condition! modifier le else en else if + rajouter une action
+        } else {
+          // TODO completer cette condition! modifier le else en else if + rajouter une
+          // action
           listCustomer(req, resp);// à modifer aussi
         }
       } else {
         ServletUtils.sendResponse(resp, json, statusCode);
       }
       // this.listCustomer(req, resp);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
   }
 
@@ -153,8 +158,8 @@ public class ClientServlet extends HttpServlet {
         client.setRue((String) body.get("rue"));
         client.setVille((String) body.get("ville"));
         client.setNumero((String) body.get("numero"));
-        ClientDto nClient = clientUcc.insertClient(client, idUser);
-        json = "{\"client\":" + genson.serialize(nClient) + "}";
+        client = clientUcc.insertClient(client, idUser);
+        json = "{\"client\":" + genson.serialize(client) + "}";
         statusCode = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, statusCode);
       }

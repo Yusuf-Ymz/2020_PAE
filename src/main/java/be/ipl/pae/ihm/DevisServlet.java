@@ -3,7 +3,6 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
-import be.ipl.pae.main.Config;
 
 import com.owlike.genson.Genson;
 
@@ -16,17 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
-  private String secret;
   private Genson genson;
   @Inject
   private DevisUcc devisUcc;
 
+  /**
+   * Instancie le devis servlet
+   */
   public DevisServlet() {
-    this.secret = Config.getConfiguration("secret");
     this.genson = ServletUtils.getGensonDevis();
   }
 
@@ -49,6 +46,8 @@ public class DevisServlet extends HttpServlet {
             break;
           case "tousLesDevis":
             devis = devisUcc.listerTousLesDevis(userId);
+            break;
+          default:
             break;
         }
 

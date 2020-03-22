@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 public interface DalBackendServices {
 
   /**
-   * Crée un PreparedStatement relatif à  la requéte SQL et le renvoie.
+   * Créé un PreparedStatement relatif à  la requéte SQL et le renvoi.
    * 
-   * @param statement Le querry Ã  exécuter
-   * @return le PreparedStatement crée
+   * @param query : Le query à exécuter
+   * @return le PreparedStatement créé
    */
   PreparedStatement createStatement(String query);
 
