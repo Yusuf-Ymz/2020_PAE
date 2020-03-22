@@ -4,7 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalService;
+import be.ipl.pae.persistance.dal.DalBackendServices;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class ClientDaoImpl implements ClientDao {
+class ClientDaoImpl extends DaoUtils implements ClientDao {
   @Inject
-  DalService dal;
+  DalBackendServices dal;
   @Inject
   DtoFactory fact;
 
@@ -56,7 +56,7 @@ class ClientDaoImpl implements ClientDao {
       List<ClientDto> listeClients = new ArrayList<ClientDto>();
       while (rs.next()) {
         ClientDto clientDto = fact.getClientDto();
-        dal.fillObject(clientDto, dal.convertResulSetToMap(rs));
+        fillObject(clientDto, rs);
         listeClients.add(clientDto);
       }
       return listeClients;
@@ -90,7 +90,7 @@ class ClientDaoImpl implements ClientDao {
       ResultSet rs = prepareStatement.executeQuery();
       while (rs.next()) {
         ClientDto client = fact.getClientDto();
-        dal.fillObject(client, dal.convertResulSetToMap(rs));
+        fillObject(client, rs);
         clients.add(client);
       }
       return clients;
@@ -198,7 +198,7 @@ class ClientDaoImpl implements ClientDao {
       ResultSet rs = pStatement.executeQuery();
       ClientDto client = fact.getClientDto();
       if (rs.next()) {
-        dal.fillObject(client, dal.convertResulSetToMap(rs));
+        fillObject(client, rs);
       }
       return client;
     } catch (SQLException exception) {

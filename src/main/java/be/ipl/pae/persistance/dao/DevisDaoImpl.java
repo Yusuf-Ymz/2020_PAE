@@ -5,7 +5,7 @@ import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalService;
+import be.ipl.pae.persistance.dal.DalBackendServices;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,9 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DevisDaoImpl implements DevisDao {
+public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Inject
-  private DalService dal;
+  private DalBackendServices dal;
   @Inject
   private DtoFactory fact;
 
@@ -30,7 +30,7 @@ public class DevisDaoImpl implements DevisDao {
         return null;
       }
       UserDto user = fact.getUserDto();
-      dal.fillObject(user, dal.convertResulSetToMap(rs));
+      fillObject(user, rs);
       return user;
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -49,7 +49,7 @@ public class DevisDaoImpl implements DevisDao {
       List<DevisDto> listeDevis = new ArrayList<DevisDto>();
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
-        dal.fillObject(devis, dal.convertResulSetToMap(rs));
+        fillObject(devis, rs);
         listeDevis.add(devis);
       }
       return listeDevis;
@@ -71,7 +71,7 @@ public class DevisDaoImpl implements DevisDao {
       List<DevisDto> listeDevis = new ArrayList<DevisDto>();
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
-        dal.fillObject(devis, dal.convertResulSetToMap(rs));
+        fillObject(devis, rs);
         listeDevis.add(devis);
       }
       return listeDevis;

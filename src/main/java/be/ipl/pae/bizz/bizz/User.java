@@ -1,8 +1,10 @@
 package be.ipl.pae.bizz.bizz;
 
-import java.time.LocalDate;
-import org.mindrot.bcrypt.BCrypt;
 import be.ipl.pae.annotation.FieldDb;
+
+import org.mindrot.bcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 class User implements UserBiz {
 

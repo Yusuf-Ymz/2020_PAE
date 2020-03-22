@@ -1,15 +1,20 @@
 package be.ipl.pae.bizz.bizz;
 
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.exception.BizException;
+import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.UserDao;
+
+import java.util.List;
 
 class UserUccImpl implements UserUcc {
 
   @Inject
   private UserDao userDao;
+  @Inject
+  DalServices dal;
 
   public UserUccImpl() {
 
@@ -17,76 +22,139 @@ class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto seConnecter(String pseudo, String password) {
-    UserDto newUserDto = userDao.obtenirUser(pseudo);
-    UserBiz userBiz = (UserBiz) newUserDto;
+    try {
+      dal.startTransaction();
+      UserDto newUserDto = userDao.obtenirUser(pseudo);
+      UserBiz userBiz = (UserBiz) newUserDto;
 
-    if (userBiz == null || !userBiz.checkValidePassword(password) || !userBiz.isConfirme()) {
-      return null;
+      if (userBiz == null || !userBiz.checkValidePassword(password) || !userBiz.isConfirme()) {
+        throw new BizException("");
+      }
+      return newUserDto;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
     }
-    return newUserDto;
+
+
   }
 
   public void inscrire(UserDto user) {
-    userDao.inscrirUser(user);
+    try {
+      dal.startTransaction();
+      userDao.inscrirUser(user);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
   @Override
   public List<UserDto> listerUsers(int userId) {
-    UserDto userConnecte = obtenirUser(userId);
-    if (userConnecte.isOuvrier()) {
+    try {
+      dal.startTransaction();
+      UserDto userConnecte = obtenirUser(userId);
+      if (!userConnecte.isOuvrier()) {
+        throw new BizException("Vous n'avez pas les droits");
+      }
       return userDao.obtenirListeUser();
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
     }
-    /*
-     * } else { json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-     * resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED); }
-     */
-    return null;
+
   }
+
 
   @Override
   public List<UserDto> listerUsersPreinscrit(int userId) {
-    UserDto userConnecte = obtenirUser(userId);
-    if (userConnecte.isOuvrier()) {
+    try {
+      dal.startTransaction();
+      UserDto userConnecte = obtenirUser(userId);
+      if (!userConnecte.isOuvrier()) {
+        throw new BizException("Vous n'avez pas les droits");
+      }
       return userDao.obtenirListeUsersPreInscrit();
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
     }
-    /*
-     * } else { json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-     * resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED); }
-     */
-    return null;
+
   }
 
   @Override
   public UserDto obtenirUser(int id) {
-    return this.userDao.obtenirUserAvecId(id);
+    try {
+      dal.startTransaction();
+      return this.userDao.obtenirUserAvecId(id);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
   @Override
   public UserDto confirmUser(int userId, int idConfirmed) {
-    UserDto userConnecte = obtenirUser(userId);
-    if (userConnecte.isOuvrier()) {
-      UserDto userConfirm = obtenirUser(idConfirmed);
-      if (!userConfirm.isConfirme()) {
-        userDao.addConfirmUserWithId(idConfirmed);
-        return userConfirm;
+    try {
+      dal.startTransaction();
+      UserDto userConnecte = obtenirUser(userId);
+      if (userConnecte.isOuvrier()) {
+        UserDto userConfirm = obtenirUser(idConfirmed);
+        if (!userConfirm.isConfirme()) {
+          userDao.addConfirmUserWithId(idConfirmed);
+          return userConfirm;
+        }
       }
+      throw new BizException(""); // TODO mettre un message correspondant
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
     }
-    return null;
   }
 
   @Override
   public UserDto confirmWorker(int userId, int idConfirmed) {
-    UserDto userConnecte = obtenirUser(userId);
-    if (userConnecte.isOuvrier()) {
-      UserDto userConfirm = obtenirUser(idConfirmed);
-      if (!userConfirm.isConfirme()) {
-        userDao.addConfirmWorkerWithId(idConfirmed);
-        return userConfirm;
+    try {
+      dal.startTransaction();
+      UserDto userConnecte = obtenirUser(userId);
+      if (userConnecte.isOuvrier()) {
+        UserDto userConfirm = obtenirUser(idConfirmed);
+        if (!userConfirm.isConfirme()) {
+          userDao.addConfirmWorkerWithId(idConfirmed);
+          return userConfirm;
+        }
       }
+      throw new BizException("");// TODO mettre un message correspondant
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
     }
-    return null;
+
   }
 
+
+  // à quoi ça sert ??????????
   @Override
   public void initilisation() {
     UserDto alain = userDao.obtenirUser("alain");

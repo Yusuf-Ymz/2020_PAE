@@ -11,7 +11,7 @@ import java.util.Map;
 public class InjectionService {
 
 
-  private static Map<String, Object> dependencies = new HashMap<String, Object>();
+  public static Map<String, Object> dependencies = new HashMap<String, Object>();
 
   /**
    * Injecte les dépendances de l'objet passé en paramètre.
@@ -28,14 +28,17 @@ public class InjectionService {
           Object fieldObjet = null;
           Class<?> classAInjecter = field.getType();
           String classAInjecterName = classAInjecter.getName();
+
           if (dependencies.containsKey(classAInjecterName)) {
             fieldObjet = dependencies.get(classAInjecterName);
+            // System.out.println("contenu " + fieldObjet.getClass().getCanonicalName());
           } else {
             String implName = Config.getConfiguration(classAInjecterName);
             Class<?> classImpl = Class.forName(implName);
             Constructor<?> constructor = classImpl.getDeclaredConstructor();
             constructor.setAccessible(true);
             fieldObjet = constructor.newInstance();
+            // System.out.println("pas contenu " + fieldObjet.getClass().getCanonicalName());
             injectDependencies(fieldObjet);
             dependencies.put(classAInjecterName, fieldObjet);
           }

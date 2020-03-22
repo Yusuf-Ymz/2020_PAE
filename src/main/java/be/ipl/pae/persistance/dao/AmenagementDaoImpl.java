@@ -4,7 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalService;
+import be.ipl.pae.persistance.dal.DalBackendServices;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class AmenagementDaoImpl implements AmenagementDao {
+class AmenagementDaoImpl extends DaoUtils implements AmenagementDao {
   @Inject
-  private DalService dal;
+  private DalBackendServices dal;
   @Inject
   private DtoFactory fact;
 
@@ -28,7 +28,7 @@ class AmenagementDaoImpl implements AmenagementDao {
       ResultSet rs = pstatement.executeQuery();
       while (rs.next()) {
         AmenagementDto amenagement = fact.getAmenagementDto();
-        dal.fillObject(amenagement, dal.convertResulSetToMap(rs));
+        fillObject(amenagement, rs);
         amenagements.add(amenagement);
       }
     } catch (SQLException exception) {

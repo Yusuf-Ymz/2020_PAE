@@ -1,30 +1,26 @@
 package be.ipl.pae.persistance.dao;
 
+import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.exception.FatalException;
+import be.ipl.pae.persistance.dal.DalBackendServices;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import be.ipl.pae.annotation.Inject;
-import be.ipl.pae.bizz.dto.UserDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
-import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalService;
 
 
-class UserDaoImpl implements UserDao {
+class UserDaoImpl extends DaoUtils implements UserDao {
   @Inject
-  private DalService dal;
+  private DalBackendServices dal;
   @Inject
   private DtoFactory fact;
 
   public UserDaoImpl() {
 
-  }
-
-  public UserDaoImpl(DalService dal, DtoFactory fact) {
-    this.dal = dal;
-    this.fact = fact;
   }
 
   @Override
@@ -38,7 +34,7 @@ class UserDaoImpl implements UserDao {
         return null;
       }
       UserDto user = fact.getUserDto();
-      dal.fillObject(user, dal.convertResulSetToMap(rs));
+      fillObject(user, rs);
       return user;
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -56,7 +52,7 @@ class UserDaoImpl implements UserDao {
       List<UserDto> listeUsers = new ArrayList<UserDto>();
       while (rs.next()) {
         UserDto user = fact.getUserDto();
-        dal.fillObject(user, dal.convertResulSetToMap(rs));
+        fillObject(user, rs);
         listeUsers.add(user);
       }
       return listeUsers;
@@ -78,7 +74,7 @@ class UserDaoImpl implements UserDao {
       List<UserDto> listeUsers = new ArrayList<UserDto>();
       while (rs.next()) {
         UserDto user = fact.getUserDto();
-        dal.fillObject(user, dal.convertResulSetToMap(rs));
+        fillObject(user, rs);
         listeUsers.add(user);
       }
       return listeUsers;
@@ -100,7 +96,7 @@ class UserDaoImpl implements UserDao {
         return null;
       }
       UserDto user = fact.getUserDto();
-      dal.fillObject(user, dal.convertResulSetToMap(rs));
+      fillObject(user, rs);
       return user;
     } catch (SQLException exception) {
       exception.printStackTrace();
