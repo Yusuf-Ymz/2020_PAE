@@ -8,7 +8,7 @@ class Devis implements DevisBiz {
   @FieldDb("devis_id")
   private int devisId;
 
-  @FieldDb("photo_preferee")
+  @FieldDb("photo")
   private String photoPreferee;
 
   @FieldDb("client")

@@ -1,20 +1,25 @@
 package be.ipl.pae.ihm;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.exception.BizException;
+import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.owlike.genson.Genson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AuthentificationServlet extends HttpServlet {
 
@@ -62,14 +67,14 @@ public class AuthentificationServlet extends HttpServlet {
     switch (action) {
       case "register":
         try {
-          json = registerUser(req, resp, body);
+          registerUser(req, resp, body);
         } catch (Exception e) {
           e.printStackTrace();
         }
         break;
       case "connection":
         try {
-          json = login(req, resp, body);
+          login(req, resp, body);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -85,7 +90,7 @@ public class AuthentificationServlet extends HttpServlet {
    * @throws Exception : une exception
    */
   @SuppressWarnings("unchecked")
-  private String login(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body)
+  private void login(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> body)
       throws Exception {
 
     String pseudo = body.get("pseudo").toString();
@@ -94,22 +99,17 @@ public class AuthentificationServlet extends HttpServlet {
     UserDto user = userUcc.seConnecter(pseudo, password);
 
     String json = null;
+    int status = HttpServletResponse.SC_UNAUTHORIZED;
     if (user != null) {
       user.setPassword(null);
       String token = JWT.create().withClaim("id", user.getUserId()).sign(Algorithm.HMAC512(secret));
       json = "{\"token\":\"" + token + "\",\"user\":" + genson.serialize(user) + "}";
-      resp.setStatus(HttpServletResponse.SC_OK);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
+      status = HttpServletResponse.SC_OK;
     } else {
       json = "{\"error\":\"La connexion a échoué. Pseudo et mot de passe non correspondants.\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
     }
-    return json;
+
+    ServletUtils.sendResponse(resp, json, status);
   }
 
   /**
@@ -121,7 +121,7 @@ public class AuthentificationServlet extends HttpServlet {
    * @return the JSON containing an eventual error message
    * @throws Exception if something went wrong.
    */
-  private String registerUser(HttpServletRequest req, HttpServletResponse resp,
+  private void registerUser(HttpServletRequest req, HttpServletResponse resp,
       Map<String, Object> body) throws Exception {
     UserDto dto = dtoFactory.getUserDto();
 
@@ -132,16 +132,18 @@ public class AuthentificationServlet extends HttpServlet {
     dto.setVille((String) body.get("ville"));
     dto.setPassword((String) body.get("mdp"));
 
-    userUcc.inscrire(dto);
-
-    String token = JWT.create().withClaim("id", dto.getUserId()).sign(Algorithm.HMAC512(secret));
     String json =
         "{\"success\":\"true\",\"msg\":\"Wouhou! Connexion acceptée et en attente de confirmation.\"}";
-    resp.setStatus(HttpServletResponse.SC_OK);
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
-    resp.getWriter().write(json);
-
-    return json;
+    int status = HttpServletResponse.SC_OK;
+    try {
+      userUcc.inscrire(dto);
+    } catch (FatalException fatality) {
+      json = "{\"error\":\"Problème interne.\"}";
+      status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    } catch (BizException biz) {
+      json = "{\"error\":\"" + biz.getMessage() + ".\"}";
+      status = HttpServletResponse.SC_CONFLICT;
+    }
+    ServletUtils.sendResponse(resp, json, status);
   }
 }

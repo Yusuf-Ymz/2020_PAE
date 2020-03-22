@@ -67,8 +67,20 @@ public class MockUserDao implements UserDao {
   }
 
   @Override
-  public void inscrirUser(UserDto user) {
+  public void inscrireUser(UserDto user) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public boolean pseudoExiste(String pseudo) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean emailExiste(String email) {
+    // TODO Auto-generated method stub
+    return false;
   }
 }

@@ -6,11 +6,12 @@ CREATE TABLE pae.clients(
 	client_id SERIAL PRIMARY KEY,
 	nom VARCHAR NOT NULL,
 	prenom VARCHAR NOT NULL,
-	adresse VARCHAR NOT NULL,
+	rue VARCHAR NOT NULL,
+	no_boite INTEGER NOT NULL,
 	code_postal VARCHAR NOT NULL,
 	ville VARCHAR NOT NULL,
 	email VARCHAR NOT NULL,
-	telephone VARCHAR NOT NULL
+	telephone VARCHAR NOT NULL,
 );
 
 CREATE TABLE pae.utilisateurs(
@@ -33,7 +34,8 @@ CREATE TABLE pae.devis(
 	date_debut DATE NOT NULL,
 	montant_total INTEGER NOT NULL,
 	duree INTEGER NOT NULL,
-	etat VARCHAR NOT NULL
+	etat VARCHAR NOT NULL,
+	date_devis DATE NOT NULL
 );
 
 CREATE TABLE pae.types_amenagements(
@@ -49,6 +51,7 @@ CREATE TABLE pae.travaux(
 
 CREATE TABLE pae.photos(
 	photo_id SERIAL PRIMARY KEY,
+	photo VARCHAR NOT NULL,
 	avant_apres boolean NOT NULL,
 	visible boolean NOT NULL,
 	type_amenagement INTEGER REFERENCES pae.types_amenagements(type_amenagement),

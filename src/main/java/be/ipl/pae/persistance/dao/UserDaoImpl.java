@@ -175,7 +175,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     }
   }
 
-  public void inscrirUser(UserDto user) {
+  public void inscrireUser(UserDto user) {
     String query = "INSERT INTO pae.utilisateurs VALUES(DEFAULT,false,false,?,?,?,null,?,?,?,?);";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
@@ -190,8 +190,40 @@ class UserDaoImpl extends DaoUtils implements UserDao {
 
       prepareStatement.executeQuery(query);
       System.out.println("Ajout complet");
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+  }
+
+  public boolean pseudoExiste(String pseudo) {
+    String query = "SELECT * FROM pae.utilisateurs WHERE pseudo = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setString(1, pseudo);
+      ResultSet rs = prepareStatement.executeQuery();
+
+      if (rs.next())
+        return true;
+
+      return false;
+    } catch (SQLException exception) {
+      throw new FatalException();
+    }
+  }
+
+  public boolean emailExiste(String email) {
+    String query = "SELECT * FROM pae.utilisateurs WHERE email = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setString(1, email);
+      ResultSet rs = prepareStatement.executeQuery();
+
+      if (rs.next())
+        return true;
+
+      return false;
+    } catch (SQLException exception) {
+      throw new FatalException();
     }
   }
 }

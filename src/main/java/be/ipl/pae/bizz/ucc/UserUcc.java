@@ -1,7 +1,8 @@
 package be.ipl.pae.bizz.ucc;
 
-import java.util.List;
 import be.ipl.pae.bizz.dto.UserDto;
+
+import java.util.List;
 
 public interface UserUcc {
   /**
@@ -13,8 +14,12 @@ public interface UserUcc {
    */
   UserDto seConnecter(String pseudo, String password);
 
-
-  public void inscrire(UserDto user);
+  /**
+   * Permet l'inscription de l'utilisateur.
+   * 
+   * @param user : l'utilisateur à inscrire
+   */
+  void inscrire(UserDto user);
 
   /**
    * Renvoie la liste des utilisateurs.
@@ -26,15 +31,6 @@ public interface UserUcc {
   List<UserDto> listerUsers(int userId);
 
   List<UserDto> listerUsersPreinscrit(int userId);
-
-
-  /**
-   * Revoie l'utilisateur dont l'id est passer en parametre.
-   * 
-   * @param id : l'id de l'utilisateur rechercher
-   * @return un userDto
-   */
-  UserDto obtenirUser(int id);
 
   UserDto confirmUser(int userId, int idConfirmed);
 

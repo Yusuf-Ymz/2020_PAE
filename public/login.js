@@ -41,13 +41,12 @@ function onPostInscription(response) {
   $("#ville").val("");
   $("#mdp_inscription").val("");
   $("#re_mdp_inscription").val("");
-  if (response.success === "true") {
-    RegisterForm(response.msg);
-  }
+  RegisterForm(response.msg);
 }
+
 function onErrorInscription(err) {
-  console.error("Error :", err);
-  LoginForm(response.error);
+  console.error("Error :" + err.responseJSON.error);
+  RegisterForm(err.responseJSON.error);
 }
 
 const RegisterForm = (errorMessage = "") => {

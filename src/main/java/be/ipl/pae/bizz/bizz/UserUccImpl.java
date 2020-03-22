@@ -44,7 +44,16 @@ class UserUccImpl implements UserUcc {
   public void inscrire(UserDto user) {
     try {
       dal.startTransaction();
-      userDao.inscrirUser(user);
+
+      if (userDao.pseudoExiste(user.getPseudo())) {
+        throw new BizException("Pseudo déjà existant");
+      }
+
+      if (userDao.emailExiste(user.getEmail())) {
+        throw new BizException("Email déjà existant");
+      }
+
+      userDao.inscrireUser(user);
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
@@ -53,6 +62,7 @@ class UserUccImpl implements UserUcc {
       dal.commitTransaction();
     }
   }
+
 
   @Override
   public List<UserDto> listerUsers(int userId) {
@@ -94,26 +104,12 @@ class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto obtenirUser(int id) {
-    try {
-      dal.startTransaction();
-      return this.userDao.obtenirUserAvecId(id);
-    } catch (Exception exception) {
-      dal.rollbackTransaction();
-      exception.printStackTrace();
-      throw exception;
-    } finally {
-      dal.commitTransaction();
-    }
-  }
-
-  @Override
   public UserDto confirmUser(int userId, int idConfirmed) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = obtenirUser(userId);
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
       if (userConnecte.isOuvrier()) {
-        UserDto userConfirm = obtenirUser(idConfirmed);
+        UserDto userConfirm = this.userDao.obtenirUserAvecId(idConfirmed);
         if (!userConfirm.isConfirme()) {
           userDao.addConfirmUserWithId(idConfirmed);
           return userConfirm;
@@ -133,9 +129,9 @@ class UserUccImpl implements UserUcc {
   public UserDto confirmWorker(int userId, int idConfirmed) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = obtenirUser(userId);
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
       if (userConnecte.isOuvrier()) {
-        UserDto userConfirm = obtenirUser(idConfirmed);
+        UserDto userConfirm = this.userDao.obtenirUserAvecId(idConfirmed);
         if (!userConfirm.isConfirme()) {
           userDao.addConfirmWorkerWithId(idConfirmed);
           return userConfirm;
@@ -153,7 +149,7 @@ class UserUccImpl implements UserUcc {
   }
 
 
-  // à quoi ça sert ??????????
+  // à quoi ça sert ??????????????????????????????????????????????????????????
   @Override
   public void initilisation() {
     UserDto alain = userDao.obtenirUser("alain");
