@@ -65,8 +65,8 @@ class DalServicesImpl implements DalServices, DalBackendServices {
 
   public void startTransaction() {
     try {
-      initConnection();
-      Connection conn = connection.get();
+      Connection conn = ds.getConnection();
+      connection.set(conn);
       conn.setAutoCommit(false);
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -78,7 +78,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     try {
       Connection conn = connection.get();
       conn.commit();
-      // closeConnection();
+      conn.close();
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException(exception.getMessage());
@@ -90,19 +90,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
       Connection conn = connection.get();
       conn.rollback();
       closeConnection();
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException(exception.getMessage());
-    }
-  }
-
-  /**
-   * Obtient un connexion à la Db.
-   */
-  private void initConnection() {
-    try {
-      Connection conn = ds.getConnection();
-      connection.set(conn);
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException(exception.getMessage());
