@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DevisDao {
   /**
-   * Renvoie l'utilisateur correspondant à l'id
+   * Renvoie l'utilisateur correspondant à l'id.
    * 
    * @param idUser : l'id
    * @return l'utilisateur
@@ -15,22 +15,22 @@ public interface DevisDao {
   UserDto obtenirUserAvecId(int idUser);
 
   /**
-   * Renvoie tous les devis
+   * Renvoie tous les devis.
    * 
    * @return la liste des devis
    */
   List<DevisDto> obtenirTousLesDevis();
 
   /**
-   * Renvoie les devis appartenant à l'id du client
+   * Renvoie les devis appartenant à l'id du client.
    * 
-   * @param idClient
+   * @param idClient : l'id du client
    * @return la liste des devis
    */
   List<DevisDto> obtenirSesDevis(int idClient);
 
   /**
-   * Permet d'insérer un devis
+   * Permet d'insérer un devis.
    * 
    * @param idOuvrier : l'id de l'ouvrier
    * @param devis : le devis
