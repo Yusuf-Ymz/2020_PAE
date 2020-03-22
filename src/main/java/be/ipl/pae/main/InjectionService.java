@@ -28,7 +28,6 @@ public class InjectionService {
           Object fieldObjet = null;
           Class<?> classAInjecter = field.getType();
           String classAInjecterName = classAInjecter.getName();
-
           if (dependencies.containsKey(classAInjecterName)) {
             fieldObjet = dependencies.get(classAInjecterName);
             // System.out.println("contenu " + fieldObjet.getClass().getCanonicalName());

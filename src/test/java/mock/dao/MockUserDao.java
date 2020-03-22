@@ -1,10 +1,11 @@
 package mock.dao;
 
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.UserDao;
+
+import java.util.List;
 
 public class MockUserDao implements UserDao {
 
@@ -13,11 +14,10 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto obtenirUser(String pseudo) {
-
     if ("pseudo".equals(pseudo)) {
       UserDto user = dtoFactory.getUserDto();
       user.setPseudo("pseudo");
-      user.setPassword("$2a$10$t04039EnUaPoJn8EpR3ovOkQXj1wEZwfUBNMmvHTnhN4FxZUSR0.S");
+      user.setPassword("$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u");
       user.setConfirme(true);
       return user;
     }

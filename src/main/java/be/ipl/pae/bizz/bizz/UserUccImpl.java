@@ -26,7 +26,6 @@ class UserUccImpl implements UserUcc {
       dal.startTransaction();
       UserDto newUserDto = userDao.obtenirUser(pseudo);
       UserBiz userBiz = (UserBiz) newUserDto;
-
       if (userBiz == null || !userBiz.checkValidePassword(password) || !userBiz.isConfirme()) {
         throw new BizException("");
       }
