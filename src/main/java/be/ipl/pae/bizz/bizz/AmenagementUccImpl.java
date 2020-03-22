@@ -11,10 +11,10 @@ import java.util.List;
 class AmenagementUccImpl implements AmenagementUcc {
 
   @Inject
-  AmenagementDao amenagementDao;
+  private AmenagementDao amenagementDao;
 
   @Inject
-  DalServices dal;
+  private DalServices dal;
 
   @Override
   public List<AmenagementDto> listerTousLesAmenagements() {

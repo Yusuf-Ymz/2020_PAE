@@ -14,7 +14,7 @@ class DevisUccImpl implements DevisUcc {
   @Inject
   private DevisDao devisdao;
   @Inject
-  DalServices dal;
+  private DalServices dal;
 
   public List<DevisDto> listerTousLesDevis(int idUser) {
     try {

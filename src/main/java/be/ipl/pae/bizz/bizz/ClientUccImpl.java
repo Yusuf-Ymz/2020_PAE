@@ -18,7 +18,7 @@ class ClientUccImpl implements ClientUcc {
   @Inject
   private ClientDao clientDao;
   @Inject
-  DalServices dal;
+  private DalServices dal;
 
   @Override
   public ClientDto insertClient(ClientDto client, int idOuvrier) {

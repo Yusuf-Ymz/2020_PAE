@@ -14,7 +14,7 @@ class UserUccImpl implements UserUcc {
   @Inject
   private UserDao userDao;
   @Inject
-  DalServices dal;
+  private DalServices dal;
 
   public UserUccImpl() {
 
@@ -58,7 +58,7 @@ class UserUccImpl implements UserUcc {
   public List<UserDto> listerUsers(int userId) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = obtenirUser(userId);
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
       if (!userConnecte.isOuvrier()) {
         throw new BizException("Vous n'avez pas les droits");
       }
@@ -78,7 +78,7 @@ class UserUccImpl implements UserUcc {
   public List<UserDto> listerUsersPreinscrit(int userId) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = obtenirUser(userId);
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
       if (!userConnecte.isOuvrier()) {
         throw new BizException("Vous n'avez pas les droits");
       }

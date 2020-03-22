@@ -13,8 +13,8 @@ import javax.sql.DataSource;
 
 
 class DalServicesImpl implements DalServices, DalBackendServices {
-  private static ThreadLocal<Connection> connection = new ThreadLocal<Connection>();;
-  private DataSource ds = setupDataSource();
+  private static ThreadLocal<Connection> connection;
+  private DataSource ds;
 
   /**
    * Crée une connexion à la DB.
@@ -37,6 +37,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public PreparedStatement createStatement(String query) {
     PreparedStatement stmt = null;
     Connection conn = connection.get();
+    System.out.println("conn ps -> " + conn);
     try {
       stmt = conn.prepareStatement(query);
     } catch (SQLException exception) {
@@ -61,7 +62,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public void commitTransaction() {
     try {
       Connection conn = connection.get();
-      connection.remove();
+      System.out.println("commit " + conn);
       conn.commit();
       conn.close();
     } catch (SQLException exception) {
@@ -70,9 +71,16 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     }
   }
 
+  /*
+   * public void commitTransaction() { try { Connection conn = connection.get(); conn.commit();
+   * conn.close(); } catch (SQLException exception) { exception.printStackTrace(); throw new
+   * FatalException(exception.getMessage()); } }
+   */
+
   public void rollbackTransaction() {
     try {
       Connection conn = connection.get();
+      System.out.println("ROLLBACK " + conn);
       conn.rollback();
     } catch (SQLException exception) {
       exception.printStackTrace();
