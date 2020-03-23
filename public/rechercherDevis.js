@@ -1,6 +1,6 @@
 import { getData } from "./utilsAPI.js";
 import {printTable} from "./utilsHtml.js"
-import {homeWorker} from "./index.js";
+import {homeWorker,HomeUser} from "./index.js";
 $(document).ready(function () {
 
     $('#rechercher_tous_les_devis').on('click',function (e) {
