@@ -115,6 +115,7 @@ public class ClientServlet extends HttpServlet {
           List<ClientDto> clients = clientUcc.listerClientsPasUtilisateur(idUser);
           String listeSerialisee =
               this.gensonClient.serialize(clients, new GenericType<List<ClientDto>>() {});
+          System.out.println(listeSerialisee);
           json = "{\"data\":" + listeSerialisee + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);

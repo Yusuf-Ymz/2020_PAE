@@ -140,6 +140,7 @@ public class UserServlet extends HttpServlet {
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
       List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit(userId);
+      System.out.println(listeUsersPreinscrit);
       json = "{\"data\":"
           + genson.serialize(listeUsersPreinscrit, new GenericType<List<UserDto>>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;
