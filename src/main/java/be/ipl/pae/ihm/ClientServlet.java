@@ -120,7 +120,7 @@ public class ClientServlet extends HttpServlet {
           ServletUtils.sendResponse(resp, json, statusCode);
         } else {
           // TODO completer cette condition! modifier le else en else if + rajouter une
-          // action
+          // action js
           listCustomer(req, resp);// à modifer aussi
         }
       } else {
