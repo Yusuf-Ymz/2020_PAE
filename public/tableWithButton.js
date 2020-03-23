@@ -65,7 +65,7 @@ function create_dynamic_HTML_table(
       if (property === "userId") {
         myLine.id = objectToPrint[property];
       }
-      if (property !== "idUser" && property !== "dataInscription" && property !== "idClient" && property !== "rue" && property !== "boite" && property !== "numero") {
+      if (property !== "N° utilisateur" && property !== "Date d'inscription" && property !== "N° client" && property !== "Rue" && property !== "Boite" && property !== "N° porte") {
       let myCell = document.createElement("td");
       myCell.className = "text-center";
       myCell.innerHTML = objectToPrint[property];
