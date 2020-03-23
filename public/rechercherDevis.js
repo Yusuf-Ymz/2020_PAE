@@ -10,7 +10,7 @@ $(document).ready(function () {
         const data = {
             action: "tousLesDevis"
         }
-        getData("/devis", data, token, onGetDevisList, onDevisListError);
+        getData("/devis", data, token, onGetTousLesDevisList, onDevisListError);
     });
 
     $('#rechercher_mes_devis').on('click',function (e) {
@@ -20,19 +20,26 @@ $(document).ready(function () {
         const data = {
             action: "mesDevis"
         }
-        getData("/devis", data, token, onGetDevisList, onDevisListError);
+        getData("/devis", data, token, onGetMesDevisList, onDevisListError);
     });
 
 
 
 
-    function onGetDevisList(response) {
+    function onGetTousLesDevisList(response) {
         $("#listeDeTousLesDevis").show();
   
         $("#searchCard").show();// pas encore d'option de recherche pour devis
         let nombtnTab = ["visualiser devis"];
-        let thtabDevis = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
-        printTable("listeDeTousLesDevis", response.devis, thtabDevis,nombtnTab,"devisId",doGetClientDevis,"/devis");
+        printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",doGetClientDevis,"/devis");
+    }
+
+    function onGetMesDevisList(response) {
+        $("#listeDeMesDevis").show();
+  
+        $("#searchCard").show();// pas encore d'option de recherche pour devis
+        let nombtnTab = ["visualiser devis"];
+        printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",doGetClientDevis,"/devis");
     }
 
     function doGetClientDevis(url,data = ""){

@@ -1,5 +1,6 @@
 "use strict";
 import { getData, postData, specialGetData } from "./utilsAPI.js";
+import { homeWorker } from "./index.js";
 //import printTable from "./utilsHtml.js"
 
 var searchVille = document.getElementById('villeSearch'),
@@ -73,12 +74,8 @@ function afficherNotif(msg){
 $(document).ready(function (e) {
 
     $("#indroduire_devis").click(function(){
-        $("#introduireDevis").show();
-        $("#searchContent").hide();
-        $("#confirmedInscriptionContent").hide();
-        $("#listeUser").hide();
-        $("#listerClients").hide();
-        $("#linkUserClientContent").hide();
+        homeWorker();
+        $('#introduireDevis').show();
         $("#searchCard").show();
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();

@@ -1,10 +1,9 @@
 
-function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [], idNom, laFonction = "", url = "") {
+function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom, laFonction = "", url = "") {
 
   $("#carouselExampleIndicators").hide();
   $("#users_preinscrit_component").hide();
 
-  console.log(arrayToPrint);
   let div_container = document.getElementById(containerElementId);
   div_container.innerHTML = "";
   $("#" + containerElementId).show();
@@ -18,14 +17,18 @@ function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [],
 
   let tr = document.createElement("tr");
   thead.appendChild(tr);
-  console.log(tabButtonValue.length);
-  for (let i = 0; i < thTab.length + tabButtonValue.length; i++) {
-    console.log("je pas");
-    let th = document.createElement("th");
-    if (i < thTab.length) {
-      th.innerHTML = thTab[i];
-    }
 
+  let headers = arrayToPrint[0];
+  for (const attribute in headers) {
+    if (attribute !== idNom) {
+      let th = document.createElement("th");
+      th.innerHTML = attribute;
+      tr.appendChild(th);
+    }
+  }
+
+  for (let i = 0; i < tabButtonValue.length; i++) {
+    let th = document.createElement("th");
     tr.appendChild(th);
   }
 
@@ -46,7 +49,16 @@ function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [],
         continue;
       }
 
-      if (propriete === "photoPreferee") {
+      if (propriete === "Types d'aménagements") {
+        let amenagements = "";
+        element[propriete] = JSON.parse(element[propriete]);
+
+        for (let i = 0; i < element[propriete].length; i++) {
+          amenagements += element[propriete][i].libelle + ",\n";
+        }
+
+        monChamp.innerHTML = amenagements;
+      } else if (propriete === "Photo préférée") {
         monChamp.innerHTML = "<img class='image' src='" + element[propriete] + "'/>";
       } else {
         monChamp.innerHTML = element[propriete];
@@ -58,9 +70,7 @@ function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [],
     }
 
     if (tabButtonValue.length > 0) {
-      console.log(tabButtonValue.length);
       for (let i = 0; i < tabButtonValue.length; i++) {
-
         addButton(tabButtonValue[i], trData, idNom, laFonction, url);
       }
     }

@@ -1,8 +1,11 @@
 package be.ipl.pae.bizz.bizz;
 
 import be.ipl.pae.annotation.FieldDb;
+import be.ipl.pae.bizz.dto.AmenagementDto;
+import be.ipl.pae.bizz.dto.ClientDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 class Devis implements DevisBiz {
   @FieldDb("devis_id")
@@ -11,8 +14,7 @@ class Devis implements DevisBiz {
   @FieldDb("photo")
   private String photoPreferee;
 
-  @FieldDb("client")
-  private int client;
+  private ClientDto client;
 
   @FieldDb("date_debut")
   private LocalDate dateDebut;
@@ -25,6 +27,11 @@ class Devis implements DevisBiz {
 
   @FieldDb("etat")
   private String etat;
+
+  @FieldDb("date_devis")
+  private LocalDate dateDevis;
+
+  private List<AmenagementDto> amenagements;
 
   @Override
   public int getDevisId() {
@@ -51,15 +58,15 @@ class Devis implements DevisBiz {
   }
 
   @Override
-  public int getClient() {
+  public ClientDto getClient() {
     // TODO Auto-generated method stub
     return this.client;
   }
 
   @Override
-  public void setClient(int idClient) {
+  public void setClient(ClientDto client) {
     // TODO Auto-generated method stub
-    this.client = idClient;
+    this.client = client;
   }
 
   @Override
@@ -109,5 +116,31 @@ class Devis implements DevisBiz {
     // TODO Auto-generated method stub
     this.etat = etat;
   }
+
+  @Override
+  public LocalDate getDateDevis() {
+    // TODO Auto-generated method stub
+    return this.dateDevis;
+  }
+
+  @Override
+  public void setDateDevis(LocalDate date) {
+    // TODO Auto-generated method stub
+    this.dateDevis = date;
+  }
+
+  @Override
+  public List<AmenagementDto> getAmenagements() {
+    // TODO Auto-generated method stub
+    return this.amenagements;
+  }
+
+  @Override
+  public void setAmenagements(List<AmenagementDto> amenagements) {
+    // TODO Auto-generated method stub
+    this.amenagements = amenagements;
+  }
+
+
 
 }

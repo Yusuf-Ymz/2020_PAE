@@ -23,7 +23,7 @@ public class AmenagementServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   public AmenagementServlet() {
-    this.genson = ServletUtils.getGensonAmenagement();
+    this.genson = new Genson();
   }
 
   @Override
