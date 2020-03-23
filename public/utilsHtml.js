@@ -1,7 +1,7 @@
 
 function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [], idNom, laFonction = "", url = "") {
 
-  $("#carouselExampleIndicators").hide();
+  $("#carouselContent").hide();
   $("#users_preinscrit_component").hide();
 
   console.log(arrayToPrint);

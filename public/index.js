@@ -2,7 +2,7 @@
 //import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token = undefined;
 $("#HeaderContent").load("header.html");
-$("#carouselContent").load("carousel.html"); 
+$("#carouselContent").load("carousel.html");
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
 $("#confirmedInscriptionContent").load("confirmedInscription.html");
@@ -11,8 +11,8 @@ $("#searchContent").load("searchBar.html");
 $("#introduireDevis").load("introduireDevis.html");
 
 $(document).ready(function () {
-   
- token =  initialisation();
+
+  token = initialisation();
 
   //nav-bar 
   $('.leftmenu').on('click', function (e) {
@@ -20,14 +20,14 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
-  
-  
+
+
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
-    if(token)
-      HomeUser();
+    if (token)
+      HideToHomeWhenConnect();
     else
-      HideToHome();
+      HideToHomeWhenNotConnect();
   });
 
 
@@ -37,16 +37,26 @@ $(document).ready(function () {
     localStorage.removeItem("token");
     localStorage.removeItem("ouvrier");
     token = undefined;
-    HideToHome();
+    Swal.fire({
+      position: 'buttom-end',
+      icon: 'success',
+      timerProgressBar: true,
+      title: "Déconnexion réussie",
+      showConfirmButton: false,
+      timer: 1500
+  })
+    HideToHomeWhenNotConnect();
   });
 });
 
+//UTILISER CES FONCTIONS PLS....
 
-const HideToHome = () =>{
-  
+// vue vers le menu quand on est un QUIDAM!!!
+const HideToHomeWhenNotConnect = () => {
+
   $("#nav_connect").show();
   $(".register").hide();
-  $("#carouselExampleIndicators").show();
+  $("#carouselContent").show();
   $("#logo").show();
   $("#logout").hide();
   $("#listeUser").hide();
@@ -58,38 +68,18 @@ const HideToHome = () =>{
   $("#searchCard").hide();
 }
 
-const HomeUser = () =>{
+
+
+//Vue vers le Home quand on est connecté(menu,carousel);
+const HideToHomeWhenConnect = () => {
+
   $("#logout").show();
-  $("#nav_connect").hide();
+  $("#card").hide();
+
   $("#login_message").html("");
   $("#nav_connect").hide();
   $(".register").hide();
-  $("#carouselExampleIndicators").hide();
-  $("#logo").hide();
-  $("#listeUser").hide();
-  $("#linkUserClientContent").hide();
-  $("#confirmedInscriptionContent").hide();
-  $("#card").show();
-  $("#listerClients").hide();
-  $("#searchCard").hide();
-  let user = localStorage.getItem('ouvrier');
-
-   if(user === 'true'){
-     console.log("je passe");
-     $("#slide-menu").show();   
-   }
-   $('#rechercher_mes_devis').show();
-}
-
-const homeWorker = ()=>{
-
-  $("#logout").show();
-  $("#card").show();
-  $("#nav_connect").hide();
-  $("#login_message").html("");
-  $("#nav_connect").hide();
-  $(".register").hide();
-  $("#carouselExampleIndicators").hide();
+  $("#carouselContent").show();
   $("#logo").hide();
   $("#listeUser").hide();
   $("#introduireDevis").hide();
@@ -99,24 +89,70 @@ const homeWorker = ()=>{
   $("#listerClients").hide();
   $("#searchCard").hide();
 
-  let user = localStorage.getItem('user');
-   if(user){
-     $("#slide-menu").show(); 
-   }
-   
+  let user = localStorage.getItem('ouvrier');
+    console.log("user ==> " + user);
+    if (user == "true") {
+      $("#slide-menu").show();
+      $('#rechercher_mes_devis').hide();
+      }else {
+      $('#rechercher_mes_devis').show();
+  }
+
+}
+
+const SameHide = () => {
+  $("#logout").show();
+  $("#nav_connect").hide();
+  $("#login_message").html("");
+
+  $(".register").hide();
+  $("#carouselContent").hide();
+  $("#logo").hide();
+  $("#listeUser").hide();
+  $("#linkUserClientContent").hide();
+  $("#confirmedInscriptionContent").hide();
+
+  $("#listeDeTousLesDevis").hide();
+  $("#card").show();
+  $("#listerClients").hide();
+  $("#searchCard").hide();
+
+}
+
+//premier page que l'utilisateur voit quand il se connecte!!!
+
+const HomeUser = () => {
+  SameHide();
+  $('#rechercher_mes_devis').show();
+
+}
+
+
+//Premier vu que l'ouvrier voit quand il se connecte !!!
+const homeWorker = () => {
+
+  SameHide();
+
+  $('#rechercher_mes_devis').hide();
+  $("#introduireDevis").hide();
+  let user = localStorage.getItem('ouvrier');
+
+  if (user === "true") {
+    $("#slide-menu").show();
+  }
+
 }
 
 
 const initialisation = () => {
   let token = localStorage.getItem("token");
   if (token) {
-    HomeUser();
+    HideToHomeWhenConnect();
     return token;
- 
   } else {
-    HideToHome();
+    HideToHomeWhenNotConnect();
     return;
   }
 };
 
-export {HomeUser,homeWorker};
+export { HomeUser, homeWorker };

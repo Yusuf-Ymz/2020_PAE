@@ -1,14 +1,14 @@
 import { postData } from "./utilsAPI.js";
-import {HomeUser} from "./index.js"
+import { HomeUser, homeWorker } from "./index.js"
 
 const LoginForm = (errorMessage = "") => {
-  $("#login_message").html("<i class='far fa-frown'></i>  "  + errorMessage);
+  $("#login_message").html("<i class='far fa-frown'></i>  " + errorMessage);
   if (errorMessage === "") $("#login_message").hide();
   else $("#login_message").show();
   $(".register").show();
   $("#nav_connect").hide();
   $("#logo").hide();
-  $("#carouselExampleIndicators").hide();
+  $("#carouselContent").hide();
   $('#redirection_connect').hide();
   $('#redirection_inscrit').show();
   $("#inscription_form").addClass("d-none");
@@ -23,8 +23,13 @@ function onPostLogin(response) {
   $("#pseudo").val("");
   $("#mdp").val("");
   localStorage.setItem("token", response.token);
-  localStorage.setItem('ouvrier',response.user.ouvrier);
-  HomeUser();
+  localStorage.setItem('ouvrier', response.user.ouvrier);
+
+  if (response.user.ouvrier == true) {
+    homeWorker();
+  } else {
+    HomeUser();
+  }
 }
 
 function onErrorLogin(err) {
@@ -41,7 +46,12 @@ function onPostInscription(response) {
   $("#ville").val("");
   $("#mdp_inscription").val("");
   $("#re_mdp_inscription").val("");
-  RegisterForm(response.msg);
+  let user = localStorage.getItem('user');
+  if (user === "true") {
+    homeWorker();
+  } else {
+    HomeUser();
+  }
 }
 
 function onErrorInscription(err) {
@@ -49,13 +59,15 @@ function onErrorInscription(err) {
   RegisterForm(err.responseJSON.error);
 }
 
+
 const RegisterForm = (errorMessage = "") => {
   $("#inscription_message").html(errorMessage);
   if (errorMessage === "") $("#inscription_message").hide();
   else $("#inscription_message").show();
+
   $(".register").show();
   $("#logo").hide();
-  $("#carouselExampleIndicators").hide();
+  $("#carouselContent").hide();
   $('#redirection_connect').show();
   $('#redirection_inscrit').hide();
   $("#nav_connect").hide();
@@ -63,9 +75,10 @@ const RegisterForm = (errorMessage = "") => {
   $("#login_form").hide();
   $("#users_preinscrit_component").hide();
   $("#card").show();
+
 };
 
-$(document).ready(function ()  {
+$(document).ready(function () {
 
   $('#redirection_inscrit').on('click', function (e) {
     e.preventDefault();
@@ -77,7 +90,7 @@ $(document).ready(function ()  {
     LoginForm();
   });
 
-  $("#login_btn").on('click', function (e){
+  $("#login_btn").on('click', function (e) {
     e.preventDefault();
     if ($("#pseudo")[0].checkValidity() && $("#mdp")[0].checkValidity()) {
       const data = {
@@ -88,12 +101,12 @@ $(document).ready(function ()  {
       postData("/authentification", data, null, onPostLogin, onErrorLogin);
     } else {
       $("#login_message").show();
-     
+
       $("#login_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides!");
     }
   });
 
-  $("#inscription").on('click', function (e){
+  $("#inscription").on('click', function (e) {
     console.log("clic");
     e.preventDefault();
     if ($("#mdp_inscription")[0].checkValidity() && $("#re_mdp_inscription")[0] === $("#mdp_inscription")) {
@@ -116,7 +129,7 @@ $(document).ready(function ()  {
     } else {
       $("#inscription_message").show();
       $("#inscription_message").html("<i class='far fa-frown'></i>   Veuillez entrer des données valides.");
-       
+
     }
   });
 });

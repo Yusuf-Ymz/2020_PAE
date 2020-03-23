@@ -1,7 +1,7 @@
 "use strict";
 import { getData, postData, specialGetData } from "./utilsAPI.js";
 //import printTable from "./utilsHtml.js"
-
+import {homeWorker,HomeUser} from "./index.js";
 var searchVille = document.getElementById('villeSearch'),
     searchCP = document.getElementById('codePostalSearch'),
     searchName = document.getElementById('clientName'),
@@ -73,13 +73,13 @@ function afficherNotif(msg){
 $(document).ready(function (e) {
 
     $("#indroduire_devis").click(function(){
+        homeWorker();
         $("#introduireDevis").show();
         $("#searchContent").hide();
-        $("#confirmedInscriptionContent").hide();
-        $("#listeUser").hide();
-        $("#listerClients").hide();
-        $("#linkUserClientContent").hide();
         $("#searchCard").show();
+      
+     
+        $("#card").show();
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
     });
@@ -564,6 +564,7 @@ $(document).ready(function (e) {
         }
 
     });
+    
     searchPrenom.addEventListener('keyup', function (e) {
 
         var divs = resultsPrenom.getElementsByTagName('div');
