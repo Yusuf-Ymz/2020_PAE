@@ -26,7 +26,7 @@ $(document).ready(function () {
         let thtabClient =  new Array("N° utilisateur ","Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
         
         let nombtnTab = ["visualiser devis"];
-        printTable("listerClients", response.clients, thtabClient,nombtnTab,"clientId",doGetClientDevis,"/client");
+        printTable("listerClients", response.clients,nombtnTab,"clientId",doGetClientDevis,"/client");
 
     }
 
