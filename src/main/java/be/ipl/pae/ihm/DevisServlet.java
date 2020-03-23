@@ -4,6 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
 import java.io.IOException;
@@ -54,7 +55,8 @@ public class DevisServlet extends HttpServlet {
         if (devis == null) {
           ServletUtils.sendResponse(resp, json, status);
         } else {
-          json = "{\"devis\":" + genson.serialize(devis) + "}";
+          json =
+              "{\"devis\":" + genson.serialize(devis, new GenericType<List<DevisDto>>() {}) + "}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
         }

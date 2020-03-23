@@ -1,5 +1,5 @@
 
-function printTable(containerElementId, arrayToPrint, thTab, needButton = false, tabButtonValue = [], idNom, laFonction = "", url = "") {
+function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [], idNom, laFonction = "", url = "") {
 
   $("#carouselExampleIndicators").hide();
   $("#users_preinscrit_component").hide();
@@ -41,7 +41,7 @@ function printTable(containerElementId, arrayToPrint, thTab, needButton = false,
     for (const propriete in element) {
       let monChamp = document.createElement("td");
 
-      if (propriete === "id") {
+      if (propriete === idNom) {
         trData.id = element[propriete];
         continue;
       }
@@ -57,7 +57,7 @@ function printTable(containerElementId, arrayToPrint, thTab, needButton = false,
       }
     }
 
-    if (needButton) {
+    if (tabButtonValue.length > 0) {
       console.log(tabButtonValue.length);
       for (let i = 0; i < tabButtonValue.length; i++) {
 

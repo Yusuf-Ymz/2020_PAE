@@ -1,6 +1,7 @@
 package be.ipl.pae.ihm;
 
 import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
@@ -30,7 +31,7 @@ class ServletUtils {
       new GensonBuilder().withConverters(new UtilisateurConverter()).create();
 
   private static Genson gensonDevis =
-      new GensonBuilder().withContextualFactory(new DateFactory()).create();
+      new GensonBuilder().withConverters(new DevisConverter()).create();
 
   private static Genson gensonClient =
       new GensonBuilder().withConverters(new ClientConverter()).create();
@@ -153,6 +154,28 @@ class ServletUtils {
     }
 
 
+  }
+
+  private static class DevisConverter implements Converter<DevisDto> {
+    @Override
+    public DevisDto deserialize(ObjectReader reader, Context ctx) throws Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public void serialize(DevisDto object, ObjectWriter writer, Context ctx) throws Exception {
+      // TODO Auto-generated method stub
+      writer.beginObject();
+      writer.writeNumber("clientId", object.getClient())
+          .writeString("dateDebut",
+              object.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+          .writeNumber("devisId", object.getDevisId()).writeNumber("duree", object.getDuree())
+          .writeString("etat", object.getEtat())
+          .writeNumber("montantTotal", object.getMontantTotal())
+          .writeString("photoPreferee", object.getPhotoPreferee());
+      writer.endObject();
+    }
   }
 
 

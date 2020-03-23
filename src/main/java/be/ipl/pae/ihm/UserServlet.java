@@ -140,7 +140,7 @@ public class UserServlet extends HttpServlet {
     if (userId != -1) {
       System.out.println("je rentre");
       List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit(userId);
-      json = "{\"success\": \"true\", \"data\":" + genson.serialize(listeUsersPreinscrit) + "}";
+      json = "{\"data\":" + genson.serialize(listeUsersPreinscrit) + "}";
       // ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
       resp.setStatus(HttpServletResponse.SC_OK);
       resp.setContentType("application/json");

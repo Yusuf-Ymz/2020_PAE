@@ -30,8 +30,13 @@ $(document).ready(function () {
         $("#listeDeTousLesDevis").show();
   
         $("#searchCard").show();// pas encore d'option de recherche pour devis
-        let thtabUser = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
-        printTable("listeDeTousLesDevis", response.devis, thtabUser);
+        let nombtnTab = ["visualiser devis"];
+        let thtabDevis = new Array("Client Id", "Date de début", "Devis Id", "Durée", "État", "Montant Total", "Photo préférée");
+        printTable("listeDeTousLesDevis", response.devis, thtabDevis,nombtnTab,"devisId",doGetClientDevis,"/devis");
+    }
+
+    function doGetClientDevis(url,data = ""){
+        console.log("effectué");
     }
 
     function onDevisListError(err) {
