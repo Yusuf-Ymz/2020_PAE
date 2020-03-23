@@ -107,6 +107,7 @@ public class UserServlet extends HttpServlet {
       List<UserDto> listeUser = userUcc.listerUsers(userId);
       String listeSerialisee =
           this.genson.serialize(listeUser, new GenericType<List<UserDto>>() {});
+      System.out.println(listeSerialisee);
       json = "{\"listeUser\":" + listeSerialisee + "}";
       // ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
       resp.setStatus(HttpServletResponse.SC_OK);
@@ -138,20 +139,15 @@ public class UserServlet extends HttpServlet {
     String json = null;
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
-      System.out.println("je rentre");
       List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit(userId);
-      json = "{\"data\":" + genson.serialize(listeUsersPreinscrit) + "}";
-      // ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
-      resp.setStatus(HttpServletResponse.SC_OK);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
+      json = "{\"data\":"
+          + genson.serialize(listeUsersPreinscrit, new GenericType<List<UserDto>>() {}) + "}";
+      int statusCode = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, statusCode);
     } else {
       json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
+      int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
+      ServletUtils.sendResponse(resp, json, statusCode);
     }
   }
 

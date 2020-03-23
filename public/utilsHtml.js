@@ -2,7 +2,6 @@
 function printTable(containerElementId, arrayToPrint, thTab,tabButtonValue = [], idNom, laFonction = "", url = "") {
 
   $("#carouselContent").hide();
-  $("#users_preinscrit_component").hide();
 
   console.log(arrayToPrint);
   let div_container = document.getElementById(containerElementId);

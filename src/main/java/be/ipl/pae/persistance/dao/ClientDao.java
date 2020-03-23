@@ -22,4 +22,6 @@ public interface ClientDao {
   List<String> rechercherNoms(String nom);
 
   ClientDto getClientById(int id);
+
+  List<ClientDto> rechercherClientsPasUtilisateur();
 }

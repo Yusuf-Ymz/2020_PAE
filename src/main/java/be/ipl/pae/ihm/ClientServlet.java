@@ -34,6 +34,7 @@ public class ClientServlet extends HttpServlet {
   private static final String ACTIONCLIENTSAFFINE = "listClientsAffine";
   private static final String ACTIONGETPRENOM = "getPrenom";
   private static final String ACTIONINSERTCLIENT = "ajouterClient";
+  private static final String ACTIONCLIENTPASUTILISATEUR = "listeClientsPasUtilisateur";
   private String secret;
   private Genson genson;
   private Genson gensonClient;
@@ -108,6 +109,13 @@ public class ClientServlet extends HttpServlet {
           client.setNumero(req.getParameter("numero"));
           client = clientUcc.insertClient(client, idUser);
           json = "{\"client\":" + genson.serialize(client) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONCLIENTPASUTILISATEUR.equalsIgnoreCase(action)) {
+          List<ClientDto> clients = clientUcc.listerClientsPasUtilisateur(idUser);
+          String listeSerialisee =
+              this.gensonClient.serialize(clients, new GenericType<List<ClientDto>>() {});
+          json = "{\"data\":" + listeSerialisee + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else {

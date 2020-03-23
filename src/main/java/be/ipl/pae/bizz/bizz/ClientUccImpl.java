@@ -162,6 +162,24 @@ class ClientUccImpl implements ClientUcc {
 
   }
 
+  @Override
+  public List<ClientDto> listerClientsPasUtilisateur(int idOuvrier) {
+    try {
+      dal.startTransaction();
+      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
+      if (!user.isOuvrier()) {
+        throw new BizException("Vous n'avez pas les droits");
+      }
+      return clientDao.rechercherClientsPasUtilisateur();
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
 
 
 }

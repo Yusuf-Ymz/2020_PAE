@@ -207,6 +207,28 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     }
   }
 
+  @Override
+  public List<ClientDto> rechercherClientsPasUtilisateur() {
+    String query =
+        "SELECT * FROM pae.clients cl WHERE cl.client_id NOT IN(SELECT u.client_id from pae.utilisateurs u)";
+    String queryTest = "SELECT * FROM pae.clients cl";
+    PreparedStatement prepareStatement = dal.createStatement(queryTest);
+    List<ClientDto> clients = new ArrayList<ClientDto>();
+    try {
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        ClientDto client = fact.getClientDto();
+        fillObject(client, rs);
+        clients.add(client);
+      }
+      System.out.println(clients);
+      return clients;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
 
 
 }

@@ -3,8 +3,8 @@ import { getData,postData } from "./utilsAPI.js";
 import create_dynamic_HTML_table from "./tableWithButton.js";
 import {homeWorker} from "./index.js";
 
-const propriete_utilisateur = ["email","nom", "prenom", "pseudo","ville"];
-const propriete_client = ["codePostal","email", "nom", "prenom","telephone","ville"];
+const propriete_utilisateur = ["nom", "prenom", "pseudo","email","ville"];
+const propriete_client = ["nom", "prenom","email","ville","codePostal","telephone"];
 let token = null;
 
 $(document).ready(function(){
@@ -21,11 +21,16 @@ $(document).ready(function(){
 
 function onGet(response) {
   
-    if (response.success) { 
+    if (response.data) {
       $("#confirmedInscriptionContent").show();
+      $("#searchCard").show();
+        $("#searchContent").show();
+        $("#filtre_client").hide();
+        $("#filtre_utilisateur").show();
+        $("#filtre_amenagement").hide();
       if (response.data.length > 0) {
         let id;
-        let thtabUser = new Array("Email", "Nom", "Prénom", "Pseudo", "Ville");
+        let thtabUser = new Array( "Nom", "Prénom", "Pseudo","Email", "Ville");
         create_dynamic_HTML_table(
           "table_users_preinscrit",
         response.data,
@@ -47,7 +52,7 @@ function onGet(response) {
 
 
 const confirmerInscription = (id, data) => {
-  data["action"]= 'confirmerInscription/onlyUser';
+  data["action"]= 'confirmerInscription/lienClient';
   data["id"] = id;
     postData("/user", data, token);
     location.reload();
@@ -61,24 +66,29 @@ const confirmerOuvrier = (id, data) => {
 }
     
 const lierUtilisateurClient = (id, data) => {
-  data["action"]= 'confirmerInscription/lienClient'
-  data["id"] = id;
-  postData("/user", data, token);
-
-   /* homeWorker();
+        homeWorker();
+        $("#lastnameUser").text(data["nom"]);
+        $("#firsnameUser").text(data["prenom"]);
+        $("#emailUser").text(data["email"]);
+        $("#cityUser").text(data["ville"]);
         const actions = {
-          action: 'linkUserClient'
+          action: 'listeClientsPasUtilisateur'
         };
-        getData("/client",actions, token, onGetLier,onErrorLier); */
+        getData("/client",actions, token, onGetLier,onErrorLier); 
 }
 
 function onGetLier(response) {
   
-    if (response.success) { 
+    if (response.data) { 
       $("#linkUserClientContent").show();
+      $("#searchCard").show();
+        $("#searchContent").show();
+        $("#filtre_client").show();
+        $("#filtre_utilisateur").hide();
+        $("#filtre_amenagement").hide();
       if (response.data.length > 0) {
         let id;
-        let thtabUser = new Array("Code-postal","Email", "Nom", "Prénom", "Telephone", "Ville");
+        let thtabUser = new Array( "Nom", "Prénom","Email","Ville","Code-postal", "Telephone");
         create_dynamic_HTML_table(
           "table_clients_noUsers",
         response.data,

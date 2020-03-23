@@ -13,7 +13,7 @@ const LoginForm = (errorMessage = "") => {
   $('#redirection_inscrit').show();
   $("#inscription_form").addClass("d-none");
   $("#login_form").show();
-  $("#users_preinscrit_component").hide();
+  $("#confirmedInscriptionContent").hide();
   $("#card").show();
 };
 
@@ -73,7 +73,7 @@ const RegisterForm = (errorMessage = "") => {
   $("#nav_connect").hide();
   $("#inscription_form").removeClass("d-none");
   $("#login_form").hide();
-  $("#users_preinscrit_component").hide();
+  $("#confirmedInscriptionContent").hide();
   $("#card").show();
 
 };
