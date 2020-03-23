@@ -1,6 +1,7 @@
 package be.ipl.pae.bizz.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface DevisDto {
   /**
@@ -32,18 +33,18 @@ public interface DevisDto {
   void setPhotoPreferee(String photo);
 
   /**
-   * Renvoie l'id du client.
+   * Renvoie le client du devis.
    * 
-   * @return l'id
+   * @return le client
    */
-  int getClient();
+  ClientDto getClient();
 
   /**
-   * Modifie l'id du client.
+   * Modifie le client du devis.
    * 
-   * @param idClient : l'id du nouvel client
+   * @param client : l'id du nouvel client
    */
-  void setClient(int idClient);
+  void setClient(ClientDto client);
 
   /**
    * Renvoie la date de début des travaux du devis.
@@ -100,4 +101,32 @@ public interface DevisDto {
    * @param etat : le nouvel état
    */
   void setEtat(String etat);
+
+  /**
+   * Renvoie la date d'introduction du devis.
+   * 
+   * @return la date
+   */
+  LocalDate getDateDevis();
+
+  /**
+   * Modifie la date d'introduction du devis.
+   * 
+   * @param date : la date
+   */
+  void setDateDevis(LocalDate date);
+
+  /**
+   * Renvoie la liste des aménagements du devis.
+   * 
+   * @return la liste des aménagements
+   */
+  List<AmenagementDto> getAmenagements();
+
+  /**
+   * Modifie la liste des aménagements du devis.
+   * 
+   * @param amenagements : la nouvelle liste
+   */
+  void setAmenagements(List<AmenagementDto> amenagements);
 }

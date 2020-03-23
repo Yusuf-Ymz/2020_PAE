@@ -73,10 +73,10 @@ function afficherNotif(msg){
 $(document).ready(function (e) {
 
     $("#indroduire_devis").click(function(){
-        homeWorker();
+     	homeWorker();
         $("#introduireDevis").show();
         $("#searchContent").hide();
-        $("#searchCard").show();
+		$("#searchCard").show();
       
      
         $("#card").show();
@@ -564,7 +564,6 @@ $(document).ready(function (e) {
         }
 
     });
-    
     searchPrenom.addEventListener('keyup', function (e) {
 
         var divs = resultsPrenom.getElementsByTagName('div');

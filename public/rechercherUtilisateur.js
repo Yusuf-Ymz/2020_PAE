@@ -21,9 +21,8 @@ $(document).ready(function () {
         $("#filtre_utilisateur").show();
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
-        let thtabUser = new Array("N° utilisateur ","Nom", "Prenom", "Pseudo", "E-mail", "Ville", "Date d'inscription");
        
-        printTable("listeUser", response.listeUser, thtabUser);
+        printTable("listeUser", response.listeUser);
         
     }
 
