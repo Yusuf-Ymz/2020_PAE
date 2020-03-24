@@ -11,11 +11,12 @@ function create_dynamic_HTML_table(
   let div_container = document.getElementById(targetHtmlElementId);
   div_container.innerHTML = "";
   let myTable = document.createElement("table");
-  myTable.className = "table";
-  myTable.className = "mt-10";
+ 
+  myTable.className = "table table-bordered";
+ 
   div_container.appendChild(myTable);
 
-  let thead = document.createElement("thead");
+    let thead = document.createElement("thead");
     myTable.appendChild(thead);
     let headerLine = document.createElement("tr");
     thead.appendChild(headerLine);
