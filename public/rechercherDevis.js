@@ -1,6 +1,8 @@
 import { getData } from "./utilsAPI.js";
 import {printTable} from "./utilsHtml.js"
 import {homeWorker,HomeUser} from "./index.js";
+import {consulterDevisEntantQueClient,consulterDevisEntantQueOuvrier} from "./consulterDevis.js"
+
 $(document).ready(function () {
 
     $('#rechercher_tous_les_devis').on('click',function (e) {
@@ -31,7 +33,7 @@ $(document).ready(function () {
   
         $("#searchCard").show();// pas encore d'option de recherche pour devis
         let nombtnTab = ["visualiser devis"];
-        printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",doGetClientDevis,"/devis");
+        printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueOuvrier,"/devis");
     }
 
     function onGetMesDevisList(response) {
@@ -39,11 +41,7 @@ $(document).ready(function () {
   
         $("#searchCard").show();// pas encore d'option de recherche pour devis
         let nombtnTab = ["visualiser devis"];
-        printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",doGetClientDevis,"/devis");
-    }
-
-    function doGetClientDevis(url,data = ""){
-        console.log("effectué");
+        printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueClient,"/devis");
     }
 
     function onDevisListError(err) {

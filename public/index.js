@@ -9,6 +9,7 @@ $("#confirmedInscriptionContent").load("confirmedInscription.html");
 $("#linkUserClientContent").load("linkUserClient.html");
 $("#searchContent").load("searchBar.html");
 $("#introduireDevis").load("introduireDevis.html");
+$('#consulterDevis').load("consulterDevis.html");
 
 $(document).ready(function () {
 
@@ -135,6 +136,8 @@ const homeWorker = () => {
 
   $('#rechercher_mes_devis').hide();
   $("#introduireDevis").hide();
+  $('#consulterDevis').hide();
+
   let user = localStorage.getItem('ouvrier');
 
   if (user === "true") {

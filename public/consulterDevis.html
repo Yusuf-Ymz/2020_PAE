@@ -1,0 +1,131 @@
+<h3 class="row p">Informations sur le devis</h3>
+<div class="container-fluid" id="versionClient">
+    <div class="row">
+        <div class="col-6">
+            <div id="nomClientDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Nom: </p> <p class="d-inline" id="nom">Yilmaz</p>
+            </div>
+
+            <div id="prenomClientDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Prénom: </p> <p class="d-inline" id="prenom">Yusuf</p>
+            </div>
+
+            <div id="dateDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Date du devis: </p> <p class="d-inline" id="date">18-20-2000</p>
+            </div>
+
+            <div id="dureeTravauxDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Durée des travaux: </p> <p class="d-inline" id="duree">15j</p>
+            </div>
+
+            <div id="typeAmenagementsDevis" class="text-dark font-weight-bold">
+                Type(s) d'aménagement(s): <p class="d-inline" id="types">ker,erpkoe,rzerzer,pezrzprkzrprzepkor,pkoze</p>
+            </div>
+
+            <div id="etatDavancement" class="text-dark font-weight-bold">
+                L'état d'avancement: <p class="d-inline" id="etat">Photo(s) ajoutée(s)</p>
+            </div>
+
+            <table id="photosAvant" class="table-responsive">
+                Photo(s) avant aménagements:
+                <tr>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-6">
+            <table id="photoApres" class="table-responsive">
+                Photo(s) après aménagements:
+                <tr>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="versionOuvrier">
+    <div class="row">
+        <div class="col-4">
+            <div id="nomClientDevis" >
+                <p class="d-inline text-dark font-weight-bold"> Nom: </p> <p class="d-inline" id="nom">Yilmaz</p>
+            </div>
+
+            <div id="prenomClientDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Prénom: </p> <p class="d-inline" id="prenom">Yusuf</p>
+            </div>
+
+            <div id="dateDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Date du devis: </p> <p class="d-inline" id="date">18-20-2000</p>
+            </div>
+
+            <div id="dureeTravauxDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Durée des travaux: </p> <p class="d-inline" id="duree">15j</p>
+            </div>
+
+            <div id="typeAmenagementsDevis" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold"> Type(s) d'aménagement(s): </p> <p class="d-inline" id="types">ker,erpkoe,rzerzer,pezrzprkzrprzepkor,pkoze
+                </p>
+            </div>
+
+            <div id="etatDavancement" class="text-dark font-weight-bold">
+                <p class="d-inline text-dark font-weight-bold">L'état d'avancement: </p> <p class="d-inline" id="types">ker,erpkoe,rzerzer,pezrzprkzrprzepkor,pkoze
+                    <p class="d-inline" id="etat">Photo(s) ajoutée(s)</p>
+            </div>
+
+            <table id="photosAvant" class="table-responsive">
+                Photo(s) avant aménagements:
+                <tr>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-4">
+            <label for="confirmerCommande" class="text-dark font-weight-bold">Confirmer la commande d'aménagements </label>
+            <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
+
+            <label for="confirmerDateDebut" class="text-dark font-weight-bold">
+                Confirmer date de début des travaux</label>
+            <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
+
+            <label for="repousserDateDebut" class="text-dark font-weight-bold">Repousser la date de début des travaux</label>
+            <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
+            <input type="date" id="inputRepousser" min="2020-05-01">
+
+            <label for="indiquerFactureMilieu" class="text-dark font-weight-bold">Indiquer que la facture de milieu de chantier est envoyée</label>
+            <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
+
+            <label for="indiquerFactureFin" class="text-dark font-weight-bold">Indiquer que la facture de fin de chantier est envoyée</label>
+            <input type="checkbox" name="" id="indiquerFactureFin" autocomplete="off">
+
+            <label for="rendreVisible" class="text-dark font-weight-bold">Rendre la réalisation visible</label>
+            <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
+        </div>
+
+        <div class="col-4">
+            <table id="photoApres" class="table-responsive">
+                Photo(s) après aménagements:
+                <tr>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                    <td><img src="./images/1.jpg" class="image"></td>
+                </tr>
+            </table>
+
+            <input type="button" class="bg-danger text-white" value="Annuler la demande d'aménagements"
+                id="annulerDemande" autocomplete="off">
+        </div>
+    </div>
+</div>
+</div>
