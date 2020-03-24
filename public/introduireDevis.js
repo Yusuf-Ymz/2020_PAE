@@ -394,7 +394,7 @@ $(document).ready(function (e) {
         let div_container = $("#tableClients")[0];
         div_container.innerHTML = "";
         let table = document.createElement("table");
-        table.className = "table mt-0";
+        table.className = "table table-bordered mt-0";
 
         div_container.appendChild(table);
         let thead = document.createElement("thead");

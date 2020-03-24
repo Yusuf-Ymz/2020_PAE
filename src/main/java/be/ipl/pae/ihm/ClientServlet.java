@@ -178,7 +178,13 @@ public class ClientServlet extends HttpServlet {
   }
 
 
-
+  /***
+   * Gére la requete permettant de lister tous les clients.
+   * 
+   * @param req : la requete
+   * @param resp : la reponse
+   * @throws Exception : une exception
+   */
   private void listCustomer(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     String token = req.getHeader("Authorization");
     String json = null;
