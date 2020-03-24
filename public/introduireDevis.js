@@ -1,7 +1,7 @@
 "use strict";
 import { getData, postData, specialGetData } from "./utilsAPI.js";
 //import printTable from "./utilsHtml.js"
-import {homeWorker,HomeUser} from "./index.js";
+import { homeWorker, HomeUser } from "./index.js";
 var searchVille = document.getElementById('villeSearch'),
     searchCP = document.getElementById('codePostalSearch'),
     searchName = document.getElementById('clientName'),
@@ -59,7 +59,7 @@ function onError(response) {
 
 }
 
-function afficherNotif(msg){
+function afficherNotif(msg) {
     Swal.fire({
         position: 'center',
         icon: 'error',
@@ -67,44 +67,42 @@ function afficherNotif(msg){
         title: msg,
         showConfirmButton: false,
         timer: 1500
-      })
+    })
 }
 
 $(document).ready(function (e) {
 
-    $("#indroduire_devis").click(function(){
-     	homeWorker();
+    $("#indroduire_devis").click(function () {
+        homeWorker();
         $("#introduireDevis").show();
         $("#searchContent").hide();
-		$("#searchCard").show();
-      
-     
+        $("#searchCard").show();
         $("#card").show();
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
     });
     $("#ajouterClient").click(function (e) {
         e.preventDefault();
-
-        if(!$("#nomC")[0].checkValidity()){
+        // TODO à revoir
+        if (!$("#nomC")[0].checkValidity()) {
             afficherNotif("Erreur champ nom");
-        }else if(!$("#prenomC")[0].checkValidity()){
+        } else if (!$("#prenomC")[0].checkValidity()) {
             afficherNotif("Erreur champ prenom");
-        }else if(!$("#rueC")[0].checkValidity()){
+        } else if (!$("#rueC")[0].checkValidity()) {
             afficherNotif("Erreur champ rue");
-        }else if(!$("#numC")[0].checkValidity()){
+        } else if (!$("#numC")[0].checkValidity()) {
             afficherNotif("Erreur champ numéro");
-        }else if(!$("#boiteC")[0].checkValidity()){
+        } else if (!$("#boiteC")[0].checkValidity()) {
             afficherNotif("Erreur champ boite");
-        }else if(!$("#cpC")[0].checkValidity()){
+        } else if (!$("#cpC")[0].checkValidity()) {
             afficherNotif("Erreur champ nom");
-        }else if(!$("#villeC")[0].checkValidity()){
+        } else if (!$("#villeC")[0].checkValidity()) {
             afficherNotif("Erreur champ nom");
-        }else if(!$("#emailC")[0].checkValidity()){
+        } else if (!$("#emailC")[0].checkValidity()) {
             afficherNotif("Erreur champ nom");
-        }else if(!$("#telC")[0].checkValidity()){
+        } else if (!$("#telC")[0].checkValidity()) {
             afficherNotif("Erreur champ nom");
-        }else{
+        } else {
             let data = {
                 action: "ajouterClient",
                 nom: $("#nomC").val(),
@@ -120,7 +118,7 @@ $(document).ready(function (e) {
             $("input").val("");
             postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
         }
-        
+
     });
 
     function onPostSuccess(response) {
@@ -146,6 +144,7 @@ $(document).ready(function (e) {
         }
     });
     searchCP.addEventListener('click', function (e) {
+
         if (resultsCP.childElementCount > 0) {
             setTimeout(() => {
                 resultsCP.style.display = 'block';
@@ -199,12 +198,12 @@ $(document).ready(function (e) {
         console.log(fileList);
         for (let x = 0; x < fileList.length; x++) {
             let file = fileList[x];
-            i+=1;
-            converFile(file,i);
+            i += 1;
+            converFile(file, i);
         }
 
     });
-    function converFile(file,i) {
+    function converFile(file, i) {
         var reader = new FileReader();
         reader.onloadend = function () {
             let img = document.createElement("img");
@@ -229,7 +228,7 @@ $(document).ready(function (e) {
         $("#inputFile").trigger('click');
     });
 
-    function getResults(keywords, action) { 
+    function getResults(keywords, action) {
         let ajx;
         let data = {
             action: action,
@@ -238,14 +237,18 @@ $(document).ready(function (e) {
         let previousRequest;
         if (action === getCp) {
             previousRequest = previousRequestCP;
+            resultsCP.innerHTML ="";
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsCp, onError);
         } else if (action === getNames) {
+            resultsName.innerHTML ='';
             previousRequest = previousRequestName;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsNames, onError);
         } else if (action === getVille) {
+            resultsVille.innerHTML ='';
             previousRequest = previousRequestVille;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsVille, onError);
         } else if (action === getPrenom) {
+            resultsPrenom.innerHTML ='';
             previousRequest = previousRequestPrenom;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsPrenom, onError);
         }
@@ -267,7 +270,7 @@ $(document).ready(function (e) {
                     return;
                 }
             }
-            resultsPrenom.innerHTML = ''; 
+            resultsPrenom.innerHTML = '';
 
             for (var i = 0, div; i < responseLen; i++) {
 
@@ -275,7 +278,16 @@ $(document).ready(function (e) {
                 div.innerHTML = response[i];
 
                 div.addEventListener('click', function (e) {
-                    chooseResult(e.target, searchPrenom, previousValuePrenom, selectedResultPrenom, getPrenom);
+                    chooseResultPrenom(e.target);
+                });
+
+                div.addEventListener('mouseenter', function (e) {
+                    e.target.className = 'result_focus';
+                });
+
+                div.addEventListener('mouseleave', function (e) {
+
+                    e.target.className = '';
                 });
 
             }
@@ -285,9 +297,9 @@ $(document).ready(function (e) {
 
     function displayResultsCp(response) {
         response = response.cpx;
-        resultsCP.style.display = response.length ? 'block' : 'none'; 
+        resultsCP.style.display = response.length ? 'block' : 'none';
 
-        if (response.length) { 
+        if (response.length) {
 
             var responseLen = response.length;
             if (responseLen === 1) {
@@ -304,7 +316,15 @@ $(document).ready(function (e) {
                 div.innerHTML = response[i];
 
                 div.addEventListener('click', function (e) {
-                    chooseResult(e.target, searchCP, previousValueCP, selectedResultCP, getCp);
+                    chooseResultCP(e.target);
+                });
+                div.addEventListener('mouseenter', function (e) {
+                    e.target.className = 'result_focus';
+                });
+
+                div.addEventListener('mouseleave', function (e) {
+
+                    e.target.className = '';
                 });
 
             }
@@ -315,7 +335,7 @@ $(document).ready(function (e) {
         response = response.names;
         resultsName.style.display = response.length ? 'block' : 'none';
 
-        if (response.length) { 
+        if (response.length) {
 
             var responseLen = response.length;
             if (responseLen === 1) {
@@ -332,7 +352,15 @@ $(document).ready(function (e) {
                 div.innerHTML = response[i];
 
                 div.addEventListener('click', function (e) {
-                    chooseResult(e.target, searchName, previousValueName, selectedResultName, getNames);
+                    chooseResultName(e.target);
+                });
+                div.addEventListener('mouseenter', function (e) {
+                    e.target.className = 'result_focus';
+                });
+
+                div.addEventListener('mouseleave', function (e) {
+
+                    e.target.className = '';
                 });
 
             }
@@ -342,9 +370,9 @@ $(document).ready(function (e) {
 
     function displayResultsVille(response) {
         response = response.villes;
-        resultsVille.style.display = response.length ? 'block' : 'none'; 
+        resultsVille.style.display = response.length ? 'block' : 'none';
 
-        if (response.length) { 
+        if (response.length) {
 
             var responseLen = response.length;
             if (responseLen === 1) {
@@ -353,7 +381,7 @@ $(document).ready(function (e) {
                     return;
                 }
             }
-            resultsVille.innerHTML = ''; 
+            resultsVille.innerHTML = '';
 
             for (var i = 0, div; i < responseLen; i++) {
 
@@ -361,22 +389,56 @@ $(document).ready(function (e) {
                 div.innerHTML = response[i];
 
                 div.addEventListener('click', function (e) {
-                    chooseResult(e.target, searchVille, previousValueVille, selectedResultVille, getVille);
+                    chooseResultVille(e.target);
+                });
+
+                div.addEventListener('mouseenter', function (e) {
+                    e.target.className = 'result_focus';
+                });
+
+                div.addEventListener('mouseleave', function (e) {
+
+                    e.target.className = '';
                 });
 
             }
 
         }
     }
-
-    function chooseResult(result, searchElement, previousValue, selectedResult, action) { 
-
-        searchElement.value = previousValue = result.innerHTML;
+    function chooseResultVille(result) {
+        searchVille.value = previousValueVille = result.innerHTML;
         result.style.display = 'none';
         result.className = '';
-        selectedResult = -1;
-        searchElement.focus();
-        previousRequestCP = getResults(previousValue, action);
+        selectedResultVille = -1;
+        searchVille.focus();
+        previousValueVille = getResults(previousValueVille, getVille);
+        getListClient();
+    }
+    function chooseResultCP(result) {
+        searchCP.value = previousValueCP = result.innerHTML;
+        result.style.display = 'none';
+        result.className = '';
+        selectedResultCP = -1;
+        searchCP.focus();
+        previousValueCP = getResults(previousValueCP, getCp);
+        getListClient();
+    }
+    function chooseResultName(result) {
+        searchName.value = previousValueName = result.innerHTML;
+        result.style.display = 'none';
+        result.className = '';
+        selectedResultName = -1;
+        searchName.focus();
+        previousValueName = getResults(previousValueName, getNames);
+        getListClient();
+    }
+    function chooseResultPrenom(result) {
+        searchPrenom.value = previousValuePrenom = result.innerHTML;
+        result.style.display = 'none';
+        result.className = '';
+        selectedResultPrenom = -1;
+        searchPrenom.focus();
+        previousValuePrenom = getResults(previousValuePrenom, getPrenom);
         getListClient();
     }
 
@@ -509,7 +571,7 @@ $(document).ready(function (e) {
 
         } else if (e.keyCode == 13) {
             if (selectedResultVille > -1) {
-                chooseResult(divs[selectedResultVille], searchVille, previousRequestVille, selectedResultVille, getVille);
+                chooseResultVille(divs[selectedResultVille]);
             } else {
                 getListClient();
             }
@@ -528,7 +590,7 @@ $(document).ready(function (e) {
 
         var divs = resultsName.getElementsByTagName('div');
 
-        if (e.keyCode == 38 && selectedResultName > -1) { 
+        if (e.keyCode == 38 && selectedResultName > -1) {
 
             divs[selectedResultName--].className = '';
 
@@ -550,10 +612,10 @@ $(document).ready(function (e) {
 
         }
 
-        else if (e.keyCode == 13) { 
+        else if (e.keyCode == 13) {
             console.log('ici');
             if (selectedResultName > -1) {
-                chooseResult(divs[selectedResultName], searchName, previousValueName, selectedResultName, getNames);
+                chooseResultName(divs[selectedResultName]);
             } else {
                 getListClient();
             }
@@ -568,7 +630,7 @@ $(document).ready(function (e) {
 
         var divs = resultsPrenom.getElementsByTagName('div');
 
-        if (e.keyCode == 38 && selectedResultPrenom > -1) { 
+        if (e.keyCode == 38 && selectedResultPrenom > -1) {
 
             divs[selectedResultPrenom--].className = '';
 
@@ -591,9 +653,8 @@ $(document).ready(function (e) {
         }
 
         else if (e.keyCode == 13) {
-            console.log("ici");
             if (selectedResultPrenom > -1) {
-                chooseResult(divs[selectedResultPrenom], searchPrenom, previousValuePrenom, selectedResultPrenom, getPrenom);
+                chooseResultPrenom(divs[selectedResultPrenom]);
             } else {
                 getListClient();
             }
@@ -625,9 +686,9 @@ $(document).ready(function (e) {
 
         }
 
-        else if (e.keyCode == 40 && selectedResultCP < divs.length - 1) { 
+        else if (e.keyCode == 40 && selectedResultCP < divs.length - 1) {
 
-            resultsCP.style.display = 'block'; 
+            resultsCP.style.display = 'block';
 
             if (selectedResultCP > -1) {
                 divs[selectedResultCP].className = '';
@@ -637,16 +698,16 @@ $(document).ready(function (e) {
 
         }
 
-        else if (e.keyCode == 13) { 
+        else if (e.keyCode == 13) {
             if (selectedResultCP > -1) {
-                chooseResult(divs[selectedResultCP], searchCP, previousValueCP, selectedResultCP, getCp);
+                chooseResultCP(divs[selectedResultCP]);
             } else {
                 getListClient();
             }
         }
 
         else if (searchCP.value != previousValueCP) {
-
+            console.log("ici");
             previousValueCP = searchCP.value;
             previousRequestCP = getResults(previousValueCP, getCp);
             selectedResultCP = -1;
