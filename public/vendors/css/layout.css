@@ -230,3 +230,18 @@ li{
 .top-right { 
   right: 0; 
 } 
+
+#resultsVille{
+  cursor: pointer;
+}
+#resultsCP{
+  cursor: pointer;
+}
+
+#resultsName{
+  cursor: pointer;
+}
+
+#resultsPrenom{
+  cursor: pointer;
+}
