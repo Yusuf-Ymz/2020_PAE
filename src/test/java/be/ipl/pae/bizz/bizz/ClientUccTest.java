@@ -1,7 +1,6 @@
 package be.ipl.pae.bizz.bizz;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -50,15 +49,11 @@ class ClientUccTest {
 
   @Test
   void testListerClientsException() {
-    // a changer
-    List<ClientDto> liste = clientUcc.listerClients(2);
 
-    assertNull(liste);
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerClients(2);
+    });
 
-    // a changer avec ca
-    /*
-     * assertThrows(BizException.class, () -> { this.clientUcc.listerClients(2); });
-     */
 
   }
 
@@ -126,8 +121,14 @@ class ClientUccTest {
 
 
   @Test
-  void testListerClientsIntStringStringStringString() {
+  void testListerClientsAvecFiltreException() {
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerClients(5, "nom1", "nom1", "bruxelles", "1080");
+    });
+  }
 
+  void testListerClientsAvecFiltreOk() {
+    // TODO
   }
 
   @Test
