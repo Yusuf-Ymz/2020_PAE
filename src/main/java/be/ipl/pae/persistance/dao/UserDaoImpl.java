@@ -1,15 +1,16 @@
 package be.ipl.pae.persistance.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class UserDaoImpl extends DaoUtils implements UserDao {
@@ -196,6 +197,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   public boolean pseudoExiste(String pseudo) {
+
     String query = "SELECT * FROM pae.utilisateurs WHERE pseudo = ?";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
