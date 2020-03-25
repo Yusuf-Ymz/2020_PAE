@@ -1,10 +1,11 @@
 package be.ipl.pae.bizz.bizz;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.ucc.ClientUcc;
+import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
 
@@ -17,6 +18,7 @@ class ClientUccTest {
 
 
   private ClientUcc clientUcc;
+  private ClientDto client;
 
   @BeforeEach
   void setUp() throws Exception {
@@ -25,51 +27,122 @@ class ClientUccTest {
     this.clientUcc = new ClientUccImpl();
     System.out.println(clientUcc.getClass());
     injecSvc.injectDependencies(clientUcc);
+    this.client = null;
   }
 
   @Test
-  void testInsertClient() {
+  void testInsertClientException() {
 
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.insertClient(client, 5);
+    });
   }
 
+
   @Test
-  void testListerClientsInt() {
+  void testListerClientsOk() {
 
     List<ClientDto> liste = clientUcc.listerClients(1);
     assertNotNull(liste);
 
-    liste = clientUcc.listerClients(2);
-    assertNull(liste);
+  }
+
+  @Test
+  void testListerClientsException() {
+
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerClients(2);
+    });
+
+
+  }
+
+
+
+  @Test
+  void testListerNomsClientsException() {
+
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerNomsClients(5, "sc");
+    });
+
+
+
+  }
+
+  void testListerNomsClientsOk() {
+
+
+    assertNotNull(clientUcc.listerNomsClients(1, "so"));
+  }
+
+
+
+  @Test
+  void testListerPrenomsClientsException() {
+
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerPrenomsClients(5, "so");
+    });
+
+
+  }
+
+
+  @Test
+  void testListerPrenomsClientsOk() {
+
+    assertNotNull(clientUcc.listerPrenomsClients(1, "so"));
 
   }
 
   @Test
-  void testListerNomsClients() {
+  void testListerVillesException() {
 
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerVilles(5, "br");
+    });
   }
 
   @Test
-  void testListerPrenomsClients() {
+  void testListerVillesOk() {
+
+    assertNotNull(this.clientUcc.listerVilles(1, "br"));
+
 
   }
 
-  @Test
-  void testListerVilles() {
 
-  }
 
   @Test
   void testListerCp() {
+    // TODO
+  }
 
+
+  @Test
+  void testListerClientsAvecFiltreException() {
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerClients(5, "nom1", "nom1", "bruxelles", "1080");
+    });
+  }
+
+  void testListerClientsAvecFiltreOk() {
+    // TODO
   }
 
   @Test
-  void testListerClientsIntStringStringStringString() {
+  void testListerClientsPasUtilisateurException() {
+    assertThrows(BizException.class, () -> {
+      this.clientUcc.listerClientsPasUtilisateur(5);
+    });
 
   }
 
   @Test
   void testListerClientsPasUtilisateur() {
+
+    assertNotNull(this.clientUcc.listerVilles(1, "bru"));
 
   }
 
