@@ -41,6 +41,7 @@ function displayAmenagements(response) {
         input.className = "form-check-input amenagements ml-2";
         let id = "amenagement" + amenagements[i]["id"];
         input.id = id;
+        input.value = amenagements[i]["id"];
 
         let label = document.createElement("label");
         label.className = "form-check-label";
@@ -70,6 +71,17 @@ function afficherNotif(msg) {
     })
 }
 
+function afficherNotifSuccess(msg) {
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        timerProgressBar: true,
+        title: msg,
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
 $(document).ready(function (e) {
 
     $("#indroduire_devis").click(function () {
@@ -81,6 +93,39 @@ $(document).ready(function (e) {
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
     });
+
+    $("#insererDevis").click(function (e) {
+        e.preventDefault();
+        let divAmenagement = document.getElementById("amenagements");
+        let tabAmenagements = divAmenagement.querySelectorAll('input[type="checkbox"]');
+        let amenagements = new Array();
+        for(let i =0;i<tabAmenagements.length;i++){
+            if(tabAmenagements[i].checked === true){
+                amenagements.push(tabAmenagements[i].value);
+            }
+
+        }
+        let photos = new Array();
+        let images = $("#drop-container")[0].getElementsByTagName("img");
+        for(let i = 0;i<images.length;i++){
+            photos.push(images[i].src);
+        }
+        console.log(photos);
+        let data = {
+            action: "insererDevis",
+            idClient: $("#idClient").val(),
+            dateDebut: $("#date").val(),
+            montant: $("#montant").val(),
+            nbJours: $("#dureeTravaux").val(),
+            amenagements : amenagements,
+            photos : photos,
+        };
+        //postData("/devis", data, localStorage.getItem("token"), onPost, onError);
+    })
+
+    function onPost(response) {
+        afficherNotifSuccess("Devis Introduit");
+    }
     $("#ajouterClient").click(function (e) {
         e.preventDefault();
         // TODO à revoir
@@ -237,18 +282,18 @@ $(document).ready(function (e) {
         let previousRequest;
         if (action === getCp) {
             previousRequest = previousRequestCP;
-            resultsCP.innerHTML ="";
+            resultsCP.innerHTML = "";
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsCp, onError);
         } else if (action === getNames) {
-            resultsName.innerHTML ='';
+            resultsName.innerHTML = '';
             previousRequest = previousRequestName;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsNames, onError);
         } else if (action === getVille) {
-            resultsVille.innerHTML ='';
+            resultsVille.innerHTML = '';
             previousRequest = previousRequestVille;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsVille, onError);
         } else if (action === getPrenom) {
-            resultsPrenom.innerHTML ='';
+            resultsPrenom.innerHTML = '';
             previousRequest = previousRequestPrenom;
             ajx = specialGetData("/client", data, localStorage.getItem("token"), previousRequest, displayResultsPrenom, onError);
         }
@@ -397,7 +442,6 @@ $(document).ready(function (e) {
                 });
 
                 div.addEventListener('mouseleave', function (e) {
-
                     e.target.className = '';
                 });
 
@@ -535,6 +579,7 @@ $(document).ready(function (e) {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
                 idClient = e.target.value;
+                $("#idClient").val(idClient);
                 let tr = e.target.parentNode.parentNode;
                 let nom = tr.getElementsByClassName('nom');
                 let prenom = tr.getElementsByClassName('prenom');
@@ -613,7 +658,6 @@ $(document).ready(function (e) {
         }
 
         else if (e.keyCode == 13) {
-            console.log('ici');
             if (selectedResultName > -1) {
                 chooseResultName(divs[selectedResultName]);
             } else {

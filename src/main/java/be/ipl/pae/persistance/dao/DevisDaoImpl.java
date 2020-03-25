@@ -1,18 +1,21 @@
 package be.ipl.pae.persistance.dao;
 
+import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.AmenagementDto;
+import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
+import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.exception.FatalException;
+import be.ipl.pae.persistance.dal.DalBackendServices;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import be.ipl.pae.annotation.Inject;
-import be.ipl.pae.bizz.dto.AmenagementDto;
-import be.ipl.pae.bizz.dto.ClientDto;
-import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.dto.UserDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
-import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalBackendServices;
 
 public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Inject
@@ -42,7 +45,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Override
   public List<DevisDto> obtenirTousLesDevis() {
     String query =
-        "SELECT * FROM pae.clients c, pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id ORDER BY date_debut";
+        "SELECT * FROM pae.clients c, pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id WHERE c.client_id=d.client ORDER BY date_debut";
     PreparedStatement prepareStatement = dal.createStatement(query);
 
     String queryAmenagements =
@@ -59,16 +62,20 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
         ClientDto client = fact.getClientDto();
         fillObject(client, rs);
-
         devis.setClient(client);
 
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        devis.setPhotoPreferee(photoPreferee);
+
+
         prepareQueryAmenagements.setInt(1, devis.getDevisId());
-        rs = prepareQueryAmenagements.executeQuery();
+        ResultSet rs1 = prepareQueryAmenagements.executeQuery();
         List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
 
-        while (rs.next()) {
+        while (rs1.next()) {
           AmenagementDto amenagement = fact.getAmenagementDto();
-          fillObject(amenagement, rs);
+          fillObject(amenagement, rs1);
           listeAmenagements.add(amenagement);
         }
 
@@ -86,7 +93,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
   public List<DevisDto> obtenirSesDevis(int idClient) {
     String query =
-        "SELECT * FROM pae.clients c, pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id WHERE d.client = ? ORDER BY date_debut";
+        "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id WHERE d.client = ? ORDER BY date_debut";
     PreparedStatement prepareStatement = dal.createStatement(query);
 
     String queryAmenagements =
@@ -107,18 +114,19 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         DevisDto devis = fact.getDevisDto();
         fillObject(devis, rs);
 
-        ClientDto client = fact.getClientDto();
-        fillObject(client, rs);
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        photoPreferee.setDevis(devis);
 
-        devis.setClient(client);
+        devis.setPhotoPreferee(photoPreferee);
 
         prepareQueryAmenagements.setInt(1, devis.getDevisId());
-        rs = prepareQueryAmenagements.executeQuery();
+        ResultSet rs1 = prepareQueryAmenagements.executeQuery();
         List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
 
-        while (rs.next()) {
+        while (rs1.next()) {
           AmenagementDto amenagement = fact.getAmenagementDto();
-          fillObject(amenagement, rs);
+          fillObject(amenagement, rs1);
           listeAmenagements.add(amenagement);
         }
 
@@ -142,6 +150,157 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return null;
   }
 
+  @Override
+  public DevisDto consulterDevisEnTantQuOuvrier(int devisId) {
+    // TODO Auto-generated method stub
+
+    try {
+      String queryDevis =
+          "SELECT * FROM pae.clients c, pae.devis d WHERE d.devis_id = ? AND d.client=c.client_id";
+
+      PreparedStatement prepareStatement = dal.createStatement(queryDevis);
+      prepareStatement.setInt(1, devisId);
+      ResultSet rs = prepareStatement.executeQuery();
+
+      if (!rs.next()) {
+        return null;
+      }
+
+      DevisDto devis = fact.getDevisDto();
+      fillObject(devis, rs);
+
+      ClientDto client = fact.getClientDto();
+      fillObject(client, rs);
+
+      devis.setClient(client);
+
+      String queryAmenagements =
+          "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
+
+      prepareStatement = dal.createStatement(queryAmenagements);
+      prepareStatement.setInt(1, devisId);
+      rs = prepareStatement.executeQuery();
+
+      List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
+      while (rs.next()) {
+        AmenagementDto amenagement = fact.getAmenagementDto();
+        fillObject(amenagement, rs);
+        listeAmenagements.add(amenagement);
+      }
+
+      devis.setAmenagements(listeAmenagements);
+
+      String queryPhotoAvant =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+      prepareStatement = dal.createStatement(queryPhotoAvant);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosAvant.add(photo);
+      }
+
+      devis.setPhotosAvant(photosAvant);
+
+      String queryPhotoApres =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+      prepareStatement = dal.createStatement(queryPhotoApres);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosApres.add(photo);
+      }
+
+      devis.setPhotoApres(photosApres);
+
+      return devis;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+  @Override
+  public DevisDto consulterDevisEnTantQueUtilisateur(int clientId, int devisId) {
+    // TODO Auto-generated method stub
+
+    try {
+      String queryDevis =
+          "SELECT * FROM pae.clients c, pae.devis d WHERE d.devis_id = ? AND c.client_id = ? AND d.client=c.client_id";
+
+      PreparedStatement prepareStatement = dal.createStatement(queryDevis);
+      prepareStatement.setInt(1, devisId);
+      prepareStatement.setInt(2, clientId);
+      ResultSet rs = prepareStatement.executeQuery();
+
+      if (!rs.next()) {
+        return null;
+      }
+
+      DevisDto devis = fact.getDevisDto();
+      fillObject(devis, rs);
+
+      ClientDto client = fact.getClientDto();
+      fillObject(client, rs);
+
+      devis.setClient(client);
+
+      String queryAmenagements =
+          "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
+
+      prepareStatement = dal.createStatement(queryAmenagements);
+      prepareStatement.setInt(1, devisId);
+      rs = prepareStatement.executeQuery();
+
+      List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
+      while (rs.next()) {
+        AmenagementDto amenagement = fact.getAmenagementDto();
+        fillObject(amenagement, rs);
+        listeAmenagements.add(amenagement);
+      }
+
+      devis.setAmenagements(listeAmenagements);
+
+      String queryPhotoAvant =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+      prepareStatement = dal.createStatement(queryPhotoAvant);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosAvant.add(photo);
+      }
+
+      devis.setPhotosAvant(photosAvant);
+
+      String queryPhotoApres =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+      prepareStatement = dal.createStatement(queryPhotoApres);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosApres.add(photo);
+      }
+
+      devis.setPhotoApres(photosApres);
+      return devis;
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
   // Possibilité de faire une seule méthode pour tous les états.
   public void accepterDateTravaux(int numeroDevis) {
     String query = "UPDATE pae.devis SET etat = 'accepté' WHERE devis_id = ?";
@@ -152,6 +311,76 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       preparedStatement.execute();
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  @Override
+  public DevisDto insererDevis(DevisDto devis, int idClient, List<String> photos) {
+    String query =
+        "INSERT INTO pae.devis VALUES (DEFAULT,?,?,?,?,'Devis introduit',NULL,CURRENT_TIMESTAMP )RETURNING devis_id;";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, devis.getClient().getIdClient());
+      prepareStatement.setDate(2, Date.valueOf(devis.getDateDebut()));
+      prepareStatement.setInt(3, devis.getMontantTotal());
+      prepareStatement.setInt(4, devis.getDuree());
+
+      ResultSet rs = prepareStatement.executeQuery();
+      int idDevis = -1;
+      if (rs.next()) {
+        idDevis = rs.getInt(1);
+      }
+      insererTravaux(devis);
+      insererPhotos(devis, photos);
+      DevisDto newDevis = obtenirDevisById(idDevis);
+      return newDevis;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+  private void insererPhotos(DevisDto devis, List<String> photos) {
+    // TODO Auto-generated method stub
+
+  }
+
+  private void insererTravaux(DevisDto devis) {
+    String query = "INSERT INTO pae.travaux VALUES (?,?)";
+
+    List<AmenagementDto> amenagements = devis.getAmenagements();
+    try {
+      for (AmenagementDto amenagement : amenagements) {
+        PreparedStatement ps = dal.createStatement(query);
+        ps.setInt(1, devis.getDevisId());
+        ps.setInt(2, amenagement.getId());
+        ps.executeQuery();
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+
+  private DevisDto obtenirDevisById(int id) {
+    String query =
+        "SELECT * FROM pae.clients c, pae.devis d LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id WHERE d.client = c.client_id AND d.devis_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, id);
+      ResultSet rs = prepareStatement.executeQuery();
+      DevisDto devis = fact.getDevisDto();
+      ClientDto client = fact.getClientDto();
+      if (rs.next()) {
+        fillObject(client, rs);
+        fillObject(devis, rs);
+        devis.setClient(client);
+      }
+      return devis;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
     }
   }
 

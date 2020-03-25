@@ -19,7 +19,7 @@ class UserUccTest {
     Config.load("test.properties");
     InjectionService injecSer = new InjectionService();
     ucc = new UserUccImpl();
-   
+
     injecSer.injectDependencies(ucc);
   }
 
@@ -53,6 +53,8 @@ class UserUccTest {
 
 
   /*
+   * a refaire
+   * 
    * @Test public void testSeConnecterOk() { assertNotNull(ucc.seConnecter("pseudo", "azerty")); }
    */
 

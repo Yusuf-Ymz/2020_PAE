@@ -99,7 +99,7 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean pseudoExiste(String pseudo) {
-    if (pseudo.equals("")) {
+    if (pseudo.equals(" ")) {
       return false;
     }
 
@@ -108,7 +108,7 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean emailExiste(String email) {
-    if (email.equals("")) {
+    if (email.equals(" ")) {
       return false;
     }
 

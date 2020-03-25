@@ -33,4 +33,18 @@ public interface DevisUcc {
    */
   List<DevisDto> listerDevisClient(int idUser, int idClient);
 
+  /**
+   * Renvoie le devis correspondant à l'id si l'user est un ouvrier ou le propriétaire du devis.
+   * 
+   * @param idUser : l'id de l'utilisateur
+   * @param idDevis : l'id du devis
+   * @return le devis
+   */
+  DevisDto consulterDevis(int idUser, int idDevis);
+
+
+
+  DevisDto insererDevis(DevisDto devis, int idClient, List<Integer> amenagements,
+      List<String> photos);
+
 }

@@ -128,8 +128,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
 
-      // prepareStatement.setDate(1, java.sql.Date.valueOf(user.getDateInscription()));
-      prepareStatement.setString(1, user.getDateInscription().toString());
+      prepareStatement.setDate(1, java.sql.Date.valueOf(user.getDateInscription()));
       prepareStatement.setString(2, user.getPseudo());
       prepareStatement.setString(3, user.getPassword());
       prepareStatement.setString(4, user.getNom());
@@ -137,7 +136,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       prepareStatement.setString(6, user.getVille());
       prepareStatement.setString(7, user.getEmail());
 
-      prepareStatement.executeQuery();
+      prepareStatement.execute();
       System.out.println("Ajout complet");
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -145,6 +144,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   public boolean pseudoExiste(String pseudo) {
+
     String query = "SELECT * FROM pae.utilisateurs WHERE pseudo = ?";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {

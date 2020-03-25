@@ -58,6 +58,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
 
         monChamp.innerHTML = amenagements;
       } else if (propriete === "Photo préférée") {
+        if(element[propriete] !== null)
         monChamp.innerHTML = "<img class='image' src='" + element[propriete] + "'/>";
       } else {
         monChamp.innerHTML = element[propriete];

@@ -3,6 +3,7 @@ package be.ipl.pae.bizz.bizz;
 import be.ipl.pae.annotation.FieldDb;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,8 +12,7 @@ class Devis implements DevisBiz {
   @FieldDb("devis_id")
   private int devisId;
 
-  @FieldDb("photo")
-  private String photoPreferee;
+  private PhotoDto photoPreferee;
 
   private ClientDto client;
 
@@ -33,6 +33,10 @@ class Devis implements DevisBiz {
 
   private List<AmenagementDto> amenagements;
 
+  private List<PhotoDto> photosAvants;
+
+  private List<PhotoDto> photosApres;
+
   @Override
   public int getDevisId() {
     // TODO Auto-generated method stub
@@ -46,15 +50,15 @@ class Devis implements DevisBiz {
   }
 
   @Override
-  public String getPhotoPreferee() {
+  public PhotoDto getPhotoPreferee() {
     // TODO Auto-generated method stub
     return this.photoPreferee;
   }
 
   @Override
-  public void setPhotoPreferee(String idPhoto) {
+  public void setPhotoPreferee(PhotoDto photo) {
     // TODO Auto-generated method stub
-    this.photoPreferee = idPhoto;
+    this.photoPreferee = photo;
   }
 
   @Override
@@ -139,6 +143,30 @@ class Devis implements DevisBiz {
   public void setAmenagements(List<AmenagementDto> amenagements) {
     // TODO Auto-generated method stub
     this.amenagements = amenagements;
+  }
+
+  @Override
+  public List<PhotoDto> getPhotosAvant() {
+    // TODO Auto-generated method stub
+    return this.photosAvants;
+  }
+
+  @Override
+  public void setPhotosAvant(List<PhotoDto> photosAvant) {
+    // TODO Auto-generated method stub
+    this.photosAvants = photosAvant;
+  }
+
+  @Override
+  public List<PhotoDto> getPhotosApres() {
+    // TODO Auto-generated method stub
+    return this.photosApres;
+  }
+
+  @Override
+  public void setPhotoApres(List<PhotoDto> photoApres) {
+    // TODO Auto-generated method stub
+    this.photosApres = photoApres;
   }
 
 

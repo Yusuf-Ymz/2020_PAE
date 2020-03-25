@@ -19,18 +19,18 @@ public interface DevisDto {
   void setDevisId(int idDevis);
 
   /**
-   * Renvoie la photo preferee en base 64.
+   * Renvoie l'objet photo préférée.
    * 
    * @return la photo
    */
-  String getPhotoPreferee();
+  PhotoDto getPhotoPreferee();
 
   /**
    * Modifie la photo preferee.
    * 
    * @param photo : la nouvelle photo
    */
-  void setPhotoPreferee(String photo);
+  void setPhotoPreferee(PhotoDto photo);
 
   /**
    * Renvoie le client du devis.
@@ -129,4 +129,32 @@ public interface DevisDto {
    * @param amenagements : la nouvelle liste
    */
   void setAmenagements(List<AmenagementDto> amenagements);
+
+  /**
+   * Renvoie la liste des photos avant aménagements.
+   * 
+   * @return la liste des photos
+   */
+  List<PhotoDto> getPhotosAvant();
+
+  /**
+   * Modifie la liste des photos avant aménagements.
+   * 
+   * @param photosAvant : la liste des photos
+   */
+  void setPhotosAvant(List<PhotoDto> photosAvant);
+
+  /**
+   * Renvoie la liste des photos après aménagements.
+   * 
+   * @return la liste des photos
+   */
+  List<PhotoDto> getPhotosApres();
+
+  /**
+   * Modifie la liste des photos après aménagements.
+   * 
+   * @param photoApres : la liste des photos
+   */
+  void setPhotoApres(List<PhotoDto> photoApres);
 }
