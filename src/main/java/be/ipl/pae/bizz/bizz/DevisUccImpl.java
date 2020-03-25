@@ -41,6 +41,7 @@ class DevisUccImpl implements DevisUcc {
       if (user.getClientId() == 0) {
         return null;
       }
+
       return this.devisdao.obtenirSesDevis(user.getClientId());
     } catch (Exception exception) {
       dal.rollbackTransaction();
@@ -50,6 +51,25 @@ class DevisUccImpl implements DevisUcc {
       dal.commitTransaction();
     }
 
+  }
+
+  @Override
+  public List<DevisDto> listerDevisClient(int idUser, int idClient) {
+    try {
+      dal.startTransaction();
+      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+      if (!user.isOuvrier()) {
+        return null;
+      }
+
+      return this.devisdao.obtenirSesDevis(idClient);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
 }

@@ -48,6 +48,12 @@ public class DevisServlet extends HttpServlet {
           case "tousLesDevis":
             devis = devisUcc.listerTousLesDevis(userId);
             break;
+          case "devisDuClient":
+
+            int ClientId = Integer.parseInt(req.getParameter("N° client").toString());
+
+            devis = devisUcc.listerDevisClient(userId, ClientId);
+            break;
           default:
             break;
         }

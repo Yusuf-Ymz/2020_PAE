@@ -101,7 +101,9 @@ public class UserServlet extends HttpServlet {
       throws IOException {
 
     String token = req.getHeader("Authorization");
-    String json = null;
+    String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+    int status = HttpServletResponse.SC_UNAUTHORIZED;
+
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
       List<UserDto> listeUser = userUcc.listerUsers(userId);
@@ -109,17 +111,11 @@ public class UserServlet extends HttpServlet {
           this.genson.serialize(listeUser, new GenericType<List<UserDto>>() {});
       System.out.println(listeSerialisee);
       json = "{\"listeUser\":" + listeSerialisee + "}";
-      // ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
-      resp.setStatus(HttpServletResponse.SC_OK);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
+      status = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, status);
+
     } else {
-      json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write(json);
+      ServletUtils.sendResponse(resp, json, status);
     }
   }
 

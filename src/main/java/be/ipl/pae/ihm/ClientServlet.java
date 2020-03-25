@@ -179,6 +179,7 @@ public class ClientServlet extends HttpServlet {
 
 
   /***
+   * 
    * Gére la requete permettant de lister tous les clients.
    * 
    * @param req : la requete
@@ -187,9 +188,10 @@ public class ClientServlet extends HttpServlet {
    */
   private void listCustomer(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     String token = req.getHeader("Authorization");
-    String json = null;
-
-    if (token != null) {
+    String json = "{\"error\":\"Vous n'avez pas accés ces informations\"}";;
+    int idUser = ServletUtils.estConnecte(token);
+    int status = HttpServletResponse.SC_UNAUTHORIZED;
+    if (idUser != -1) {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
@@ -201,19 +203,15 @@ public class ClientServlet extends HttpServlet {
 
         String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
         json = "{\"clients\":" + liste + "}";
-        resp.setStatus(HttpServletResponse.SC_OK);
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
       } else {
-        json = "{\"error\":\"Vous n'avez pas accés informations\"}";
-        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        ServletUtils.sendResponse(resp, json, status);
       }
     } else {
-      json = "{\"error\":\"Vous n'avez pas accés ces informations\"}";
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      ServletUtils.sendResponse(resp, json, status);
     }
 
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
-    resp.getWriter().write(json);
 
   }
 }

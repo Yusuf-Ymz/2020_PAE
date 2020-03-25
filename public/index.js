@@ -137,7 +137,7 @@ const homeWorker = () => {
   $('#rechercher_mes_devis').hide();
   $("#introduireDevis").hide();
   $('#consulterDevis').hide();
-
+  $('#listeDeMesDevis').hide();
   let user = localStorage.getItem('ouvrier');
 
   if (user === "true") {

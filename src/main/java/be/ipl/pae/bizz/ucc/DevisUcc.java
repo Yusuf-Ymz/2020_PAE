@@ -22,4 +22,15 @@ public interface DevisUcc {
    * @return la liste des devis de l'utilisateur
    */
   List<DevisDto> listerSesDevis(int idUser);
+
+
+  /**
+   * Renvoie la liste des devis de l'utilisateur.
+   * 
+   * 
+   * @param idUser : l'utilisateur qui fait la requête
+   * @return la liste des devis de l'utilisateur
+   */
+  List<DevisDto> listerDevisClient(int idUser, int idClient);
+
 }

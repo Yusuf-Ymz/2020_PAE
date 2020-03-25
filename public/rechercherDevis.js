@@ -28,31 +28,40 @@ $(document).ready(function () {
 
 
 
-    function onGetTousLesDevisList(response) {
-        $("#listeDeTousLesDevis").show();
-  
-        $("#searchCard").show();// pas encore d'option de recherche pour devis
-        let nombtnTab = ["visualiser devis"];
-        printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueOuvrier,"/devis");
-    }
-
-    function onGetMesDevisList(response) {
-        $("#listeDeMesDevis").show();
-  
-        $("#searchCard").show();// pas encore d'option de recherche pour devis
-        let nombtnTab = ["visualiser devis"];
-        printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueClient,"/devis");
-    }
-
-    function onDevisListError(err) {
-        console.error(err);
-        Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            timerProgressBar: true,
-            title: err.responseJSON.error,
-            showConfirmButton: false,
-            timer: 1500
-        })
-    }
+ 
 });
+
+function onGetTousLesDevisList(response) {
+    $("#listeDeTousLesDevis").show();
+
+    $("#searchCard").show();// pas encore d'option de recherche pour devis
+    let nombtnTab = ["visualiser devis"];
+    printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueOuvrier,"/devis");
+}
+
+function onGetMesDevisList(response) {
+    
+    $("#listeDeMesDevis").show();
+
+    $("#searchCard").show();// pas encore d'option de recherche pour devis
+    let nombtnTab = ["visualiser devis"];
+    printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueClient,"/devis");
+}
+
+function onDevisListError(err) {
+    console.error(err);
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        timerProgressBar: true,
+        title: err.responseJSON.error,
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
+
+
+
+
+export default  onGetMesDevisList;
