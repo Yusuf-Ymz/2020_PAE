@@ -32,11 +32,9 @@ public interface UserUcc {
 
   List<UserDto> listerUsersPreinscrit(int userId);
 
-  UserDto confirmUser(int userId, int idConfirmed);
+  UserDto confirmUser(int ouvrierId, int idUser, int idClient);
 
   UserDto confirmWorker(int userId, int idConfirmed);
-
-  void initilisation();
 
 
 }

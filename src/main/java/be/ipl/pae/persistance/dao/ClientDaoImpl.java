@@ -2,6 +2,7 @@ package be.ipl.pae.persistance.dao;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
@@ -210,9 +211,9 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   @Override
   public List<ClientDto> rechercherClientsPasUtilisateur() {
     String query =
-        "SELECT * FROM pae.clients cl WHERE cl.client_id NOT IN(SELECT u.client_id from pae.utilisateurs u)";
+        "SELECT * from pae.clients cl where cl.client_id NOT IN (SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL)";
     String queryTest = "SELECT * FROM pae.clients cl";
-    PreparedStatement prepareStatement = dal.createStatement(queryTest);
+    PreparedStatement prepareStatement = dal.createStatement(query);
     List<ClientDto> clients = new ArrayList<ClientDto>();
     try {
       ResultSet rs = prepareStatement.executeQuery();
@@ -226,6 +227,24 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public UserDto rechercherClientAvecId(int idClient) {
+    String query = "SELECT * FROM pae.clients WHERE client_id = ? ";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, idClient);
+      ResultSet rs = prepareStatement.executeQuery();
+      if (!rs.next()) {
+        return null;
+      }
+      UserDto client = fact.getUserDto();
+      return client;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
     }
   }
 

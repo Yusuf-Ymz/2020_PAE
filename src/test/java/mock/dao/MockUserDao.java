@@ -71,10 +71,10 @@ public class MockUserDao implements UserDao {
   }
 
   @Override
-  public void addConfirmUserWithId(int idConfirmed) {
+  public void addUtilisateurClient(int idUser, int idClient) {
 
     UserDto user = dtoFactory.getUserDto();
-    user.setUserId(idConfirmed);
+    user.setUserId(idUser);
     user.setConfirme(true);
 
   }
@@ -87,28 +87,6 @@ public class MockUserDao implements UserDao {
     user.setUserId(idConfirmed);
     user.setConfirme(true);
     user.setOuvrier(true);
-  }
-
-  @Override
-  public void removeConfirmWorkerWithId(int userId) {
-
-    UserDto user = dtoFactory.getUserDto();
-
-    user.setUserId(userId);
-    user.setConfirme(true);
-    user.setOuvrier(false);
-
-  }
-
-  @Override
-  public void removeConfirmUserWithId(int userId) {
-
-    UserDto user = dtoFactory.getUserDto();
-
-    user.setUserId(userId);
-    user.setConfirme(false);
-
-
   }
 
   @Override
@@ -136,4 +114,5 @@ public class MockUserDao implements UserDao {
 
     return true;
   }
+
 }

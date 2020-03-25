@@ -5,6 +5,7 @@ import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
+import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.UserDao;
 
 import java.util.List;
@@ -13,6 +14,10 @@ class UserUccImpl implements UserUcc {
 
   @Inject
   private UserDao userDao;
+
+  @Inject
+  private ClientDao clientDao;
+
   @Inject
   private DalServices dal;
 
@@ -105,15 +110,18 @@ class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto confirmUser(int userId, int idConfirmed) {
+  public UserDto confirmUser(int ouvrierId, int idUser, int idClient) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
-      if (userConnecte.isOuvrier()) {
-        UserDto userConfirm = this.userDao.obtenirUserAvecId(idConfirmed);
-        if (!userConfirm.isConfirme()) {
-          userDao.addConfirmUserWithId(idConfirmed);
-          return userConfirm;
+      UserDto ouvrier = this.userDao.obtenirUserAvecId(ouvrierId);
+      if (ouvrier.isOuvrier()) {
+        UserDto utilisateur = this.userDao.obtenirUserAvecId(idUser);
+        UserDto client = this.clientDao.rechercherClientAvecId(idClient);
+
+        if (utilisateur != null && !utilisateur.isConfirme() && client != null
+            && utilisateur.getClientId() == 0) {
+          userDao.addUtilisateurClient(idUser, idClient);
+          return utilisateur;
         }
       }
       throw new BizException(""); // TODO mettre un message correspondant
@@ -149,26 +157,5 @@ class UserUccImpl implements UserUcc {
 
   }
 
-
-  // à quoi ça sert ??????????????????????????????????????????????????????????
-  @Override
-  public void initilisation() {
-    UserDto alain = userDao.obtenirUser("alain");
-    UserDto hary = userDao.obtenirUser("hary");
-    if (alain.isOuvrier()) {
-      userDao.removeConfirmWorkerWithId(alain.getUserId());
-    }
-    if (hary.isOuvrier()) {
-      userDao.removeConfirmWorkerWithId(hary.getUserId());
-    }
-    if (alain.isConfirme()) {
-      System.out.println("coucou");
-      userDao.removeConfirmUserWithId(alain.getUserId());
-    }
-    if (hary.isConfirme()) {
-      userDao.removeConfirmUserWithId(hary.getUserId());
-    }
-
-  }
 
 }

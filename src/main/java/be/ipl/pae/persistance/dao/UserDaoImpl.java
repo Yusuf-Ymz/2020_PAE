@@ -1,15 +1,16 @@
 package be.ipl.pae.persistance.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class UserDaoImpl extends DaoUtils implements UserDao {
@@ -105,23 +106,6 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   @Override
-  public void addConfirmUserWithId(int idConfirmed) {
-    String query = "UPDATE pae.utilisateurs SET confirme = true WHERE utilisateur_id = ?";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    try {
-      prepareStatement.setInt(1, idConfirmed);
-      ResultSet rs = prepareStatement.executeQuery();
-      if (!rs.next()) {
-        // exception
-      }
-
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-  }
-
-  @Override
   public void addConfirmWorkerWithId(int idConfirmed) {
     String query =
         "UPDATE pae.utilisateurs SET confirme = true, ouvrier = true WHERE utilisateur_id = ?";
@@ -131,41 +115,6 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       ResultSet rs = prepareStatement.executeQuery();
       if (!rs.next()) {
         // exception
-      }
-
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-  }
-
-  @Override
-  public void removeConfirmWorkerWithId(int userId) {
-    String query =
-        "UPDATE pae.utilisateurs SET confirme = false, ouvrier = false WHERE utilisateur_id = ?";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    try {
-      prepareStatement.setInt(1, userId);
-      ResultSet rs = prepareStatement.executeQuery();
-      if (!rs.next()) {
-        // exception
-      }
-
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-  }
-
-  @Override
-  public void removeConfirmUserWithId(int userId) {
-    String query = "UPDATE pae.utilisateurs SET confirme = false WHERE utilisateur_id = ?";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    try {
-      prepareStatement.setInt(1, userId);
-      ResultSet rs = prepareStatement.executeQuery();
-      if (!rs.next()) {
-        // exceptions
       }
 
     } catch (SQLException exception) {
@@ -225,6 +174,22 @@ class UserDaoImpl extends DaoUtils implements UserDao {
 
       return false;
     } catch (SQLException exception) {
+      throw new FatalException();
+    }
+  }
+
+  @Override
+  public void addUtilisateurClient(int idUser, int idClient) {
+    String query =
+        "UPDATE pae.utilisateurs SET confirme = true, client_id = ? WHERE utilisateur_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    try {
+      prepareStatement.setInt(1, idClient);
+      prepareStatement.setInt(2, idUser);
+      prepareStatement.executeQuery();
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
       throw new FatalException();
     }
   }

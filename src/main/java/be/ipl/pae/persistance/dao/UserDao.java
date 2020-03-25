@@ -37,20 +37,15 @@ public interface UserDao {
   UserDto obtenirUserAvecId(int id);
 
 
-  void addConfirmUserWithId(int idConfirmed);
-
-
   void addConfirmWorkerWithId(int idConfirmed);
 
-
-  void removeConfirmWorkerWithId(int userId);
-
-
-  void removeConfirmUserWithId(int userId);
 
   void inscrireUser(UserDto user);
 
   boolean pseudoExiste(String pseudo);
 
   boolean emailExiste(String email);
+
+
+  void addUtilisateurClient(int idUser, int idClient);
 }

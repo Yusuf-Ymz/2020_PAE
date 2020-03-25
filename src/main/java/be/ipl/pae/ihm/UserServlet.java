@@ -54,33 +54,35 @@ public class UserServlet extends HttpServlet {
       throws ServletException, IOException {
     try {
       String token = req.getHeader("Authorization");
-      int userId = ServletUtils.estConnecte(token);
-      if (userId != -1) {
+      int ouvrierId = ServletUtils.estConnecte(token);
+      if (ouvrierId != -1) {
         Genson genson = new Genson();
         Map<String, Object> map = genson.deserialize(req.getReader(), Map.class);
-        String email = map.get("email").toString();
-        System.out.println(map.toString());
-        int idConfirmed = Integer.parseInt((String) map.get("id"));
-        String nom = map.get("nom").toString();
-        String prenom = map.get("prenom").toString();
-        String pseudo = map.get("pseudo").toString();
-        String ville = map.get("ville").toString();
         String action = map.get("action").toString();
         System.out.println(action);
-        if (action.equals("confirmerInscription/onlyUser")) {
-          UserDto userDto = userUcc.confirmUser(userId, idConfirmed);
-          if (userDto != null) {
-            throw new Error("confirmerInscription/onlyUser");
-          }
-        }
+        System.out.println("map" + map.toString());
         if (action.equals("confirmerInscription/worker")) {
-          UserDto userDto = userUcc.confirmWorker(userId, idConfirmed);
+          String email = map.get("email").toString();
+          System.out.println(map.toString());
+          int idConfirmed = Integer.parseInt((String) map.get("id"));
+          String nom = map.get("nom").toString();
+          String prenom = map.get("prenom").toString();
+          String pseudo = map.get("pseudo").toString();
+          String ville = map.get("ville").toString();
+          UserDto userDto = userUcc.confirmWorker(ouvrierId, idConfirmed);
           if (userDto != null) {
             throw new Error("confirmerInscription/worker");
           }
         }
-        if (action.equals("confirmerInscription/lienClient")) {
-          userUcc.initilisation();
+        if (action.equals("confirmerInscription/lierUtilisateurClient")) {
+          System.out.println("je rentre");
+          int idUser = Integer.parseInt((String) map.get("idUser"));
+          int idClient = Integer.parseInt((String) map.get("idClient"));
+          UserDto userDto = userUcc.confirmUser(ouvrierId, idUser, idClient);
+          System.out.println(userDto);
+          if (userDto != null) {
+            throw new Error("confirmerInscription/lierUtilisateurClient");
+          }
         }
 
       }
@@ -109,7 +111,6 @@ public class UserServlet extends HttpServlet {
       List<UserDto> listeUser = userUcc.listerUsers(userId);
       String listeSerialisee =
           this.genson.serialize(listeUser, new GenericType<List<UserDto>>() {});
-      System.out.println(listeSerialisee);
       json = "{\"listeUser\":" + listeSerialisee + "}";
       status = HttpServletResponse.SC_OK;
       ServletUtils.sendResponse(resp, json, status);
@@ -136,7 +137,6 @@ public class UserServlet extends HttpServlet {
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
       List<UserDto> listeUsersPreinscrit = userUcc.listerUsersPreinscrit(userId);
-      System.out.println(listeUsersPreinscrit);
       json = "{\"data\":"
           + genson.serialize(listeUsersPreinscrit, new GenericType<List<UserDto>>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;
