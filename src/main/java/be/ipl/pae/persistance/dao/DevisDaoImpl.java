@@ -142,11 +142,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return null;
   }
 
-  // Faire passser l'Ètat ‡ "confirmÈ" -> simple update.
-  /*
-   * public void confirerDateDevis(int idDevis) {
-   * 
-   * }
-   */
+  // Faire passer l'√©tat du devis √† accept√© (Simple update).
+  public void confirerDateDevis(int idDevis) {
+
+  }
 
 }
