@@ -26,7 +26,7 @@ public interface ClientDto {
   /**
    * Modifie le prénom du client.
    * 
-   * @param nom : le nouveau prénom du client
+   * @param prenom : le nouveau prénom du client
    */
   void setPrenom(String prenom);
 

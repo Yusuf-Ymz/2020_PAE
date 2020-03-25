@@ -178,8 +178,7 @@ public class ClientServlet extends HttpServlet {
   }
 
 
-  /***
-   * 
+  /**
    * Gére la requete permettant de lister tous les clients.
    * 
    * @param req : la requete
@@ -188,7 +187,7 @@ public class ClientServlet extends HttpServlet {
    */
   private void listCustomer(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     String token = req.getHeader("Authorization");
-    String json = "{\"error\":\"Vous n'avez pas accés ces informations\"}";;
+    String json = "{\"error\":\"Vous n'avez pas accés ces informations\"}";
     int idUser = ServletUtils.estConnecte(token);
     int status = HttpServletResponse.SC_UNAUTHORIZED;
     if (idUser != -1) {

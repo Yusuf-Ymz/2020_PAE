@@ -22,7 +22,7 @@ public class DevisServlet extends HttpServlet {
   private DevisUcc devisUcc;
 
   /**
-   * Instancie le devis servlet
+   * Instancie le devis servlet.
    */
   public DevisServlet() {
     this.genson = ServletUtils.getGensonDevis();
@@ -50,9 +50,9 @@ public class DevisServlet extends HttpServlet {
             break;
           case "devisDuClient":
 
-            int ClientId = Integer.parseInt(req.getParameter("N° client").toString());
+            int clientId = Integer.parseInt(req.getParameter("N° client").toString());
 
-            devis = devisUcc.listerDevisClient(userId, ClientId);
+            devis = devisUcc.listerDevisClient(userId, clientId);
             break;
           default:
             break;
