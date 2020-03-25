@@ -179,7 +179,8 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
 
-      prepareStatement.setDate(1, java.sql.Date.valueOf(user.getDateInscription()));
+      // prepareStatement.setDate(1, java.sql.Date.valueOf(user.getDateInscription()));
+      prepareStatement.setString(1, user.getDateInscription().toString());
       prepareStatement.setString(2, user.getPseudo());
       prepareStatement.setString(3, user.getPassword());
       prepareStatement.setString(4, user.getNom());
