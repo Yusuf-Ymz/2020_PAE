@@ -11,7 +11,7 @@ $(document).ready(function () {
     
         let token = localStorage.getItem("token");
         const data = {
-            action: "/listerClients"
+            action: "listerClients"
         }
         getData("/client", data, token, onGetClientList, onClientListError);
     });
@@ -29,7 +29,7 @@ $(document).ready(function () {
         let thtabClient =  new Array("N° utilisateur ","Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
         
         let nombtnTab = ["visualiser devis"];
-        console.log("fn gkx");
+        
         printTable("listerClients", response.clients,nombtnTab,"N° client",doGetClientDevis,"/devis");
 
     }

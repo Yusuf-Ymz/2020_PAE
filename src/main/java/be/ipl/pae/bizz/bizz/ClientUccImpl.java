@@ -48,7 +48,7 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
       UserDto user = userDao.obtenirUserAvecId(idClient);
       if (!user.isOuvrier()) {
-        return null;
+        throw new BizException("Vous n'avez pas les droits");
       }
       return this.clientDao.listerClients();
     } catch (Exception exception) {
