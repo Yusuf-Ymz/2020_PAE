@@ -180,6 +180,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
 
   @Override
   public void addUtilisateurClient(int idUser, int idClient) {
+    // ne fonctionne pas
     String query =
         "UPDATE pae.utilisateurs SET confirme = true, client_id = ? WHERE utilisateur_id = ?";
     PreparedStatement prepareStatement = dal.createStatement(query);
