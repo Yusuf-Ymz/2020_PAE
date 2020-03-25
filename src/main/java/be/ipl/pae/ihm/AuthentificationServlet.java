@@ -1,5 +1,15 @@
 package be.ipl.pae.ihm;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
@@ -7,19 +17,6 @@ import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.main.Config;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.owlike.genson.Genson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class AuthentificationServlet extends HttpServlet {
 
@@ -60,8 +57,6 @@ public class AuthentificationServlet extends HttpServlet {
 
     Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
     String action = (String) body.get("action");
-
-    System.out.println(action);
 
     switch (action) {
       case "register":

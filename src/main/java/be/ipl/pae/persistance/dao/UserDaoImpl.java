@@ -1,16 +1,15 @@
 package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.annotation.Inject;
-import be.ipl.pae.bizz.dto.UserDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
-import be.ipl.pae.exception.FatalException;
-import be.ipl.pae.persistance.dal.DalBackendServices;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.UserDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.exception.FatalException;
+import be.ipl.pae.persistance.dal.DalBackendServices;
 
 
 class UserDaoImpl extends DaoUtils implements UserDao {
@@ -179,8 +178,8 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     String query = "INSERT INTO pae.utilisateurs VALUES(DEFAULT,false,false,?,?,?,null,?,?,?,?);";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
-      // CHANGER LA DATE.TOSTRING!!!!!!!!!!!
-      prepareStatement.setString(1, user.getDateInscription().toString());
+
+      prepareStatement.setDate(1, java.sql.Date.valueOf(user.getDateInscription()));
       prepareStatement.setString(2, user.getPseudo());
       prepareStatement.setString(3, user.getPassword());
       prepareStatement.setString(4, user.getNom());
@@ -188,7 +187,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       prepareStatement.setString(6, user.getVille());
       prepareStatement.setString(7, user.getEmail());
 
-      prepareStatement.executeQuery(query);
+      prepareStatement.executeQuery();
       System.out.println("Ajout complet");
     } catch (SQLException exception) {
       exception.printStackTrace();
