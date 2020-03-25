@@ -6,7 +6,71 @@
     <p><span>Prenom : </span><span id="firsnameUser"></span></p>
     <p><span>Email : </span><span id="emailUser"></span></p>
     <p><span>Ville : </span><span id="cityUser"></span></p>
+    <p><span id="idUserLier" type="hiden"></span></p>
 </div>
-    <h5>Les clients</h5>
-    <div id="table_clients_noUsers" class="mt-2"></div>
+<h5 class="p mt-0 pt-0">Si le client recherché n'existe pas dans cette table <button type="button" class="btn btn-success" data-toggle="modal" data-target="#lierModel">ajouter-le</button></h5> 
+<div class="modal fade" id="lierModel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Ajouter un client</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nomC">Nom :</label>
+            <input type="text" class="form-control" id="nomCLier" placeholder="Entrer le nom du client" autocomplete="off" required>
+          </div>
+          <div class="form-group ">
+            <label for="prenomC">Prénom :</label>
+            <input type="text" class="form-control" id="prenomCLier" placeholder="Entrer le pénom du client" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="rueC">Rue :</label>
+            <input type="text" class="form-control" id="rueCLier" placeholder="Entrer le nom de la rue" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="numC">Numéro :</label>
+            <input type="text" class="form-control" id="numCLier" placeholder="Entrer le numéro de domicile" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="boiteC">Boite :</label>
+            <input type="text" class="form-control" id="boiteCLier" placeholder="Entrer le numéro de boite" autocomplete="off" >
+          </div>
+          <div class="form-group">
+            <label for="cpC">Code postal :</label>
+            <input type="number" class="form-control" id="cpCLier" placeholder="Entrer le code postal" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="villeC">Ville :</label>
+            <input type="text" class="form-control" id="villeCLier" placeholder="Entrer la ville du client" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="emailC">e-mail :</label>
+            <input type="email" class="form-control" id="emailCLier" placeholder="Entrer l'e-mail du client" autocomplete="off" required>
+          </div>
+          <div class="form-group">
+            <label for="telC">Téléphone :</label>
+            <input type="tel" class="form-control" id="telCLier" placeholder="Entrer le numéro de téléphone" autocomplete="off" required>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" style="height: 50px;">
+          <div class="position-absolute top-left ml-3 "> 
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+        </div>  
+        <div class="position-absolute top-right mr-3"> 
+          <button type="button" class="btn btn-success" id="ajouterClientLier">Ajouter</button>  
+        </div> 
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<h5>Les clients</h5>
+<div id="table_clients_noUsers" class="mt-2"></div>
 </div>

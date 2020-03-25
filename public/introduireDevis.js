@@ -17,11 +17,11 @@ var searchVille = document.getElementById('villeSearch'),
     previousRequestPrenom,
     previousRequestVille,
     previousRequestCP,
-    previousRequestName,
-    previousValuePrenom = searchPrenom.value,
-    previousValueVille = searchVille.value,
-    previousValueCP = searchCP.value,
-    previousValueName = searchName.value;
+    previousRequestName;
+    //previousValuePrenom = searchPrenom.value,
+    //previousValueVille = searchVille.value,
+    //previousValueCP = searchCP.value,
+    //previousValueName = searchName.value;
 const getCp = "getCp";
 const getNames = "getNom";
 const getVille = "getVille";

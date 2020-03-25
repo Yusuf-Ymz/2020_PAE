@@ -1,7 +1,6 @@
 function create_dynamic_HTML_table(
   targetHtmlElementId,
   arrayToPrint,
-  confirmerInscription,
   confirmerOuvrier,
   lierUtilisateurClient,
   lierUtilisateurClientTable,
@@ -27,13 +26,6 @@ function create_dynamic_HTML_table(
     th.innerHTML = thTab[i];
     headerLine.appendChild(th);
   }
-
-  if (confirmerInscription){
-    let th = document.createElement("th");
-    th.className = "text-center";
-    th.innerHTML = "Confirmer inscription";
-    headerLine.appendChild(th);
-  } 
 
   if (confirmerOuvrier){
     let th = document.createElement("th");
@@ -63,7 +55,7 @@ function create_dynamic_HTML_table(
     tbody.appendChild(myLine);
     const objectToPrint = arrayToPrint[x];
     for (const property in objectToPrint) {
-      if (property === "userId") {
+      if (property === "N° utilisateur" || property === "N° client") {
         myLine.id = objectToPrint[property];
       }
       if (property !== "N° utilisateur" && property !== "Date d'inscription" && property !== "N° client" && property !== "Rue" && property !== "Boite" && property !== "N° porte") {
@@ -74,9 +66,6 @@ function create_dynamic_HTML_table(
       }
     }
 
-    if(confirmerInscription){
-      colonneSupp(confirmerInscription,"Confirmer",myLine,objectPropertiesToBeSaved);
-    }
     if(confirmerOuvrier){
       colonneSupp(confirmerOuvrier,"Valider",myLine,objectPropertiesToBeSaved);
     }
