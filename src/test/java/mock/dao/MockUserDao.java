@@ -5,6 +5,7 @@ import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.UserDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockUserDao implements UserDao {
@@ -26,61 +27,113 @@ public class MockUserDao implements UserDao {
 
   @Override
   public List<UserDto> obtenirListeUser() {
-    // TODO Auto-generated method stub
-    return null;
+
+    List<UserDto> listeUser = new ArrayList<UserDto>();
+
+    for (int i = 0; i < 5; i++) {
+      UserDto user = this.dtoFactory.getUserDto();
+      user.setClientId(i);
+      listeUser.add(user);
+    }
+
+    return listeUser;
   }
 
   @Override
   public List<UserDto> obtenirListeUsersPreInscrit() {
-    // TODO Auto-generated method stub
-    return null;
+
+    List<UserDto> listeUser = new ArrayList<UserDto>();
+
+    for (int i = 0; i < 5; i++) {
+      UserDto user = this.dtoFactory.getUserDto();
+      user.setClientId(i);
+      user.setConfirme(false);
+      listeUser.add(user);
+
+
+    }
+
+    return listeUser;
+
   }
 
   @Override
   public UserDto obtenirUserAvecId(int id) {
-    // TODO Auto-generated method stub
-    return null;
+    UserDto user = dtoFactory.getUserDto();
+
+    if (id == 1) {
+      user.setOuvrier(true);
+    } else {
+      user.setOuvrier(false);
+    }
+
+    return user;
   }
 
   @Override
   public void addConfirmUserWithId(int idConfirmed) {
-    // TODO Auto-generated method stub
+
+    UserDto user = dtoFactory.getUserDto();
+    user.setUserId(idConfirmed);
+    user.setConfirme(true);
 
   }
 
   @Override
   public void addConfirmWorkerWithId(int idConfirmed) {
-    // TODO Auto-generated method stub
 
+    UserDto user = dtoFactory.getUserDto();
+
+    user.setUserId(idConfirmed);
+    user.setConfirme(true);
+    user.setOuvrier(true);
   }
 
   @Override
   public void removeConfirmWorkerWithId(int userId) {
-    // TODO Auto-generated method stub
+
+    UserDto user = dtoFactory.getUserDto();
+
+    user.setUserId(userId);
+    user.setConfirme(true);
+    user.setOuvrier(false);
 
   }
 
   @Override
   public void removeConfirmUserWithId(int userId) {
-    // TODO Auto-generated method stub
+
+    UserDto user = dtoFactory.getUserDto();
+
+    user.setUserId(userId);
+    user.setConfirme(false);
+
 
   }
 
   @Override
   public void inscrireUser(UserDto user) {
-    // TODO Auto-generated method stub
+
+    UserDto mockUser = dtoFactory.getUserDto();
+    mockUser = user;
 
   }
 
   @Override
   public boolean pseudoExiste(String pseudo) {
-    // TODO Auto-generated method stub
-    return false;
+    if (pseudo.equals(" ")) {
+      return false;
+    }
+
+    return true;
   }
 
   @Override
   public boolean emailExiste(String email) {
-    // TODO Auto-generated method stub
-    return false;
+    if (email.equals(" ")) {
+      return false;
+    }
+
+    return true;
   }
 }

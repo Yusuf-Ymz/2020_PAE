@@ -234,11 +234,17 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-  // Faire passer l'état "confirmé" -> simple update.
-  /*
-   * public void confirerDateDevis(int idDevis) {
-   * 
-   * }
-   */
+  // Possibilité de faire une seule méthode pour tous les états.
+  public void accepterDateTravaux(int numeroDevis) {
+    String query = "UPDATE pae.devis SET etat = 'accepté' WHERE devis_id = ?";
+    PreparedStatement preparedStatement = dal.createStatement(query);
+    try {
+      preparedStatement.setInt(1, numeroDevis);
+
+      preparedStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
 }

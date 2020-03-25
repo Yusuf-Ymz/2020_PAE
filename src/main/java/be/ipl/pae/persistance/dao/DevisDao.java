@@ -54,4 +54,6 @@ public interface DevisDao {
    * @return
    */
   DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
+
+  void accepterDateTravaux(int numeroDevis);
 }

@@ -35,6 +35,7 @@ public class ClientServlet extends HttpServlet {
   private static final String ACTIONGETPRENOM = "getPrenom";
   private static final String ACTIONINSERTCLIENT = "ajouterClient";
   private static final String ACTIONCLIENTPASUTILISATEUR = "listeClientsPasUtilisateur";
+  private static final String ACTIONLISTERCLIENTS = "listerClients";
   private String secret;
   private Genson genson;
   private Genson gensonClient;
@@ -119,9 +120,7 @@ public class ClientServlet extends HttpServlet {
           json = "{\"data\":" + listeSerialisee + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
-        } else {
-          // TODO completer cette condition! modifier le else en else if + rajouter une
-          // action js
+        } else if (ACTIONLISTERCLIENTS.equalsIgnoreCase(action)) {
           listCustomer(req, resp);// à modifer aussi
         }
       } else {
@@ -196,17 +195,14 @@ public class ClientServlet extends HttpServlet {
       DecodedJWT jwt = verifier.verify(token);
       int userId = jwt.getClaim("id").asInt();
 
+
       List<ClientDto> listeClients = this.clientUcc.listerClients(userId);
 
-      if (listeClients != null) {
+      String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
+      json = "{\"clients\":" + liste + "}";
+      status = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, status);
 
-        String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
-        json = "{\"clients\":" + liste + "}";
-        status = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, status);
-      } else {
-        ServletUtils.sendResponse(resp, json, status);
-      }
     } else {
       ServletUtils.sendResponse(resp, json, status);
     }
