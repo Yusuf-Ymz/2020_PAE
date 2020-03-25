@@ -141,7 +141,7 @@ class ClientUccTest {
   @Test
   void testListerClientsPasUtilisateur() {
 
-    assertNotNull(this.clientUcc.listerVilles(1, "br"));
+    assertNotNull(this.clientUcc.listerVilles(1, "bru"));
 
   }
 
