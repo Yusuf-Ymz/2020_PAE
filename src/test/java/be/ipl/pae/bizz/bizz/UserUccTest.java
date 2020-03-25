@@ -19,6 +19,7 @@ class UserUccTest {
     Config.load("test.properties");
     InjectionService injecSer = new InjectionService();
     ucc = new UserUccImpl();
+   
     injecSer.injectDependencies(ucc);
   }
 
