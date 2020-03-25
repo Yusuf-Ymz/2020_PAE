@@ -23,8 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private Genson gensonTousLesDevis;
-  private Genson gensonClientDevis;
+  private Genson genson;
   @Inject
   private DtoFactory fact;
   @Inject
@@ -34,8 +33,7 @@ public class DevisServlet extends HttpServlet {
    * Instancie le devis servlet.
    */
   public DevisServlet() {
-    this.gensonTousLesDevis = ServletUtils.getGensonTousLesDevis();
-    this.gensonClientDevis = ServletUtils.getGensonClientDevis();
+    this.genson = ServletUtils.getGensonDevis();
   }
 
   @Override
@@ -54,26 +52,23 @@ public class DevisServlet extends HttpServlet {
         switch (action) {
           case "mesDevis":
             listeDevis = devisUcc.listerSesDevis(userId);
-            objetSerialize =
-                gensonClientDevis.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
             break;
           case "tousLesDevis":
             listeDevis = devisUcc.listerTousLesDevis(userId);
-            objetSerialize =
-                gensonTousLesDevis.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
             break;
           case "devisDuClient":
 
             int clientId = Integer.parseInt(req.getParameter("N° client").toString());
 
             listeDevis = devisUcc.listerDevisClient(userId, clientId);
-            objetSerialize =
-                gensonTousLesDevis.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
             break;
           case "consulterDevis":
             int devisId = Integer.parseInt(req.getParameter("devisId").toString());
             devis = devisUcc.consulterDevis(userId, devisId);
-            objetSerialize = gensonTousLesDevis.serialize(devis, new GenericType<DevisDto>() {});
+            objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
             break;
           default:
             break;
@@ -119,7 +114,7 @@ public class DevisServlet extends HttpServlet {
       exception.printStackTrace();
     }
 
-    Map<String, Object> body = this.gensonClientDevis.deserialize(jb.toString(), Map.class);
+    Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
     String action = body.get("action").toString();
     switch (action) {
       case "insererDevis":
@@ -140,15 +135,15 @@ public class DevisServlet extends HttpServlet {
       int nbJours = Integer.parseInt(body.get("nbJours").toString());
       String amenagements = body.get("amenagements").toString();
       String photos = body.get("photos").toString();
-      List<Integer> lAmenagements = gensonClientDevis.deserialize(amenagements, List.class);
-      List<String> lPhotos = gensonClientDevis.deserialize(photos, List.class);
+      List<Integer> lAmenagements = genson.deserialize(amenagements, List.class);
+      List<String> lPhotos = genson.deserialize(photos, List.class);
       DevisDto devis = fact.getDevisDto();
       devis.setDateDebut(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
       DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lAmenagements, lPhotos);
-      String json = "{\"devis\":"
-          + gensonClientDevis.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
+      String json =
+          "{\"devis\":" + genson.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;
       ServletUtils.sendResponse(resp, json, statusCode);
     } catch (BizException exception) {

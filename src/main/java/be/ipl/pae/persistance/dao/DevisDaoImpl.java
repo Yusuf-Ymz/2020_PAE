@@ -4,6 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
@@ -57,13 +58,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       List<DevisDto> listeDevis = new ArrayList<DevisDto>();
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
-        devis.setPhotoPreferee(rs.getString("photo"));
         fillObject(devis, rs);
 
         ClientDto client = fact.getClientDto();
         fillObject(client, rs);
-
         devis.setClient(client);
+
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        devis.setPhotoPreferee(photoPreferee);
+
 
         prepareQueryAmenagements.setInt(1, devis.getDevisId());
         ResultSet rs1 = prepareQueryAmenagements.executeQuery();
@@ -108,8 +112,13 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       List<DevisDto> listeDevis = new ArrayList<DevisDto>();
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
-        devis.setPhotoPreferee(rs.getString("photo"));
         fillObject(devis, rs);
+
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        photoPreferee.setDevis(devis);
+
+        devis.setPhotoPreferee(photoPreferee);
 
         prepareQueryAmenagements.setInt(1, devis.getDevisId());
         ResultSet rs1 = prepareQueryAmenagements.executeQuery();
@@ -180,6 +189,35 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       }
 
       devis.setAmenagements(listeAmenagements);
+
+      String queryPhotoAvant =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+      prepareStatement = dal.createStatement(queryPhotoAvant);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosAvant.add(photo);
+      }
+
+      devis.setPhotosAvant(photosAvant);
+
+      String queryPhotoApres =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+      prepareStatement = dal.createStatement(queryPhotoApres);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosApres.add(photo);
+      }
+
+      devis.setPhotoApres(photosApres);
+
       return devis;
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -227,6 +265,34 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       }
 
       devis.setAmenagements(listeAmenagements);
+
+      String queryPhotoAvant =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+      prepareStatement = dal.createStatement(queryPhotoAvant);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosAvant.add(photo);
+      }
+
+      devis.setPhotosAvant(photosAvant);
+
+      String queryPhotoApres =
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+      prepareStatement = dal.createStatement(queryPhotoApres);
+      rs = prepareStatement.executeQuery();
+
+      List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
+      while (rs.next()) {
+        PhotoDto photo = fact.getPhotoDto();
+        fillObject(photo, rs);
+        photosApres.add(photo);
+      }
+
+      devis.setPhotoApres(photosApres);
       return devis;
 
     } catch (SQLException exception) {

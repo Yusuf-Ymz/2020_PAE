@@ -51,7 +51,7 @@ public interface DevisDao {
    * 
    * @param userId
    * @param devisId
-   * @return
+   * @return le devis
    */
   DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
 
@@ -60,7 +60,7 @@ public interface DevisDao {
   /**
    * Permet d'insérer un devis.
    * 
-   * @param idOuvrier : l'id de l'ouvrier
+   * @param idClient : l'id du client
    * @param devis : le devis
    * @return le devis
    */

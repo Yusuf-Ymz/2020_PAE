@@ -9,22 +9,25 @@ import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
+import be.ipl.pae.persistance.dao.UserDao;
 
 import java.util.List;
 
 class DevisUccImpl implements DevisUcc {
 
   @Inject
+  private DalServices dal;
+  @Inject
   private DevisDao devisdao;
   @Inject
-  private DalServices dal;
+  private UserDao userdao;
   @Inject
   private ClientDao clientDao;
 
   public List<DevisDto> listerTousLesDevis(int idUser) {
     try {
       dal.startTransaction();
-      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+      UserDto user = this.userdao.obtenirUserAvecId(idUser);
       if (!user.isOuvrier()) {
         throw new BizException("Vous n'avez pas les droits pour effectuer cette action");
       }
@@ -42,7 +45,7 @@ class DevisUccImpl implements DevisUcc {
   public List<DevisDto> listerSesDevis(int idUser) {
     try {
       dal.startTransaction();
-      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+      UserDto user = this.userdao.obtenirUserAvecId(idUser);
       if (user.getClientId() == 0) {
         throw new BizException("Cette action n'est pas réalisable");
       }
@@ -62,7 +65,7 @@ class DevisUccImpl implements DevisUcc {
   public List<DevisDto> listerDevisClient(int idUser, int idClient) {
     try {
       dal.startTransaction();
-      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+      UserDto user = this.userdao.obtenirUserAvecId(idUser);
       if (!user.isOuvrier()) {
         throw new BizException("Vous n'avez pas les droits");
       }
@@ -82,7 +85,7 @@ class DevisUccImpl implements DevisUcc {
     // TODO Auto-generated method stub
     try {
       dal.startTransaction();
-      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+      UserDto user = this.userdao.obtenirUserAvecId(idUser);
 
       DevisDto devis = null;
 
