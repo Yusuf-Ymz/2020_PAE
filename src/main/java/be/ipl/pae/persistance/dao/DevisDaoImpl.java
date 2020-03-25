@@ -142,8 +142,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return null;
   }
 
-  // Faire passer l'état du devis à accepté (Simple update).
-  public void confirerDateDevis(int idDevis) {
+  public void accepterDateTravaux(int numeroDevis) {
 
   }
 
