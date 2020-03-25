@@ -11,7 +11,6 @@ class Devis implements DevisBiz {
   @FieldDb("devis_id")
   private int devisId;
 
-  @FieldDb("photo")
   private String photoPreferee;
 
   private ClientDto client;

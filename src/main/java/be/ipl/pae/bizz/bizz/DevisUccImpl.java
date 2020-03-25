@@ -4,6 +4,7 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
+import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.DevisDao;
 
@@ -21,7 +22,7 @@ class DevisUccImpl implements DevisUcc {
       dal.startTransaction();
       UserDto user = this.devisdao.obtenirUserAvecId(idUser);
       if (!user.isOuvrier()) {
-        return null;
+        throw new BizException("Vous n'avez pas les droits pour effectuer cette action");
       }
       return this.devisdao.obtenirTousLesDevis();
     } catch (Exception exception) {
@@ -39,7 +40,7 @@ class DevisUccImpl implements DevisUcc {
       dal.startTransaction();
       UserDto user = this.devisdao.obtenirUserAvecId(idUser);
       if (user.getClientId() == 0) {
-        return null;
+        throw new BizException("Cette action n'est pas réalisable");
       }
 
       return this.devisdao.obtenirSesDevis(user.getClientId());
@@ -59,7 +60,7 @@ class DevisUccImpl implements DevisUcc {
       dal.startTransaction();
       UserDto user = this.devisdao.obtenirUserAvecId(idUser);
       if (!user.isOuvrier()) {
-        return null;
+        throw new BizException("Vous n'avez pas les droits");
       }
 
       return this.devisdao.obtenirSesDevis(idClient);
@@ -70,6 +71,37 @@ class DevisUccImpl implements DevisUcc {
     } finally {
       dal.commitTransaction();
     }
+  }
+
+  @Override
+  public DevisDto consulterDevis(int idUser, int idDevis) {
+    // TODO Auto-generated method stub
+    try {
+      dal.startTransaction();
+      UserDto user = this.devisdao.obtenirUserAvecId(idUser);
+
+      DevisDto devis = null;
+
+      if (user.isOuvrier()) {
+        devis = devisdao.consulterDevisEnTantQuOuvrier(idDevis);
+      } else {
+        devis = devisdao.consulterDevisEnTantQueUtilisateur(user.getClientId(), idDevis);
+      }
+
+
+      if (devis == null) {
+        throw new BizException("Erreur dans la requête");
+      }
+
+      return devis;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+
   }
 
 }

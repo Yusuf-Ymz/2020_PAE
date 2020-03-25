@@ -33,8 +33,11 @@ class ServletUtils {
   private static Genson gensonUser =
       new GensonBuilder().withConverters(new UtilisateurConverter()).create();
 
-  private static Genson gensonDevis =
-      new GensonBuilder().withConverters(new DevisConverter()).create();
+  private static Genson gensonTousLesDevis =
+      new GensonBuilder().withConverters(new TousLesDevisConverter()).create();
+
+  private static Genson gensonClientDevis =
+      new GensonBuilder().withConverters(new DevisDuClientConverter()).create();
 
   private static Genson gensonClient =
       new GensonBuilder().withConverters(new ClientConverter()).create();
@@ -48,8 +51,12 @@ class ServletUtils {
     return gensonUser;
   }
 
-  public static Genson getGensonDevis() {
-    return gensonDevis;
+  public static Genson getGensonTousLesDevis() {
+    return gensonTousLesDevis;
+  }
+
+  public static Genson getGensonClientDevis() {
+    return gensonClientDevis;
   }
 
   public static Genson getGensonClient() {
@@ -160,7 +167,35 @@ class ServletUtils {
 
   }
 
-  private static class DevisConverter implements Converter<DevisDto> {
+  private static class TousLesDevisConverter implements Converter<DevisDto> {
+    @Override
+    public DevisDto deserialize(ObjectReader reader, Context ctx) throws Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public void serialize(DevisDto object, ObjectWriter writer, Context ctx) throws Exception {
+      // TODO Auto-generated method stub
+      writer.beginObject();
+      writer.writeString("Nom du client", object.getClient().getNom())
+          .writeString("Prénom du client", object.getClient().getPrenom())
+          .writeString("Types d'aménagements",
+              gensonAmenagement.serialize(object.getAmenagements(),
+                  new GenericType<List<AmenagementDto>>() {}))
+          .writeString("Date de début",
+              object.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+          .writeString("Date devis",
+              object.getDateDevis().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+          .writeNumber("devisId", object.getDevisId()).writeNumber("duree", object.getDuree())
+          .writeString("État d'avancement", object.getEtat())
+          .writeNumber("Montant total", object.getMontantTotal())
+          .writeString("Photo préférée", object.getPhotoPreferee());
+      writer.endObject();
+    }
+  }
+
+  private static class DevisDuClientConverter implements Converter<DevisDto> {
     @Override
     public DevisDto deserialize(ObjectReader reader, Context ctx) throws Exception {
       // TODO Auto-generated method stub
@@ -172,7 +207,6 @@ class ServletUtils {
       // TODO Auto-generated method stub
       writer.beginObject();
       writer
-          .writeString("Client", object.getClient().getNom() + " " + object.getClient().getPrenom())
           .writeString("Types d'aménagements",
               gensonAmenagement.serialize(object.getAmenagements(),
                   new GenericType<List<AmenagementDto>>() {}))

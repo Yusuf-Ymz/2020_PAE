@@ -38,4 +38,20 @@ public interface DevisDao {
    */
   DevisDto insererDevis(int idOuvrier, DevisDto devis);
 
+  /**
+   * Renvoie le devis correspondant à l'id
+   * 
+   * @param devisId : l'id du devis
+   * @return le devis
+   */
+  DevisDto consulterDevisEnTantQuOuvrier(int devisId);
+
+  /**
+   * Renvoie le devis si celui ci appartient à l'utilisateur
+   * 
+   * @param userId
+   * @param devisId
+   * @return
+   */
+  DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
 }
