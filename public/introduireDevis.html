@@ -99,6 +99,7 @@
 </div>
 <div class="row mt">
   <div class="col-md-3">
+    <input type="hidden" id="idClient">
     <div class="form-group">
       <label >Nom du client :</label>
       <input type="text" class="form-control" id="nomInfo" disabled >
@@ -117,7 +118,10 @@
     </div>
     <div class="form-group">
       <label for="dureeTravaux">Durée des travaux:</label>
-      <input type="number" class="form-control" id="dureeTravaux" placeholder="Entrer la durée des travaux" required>
+      <input type="number" class="form-control" id="dureeTravaux" placeholder="Entrer la durée des travaux" required pattern="[0-9]*">
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-success" id="insererDevis" value="Introduire">
     </div>
   </div>
   <div class="col-md-9">

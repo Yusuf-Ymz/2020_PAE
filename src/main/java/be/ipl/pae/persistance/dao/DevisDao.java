@@ -56,4 +56,13 @@ public interface DevisDao {
   DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
 
   void accepterDateTravaux(int numeroDevis);
+
+  /**
+   * Permet d'insérer un devis.
+   * 
+   * @param idOuvrier : l'id de l'ouvrier
+   * @param devis : le devis
+   * @return le devis
+   */
+  DevisDto insererDevis(DevisDto devis, int idClient, List<String> photos);
 }

@@ -1,11 +1,13 @@
 package be.ipl.pae.bizz.bizz;
 
 import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
+import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
 
 import java.util.List;
@@ -16,6 +18,8 @@ class DevisUccImpl implements DevisUcc {
   private DevisDao devisdao;
   @Inject
   private DalServices dal;
+  @Inject
+  private ClientDao clientDao;
 
   public List<DevisDto> listerTousLesDevis(int idUser) {
     try {
@@ -102,6 +106,26 @@ class DevisUccImpl implements DevisUcc {
       dal.commitTransaction();
     }
 
+  }
+
+  @Override
+  public DevisDto insererDevis(DevisDto devis, int idClient, List<Integer> amenagements,
+      List<String> photos) {
+    try {
+      dal.startTransaction();
+      ClientDto client = clientDao.getClientById(idClient);
+      if (client == null) {
+        throw new BizException("Client inexistant");
+      }
+      devis.setClient(client);
+      return devisdao.insererDevis(devis, idClient, photos);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
 }

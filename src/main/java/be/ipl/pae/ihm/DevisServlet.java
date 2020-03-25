@@ -2,6 +2,7 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
@@ -9,8 +10,11 @@ import be.ipl.pae.exception.FatalException;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +25,8 @@ public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private Genson gensonTousLesDevis;
   private Genson gensonClientDevis;
+  @Inject
+  private DtoFactory fact;
   @Inject
   private DevisUcc devisUcc;
 
@@ -35,7 +41,6 @@ public class DevisServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    // TODO Auto-generated method stub
     try {
       String token = req.getHeader("Authorization");
       int userId = ServletUtils.estConnecte(token);
@@ -95,5 +100,70 @@ public class DevisServlet extends HttpServlet {
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     }
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    // super.doPost(req, resp);
+    // TODO il faut tester si c'est un ouvrier
+    StringBuffer jb = new StringBuffer();
+    String line = null;
+
+    try {
+      BufferedReader reader = req.getReader();
+      while ((line = reader.readLine()) != null) {
+        jb.append(line);
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    }
+
+    Map<String, Object> body = this.gensonClientDevis.deserialize(jb.toString(), Map.class);
+    String action = body.get("action").toString();
+    switch (action) {
+      case "insererDevis":
+        insererDevis(body, resp);
+        break;
+      default:
+        super.doPost(req, resp);
+        break;
+    }
+  }
+
+  private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
+    try {
+      int idClient = Integer.parseInt((String) body.get("idClient"));
+      System.out.println(body.get("dateDebut").toString());
+      LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
+      int montantTotal = Integer.parseInt(body.get("montant").toString());
+      int nbJours = Integer.parseInt(body.get("nbJours").toString());
+      String amenagements = body.get("amenagements").toString();
+      String photos = body.get("photos").toString();
+      List<Integer> lAmenagements = gensonClientDevis.deserialize(amenagements, List.class);
+      List<String> lPhotos = gensonClientDevis.deserialize(photos, List.class);
+      DevisDto devis = fact.getDevisDto();
+      devis.setDateDebut(dateDebut);
+      devis.setDuree(nbJours);
+      devis.setMontantTotal(montantTotal);
+      DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lAmenagements, lPhotos);
+      String json = "{\"devis\":"
+          + gensonClientDevis.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
+      int statusCode = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, statusCode);
+    } catch (BizException exception) {
+      String err = "{\"error\":" + exception.getMessage() + "\"}";
+      int statusCode = HttpServletResponse.SC_CONFLICT;
+      ServletUtils.sendResponse(resp, err, statusCode);
+    } catch (FatalException exception) {
+      String err = "{\"error\":\" Erreur serveur \"}";
+      int statusCode = HttpServletResponse.SC_CONFLICT;
+      ServletUtils.sendResponse(resp, err, statusCode);
+    } catch (Exception exception) {
+
+    }
+
+
+
   }
 }

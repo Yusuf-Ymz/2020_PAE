@@ -42,4 +42,9 @@ public interface DevisUcc {
    */
   DevisDto consulterDevis(int idUser, int idDevis);
 
+
+
+  DevisDto insererDevis(DevisDto devis, int idClient, List<Integer> amenagements,
+      List<String> photos);
+
 }
