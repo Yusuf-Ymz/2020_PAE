@@ -138,6 +138,11 @@ public class DevisServlet extends HttpServlet {
       err = "Champ \"durée des travaux\" incorrect";
       int nbJours = Integer.parseInt(body.get("nbJours").toString());
       String amenagements = body.get("amenagements").toString();
+      if (amenagements.equals("[]")) {
+        err = "Veuillez renseigner des aménagements";
+        ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
+        return;
+      }
       String photos = body.get("photos").toString();
       err = "Veuillez sélectionner des aménagements";
       int lAmenagements[] = genson.deserialize(amenagements, int[].class);
