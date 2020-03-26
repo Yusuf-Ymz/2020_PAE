@@ -121,6 +121,7 @@ class UserUccImpl implements UserUcc {
         if (utilisateur != null && !utilisateur.isConfirme() && client != null
             && utilisateur.getClientId() == 0) {
           userDao.addUtilisateurClient(idUser, idClient);
+          System.out.println(utilisateur);
           return utilisateur;
         }
       }
@@ -155,6 +156,27 @@ class UserUccImpl implements UserUcc {
       dal.commitTransaction();
     }
 
+  }
+
+  @Override
+  public UserDto trouverInfoUtilisateur(int ouvrierId, int userId) {
+    try {
+      dal.startTransaction();
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(ouvrierId);
+      if (userConnecte.isOuvrier()) {
+        UserDto user = this.userDao.obtenirUserAvecId(userId);
+        if (user != null) {
+          return user;
+        }
+      }
+      throw new BizException("");// TODO mettre un message correspondant
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
 

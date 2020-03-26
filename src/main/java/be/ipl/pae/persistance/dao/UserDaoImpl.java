@@ -112,10 +112,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
       prepareStatement.setInt(1, idConfirmed);
-      ResultSet rs = prepareStatement.executeQuery();
-      if (!rs.next()) {
-        // exception
-      }
+      prepareStatement.execute();
 
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -187,7 +184,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     try {
       prepareStatement.setInt(1, idClient);
       prepareStatement.setInt(2, idUser);
-      prepareStatement.executeQuery();
+      prepareStatement.execute();
 
     } catch (SQLException exception) {
       exception.printStackTrace();

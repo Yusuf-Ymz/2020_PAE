@@ -37,17 +37,40 @@ public class UserServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
+      System.out.println(req.getParameter("action"));
       if (req.getParameter("action").equals("listeUser")) {
         displayListUsers(req, resp);
       }
       if (req.getParameter("action").equals("confirmerInscription")) {
         displayListUsersPreregistered(req, resp);
+      } else if (req.getParameter("action").equals("recupererUtilisateur")) {
+        System.out.println("je rentre pas");
+        afficherInfoUtilisateur(req, resp);
       }
 
     } catch (Exception exception) {
       exception.printStackTrace();
     }
   }
+
+  private void afficherInfoUtilisateur(HttpServletRequest req, HttpServletResponse resp) {
+    String token = req.getHeader("Authorization");
+    String json = null;
+    int ouvrierId = ServletUtils.estConnecte(token);
+    if (ouvrierId != -1) {
+      int userId = Integer.parseInt(req.getParameter("N° utilisateur").toString());
+      UserDto user = userUcc.trouverInfoUtilisateur(ouvrierId, userId);
+      System.out.println(user);
+      json = "{\"data\":" + genson.serialize(user, new GenericType<UserDto>() {}) + "}";
+      int statusCode = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, statusCode);
+    } else {
+      json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+      int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
+      ServletUtils.sendResponse(resp, json, statusCode);
+    }
+  }
+
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -64,24 +87,34 @@ public class UserServlet extends HttpServlet {
         if (action.equals("confirmerInscription/worker")) {
           String email = map.get("email").toString();
           System.out.println(map.toString());
-          int idConfirmed = Integer.parseInt((String) map.get("id"));
+          int idConfirmed = Integer.parseInt((String) map.get("N° utilisateur"));
           String nom = map.get("nom").toString();
           String prenom = map.get("prenom").toString();
           String pseudo = map.get("pseudo").toString();
           String ville = map.get("ville").toString();
           UserDto userDto = userUcc.confirmWorker(ouvrierId, idConfirmed);
-          if (userDto != null) {
-            throw new Error("confirmerInscription/worker");
+          if (userDto == null) {
+            String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+            int status = HttpServletResponse.SC_UNAUTHORIZED;
+            ServletUtils.sendResponse(resp, json, status);
+          } else {
+            String json = "{\"success\": \"true\"}";
+            int status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
           }
         }
         if (action.equals("confirmerInscription/lierUtilisateurClient")) {
-          System.out.println("je rentre");
-          int idUser = Integer.parseInt((String) map.get("idUser"));
+          int idUser = Integer.parseInt((String) map.get("N° utilisateur"));
           int idClient = Integer.parseInt((String) map.get("idClient"));
           UserDto userDto = userUcc.confirmUser(ouvrierId, idUser, idClient);
-          System.out.println(userDto);
-          if (userDto != null) {
-            throw new Error("confirmerInscription/lierUtilisateurClient");
+          if (userDto == null) {
+            String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
+            int status = HttpServletResponse.SC_UNAUTHORIZED;
+            ServletUtils.sendResponse(resp, json, status);
+          } else {
+            String json = "{\"success\": \"true\"}";
+            int status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
           }
         }
 

@@ -36,5 +36,7 @@ public interface UserUcc {
 
   UserDto confirmWorker(int userId, int idConfirmed);
 
+  UserDto trouverInfoUtilisateur(int ouvrierId, int userId);
+
 
 }
