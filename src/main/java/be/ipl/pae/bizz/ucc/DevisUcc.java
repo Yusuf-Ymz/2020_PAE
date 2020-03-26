@@ -44,7 +44,6 @@ public interface DevisUcc {
 
 
 
-  DevisDto insererDevis(DevisDto devis, int idClient, List<Integer> amenagements,
-      List<String> photos);
+  DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);
 
 }

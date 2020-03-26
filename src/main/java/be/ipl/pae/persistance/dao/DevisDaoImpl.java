@@ -295,7 +295,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public DevisDto insererDevis(DevisDto devis, int idClient, List<String> photos) {
+  public DevisDto insererDevis(DevisDto devis, String photos[]) {
     String query =
         "INSERT INTO pae.devis VALUES (DEFAULT,?,?,?,?,'Devis introduit',NULL,CURRENT_TIMESTAMP )RETURNING devis_id;";
     PreparedStatement prepareStatement = dal.createStatement(query);
@@ -309,6 +309,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       int idDevis = -1;
       if (rs.next()) {
         idDevis = rs.getInt(1);
+        devis.setDevisId(idDevis);
       }
       insererTravaux(devis);
       insererPhotos(devis, photos);
@@ -320,21 +321,34 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-  private void insererPhotos(DevisDto devis, List<String> photos) {
-    // TODO Auto-generated method stub
+  private void insererPhotos(DevisDto devis, String photos[]) {
+    String query = "INSERT INTO pae.photos VALUES (DEFAULT, FALSE,FALSE,NULL,?,?)";
+    PreparedStatement ps = dal.createStatement(query);
+    try {
+      ps.setInt(1, devis.getDevisId());
+      for (String photo : photos) {
+        ps.setString(2, photo);
+        ps.execute();
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
 
+    }
   }
 
   private void insererTravaux(DevisDto devis) {
     String query = "INSERT INTO pae.travaux VALUES (?,?)";
 
     List<AmenagementDto> amenagements = devis.getAmenagements();
+    System.out.println(devis.getDevisId());
     try {
       for (AmenagementDto amenagement : amenagements) {
         PreparedStatement ps = dal.createStatement(query);
+        System.out.println(amenagement.getId());
         ps.setInt(1, devis.getDevisId());
         ps.setInt(2, amenagement.getId());
-        ps.executeQuery();
+        ps.execute();
       }
     } catch (SQLException exception) {
       exception.printStackTrace();

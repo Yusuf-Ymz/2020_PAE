@@ -8,4 +8,6 @@ public interface AmenagementDao {
 
   List<AmenagementDto> listerLesAmenagements();
 
+  AmenagementDto getAmenagementById(int id);
+
 }

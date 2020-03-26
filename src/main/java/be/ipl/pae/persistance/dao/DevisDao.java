@@ -13,7 +13,7 @@ public interface DevisDao {
   List<DevisDto> obtenirTousLesDevis();
 
   /**
-   * Renvoie les devis appartenant à l'id du client.
+   * Renvoie les devis appartenant Ã  l'id du client.
    * 
    * @param idClient : l'id du client
    * @return la liste des devis
@@ -21,7 +21,7 @@ public interface DevisDao {
   List<DevisDto> obtenirSesDevis(int idClient);
 
   /**
-   * Permet d'insérer un devis.
+   * Permet d'insÃ©rer un devis.
    * 
    * @param idOuvrier : l'id de l'ouvrier
    * @param devis : le devis
@@ -30,7 +30,7 @@ public interface DevisDao {
   DevisDto insererDevis(int idOuvrier, DevisDto devis);
 
   /**
-   * Renvoie le devis correspondant à l'id
+   * Renvoie le devis correspondant Ã  l'id
    * 
    * @param devisId : l'id du devis
    * @return le devis
@@ -38,7 +38,7 @@ public interface DevisDao {
   DevisDto consulterDevisEnTantQuOuvrier(int devisId);
 
   /**
-   * Renvoie le devis si celui ci appartient à l'utilisateur
+   * Renvoie le devis si celui ci appartient Ã  l'utilisateur
    * 
    * @param userId
    * @param devisId
@@ -51,9 +51,9 @@ public interface DevisDao {
   /**
    * Permet d'insérer un devis.
    * 
-   * @param idClient : l'id du client
    * @param devis : le devis
+   * @param photos : les photos avant aménagement
    * @return le devis
    */
-  DevisDto insererDevis(DevisDto devis, int idClient, List<String> photos);
+  DevisDto insererDevis(DevisDto devis, String photos[]);
 }
