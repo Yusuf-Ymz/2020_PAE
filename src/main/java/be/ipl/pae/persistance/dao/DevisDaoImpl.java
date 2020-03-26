@@ -123,17 +123,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public DevisDto insererDevis(int idOuvrier, DevisDto devis) {
-    String query = "";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-
-    return null;
-  }
-
-  @Override
   public DevisDto consulterDevisEnTantQuOuvrier(int devisId) {
-    // TODO Auto-generated method stub
-
     try {
       String queryDevis =
           "SELECT * FROM pae.clients c, pae.devis d WHERE d.devis_id = ? AND d.client=c.client_id";
@@ -171,8 +161,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       devis.setAmenagements(listeAmenagements);
 
       String queryPhotoAvant =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false AND d.devis_id = ?";
       prepareStatement = dal.createStatement(queryPhotoAvant);
+      prepareStatement.setInt(1, devisId);
       rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
@@ -185,8 +176,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       devis.setPhotosAvant(photosAvant);
 
       String queryPhotoApres =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true AND d.devis_id = ?";
       prepareStatement = dal.createStatement(queryPhotoApres);
+      prepareStatement.setInt(1, devisId);
       rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
@@ -247,8 +239,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       devis.setAmenagements(listeAmenagements);
 
       String queryPhotoAvant =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false";
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false AND d.devis_id = ?";
       prepareStatement = dal.createStatement(queryPhotoAvant);
+      prepareStatement.setInt(1, devisId);
       rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
@@ -261,8 +254,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       devis.setPhotosAvant(photosAvant);
 
       String queryPhotoApres =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true";
+          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true AND d.devis_id = ?";
       prepareStatement = dal.createStatement(queryPhotoApres);
+      prepareStatement.setInt(1, devisId);
       rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosApres = new ArrayList<PhotoDto>();

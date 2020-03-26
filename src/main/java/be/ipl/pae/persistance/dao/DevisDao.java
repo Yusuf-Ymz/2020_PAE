@@ -20,14 +20,6 @@ public interface DevisDao {
    */
   List<DevisDto> obtenirSesDevis(int idClient);
 
-  /**
-   * Permet d'insÃ©rer un devis.
-   * 
-   * @param idOuvrier : l'id de l'ouvrier
-   * @param devis : le devis
-   * @return le devis
-   */
-  DevisDto insererDevis(int idOuvrier, DevisDto devis);
 
   /**
    * Renvoie le devis correspondant Ã  l'id
