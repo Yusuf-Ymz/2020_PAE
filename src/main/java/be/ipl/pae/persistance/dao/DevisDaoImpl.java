@@ -5,7 +5,6 @@ import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
-import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
@@ -22,25 +21,6 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   private DalBackendServices dal;
   @Inject
   private DtoFactory fact;
-
-  @Override
-  public UserDto obtenirUserAvecId(int idUser) {
-    String query = "Select * FROM pae.utilisateurs WHERE utilisateur_id = ? ";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    try {
-      prepareStatement.setInt(1, idUser);
-      ResultSet rs = prepareStatement.executeQuery();
-      if (!rs.next()) {
-        return null;
-      }
-      UserDto user = fact.getUserDto();
-      fillObject(user, rs);
-      return user;
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-  }
 
   @Override
   public List<DevisDto> obtenirTousLesDevis() {
