@@ -31,7 +31,7 @@ let i = 0;
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
     let divAmenagements = $("#amenagements")[0];
-
+    $("#amenagements").text("");
     for (let i = 0; i < amenagements.length; i++) {
         let div = document.createElement("div");
         div.className = "form-check col-md-6 mt-3";
@@ -56,8 +56,10 @@ function displayAmenagements(response) {
 
 }
 
-function onError(response) {
-
+function onError(err) {
+    console.log(err);
+    console.log(err.responseText);
+    afficherNotif(err.responseText);
 }
 
 function afficherNotif(msg) {

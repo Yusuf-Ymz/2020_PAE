@@ -18,6 +18,13 @@ function postData(url = "", data = {}, token, onPost, onError) {
     headers: headers,
     data: JSON.stringify(data),
     dataType: "json",
+    beforeSend: function(){
+      $('#loader').show();
+    },
+    complete: function(){
+      console.log("complete");  
+      $('#loader').hide();
+    },
     success: onPost,
     error: onError
   });
@@ -41,6 +48,12 @@ function getData(url = "", data = "", token, onGet, onError) {
     headers: headers,
     data: data,
     dataType: "json",
+    beforeSend: function(){
+      $('#loader').show();
+    },
+    complete: function(){
+      $('#loader').hide();
+    },
     success: onGet,
     error: onError
   });
@@ -63,6 +76,12 @@ function deleteData(url = "", token, onDelete, onError) {
     url: url,
     headers: headers,
     dataType: "json",
+    beforeSend: function(){
+      $('#loader').show();
+    },
+    complete: function(){
+      $('#loader').hide();
+    },
     success: onDelete,
     error: onError
   });
@@ -88,6 +107,12 @@ function updateData(url = "", data = {}, token, onPut, onError) {
     headers: headers,
     data: JSON.stringify(data),
     dataType: "json",
+    beforeSend: function(){
+      $('#loader').show();
+    },
+    complete: function(){
+      $('#loader').hide();
+    },
     success: onPut,
     error: onError
   });

@@ -127,13 +127,19 @@ public class DevisServlet extends HttpServlet {
   }
 
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
+    String err = "";
     try {
+      err = "Veuillez renseigner un client";
       int idClient = Integer.parseInt((String) body.get("idClient"));
+      err = "Veuillez saisir une date";
       LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
+      err = "Champ \"montant total\" incorrect";
       int montantTotal = Integer.parseInt(body.get("montant").toString());
+      err = "Champ \"durée des travaux\" incorrect";
       int nbJours = Integer.parseInt(body.get("nbJours").toString());
       String amenagements = body.get("amenagements").toString();
       String photos = body.get("photos").toString();
+      err = "Veuillez sélectionner des aménagements";
       int lAmenagements[] = genson.deserialize(amenagements, int[].class);
       photos = photos.replace("[", "");
       photos = photos.replace("]", "");
@@ -152,15 +158,17 @@ public class DevisServlet extends HttpServlet {
       int statusCode = HttpServletResponse.SC_OK;
       ServletUtils.sendResponse(resp, json, statusCode);
     } catch (BizException exception) {
-      String err = "{\"error\":" + exception.getMessage() + "\"}";
+      err = "{\"error\":" + exception.getMessage() + "\"}";
       int statusCode = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (FatalException exception) {
-      String err = "{\"error\":\" Erreur serveur \"}";
+      err = "{\"error\":\" Erreur serveur \"}";
       int statusCode = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (Exception exception) {
       exception.printStackTrace();
+
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
     }
 
 
