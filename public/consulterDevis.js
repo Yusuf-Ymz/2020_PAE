@@ -5,9 +5,10 @@ let token = localStorage.getItem("token");
 
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
+    homeWorker();
     data["action"] = "consulterDevis";
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
-    homeWorker();
+  
     $("#searchCard").show();
     $('#searchContent').hide();
     $('#consulterDevis').show();

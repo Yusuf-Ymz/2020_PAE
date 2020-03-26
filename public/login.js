@@ -1,5 +1,5 @@
 import { postData } from "./utilsAPI.js";
-import { HomeUser, homeWorker } from "./index.js"
+import { HomeUser, homeWorker, firstViewWorker, firstViewUser } from "./index.js"
 
 const LoginForm = (errorMessage = "") => {
   $("#login_message").html("<i class='far fa-frown'></i>  " + errorMessage);
@@ -26,9 +26,10 @@ function onPostLogin(response) {
   localStorage.setItem('ouvrier', response.user.ouvrier);
 
   if (response.user.ouvrier == true) {
-    homeWorker();
+    console.log("fgg");
+    firstViewWorker();
   } else {
-    HomeUser();
+    firstViewUser();
   }
 }
 

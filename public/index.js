@@ -1,5 +1,6 @@
 "use strict";
-//import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
+import { onGetMesDevisList, onGetTousLesDevisList, onDevisListError } from "./rechercherDevis.js";
+import { getData } from "./utilsAPI.js";
 let token = undefined;
 $("#HeaderContent").load("header.html");
 $("#carouselContent").load("carousel.html");
@@ -45,7 +46,7 @@ $(document).ready(function () {
       title: "Déconnexion réussie",
       showConfirmButton: false,
       timer: 1500
-  })
+    })
     HideToHomeWhenNotConnect();
   });
 });
@@ -91,12 +92,12 @@ const HideToHomeWhenConnect = () => {
   $("#searchCard").hide();
 
   let user = localStorage.getItem('ouvrier');
-    console.log("user ==> " + user);
-    if (user == "true") {
-      $("#slide-menu").show();
-      $('#rechercher_mes_devis').hide();
-      }else {
-      $('#rechercher_mes_devis').show();
+  console.log("user ==> " + typeof(user));
+  if (user === "true") {
+    $("#slide-menu").show();
+    $('#rechercher_mes_devis').hide();
+  } else {
+    $('#rechercher_mes_devis').show();
   }
 
 }
@@ -117,10 +118,12 @@ const SameHide = () => {
   $("#card").show();
   $("#listerClients").hide();
   $("#searchCard").hide();
-
+  $("#introduireDevis").hide();
+  $('#consulterDevis').hide();
+  $('#listeDeMesDevis').hide();
 }
 
-//premier page que l'utilisateur voit quand il se connecte!!!
+
 
 const HomeUser = () => {
   SameHide();
@@ -129,20 +132,38 @@ const HomeUser = () => {
 }
 
 
-//Premier vu que l'ouvrier voit quand il se connecte !!!
+
 const homeWorker = () => {
 
   SameHide();
 
   $('#rechercher_mes_devis').hide();
-  $("#introduireDevis").hide();
-  $('#consulterDevis').hide();
-  $('#listeDeMesDevis').hide();
+
   let user = localStorage.getItem('ouvrier');
 
   if (user === "true") {
     $("#slide-menu").show();
   }
+
+}
+//Premier vu que l'ouvrier voit quand il se connecte !!!
+const firstViewWorker = () => {
+  homeWorker();
+  let token = localStorage.getItem("token");
+  const data = {
+    action: "tousLesDevis"
+  }
+  getData("/devis", data, token, onGetTousLesDevisList, onDevisListError);
+}
+
+//premier page que l'utilisateur voit quand il se connecte!!!
+const firstViewUser = () => {
+  HomeUser();
+  let token = localStorage.getItem("token");
+  const data = {
+    action: "mesDevis"
+  }
+  getData("/devis", data, token, onGetMesDevisList, onDevisListError);
 
 }
 
@@ -158,4 +179,4 @@ const initialisation = () => {
   }
 };
 
-export { HomeUser, homeWorker };
+export { HomeUser, homeWorker, firstViewWorker, firstViewUser };

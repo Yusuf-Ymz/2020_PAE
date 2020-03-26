@@ -1,11 +1,11 @@
 import { getData } from "./utilsAPI.js";
-import {printTable} from "./utilsHtml.js"
-import {homeWorker,HomeUser} from "./index.js";
-import {consulterDevisEntantQueClient,consulterDevisEntantQueOuvrier} from "./consulterDevis.js"
+import { printTable } from "./utilsHtml.js"
+import { homeWorker, HomeUser } from "./index.js";
+import { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier } from "./consulterDevis.js"
 
 $(document).ready(function () {
 
-    $('#rechercher_tous_les_devis').on('click',function (e) {
+    $('#rechercher_tous_les_devis').on('click', function (e) {
         console.log("cliquer ");
         homeWorker();
         let token = localStorage.getItem("token");
@@ -15,9 +15,9 @@ $(document).ready(function () {
         getData("/devis", data, token, onGetTousLesDevisList, onDevisListError);
     });
 
-    $('#rechercher_mes_devis').on('click',function (e) {
+    $('#rechercher_mes_devis').on('click', function (e) {
         console.log("cliquer ");
-        homeWorker();
+        HomeUser();
         let token = localStorage.getItem("token");
         const data = {
             action: "mesDevis"
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
 
 
- 
+
 });
 
 function onGetTousLesDevisList(response) {
@@ -36,16 +36,16 @@ function onGetTousLesDevisList(response) {
 
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
-    printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueOuvrier,"/devis");
+    printTable("listeDeTousLesDevis", response.devis, nombtnTab, "devisId", consulterDevisEntantQueOuvrier, "/devis");
 }
 
 function onGetMesDevisList(response) {
-    
+
     $("#listeDeMesDevis").show();
 
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
-    printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueClient,"/devis");
+    printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", consulterDevisEntantQueClient, "/devis");
 }
 
 function onDevisListError(err) {
@@ -64,4 +64,4 @@ function onDevisListError(err) {
 
 
 
-export default  onGetMesDevisList;
+export { onGetMesDevisList, onGetTousLesDevisList, onDevisListError };

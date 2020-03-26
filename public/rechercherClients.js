@@ -2,7 +2,7 @@ import { getData } from "./utilsAPI.js";
 import {printTable} from "./utilsHtml.js"
 import {homeWorker} from "./index.js";
 
-import  onGetMesDevisList   from "./rechercherDevis.js";
+import  {onGetMesDevisList}  from "./rechercherDevis.js";
 
 $(document).ready(function () {
 
