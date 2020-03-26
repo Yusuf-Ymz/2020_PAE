@@ -104,11 +104,9 @@ public class UserServlet extends HttpServlet {
           }
         }
         if (action.equals("confirmerInscription/lierUtilisateurClient")) {
-          System.out.println("je rentre");
           int idUser = Integer.parseInt((String) map.get("N° utilisateur"));
           int idClient = Integer.parseInt((String) map.get("idClient"));
           UserDto userDto = userUcc.confirmUser(ouvrierId, idUser, idClient);
-          System.out.println(userDto);
           if (userDto == null) {
             String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
             int status = HttpServletResponse.SC_UNAUTHORIZED;
