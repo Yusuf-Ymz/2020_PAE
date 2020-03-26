@@ -17,11 +17,11 @@ var searchVille = document.getElementById('villeSearch'),
     previousRequestPrenom,
     previousRequestVille,
     previousRequestCP,
-    previousRequestName;
-    //previousValuePrenom = searchPrenom.value,
-    //previousValueVille = searchVille.value,
-    //previousValueCP = searchCP.value,
-    //previousValueName = searchName.value;
+    previousRequestName,
+    previousValuePrenom = searchPrenom.value,
+    previousValueVille = searchVille.value,
+    previousValueCP = searchCP.value,
+    previousValueName = searchName.value;
 const getCp = "getCp";
 const getNames = "getNom";
 const getVille = "getVille";
@@ -99,16 +99,18 @@ $(document).ready(function (e) {
         let divAmenagement = document.getElementById("amenagements");
         let tabAmenagements = divAmenagement.querySelectorAll('input[type="checkbox"]');
         let amenagements = new Array();
-        for(let i =0;i<tabAmenagements.length;i++){
-            if(tabAmenagements[i].checked === true){
+        for (let i = 0; i < tabAmenagements.length; i++) {
+            if (tabAmenagements[i].checked === true) {
                 amenagements.push(tabAmenagements[i].value);
             }
 
         }
         let photos = new Array();
         let images = $("#drop-container")[0].getElementsByTagName("img");
-        for(let i = 0;i<images.length;i++){
-            photos.push(images[i].src);
+        for (let i = 0; i < images.length; i++) {
+            let im = images[i].src;
+            im = im.replace(",","?????");
+            photos.push(im);
         }
         console.log(photos);
         let data = {
@@ -117,10 +119,10 @@ $(document).ready(function (e) {
             dateDebut: $("#date").val(),
             montant: $("#montant").val(),
             nbJours: $("#dureeTravaux").val(),
-            amenagements : amenagements,
-            photos : photos,
+            amenagements: amenagements,
+            photos: photos,
         };
-        //postData("/devis", data, localStorage.getItem("token"), onPost, onError);
+        postData("/devis", data, localStorage.getItem("token"), onPost, onError);
     })
 
     function onPost(response) {

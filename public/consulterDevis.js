@@ -8,6 +8,7 @@ function consulterDevisEntantQueOuvrier(url, data) {
     data["action"] = "consulterDevis";
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
     homeWorker();
+    $('.ouvrier').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
     $('#consulterDevis').show();
@@ -19,6 +20,7 @@ function consulterDevisEntantQueClient(url, data) {
     data["action"] = "consulterDevis";
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
     homeWorker();
+    $('.client').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
     $('#consulterDevis').show();
@@ -29,7 +31,7 @@ function consulterDevisEntantQueClient(url, data) {
 function onGetConsulterDevisClient(response) {
     $('#nomVersionClient').html(response.devis["Nom du client"]);
     $('#prenomVersionClient').html(response.devis["Prénom du client"]);
-
+    console.log(response);
     let types = response.devis["Types d'aménagements"];
     let amenagements = "";
     types = JSON.parse(types);
@@ -37,6 +39,9 @@ function onGetConsulterDevisClient(response) {
         amenagements += types[i].libelle + ",\n";
     }
 
+    $('#dateDebutVersionClient').html(response.devis["Date de début"]);
+    $('#dateVersionClient').html(response.devis["Date devis"]);
+    $('#dureeVersionClient').html(response.devis["duree"]);
     $('#typesVersionClient').html(amenagements);
     $('#etatVersionClient').html(response.devis["État d'avancement"]);
 
@@ -82,6 +87,9 @@ function onGetConsulterDevisOuvrier(response) {
         amenagements += types[i].libelle + ",\n";
     }
 
+    $('#dateDebutVersionOuvrier').html(response.devis["Date de début"]);
+    $('#dateVersionOuvrier').html(response.devis["Date devis"]);
+    $('#dureeVersionOuvrier').html(response.devis["duree"]);
     $('#typesVersionOuvrier').html(amenagements);
     $('#etatVersionOuvrier').html(response.devis["État d'avancement"]);
 
@@ -117,7 +125,7 @@ function onGetConsulterDevisOuvrier(response) {
 }
 
 function onGetConsulterError(err) {
-    console.error(err);
+    console.error(err.responseJSON.error);
 }
 
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };

@@ -129,19 +129,24 @@ public class DevisServlet extends HttpServlet {
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
     try {
       int idClient = Integer.parseInt((String) body.get("idClient"));
-      System.out.println(body.get("dateDebut").toString());
       LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
       int montantTotal = Integer.parseInt(body.get("montant").toString());
       int nbJours = Integer.parseInt(body.get("nbJours").toString());
       String amenagements = body.get("amenagements").toString();
       String photos = body.get("photos").toString();
-      List<Integer> lAmenagements = genson.deserialize(amenagements, List.class);
-      List<String> lPhotos = genson.deserialize(photos, List.class);
+      int lAmenagements[] = genson.deserialize(amenagements, int[].class);
+      photos = photos.replace("[", "");
+      photos = photos.replace("]", "");
+      String[] lphotos = photos.split(",");
+      for (int i = 0; i < lphotos.length; i++) {
+        lphotos[i] = lphotos[i].replace("?????", ",");
+      }
+
       DevisDto devis = fact.getDevisDto();
       devis.setDateDebut(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
-      DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lAmenagements, lPhotos);
+      DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lAmenagements, lphotos);
       String json =
           "{\"devis\":" + genson.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;
@@ -155,7 +160,7 @@ public class DevisServlet extends HttpServlet {
       int statusCode = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (Exception exception) {
-
+      exception.printStackTrace();
     }
 
 

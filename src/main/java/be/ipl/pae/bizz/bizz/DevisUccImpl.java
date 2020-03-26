@@ -1,16 +1,19 @@
 package be.ipl.pae.bizz.bizz;
 
 import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
+import be.ipl.pae.persistance.dao.AmenagementDao;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
 import be.ipl.pae.persistance.dao.UserDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DevisUccImpl implements DevisUcc {
@@ -23,6 +26,8 @@ class DevisUccImpl implements DevisUcc {
   private UserDao userdao;
   @Inject
   private ClientDao clientDao;
+  @Inject
+  private AmenagementDao amenagementDao;
 
   public List<DevisDto> listerTousLesDevis(int idUser) {
     try {
@@ -112,8 +117,7 @@ class DevisUccImpl implements DevisUcc {
   }
 
   @Override
-  public DevisDto insererDevis(DevisDto devis, int idClient, List<Integer> amenagements,
-      List<String> photos) {
+  public DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos) {
     try {
       dal.startTransaction();
       ClientDto client = clientDao.getClientById(idClient);
@@ -121,7 +125,15 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Client inexistant");
       }
       devis.setClient(client);
-      return devisdao.insererDevis(devis, idClient, photos);
+      devis.setAmenagements(new ArrayList<AmenagementDto>());
+      for (int i = 0; i < amenagements.length; i++) {
+        AmenagementDto amenagement = amenagementDao.getAmenagementById(amenagements[i]);
+        if (amenagement == null) {
+          throw new BizException("Amenagement inexistant");
+        }
+        devis.getAmenagements().add(amenagement);
+      }
+      return devisdao.insererDevis(devis, photos);
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
