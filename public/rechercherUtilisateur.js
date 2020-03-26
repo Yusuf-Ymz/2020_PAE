@@ -21,7 +21,6 @@ $(document).ready(function () {
         $("#filtre_utilisateur").show();
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
-       
         printTable("listeUser", response.listeUser);
         
     }

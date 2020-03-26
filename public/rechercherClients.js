@@ -2,7 +2,7 @@ import { getData } from "./utilsAPI.js";
 import {printTable} from "./utilsHtml.js"
 import {homeWorker} from "./index.js";
 
-import  {onGetMesDevisList}  from "./rechercherDevis.js";
+import  onGetMesDevisList  from "./rechercherDevis.js";
 
 $(document).ready(function () {
 
@@ -26,11 +26,11 @@ $(document).ready(function () {
         $("#filtre_client").show();
         $("#filtre_utilisateur").hide();
         $("#filtre_amenagement").hide();
-        let thtabClient =  new Array("N° utilisateur ","Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
+        let thtabClient =  new Array("Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
         
         let nombtnTab = ["visualiser devis"];
         
-        printTable("listerClients", response.clients,nombtnTab,"N° client",doGetClientDevis,"/devis");
+        printTable("listerClients", response.clients,nombtnTab,"N° client",[doGetClientDevis],"/devis");
 
     }
 

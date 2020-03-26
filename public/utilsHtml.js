@@ -1,5 +1,5 @@
 
-function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom, laFonction = "", url = "") {
+function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom, lesFonction = [], url = "") {
 
   $("#carouselContent").hide();
 
@@ -71,7 +71,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
 
     if (tabButtonValue.length > 0) {
       for (let i = 0; i < tabButtonValue.length; i++) {
-        addButton(tabButtonValue[i], trData, idNom, laFonction, url);
+          addButton(tabButtonValue[i], trData, idNom, lesFonction[i], url);
       }
     }
 

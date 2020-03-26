@@ -36,7 +36,7 @@ function onGetTousLesDevisList(response) {
 
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
-    printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueOuvrier,"/devis");
+    printTable("listeDeTousLesDevis", response.devis, nombtnTab,"devisId",[consulterDevisEntantQueOuvrier],"/devis");
 }
 
 function onGetMesDevisList(response) {
@@ -45,7 +45,7 @@ function onGetMesDevisList(response) {
 
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
-    printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",consulterDevisEntantQueClient,"/devis");
+    printTable("listeDeMesDevis", response.devis, nombtnTab,"devisId",[consulterDevisEntantQueClient],"/devis");
 }
 
 function onDevisListError(err) {
