@@ -64,4 +64,4 @@ function onDevisListError(err) {
 
 
 
-export default  onGetMesDevisList;
+export {onGetTousLesDevisList,onGetMesDevisList,onDevisListError};

@@ -5,9 +5,11 @@ let token = localStorage.getItem("token");
 
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
-    data["action"] = "consulterDevis";
-    getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
     homeWorker();
+    data["action"] = "consulterDevis";
+    token = localStorage.getItem("token");
+    getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
+   
     $('.ouvrier').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
@@ -17,9 +19,11 @@ function consulterDevisEntantQueOuvrier(url, data) {
 };
 
 function consulterDevisEntantQueClient(url, data) {
-    data["action"] = "consulterDevis";
-    getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
     homeWorker();
+    data["action"] = "consulterDevis";
+    token = localStorage.getItem("token");
+    getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
+   
     $('.client').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
@@ -50,18 +54,20 @@ function onGetConsulterDevisClient(response) {
     let tablePhotosAvant = document.getElementById("photosAvantVersionClient");
     tablePhotosAvant.innerHTML = "";
     let tr;
+    
+ 
     for (let i = 0; i < photosAvantJson.length; i++) {
         if (i % 3 == 0) {
             tr = document.createElement("tr");
             tablePhotosAvant.appendChild(tr);
         }
         let td = document.createElement("td");
-        td.innerHTML = "<img class='image' src='" + photosApresJson[i].Photo + "'/>";
+        td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'/>";
         tr.appendChild(td);
     }
-
     let photosApresJson = response.devis["Photos Apres"];
     photosApresJson = JSON.parse(photosApresJson);
+
     let tablePhotosApres = document.getElementById("photosApresVersionClient");
     tablePhotosApres.innerHTML = "";
     for (let i = 0; i < photosApresJson.length; i++) {

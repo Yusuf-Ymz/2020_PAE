@@ -2,6 +2,7 @@
 //import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token = undefined;
 $("#HeaderContent").load("header.html");
+$("#loader").load("loader.html");
 $("#carouselContent").load("carousel.html");
 $("#loginContent").load("login.html");
 $("#inscriptionContent").load("inscription.html");
@@ -92,7 +93,7 @@ const HideToHomeWhenConnect = () => {
 
   let user = localStorage.getItem('ouvrier');
     console.log("user ==> " + user);
-    if (user == "true") {
+    if (user === "true") {
       $("#slide-menu").show();
       $('#rechercher_mes_devis').hide();
       }else {
@@ -117,7 +118,9 @@ const SameHide = () => {
   $("#card").show();
   $("#listerClients").hide();
   $("#searchCard").hide();
-
+  $("#introduireDevis").hide();
+  $('#consulterDevis').hide();
+  $('#listeDeMesDevis').hide();
 }
 
 //premier page que l'utilisateur voit quand il se connecte!!!
@@ -135,9 +138,7 @@ const homeWorker = () => {
   SameHide();
 
   $('#rechercher_mes_devis').hide();
-  $("#introduireDevis").hide();
-  $('#consulterDevis').hide();
-  $('#listeDeMesDevis').hide();
+ 
   let user = localStorage.getItem('ouvrier');
 
   if (user === "true") {

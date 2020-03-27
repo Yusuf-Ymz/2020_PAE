@@ -11,6 +11,8 @@ $(document).ready(function () {
         const data = {
             action: 'listeUser'
           };
+
+        
         getData("/user",data , token, onGetUserList, onUserListError);
     });
 
@@ -21,6 +23,7 @@ $(document).ready(function () {
         $("#filtre_utilisateur").show();
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
+       
         printTable("listeUser", response.listeUser);
         
     }

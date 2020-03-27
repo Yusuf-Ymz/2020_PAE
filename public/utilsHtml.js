@@ -51,11 +51,12 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
       if (propriete === "Types d'aménagements") {
         let amenagements = "";
         element[propriete] = JSON.parse(element[propriete]);
-
+      
         for (let i = 0; i < element[propriete].length; i++) {
           amenagements += element[propriete][i].libelle + ",\n";
         }
-
+     
+        
         monChamp.innerHTML = amenagements;
       } else if (propriete === "Photo préférée") {
         if(element[propriete] !== null)
@@ -85,8 +86,9 @@ function addButton(valeurBouton, parent, nomJsonId, functionLancee, url) {
   let td = document.createElement("td");
   parent.appendChild(td);
   let button = document.createElement("button");
+
   button.value = parent.id;
-  button.className = "btn_style";
+  button.className = "btn btn-primary";
   button.innerText = valeurBouton;
   td.className = "text-center";
   td.appendChild(button);
