@@ -94,17 +94,23 @@ public class AuthentificationServlet extends HttpServlet {
     String pseudo = body.get("pseudo").toString();
     String password = body.get("password").toString();
 
-    UserDto user = userUcc.seConnecter(pseudo, password);
-
     String json = null;
     int status = HttpServletResponse.SC_UNAUTHORIZED;
-    if (user != null) {
+
+    try {
+      UserDto user = userUcc.seConnecter(pseudo, password);
+
       user.setPassword(null);
       String token = JWT.create().withClaim("id", user.getUserId()).sign(Algorithm.HMAC512(secret));
       json = "{\"token\":\"" + token + "\",\"user\":" + genson.serialize(user) + "}";
       status = HttpServletResponse.SC_OK;
-    } else {
+
+    } catch (BizException exception) {
       json = "{\"error\":\"La connexion a échoué. Pseudo et mot de passe non correspondants.\"}";
+
+    } catch (FatalException exception) {
+      json = "{\"error\":\"Problème interne\"}";
+      status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
     }
 
     ServletUtils.sendResponse(resp, json, status);
