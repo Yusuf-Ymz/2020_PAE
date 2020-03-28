@@ -16,10 +16,10 @@ class Client implements ClientBiz {
   @FieldDb("rue")
   private String rue;
 
-  @FieldDb("numero")
+  // @FieldDb("numero")
   private String numero;
 
-  @FieldDb("boite")
+  @FieldDb("no_boite")
   private String boite;
 
   @FieldDb("ville")
