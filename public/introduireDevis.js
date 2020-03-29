@@ -144,13 +144,13 @@ $(document).ready(function (e) {
         } else if (!$("#boiteC")[0].checkValidity()) {
             afficherNotif("Erreur champ boite");
         } else if (!$("#cpC")[0].checkValidity()) {
-            afficherNotif("Erreur champ nom");
+            afficherNotif("Erreur champ code postal");
         } else if (!$("#villeC")[0].checkValidity()) {
-            afficherNotif("Erreur champ nom");
+            afficherNotif("Erreur champ ville");
         } else if (!$("#emailC")[0].checkValidity()) {
-            afficherNotif("Erreur champ nom");
+            afficherNotif("Erreur champ email");
         } else if (!$("#telC")[0].checkValidity()) {
-            afficherNotif("Erreur champ nom");
+            afficherNotif("Erreur champ téléphone");
         } else {
             let data = {
                 action: "ajouterClient",
