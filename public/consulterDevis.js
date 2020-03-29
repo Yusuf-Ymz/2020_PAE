@@ -64,7 +64,7 @@ function onGetConsulterDevisClient(response) {
             tablePhotosAvant.appendChild(tr);
         }
         let td = document.createElement("td");
-        td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'/>";
+        td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'id='" + photosAvantJson[i]['Photo id'] + "'/>";
         tr.appendChild(td);
     }
     let photosApresJson = response.devis["Photos Apres"];
@@ -78,7 +78,7 @@ function onGetConsulterDevisClient(response) {
             tablePhotosApres.appendChild(tr);
         }
         let td = document.createElement("td");
-        td.innerHTML = "<img class='image' src='" + photosApresJson[i].Photo + "'/>";
+        td.innerHTML = "<img class='image' src='" + photosApresJson[i].Photo + "'id='" + photosApresJson[i]['Photo id'] + "'/>";
         tr.appendChild(td);
     }
 }
@@ -113,7 +113,7 @@ function onGetConsulterDevisOuvrier(response) {
             tablePhotosAvant.appendChild(tr);
         }
         let td = document.createElement("td");
-        td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'/>";
+        td.innerHTML =  "<img class='image' src='" + photosAvantJson[i].Photo + "'id='" + photosAvantJson[i]['Photo id'] + "'/>";
         tr.appendChild(td);
     }
 
@@ -127,7 +127,7 @@ function onGetConsulterDevisOuvrier(response) {
             tablePhotosApres.appendChild(tr);
         }
         let td = document.createElement("td");
-        td.innerHTML = "<img class='image' src='" + photosApresJson[i].Photo + "'/>";
+        td.innerHTML =  "<img class='image' src='" + photosApresJson[i].Photo + "'id='" + photosApresJson[i]['Photo id'] + "'/>";
         tr.appendChild(td);
     }
 }
