@@ -52,4 +52,12 @@ public interface DevisDao {
    * @return le devis
    */
   DevisDto insererDevis(DevisDto devis, String photos[]);
+
+  /**
+   * Cette méthode permet de changer l'état d'un devis
+   * 
+   * @param idDevis l'id du decis à modifier
+   * @param newEtat le nouvel état du devis.
+   */
+  void changerEtatDevis(int idDevis, String newEtat);
 }

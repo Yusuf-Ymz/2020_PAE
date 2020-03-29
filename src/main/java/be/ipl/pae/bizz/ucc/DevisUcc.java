@@ -1,8 +1,7 @@
 package be.ipl.pae.bizz.ucc;
 
-import be.ipl.pae.bizz.dto.DevisDto;
-
 import java.util.List;
+import be.ipl.pae.bizz.dto.DevisDto;
 
 public interface DevisUcc {
   /**
@@ -45,5 +44,13 @@ public interface DevisUcc {
 
 
   DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);
+
+  /**
+   * Cette méthode permet de changer l'état du devis à l'état newEtat
+   * 
+   * @param idDevis l'id du devis à changer.
+   * @param newEtat le nouvel état.
+   */
+  void changerEtatDevis(int idDevis, String newEtat);
 
 }
