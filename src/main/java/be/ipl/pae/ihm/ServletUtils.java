@@ -221,6 +221,7 @@ class ServletUtils {
       // TODO Auto-generated method stub
       writer.beginObject();
 
+      writer.writeNumber("Photo id", object.getPhotoId());
       writer.writeString("Photo", object.getPhoto());
 
       writer.endObject();
