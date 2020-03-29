@@ -1,4 +1,4 @@
-import { getData } from "./utilsAPI.js";
+import { getData, postData } from "./utilsAPI.js";
 import { homeWorker } from "./index.js";
 
 let token = localStorage.getItem("token");
@@ -133,5 +133,57 @@ function onGetConsulterDevisOuvrier(response) {
 function onGetConsulterError(err) {
     console.error(err.responseJSON.error);
 }
+//Eventuelles erreurs à corriger et ajouter taprès ceci!
+$('#confirmerCommande').change(function(){
+    if($(this).is(":checked")) {
+      const data = {
+        action: "confirmerCommande",
+        etat: "accepte"
+      };
+      postData("/devis", data, null, null, null);
+
+    } else {
+      const data = {
+        action: "confirmerCommande",
+        etat: "nonAccepte"
+      };
+      postData("/devis", data, null, null, null);
+    }
+});
+
+$('#confirmerDateDebut').change(function(){
+    if ($(this).is(":checked")){
+        console.log("confirmer date début des travaux checked");
+        const data = {
+        action: "confirmerDateDebut",
+        etat: "accepte"
+      };
+      postData("/devis", data, null, null, null);
+    } else {
+      const data = {
+        action: "confirmerDateDebut",
+        etat: "nonAccepte"
+      };
+      postData("/devis", data, null, null, null);
+    }
+});
+
+$('#repousserDateDebut').change(function(){
+    if ($(this).is(":checked")){
+        console.log("confirmer date début des travaux checked");
+        const data = {
+        action: "repousserDateDebut",
+        etat: "accepte",
+        newDate: $("#inputRepousser").val()
+      };
+      postData("/devis", data, null, null, null);
+    } else {
+      const data = {
+        action: "repousserDateDebut",
+        etat: "nonAccepte"
+      };
+      postData("/devis", data, null, null, null);
+    }
+});
 
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };

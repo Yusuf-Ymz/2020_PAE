@@ -1,8 +1,7 @@
 package be.ipl.pae.persistance.dao;
 
-import be.ipl.pae.bizz.dto.DevisDto;
-
 import java.util.List;
+import be.ipl.pae.bizz.dto.DevisDto;
 
 public interface DevisDao {
   /**
@@ -38,6 +37,11 @@ public interface DevisDao {
    */
   DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
 
+  /**
+   * Permet d'accepter la date de début des travaux.
+   * 
+   * @param numeroDevis le numéro du devis dont la date doit être acceptée.
+   */
   void accepterDateTravaux(int numeroDevis);
 
   /**

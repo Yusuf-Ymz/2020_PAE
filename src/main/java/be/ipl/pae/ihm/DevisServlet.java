@@ -1,25 +1,22 @@
 package be.ipl.pae.ihm;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
-
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -115,11 +112,48 @@ public class DevisServlet extends HttpServlet {
     }
 
     Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
+    System.out.println(body);
     String action = body.get("action").toString();
+    int status;
+    String json;
     switch (action) {
       case "insererDevis":
         insererDevis(body, resp);
         break;
+      case "confirmerCommande":
+        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
+          System.out.println("Changement d'état en accepté.");
+        } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
+          System.out.println("Changement d'état en non accepté");
+        }
+        json = "{\"moddification\":\"OK\"";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
+        break;
+
+      case "confirmerDateDebut":
+        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
+          System.out.println("confirmerDateDebut accepté");
+        } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
+          System.out.println("confirmerDateDebut non accepté");
+        }
+        json = "{\"moddification\":\"OK\"";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
+        break;
+
+      case "repousserDateDebut":
+        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
+          System.out.println("confirmerDateDebut accepté");
+          System.out.println(body.get("newDate"));
+        } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
+          System.out.println("confirmerDateDebut non accepté");
+        }
+        json = "{\"moddification\":\"OK\"";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
+        break;
+
       default:
         super.doPost(req, resp);
         break;

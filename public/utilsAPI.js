@@ -21,8 +21,7 @@ function postData(url = "", data = {}, token, onPost, onError) {
     beforeSend: function(){
       $('#loader').show();
     },
-    complete: function(){
-      console.log("complete");  
+    complete: function(){ 
       $('#loader').hide();
     },
     success: onPost,
