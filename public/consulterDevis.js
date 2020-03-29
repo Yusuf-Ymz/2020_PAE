@@ -2,6 +2,7 @@ import { getData, postData } from "./utilsAPI.js";
 import { homeWorker } from "./index.js";
 
 let token = localStorage.getItem("token");
+let devisID = -1;
 
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
@@ -38,6 +39,7 @@ function onGetConsulterDevisClient(response) {
     console.log(response);
     let types = response.devis["Types d'aménagements"];
     let amenagements = "";
+    devisID = response.devis["devisId"];
     types = JSON.parse(types);
     for (let i = 0; i < types.length; i++) {
         amenagements += types[i].libelle + ",\n";
@@ -85,7 +87,7 @@ function onGetConsulterDevisOuvrier(response) {
     console.log(response);
     $('#nomVersionOuvrier').html(response.devis["Nom du client"]);
     $('#prenomVersionOuvrier').html(response.devis["Prénom du client"]);
-
+    devisID = response.devis["devisId"];
     let amenagements = "";
     let types = response.devis["Types d'aménagements"];
     types = JSON.parse(types);
@@ -138,9 +140,10 @@ $('#confirmerCommande').change(function(){
     if($(this).is(":checked")) {
       const data = {
         action: "confirmerCommande",
-        etat: "accepte"
+        etat: "accepte",
+        id: devisID
       };
-      postData("/devis", data, null, null, null);
+      postData("/devis", data, null, null, null); //Revoir les nuls.
 
     } else {
       const data = {
@@ -153,10 +156,10 @@ $('#confirmerCommande').change(function(){
 
 $('#confirmerDateDebut').change(function(){
     if ($(this).is(":checked")){
-        console.log("confirmer date début des travaux checked");
         const data = {
         action: "confirmerDateDebut",
-        etat: "accepte"
+        etat: "accepte",
+        id: devisID
       };
       postData("/devis", data, null, null, null);
     } else {
@@ -170,11 +173,11 @@ $('#confirmerDateDebut').change(function(){
 
 $('#repousserDateDebut').change(function(){
     if ($(this).is(":checked")){
-        console.log("confirmer date début des travaux checked");
         const data = {
         action: "repousserDateDebut",
         etat: "accepte",
-        newDate: $("#inputRepousser").val()
+        newDate: $("#inputRepousser").val(),
+        id: devisID
       };
       postData("/devis", data, null, null, null);
     } else {
