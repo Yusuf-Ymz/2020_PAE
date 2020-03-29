@@ -37,8 +37,7 @@ $(document).ready(function(){
           afficherNotif("Erreur champ rue");
       } else if (!$("#numCLier")[0].checkValidity()) {
           afficherNotif("Erreur champ numéro");
-      } else if (!$("#boiteCLier")[0].checkValidity()) {
-          afficherNotif("Erreur champ boite");
+   
       } else if (!$("#cpCLier")[0].checkValidity()) {
           afficherNotif("Erreur champ nom");
       } else if (!$("#villeCLier")[0].checkValidity()) {
@@ -55,7 +54,7 @@ $(document).ready(function(){
               prenom: $("#prenomCLier").val(),
               rue: $("#rueCLier").val(),
               numero: $("#numCLier").val(),
-              boite: $("#boiteCLier").val(),
+              //boite: $("#boiteCLier").val(),
               cp: $("#cpCLier").val(),
               ville: $("#villeCLier").val(),
               email: $("#emailCLier").val(),

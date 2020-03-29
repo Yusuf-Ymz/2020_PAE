@@ -16,11 +16,9 @@ class Client implements ClientBiz {
   @FieldDb("rue")
   private String rue;
 
-  // @FieldDb("numero")
+  @FieldDb("numero")
   private String numero;
 
-  @FieldDb("no_boite")
-  private String boite;
 
   @FieldDb("ville")
   private String ville;
@@ -74,15 +72,6 @@ class Client implements ClientBiz {
     this.numero = numero;
   }
 
-  @Override
-  public String getBoite() {
-    return boite;
-  }
-
-  @Override
-  public void setBoite(String boite) {
-    this.boite = boite;
-  }
 
   @Override
   public String getVille() {

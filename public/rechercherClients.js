@@ -26,7 +26,7 @@ $(document).ready(function () {
         $("#filtre_client").show();
         $("#filtre_utilisateur").hide();
         $("#filtre_amenagement").hide();
-        let thtabClient =  new Array("Nom", "prenom", "Email", "Rue", "N° porte","Boite" ,"Ville","Code postal","Telephone");
+        
         
         let nombtnTab = ["visualiser devis"];
         

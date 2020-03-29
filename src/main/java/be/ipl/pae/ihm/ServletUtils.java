@@ -130,7 +130,7 @@ class ServletUtils {
       writer.writeNumber("N° client", object.getIdClient()).writeString("Nom", object.getNom())
           .writeString("Prénom", object.getPrenom()).writeString("Email", object.getEmail())
           .writeString("Rue", object.getRue()).writeString("N° porte", object.getNumero())
-          .writeString("Boite", object.getBoite()).writeString("Ville", object.getVille())
+          .writeString("Ville", object.getVille())
           .writeString("Code postal", object.getCodePostal())
           .writeString("Téléphone", object.getTelephone());
       writer.endObject();

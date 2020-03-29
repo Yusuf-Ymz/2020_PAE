@@ -4,12 +4,12 @@
         <div class="col-6">
             <div id="nomClientDevisVersionClient">
                 <p class="d-inline text-dark font-weight-bold"> Nom: </p>
-                <p class="d-inline client"  id="nomVersionClient"></p>
+                <p class="d-inline client" id="nomVersionClient"></p>
             </div>
 
             <div id="prenomClientDevisVersionClient">
                 <p class="d-inline text-dark font-weight-bold"> Prénom: </p>
-                <p class="d-inline client"  id="prenomVersionClient"></p>
+                <p class="d-inline client" id="prenomVersionClient"></p>
             </div>
 
             <div id="dateDebutDesTravauxVersionClient">
@@ -19,7 +19,7 @@
 
             <div id="dateDevisVersionClient">
                 <p class="d-inline text-dark font-weight-bold"> Date du devis: </p>
-                <p class="d-inline client"  id="dateVersionClient"></p>
+                <p class="d-inline client" id="dateVersionClient"></p>
             </div>
 
             <div id="dureeTravauxDevisVersionClient">
@@ -38,7 +38,7 @@
                 <p class="d-inline client" id="etatVersionClient"></p>
             </div>
             Photo(s) avant aménagements:
-            <table id="photosAvantVersionClient" class="table-responsive client" >
+            <table id="photosAvantVersionClient" class="table-responsive client">
             </table>
         </div>
         <div class="col-6">
@@ -50,8 +50,8 @@
 </div>
 
 <div class="container-fluid" id="versionOuvrier">
-    <div class="row">
-        <div class="col-4">
+    <div class="row m-0">
+        <div class="col-6">
             <div id="nomClientDevisVersionOuvrier">
                 <p class="d-inline text-dark font-weight-bold"> Nom: </p>
                 <p class="d-inline ouvrier" id="nomVersionOuvrier"></p>
@@ -92,41 +92,50 @@
             <table id="photosAvantVersionOuvrier" class="table-responsive ouvrier">
             </table>
         </div>
-
-        <div class="col-4">
-            <label for="confirmerCommande" class="text-dark font-weight-bold">Confirmer la commande d'aménagements
-            </label>
-            <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
-
-            <label for="confirmerDateDebut" class="text-dark font-weight-bold">
-                Confirmer date de début des travaux</label>
-            <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
-
-            <label for="repousserDateDebut" class="text-dark font-weight-bold">Repousser la date de début des
-                travaux</label>
-            <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
-            <input type="date" id="inputRepousser" min="2020-05-01">
-
-            <label for="indiquerFactureMilieu" class="text-dark font-weight-bold">Indiquer que la facture de milieu de
-                chantier est envoyée</label>
-            <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
-
-            <label for="indiquerFactureFin" class="text-dark font-weight-bold">Indiquer que la facture de fin de
-                chantier est envoyée</label>
-            <input type="checkbox" name="" id="indiquerFactureFin" autocomplete="off">
-
-            <label for="rendreVisible" class="text-dark font-weight-bold">Rendre la réalisation visible</label>
-            <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
-        </div>
-
-        <div class="col-4">
-            Photo(s) après aménagements:
-            <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
-            </table>
-
-            <input type="button" class="bg-danger text-white" value="Annuler la demande d'aménagements"
-                id="annulerDemande" autocomplete="off">
+        <div class="col-6">
+            <div class="form-group">
+                <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
+                <label for="confirmerCommande" class="text-dark font-weight-bold">Confirmer la commande
+                    d'aménagements
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
+                <label for="confirmerDateDebut" class="text-dark font-weight-bold">
+                    Confirmer date de début des travaux</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
+                <label for="repousserDateDebut" class="text-dark font-weight-bold">Repousser la date de début des
+                    travaux</label>
+                <input type="date" id="inputRepousser" min="2020-05-01">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
+                <label for="indiquerFactureMilieu" class="text-dark font-weight-bold">Indiquer que la facture de
+                    milieu de
+                    chantier est envoyée</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="" id="indiquerFactureFin" autocomplete="off">
+                <label for="indiquerFactureFin" class="text-dark font-weight-bold">Indiquer que la facture de fin de
+                    chantier est envoyée</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
+                <label for="rendreVisible" class="text-dark font-weight-bold">Rendre la réalisation visible</label>
+            </div>
         </div>
     </div>
-</div>
+    <div class="col-6">
+        Photo(s) après aménagements:
+        <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
+        </table>
+    </div>
+    <div class="row" >
+        <div class="offset-6 col-6 " style="margin-right: -20px;">
+            <button class="btn btn-danger btn-md  btn-block text-white" id="annulerDemande" autocomplete="off">Annuler la demande
+                d'aménagements</button>
+        </div>
+    </div>
 </div>

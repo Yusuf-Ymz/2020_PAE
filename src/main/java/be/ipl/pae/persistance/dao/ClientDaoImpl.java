@@ -32,8 +32,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
       prepareStatement.setString(5, client.getEmail());
       prepareStatement.setString(6, client.getTelephone());
       prepareStatement.setString(7, client.getRue());
-      prepareStatement.setString(8, client.getNumero());
-      prepareStatement.setString(9, client.getBoite());
+
+
       ResultSet rs = prepareStatement.executeQuery();
       if (rs.next()) {
         return getClientById(rs.getInt(1));

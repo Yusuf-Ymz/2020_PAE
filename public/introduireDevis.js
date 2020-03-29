@@ -141,8 +141,7 @@ $(document).ready(function (e) {
             afficherNotif("Erreur champ rue");
         } else if (!$("#numC")[0].checkValidity()) {
             afficherNotif("Erreur champ numéro");
-        } else if (!$("#boiteC")[0].checkValidity()) {
-            afficherNotif("Erreur champ boite");
+       
         } else if (!$("#cpC")[0].checkValidity()) {
             afficherNotif("Erreur champ code postal");
         } else if (!$("#villeC")[0].checkValidity()) {
@@ -158,7 +157,7 @@ $(document).ready(function (e) {
                 prenom: $("#prenomC").val(),
                 rue: $("#rueC").val(),
                 numero: $("#numC").val(),
-                boite: $("#boiteC").val(),
+              //  boite: $("#boiteC").val(),
                 cp: $("#cpC").val(),
                 ville: $("#villeC").val(),
                 email: $("#emailC").val(),

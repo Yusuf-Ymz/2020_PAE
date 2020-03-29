@@ -26,6 +26,7 @@ $(document).ready(function () {
 
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
+   
     if (token)
       HideToHomeWhenConnect();
     else
@@ -149,6 +150,7 @@ const homeWorker = () => {
 
 
 const initialisation = () => {
+  $('#loader').hide();
   let token = localStorage.getItem("token");
   if (token) {
     HideToHomeWhenConnect();

@@ -58,19 +58,6 @@ public interface ClientDto {
    */
   void setNumero(String numero);
 
-  /**
-   * Renvoie la boite du client.
-   * 
-   * @return la boite du client
-   */
-  String getBoite();
-
-  /**
-   * Modifie la boite du client.
-   * 
-   * @param boite : la nouvelle boite du client
-   */
-  void setBoite(String boite);
 
   /**
    * Renvoie la ville du client.
