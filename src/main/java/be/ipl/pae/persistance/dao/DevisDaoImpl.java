@@ -1,5 +1,11 @@
 package be.ipl.pae.persistance.dao;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -8,13 +14,6 @@ import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
-
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Inject
@@ -369,6 +368,20 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException();
+    }
+  }
+
+  public void changerEtatDevis(int idDevis, String newEtat) {
+    String query = "UPDATE pae.devis SET etat = ? WHERE devis_id = ?";
+    PreparedStatement preparedStatement = dal.createStatement(query);
+    try {
+      preparedStatement.setString(1, newEtat);
+      preparedStatement.setInt(2, idDevis);
+      System.out.println(preparedStatement);
+      // preparedStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new FatalException("Impossible de changer l'état du devis.");
     }
   }
 

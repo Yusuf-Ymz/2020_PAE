@@ -142,4 +142,16 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
+  public void changerEtatDevis(int idDevis, String newEtat) {
+    try {
+      dal.startTransaction();
+      devisdao.changerEtatDevis(idDevis, newEtat);
+    } catch (Exception e) {
+      dal.rollbackTransaction();
+      e.printStackTrace();
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
 }
