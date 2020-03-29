@@ -101,7 +101,7 @@ public class DevisServlet extends HttpServlet {
     // TODO il faut tester si c'est un ouvrier
     StringBuffer jb = new StringBuffer();
     String line = null;
-
+    // int devisId = Integer.parseInt(req.getParameter("devisId").toString());
     try {
       BufferedReader reader = req.getReader();
       while ((line = reader.readLine()) != null) {
@@ -123,8 +123,9 @@ public class DevisServlet extends HttpServlet {
       case "confirmerCommande":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("Changement d'état en accepté.");
+          changerEtatDevis("accepte", 3);
         } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
-          System.out.println("Changement d'état en non accepté");
+          // System.out.println("Changement d'état en non accepté");
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
@@ -135,7 +136,7 @@ public class DevisServlet extends HttpServlet {
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("confirmerDateDebut accepté");
         } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
-          System.out.println("confirmerDateDebut non accepté");
+          // System.out.println("confirmerDateDebut non accepté mais rien ne se passe.");
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
@@ -145,9 +146,8 @@ public class DevisServlet extends HttpServlet {
       case "repousserDateDebut":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("confirmerDateDebut accepté");
-          System.out.println(body.get("newDate"));
         } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
-          System.out.println("confirmerDateDebut non accepté");
+          // System.out.println("confirmerDateDebut non accepté");
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
@@ -209,8 +209,10 @@ public class DevisServlet extends HttpServlet {
 
       ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
     }
+  }
 
-
+  private void changerEtatDevis(String etat, int devis) {
+    System.out.println("état du devis numéro " + devis + " passé en " + etat + ".");
 
   }
 }
