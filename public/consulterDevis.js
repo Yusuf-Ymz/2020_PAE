@@ -184,6 +184,8 @@ $('#repousserDateDebut').change(function(){
       };
       postData("/devis", data, null, null, null);
     }
+    
+    
 });
 
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };
