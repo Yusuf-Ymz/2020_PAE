@@ -112,7 +112,6 @@ public class DevisServlet extends HttpServlet {
     }
 
     Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
-    System.out.println(body);
     String action = body.get("action").toString();
     int status;
     String json;
@@ -124,7 +123,7 @@ public class DevisServlet extends HttpServlet {
       case "confirmerCommande":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           confirmerCommande(Integer.parseInt(body.get("id").toString()));
-          System.out.println("done");
+
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;

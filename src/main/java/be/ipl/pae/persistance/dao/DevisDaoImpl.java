@@ -378,7 +378,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       preparedStatement.setString(1, newEtat);
       preparedStatement.setInt(2, idDevis);
       System.out.println(preparedStatement);
-      // preparedStatement.execute();
+      preparedStatement.execute();
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException("Impossible de changer l'état du devis.");
