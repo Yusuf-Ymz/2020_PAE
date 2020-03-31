@@ -22,8 +22,9 @@ public class MockDevisDao implements DevisDao {
 
   @Override
   public List<DevisDto> obtenirSesDevis(int idClient) {
-    if (idClient == 1)
+    if (idClient == 1) {
       return null;
+    }
     // TODO Auto-generated method stub
     List<DevisDto> listeMesDevis = new ArrayList<DevisDto>();
     return listeMesDevis;
@@ -32,8 +33,9 @@ public class MockDevisDao implements DevisDao {
   @Override
   public DevisDto consulterDevisEnTantQuOuvrier(int devisId) {
     // TODO Auto-generated method stub
-    if (devisId == -1)
+    if (devisId == -1) {
       return null;
+    }
 
     DevisDto devis = dtoFactory.getDevisDto();
     return devis;
@@ -42,11 +44,13 @@ public class MockDevisDao implements DevisDao {
   @Override
   public DevisDto consulterDevisEnTantQueUtilisateur(int clientId, int devisId) {
     // TODO Auto-generated method stub
-    if (clientId == -1 || devisId == -1)
+    if (clientId == -1 || devisId == -1) {
       return null;
+    }
 
-    if (clientId == 2 && devisId == 1)
+    if (clientId == 2 && devisId == 1) {
       return null;
+    }
 
     DevisDto devis = dtoFactory.getDevisDto();
     return devis;
