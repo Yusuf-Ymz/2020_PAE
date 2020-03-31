@@ -1,11 +1,5 @@
 package be.ipl.pae.persistance.dao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -14,6 +8,13 @@ import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
+
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Inject
@@ -99,17 +100,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
         devis.setPhotoPreferee(photoPreferee);
 
-        prepareQueryAmenagements.setInt(1, devis.getDevisId());
-        ResultSet rs1 = prepareQueryAmenagements.executeQuery();
-        List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
-
-        while (rs1.next()) {
-          AmenagementDto amenagement = fact.getAmenagementDto();
-          fillObject(amenagement, rs1);
-          listeAmenagements.add(amenagement);
-        }
-
-        devis.setAmenagements(listeAmenagements);
+        recupererLesAmenagementsDunDevis(devis);
         listeDevis.add(devis);
       }
 
@@ -121,34 +112,14 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return null;
   }
 
-  @Override
-  public DevisDto consulterDevisEnTantQuOuvrier(int devisId) {
+  private void recupererLesAmenagementsDunDevis(DevisDto devis) {
+    String queryAmenagements =
+        "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
+    PreparedStatement prepareStatement = this.dal.createStatement(queryAmenagements);
+
     try {
-      String queryDevis =
-          "SELECT * FROM pae.clients c, pae.devis d WHERE d.devis_id = ? AND d.client=c.client_id";
-
-      PreparedStatement prepareStatement = dal.createStatement(queryDevis);
-      prepareStatement.setInt(1, devisId);
+      prepareStatement.setInt(1, devis.getDevisId());
       ResultSet rs = prepareStatement.executeQuery();
-
-      if (!rs.next()) {
-        return null;
-      }
-
-      DevisDto devis = fact.getDevisDto();
-      fillObject(devis, rs);
-
-      ClientDto client = fact.getClientDto();
-      fillObject(client, rs);
-
-      devis.setClient(client);
-
-      String queryAmenagements =
-          "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
-
-      prepareStatement = dal.createStatement(queryAmenagements);
-      prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
 
       List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
       while (rs.next()) {
@@ -158,36 +129,31 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       }
 
       devis.setAmenagements(listeAmenagements);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
 
-      String queryPhotoAvant =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false AND d.devis_id = ?";
-      prepareStatement = dal.createStatement(queryPhotoAvant);
+  }
+
+  @Override
+  public DevisDto consulterDevisEnTantQuOuvrier(int devisId) {
+    try {
+      String queryDevis =
+          "SELECT * FROM pae.clients c, pae.devis d WHERE d.devis_id = ? AND d.client=c.client_id";
+
+      PreparedStatement prepareStatement = dal.createStatement(queryDevis);
       prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
 
-      List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
-      while (rs.next()) {
-        PhotoDto photo = fact.getPhotoDto();
-        fillObject(photo, rs);
-        photosAvant.add(photo);
+      DevisDto devis = recupererDevisAvecSonClient(prepareStatement);
+
+      if (devis == null) {
+        return null;
       }
 
-      devis.setPhotosAvant(photosAvant);
-
-      String queryPhotoApres =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true AND d.devis_id = ?";
-      prepareStatement = dal.createStatement(queryPhotoApres);
-      prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
-
-      List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
-      while (rs.next()) {
-        PhotoDto photo = fact.getPhotoDto();
-        fillObject(photo, rs);
-        photosApres.add(photo);
-      }
-
-      devis.setPhotoApres(photosApres);
+      recupererLesAmenagementsDunDevis(devis);
+      recupererLesPhotosAvantDunDevis(devis);
+      recupererLesPhotosApresDunDevis(devis);
 
       return devis;
     } catch (SQLException exception) {
@@ -207,7 +173,27 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       PreparedStatement prepareStatement = dal.createStatement(queryDevis);
       prepareStatement.setInt(1, devisId);
       prepareStatement.setInt(2, clientId);
-      ResultSet rs = prepareStatement.executeQuery();
+
+      DevisDto devis = recupererDevisAvecSonClient(prepareStatement);
+      if (devis == null) {
+        return null;
+      }
+
+      recupererLesAmenagementsDunDevis(devis);
+      recupererLesPhotosAvantDunDevis(devis);
+      recupererLesPhotosApresDunDevis(devis);
+      return devis;
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
+  private DevisDto recupererDevisAvecSonClient(PreparedStatement prepareStatement) {
+    ResultSet rs;
+    try {
+      rs = prepareStatement.executeQuery();
 
       if (!rs.next()) {
         return null;
@@ -221,27 +207,22 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
       devis.setClient(client);
 
-      String queryAmenagements =
-          "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
+      return devis;
+    } catch (SQLException exception) {
+      // TODO Auto-generated catch block
+      exception.printStackTrace();
+      throw new FatalException();
+    }
 
-      prepareStatement = dal.createStatement(queryAmenagements);
-      prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
+  }
 
-      List<AmenagementDto> listeAmenagements = new ArrayList<AmenagementDto>();
-      while (rs.next()) {
-        AmenagementDto amenagement = fact.getAmenagementDto();
-        fillObject(amenagement, rs);
-        listeAmenagements.add(amenagement);
-      }
-
-      devis.setAmenagements(listeAmenagements);
-
-      String queryPhotoAvant =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false AND d.devis_id = ?";
-      prepareStatement = dal.createStatement(queryPhotoAvant);
-      prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
+  private void recupererLesPhotosAvantDunDevis(DevisDto devis) {
+    String queryPhotoAvant =
+        "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=false AND d.devis_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(queryPhotoAvant);
+    try {
+      prepareStatement.setInt(1, devis.getDevisId());
+      ResultSet rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosAvant = new ArrayList<PhotoDto>();
       while (rs.next()) {
@@ -251,12 +232,19 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       }
 
       devis.setPhotosAvant(photosAvant);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
 
-      String queryPhotoApres =
-          "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true AND d.devis_id = ?";
-      prepareStatement = dal.createStatement(queryPhotoApres);
-      prepareStatement.setInt(1, devisId);
-      rs = prepareStatement.executeQuery();
+  private void recupererLesPhotosApresDunDevis(DevisDto devis) {
+    String queryPhotoApres =
+        "SELECT * FROM pae.devis d,pae.photos p WHERE p.devis=d.devis_id AND p.avant_apres=true AND d.devis_id = ?";
+    PreparedStatement prepareStatement = dal.createStatement(queryPhotoApres);
+    try {
+      prepareStatement.setInt(1, devis.getDevisId());
+      ResultSet rs = prepareStatement.executeQuery();
 
       List<PhotoDto> photosApres = new ArrayList<PhotoDto>();
       while (rs.next()) {
@@ -266,15 +254,15 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       }
 
       devis.setPhotoApres(photosApres);
-      return devis;
-
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException();
     }
+
   }
 
   // Possibilité de faire une seule méthode pour tous les états.
+  @Override
   public void accepterDateTravaux(int numeroDevis) {
     String query = "UPDATE pae.devis SET etat = 'accepté' WHERE devis_id = ?";
     PreparedStatement preparedStatement = dal.createStatement(query);
@@ -282,13 +270,13 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       preparedStatement.setInt(1, numeroDevis);
 
       preparedStatement.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
   }
 
   @Override
-  public DevisDto insererDevis(DevisDto devis, String photos[]) {
+  public DevisDto insererDevis(DevisDto devis, String[] photos) {
     String query =
         "INSERT INTO pae.devis VALUES (DEFAULT,?,?,?,?,'Devis introduit',NULL,CURRENT_TIMESTAMP )RETURNING devis_id;";
     PreparedStatement prepareStatement = dal.createStatement(query);
@@ -314,7 +302,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-  private void insererPhotos(DevisDto devis, String photos[]) {
+  private void insererPhotos(DevisDto devis, String[] photos) {
     String query = "INSERT INTO pae.photos VALUES (DEFAULT, FALSE,FALSE,NULL,?,?)";
     PreparedStatement ps = dal.createStatement(query);
     try {
@@ -371,6 +359,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
+  @Override
   public void changerEtatDevis(int idDevis, String newEtat) {
     String query = "UPDATE pae.devis SET etat = ? WHERE devis_id = ?";
     PreparedStatement preparedStatement = dal.createStatement(query);
@@ -379,8 +368,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       preparedStatement.setInt(2, idDevis);
       System.out.println(preparedStatement);
       preparedStatement.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
       throw new FatalException("Impossible de changer l'état du devis.");
     }
   }

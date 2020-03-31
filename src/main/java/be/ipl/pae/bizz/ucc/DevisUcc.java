@@ -1,7 +1,8 @@
 package be.ipl.pae.bizz.ucc;
 
-import java.util.List;
 import be.ipl.pae.bizz.dto.DevisDto;
+
+import java.util.List;
 
 public interface DevisUcc {
   /**

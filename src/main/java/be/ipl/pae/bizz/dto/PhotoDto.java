@@ -11,7 +11,7 @@ public interface PhotoDto {
   /**
    * Modifie l'id de la photo.
    * 
-   * @param photoId
+   * @param photoId : l'id de la photo
    */
   void setPhotoId(int photoId);
 

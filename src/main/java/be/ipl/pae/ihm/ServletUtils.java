@@ -22,11 +22,14 @@ import com.owlike.genson.reflect.BeanProperty;
 import com.owlike.genson.stream.ObjectReader;
 import com.owlike.genson.stream.ObjectWriter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 class ServletUtils {
@@ -84,6 +87,23 @@ class ServletUtils {
       throw new FatalException();
     }
 
+  }
+
+  public static Map<String, Object> decoderBodyJson(HttpServletRequest req) {
+    StringBuffer jb = new StringBuffer();
+    String line = null;
+
+    try {
+      BufferedReader reader = req.getReader();
+      while ((line = reader.readLine()) != null) {
+        jb.append(line);
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    }
+
+    Map<String, Object> body = gensonUser.deserialize(jb.toString(), Map.class);
+    return body;
   }
 
   public static Genson getGensonAmenagement() {

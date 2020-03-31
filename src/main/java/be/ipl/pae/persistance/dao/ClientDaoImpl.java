@@ -212,7 +212,6 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public List<ClientDto> rechercherClientsPasUtilisateur() {
     String query =
         "SELECT * from pae.clients cl where cl.client_id NOT IN (SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL)";
-    String queryTest = "SELECT * FROM pae.clients cl";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<ClientDto> clients = new ArrayList<ClientDto>();
     try {

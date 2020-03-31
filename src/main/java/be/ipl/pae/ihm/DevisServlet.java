@@ -1,22 +1,24 @@
 package be.ipl.pae.ihm;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
+
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -99,19 +101,10 @@ public class DevisServlet extends HttpServlet {
       throws ServletException, IOException {
     // super.doPost(req, resp);
     // TODO il faut tester si c'est un ouvrier
-    StringBuffer jb = new StringBuffer();
-    String line = null;
     // int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-    try {
-      BufferedReader reader = req.getReader();
-      while ((line = reader.readLine()) != null) {
-        jb.append(line);
-      }
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
 
-    Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
+
+    Map<String, Object> body = ServletUtils.decoderBodyJson(req);
     String action = body.get("action").toString();
     int status;
     String json;
@@ -133,8 +126,6 @@ public class DevisServlet extends HttpServlet {
       case "confirmerDateDebut":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           confirmerDateDebut(Integer.parseInt(body.get("id").toString()));
-        } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
-          // System.out.println("confirmerDateDebut non accepté mais rien ne se passe.");
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
@@ -144,8 +135,6 @@ public class DevisServlet extends HttpServlet {
       case "repousserDateDebut":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("confirmerDateDebut accepté");
-        } else if (body.get("etat").toString().equalsIgnoreCase("nonAccepte")) {
-          // System.out.println("confirmerDateDebut non accepté");
         }
         json = "{\"moddification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
@@ -177,7 +166,7 @@ public class DevisServlet extends HttpServlet {
       }
       String photos = body.get("photos").toString();
       err = "Veuillez sélectionner des aménagements";
-      int lAmenagements[] = genson.deserialize(amenagements, int[].class);
+      int[] lesAmenagements = genson.deserialize(amenagements, int[].class);
       photos = photos.replace("[", "");
       photos = photos.replace("]", "");
       String[] lphotos = photos.split(",");
@@ -189,7 +178,7 @@ public class DevisServlet extends HttpServlet {
       devis.setDateDebut(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
-      DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lAmenagements, lphotos);
+      DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lesAmenagements, lphotos);
       String json =
           "{\"devis\":" + genson.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;

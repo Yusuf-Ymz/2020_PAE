@@ -12,7 +12,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.owlike.genson.Genson;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 
@@ -46,19 +45,7 @@ public class AuthentificationServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    StringBuffer jb = new StringBuffer();
-    String line = null;
-
-    try {
-      BufferedReader reader = req.getReader();
-      while ((line = reader.readLine()) != null) {
-        jb.append(line);
-      }
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
-
-    Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
+    Map<String, Object> body = ServletUtils.decoderBodyJson(req);
     String action = (String) body.get("action");
 
     switch (action) {

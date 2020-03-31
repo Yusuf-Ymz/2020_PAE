@@ -1,7 +1,8 @@
 package be.ipl.pae.persistance.dao;
 
-import java.util.List;
 import be.ipl.pae.bizz.dto.DevisDto;
+
+import java.util.List;
 
 public interface DevisDao {
   /**
@@ -12,7 +13,7 @@ public interface DevisDao {
   List<DevisDto> obtenirTousLesDevis();
 
   /**
-   * Renvoie les devis appartenant Ã  l'id du client.
+   * Renvoie les devis appartenant à l'id du client.
    * 
    * @param idClient : l'id du client
    * @return la liste des devis
@@ -21,7 +22,7 @@ public interface DevisDao {
 
 
   /**
-   * Renvoie le devis correspondant Ã  l'id
+   * Renvoie le devis correspondant à l'id.
    * 
    * @param devisId : l'id du devis
    * @return le devis
@@ -29,13 +30,13 @@ public interface DevisDao {
   DevisDto consulterDevisEnTantQuOuvrier(int devisId);
 
   /**
-   * Renvoie le devis si celui ci appartient Ã  l'utilisateur
+   * Renvoie le devis si celui ci appartient à l'utilisateur.
    * 
-   * @param userId
-   * @param devisId
+   * @param clientId : l'id du client auquel appartient le devis
+   * @param devisId : l'id du devis
    * @return le devis
    */
-  DevisDto consulterDevisEnTantQueUtilisateur(int userId, int devisId);
+  DevisDto consulterDevisEnTantQueUtilisateur(int clientId, int devisId);
 
   /**
    * Permet d'accepter la date de début des travaux.
@@ -51,7 +52,7 @@ public interface DevisDao {
    * @param photos : les photos avant aménagement
    * @return le devis
    */
-  DevisDto insererDevis(DevisDto devis, String photos[]);
+  DevisDto insererDevis(DevisDto devis, String[] photos);
 
   /**
    * Cette méthode permet de changer l'état d'un devis

@@ -1,7 +1,5 @@
 package be.ipl.pae.bizz.bizz;
 
-import java.util.ArrayList;
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -14,6 +12,9 @@ import be.ipl.pae.persistance.dao.AmenagementDao;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
 import be.ipl.pae.persistance.dao.UserDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class DevisUccImpl implements DevisUcc {
 
@@ -146,9 +147,9 @@ class DevisUccImpl implements DevisUcc {
     try {
       dal.startTransaction();
       devisdao.changerEtatDevis(idDevis, newEtat);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       dal.rollbackTransaction();
-      e.printStackTrace();
+      exception.printStackTrace();
     } finally {
       dal.commitTransaction();
     }

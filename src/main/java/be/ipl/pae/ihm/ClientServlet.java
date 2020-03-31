@@ -13,7 +13,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -135,19 +134,8 @@ public class ClientServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    StringBuffer jb = new StringBuffer();
-    String line = null;
 
-    try {
-      BufferedReader reader = req.getReader();
-      while ((line = reader.readLine()) != null) {
-        jb.append(line);
-      }
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
-
-    Map<String, Object> body = this.genson.deserialize(jb.toString(), Map.class);
+    Map<String, Object> body = ServletUtils.decoderBodyJson(req);
     String action = (String) body.get("action");
     String token = req.getHeader("Authorization");
     int idUser = ServletUtils.estConnecte(token);
