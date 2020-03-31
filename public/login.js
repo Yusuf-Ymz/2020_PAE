@@ -1,6 +1,7 @@
 import { postData } from "./utilsAPI.js";
 import { HomeUser, homeWorker } from "./index.js";
 import { firstViewWorker, firstViewUser } from "./premierVueConnexion.js";
+import notify from "./utils.js";
 
 
 const LoginForm = (errorMessage = "") => {
@@ -49,12 +50,8 @@ function onPostInscription(response) {
   $("#ville").val("");
   $("#mdp_inscription").val("");
   $("#re_mdp_inscription").val("");
-  let user = localStorage.getItem('user');
-  if (user === "true") {
-    homeWorker();
-  } else {
-    HomeUser();
-  }
+  notify("success","Vous avez bien été enregistré");
+  LoginForm();
 }
 
 function onErrorInscription(err) {
