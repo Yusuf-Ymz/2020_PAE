@@ -85,13 +85,15 @@ public class UserServlet extends HttpServlet {
         System.out.println(action);
         System.out.println("map" + map.toString());
         if (action.equals("confirmerInscription/worker")) {
-          String email = map.get("email").toString();
+          // tu enleveres les commentaires une fois que tu te serviras des variables car ca cause
+          // des problemes de check
+          // String email = map.get("email").toString();
           System.out.println(map.toString());
           int idConfirmed = Integer.parseInt((String) map.get("N° utilisateur"));
-          String nom = map.get("nom").toString();
-          String prenom = map.get("prenom").toString();
-          String pseudo = map.get("pseudo").toString();
-          String ville = map.get("ville").toString();
+          // String nom = map.get("nom").toString();
+          // String prenom = map.get("prenom").toString();
+          // String pseudo = map.get("pseudo").toString();
+          // String ville = map.get("ville").toString();
           UserDto userDto = userUcc.confirmWorker(ouvrierId, idConfirmed);
           if (userDto == null) {
             String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";

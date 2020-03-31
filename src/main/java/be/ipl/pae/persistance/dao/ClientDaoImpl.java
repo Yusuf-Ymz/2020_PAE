@@ -79,8 +79,9 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     prenomClient += "%";
     nomClient = nomClient.replace("%", "\\" + "%");
     nomClient += "%";
-    String query =
-        "SELECT * FROM pae.clients cl WHERE LOWER(cl.nom) LIKE LOWER(?) AND LOWER(cl.prenom) LIKE LOWER(?) AND lower(cl.ville) LIKE LOWER(?) AND cl.code_postal LIKE ? ORDER BY cl.nom ;";
+    String query = "SELECT * FROM pae.clients cl " + "WHERE LOWER(cl.nom) LIKE LOWER(?) AND "
+        + "LOWER(cl.prenom) LIKE LOWER(?) AND " + "lower(cl.ville) LIKE LOWER(?) AND "
+        + "cl.code_postal LIKE ? ORDER BY cl.nom ;";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<ClientDto> clients = new ArrayList<ClientDto>();
     try {
@@ -105,8 +106,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public List<String> rechercherVilles(String ville) {
     ville = ville.replace("%", "\\" + "%");
     ville += "%";
-    String query =
-        "SELECT DISTINCT c.ville FROM pae.clients c WHERE LOWER(c.ville) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ;";
+    String query = "SELECT DISTINCT c.ville FROM pae.clients c "
+        + "WHERE LOWER(c.ville) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ;";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> villes = new ArrayList<String>();
     try {
@@ -128,8 +129,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public List<String> rechercheCodePostaux(String codePostal) {
     codePostal = codePostal.replace("%", "\\" + "%");
     codePostal += "%";
-    String query =
-        "SELECT DISTINCT c.code_postal FROM pae.clients c WHERE c.code_postal LIKE ? ORDER BY 1 ASC LIMIT 5";
+    String query = "SELECT DISTINCT c.code_postal FROM pae.clients c "
+        + "WHERE c.code_postal LIKE ? ORDER BY 1 ASC LIMIT 5";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> codePostaux = new ArrayList<String>();
     try {
@@ -150,8 +151,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public List<String> rechercherPrenoms(String prenom) {
     prenom = prenom.replace("%", "\\" + "%");
     prenom += "%";
-    String query =
-        "SELECT DISTINCT c.prenom FROM pae.clients c WHERE LOWER(c.prenom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5";
+    String query = "SELECT DISTINCT c.prenom FROM pae.clients c "
+        + "WHERE LOWER(c.prenom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> prenoms = new ArrayList<String>();
     try {
@@ -172,8 +173,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   public List<String> rechercherNoms(String nom) {
     nom = nom.replace("%", "\\" + "%");
     nom += "%";
-    String query =
-        "SELECT DISTINCT c.nom FROM pae.clients c WHERE LOWER(c.nom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5";
+    String query = "SELECT DISTINCT c.nom FROM pae.clients c "
+        + "WHERE LOWER(c.nom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> noms = new ArrayList<String>();
     try {
@@ -210,8 +211,8 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
 
   @Override
   public List<ClientDto> rechercherClientsPasUtilisateur() {
-    String query =
-        "SELECT * from pae.clients cl where cl.client_id NOT IN (SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL)";
+    String query = "SELECT * from pae.clients cl " + "where cl.client_id NOT IN "
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL)";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<ClientDto> clients = new ArrayList<ClientDto>();
     try {

@@ -151,14 +151,14 @@ public class DevisServlet extends HttpServlet {
     String err = "";
     try {
       err = "Veuillez renseigner un client";
-      int idClient = Integer.parseInt((String) body.get("idClient"));
+      final int idClient = Integer.parseInt((String) body.get("idClient"));
       err = "Veuillez saisir une date";
-      LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
+      final LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
       err = "Champ \"montant total\" incorrect";
-      int montantTotal = Integer.parseInt(body.get("montant").toString());
+      final int montantTotal = Integer.parseInt(body.get("montant").toString());
       err = "Champ \"durée des travaux\" incorrect";
-      int nbJours = Integer.parseInt(body.get("nbJours").toString());
-      String amenagements = body.get("amenagements").toString();
+      final int nbJours = Integer.parseInt(body.get("nbJours").toString());
+      final String amenagements = body.get("amenagements").toString();
       if (amenagements.equals("[]")) {
         err = "Veuillez renseigner des aménagements";
         ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
@@ -166,7 +166,6 @@ public class DevisServlet extends HttpServlet {
       }
       String photos = body.get("photos").toString();
       err = "Veuillez sélectionner des aménagements";
-      int[] lesAmenagements = genson.deserialize(amenagements, int[].class);
       photos = photos.replace("[", "");
       photos = photos.replace("]", "");
       String[] lphotos = photos.split(",");
@@ -178,6 +177,9 @@ public class DevisServlet extends HttpServlet {
       devis.setDateDebut(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
+
+      int[] lesAmenagements = genson.deserialize(amenagements, int[].class);
+
       DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lesAmenagements, lphotos);
       String json =
           "{\"devis\":" + genson.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
