@@ -18,13 +18,22 @@ function afficherNotif(msg) {
   })
 }
 
-$(document).ready(function(){
-    $("#confirmed_inscriptions").on("click",function(){
-      homeWorker();
+function afficherVueConfirmerUtilisateur(){
+  homeWorker();
         const data = {
           action: 'confirmerInscription'
         };
         getData("/user",data, token, onGet,onError); 
+}
+
+$(document).ready(function(){
+    $("#confirmed_inscriptions").on("click",function(){
+      afficherVueConfirmerUtilisateur();
+     /* homeWorker();
+        const data = {
+          action: 'confirmerInscription'
+        };
+        getData("/user",data, token, onGet,onError); */
     });
 
     $("#ajouterClientLier").click(function (e) {
@@ -70,6 +79,9 @@ $(document).ready(function(){
 
 function onPostSuccess(response) {
   $("#lierModel").modal('hide');
+  const actions = {
+    "action" : 'listeClientsPasUtilisateur'
+  };
   getData("/client",actions, token, onGetLier,onErrorLier); 
 }
 
@@ -152,7 +164,7 @@ function onGetLier(response) {
         ["Lier"],
         "N° client",
         [lierUtilisateurClientTable],
-        "/client"
+        "/user"
         );
       }
     } else $("#table_clients_noUsers").text(JSON.stringify(response.error));
@@ -166,11 +178,7 @@ function onGetLier(response) {
 const lierUtilisateurClientTable = (url, data) => {
     data["action"]= 'confirmerInscription/lierUtilisateurClient'
     data["idUser"] = $("#idUserLier").text();
-      postData(url, data, token,onPost,onErrorLier);
+      postData(url, data, token,afficherVueConfirmerUtilisateur,onErrorLier);
   }
-
-function onPost(response){
-    location.reload();
-}
 
 

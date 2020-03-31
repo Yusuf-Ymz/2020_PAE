@@ -20,17 +20,18 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
 
   @Override
   public ClientDto insererClient(ClientDto client) {
-    String query =
-        "INSERT INTO pae.clients VALUES( DEFAULT,?,?,?,?,?,?,?, ?,?) RETURNING client_id;";
+    String query = "INSERT INTO pae.clients VALUES( DEFAULT,?,?,?,?,?,?,?, ?) RETURNING client_id;";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
       prepareStatement.setString(1, client.getNom());
       prepareStatement.setString(2, client.getPrenom());
-      prepareStatement.setString(3, client.getCodePostal());
-      prepareStatement.setString(4, client.getVille());
-      prepareStatement.setString(5, client.getEmail());
-      prepareStatement.setString(6, client.getTelephone());
-      prepareStatement.setString(7, client.getRue());
+      prepareStatement.setString(3, client.getRue());
+      prepareStatement.setString(4, client.getNumero());
+      prepareStatement.setString(5, client.getCodePostal());
+      prepareStatement.setString(6, client.getVille());
+      prepareStatement.setString(7, client.getEmail());
+      prepareStatement.setString(8, client.getTelephone());
+
 
 
       ResultSet rs = prepareStatement.executeQuery();

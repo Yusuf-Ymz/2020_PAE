@@ -106,8 +106,8 @@ public class UserServlet extends HttpServlet {
           }
         }
         if (action.equals("confirmerInscription/lierUtilisateurClient")) {
-          int idUser = Integer.parseInt((String) map.get("N° utilisateur"));
-          int idClient = Integer.parseInt((String) map.get("idClient"));
+          int idUser = Integer.parseInt((String) map.get("idUser"));
+          int idClient = Integer.parseInt((String) map.get("N° client"));
           UserDto userDto = userUcc.confirmUser(ouvrierId, idUser, idClient);
           if (userDto == null) {
             String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
@@ -168,6 +168,7 @@ public class UserServlet extends HttpServlet {
 
       throws IOException {
     String token = req.getHeader("Authorization");
+    System.out.println("toke : " + token);
     String json = null;
     int userId = ServletUtils.estConnecte(token);
     if (userId != -1) {
