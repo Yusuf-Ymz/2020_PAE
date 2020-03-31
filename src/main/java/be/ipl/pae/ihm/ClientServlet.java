@@ -87,7 +87,8 @@ public class ClientServlet extends HttpServlet {
           String prenom = req.getParameter("prenom");
           String ville = req.getParameter("ville");
           String cp = req.getParameter("cp");
-          List<ClientDto> clients = clientUcc.listerClientsAvecCriteres(idUser, nom, prenom, ville, cp);
+          List<ClientDto> clients;
+          clients = clientUcc.listerClientsAvecCriteres(idUser, nom, prenom, ville, cp);
           json = "{\"clients\":" + genson.serialize(clients) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
