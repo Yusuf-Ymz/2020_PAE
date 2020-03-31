@@ -63,8 +63,8 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<ClientDto> listerClients(int idOuvrier, String nom, String prenom, String ville,
-      String cp) {
+  public List<ClientDto> listerClientsAvecCriteres(int idOuvrier, String nom, String prenom,
+      String ville, String cp) {
     try {
       dal.startTransaction();
       UserDto user = userDao.obtenirUserAvecId(idOuvrier);

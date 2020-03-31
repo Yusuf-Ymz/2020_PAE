@@ -123,7 +123,7 @@ class ClientUccTest {
   @Test
   void testListerClientsAvecFiltreException() {
     assertThrows(BizException.class, () -> {
-      this.clientUcc.listerClients(5, "nom1", "nom1", "bruxelles", "1080");
+      this.clientUcc.listerClientsAvecCriteres(5, "nom1", "nom1", "bruxelles", "1080");
     });
   }
 

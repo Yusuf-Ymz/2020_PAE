@@ -24,7 +24,8 @@ public interface ClientUcc {
 
   List<String> listerCp(int idOuvrier, String cp);
 
-  List<ClientDto> listerClients(int idOuvrier, String nom, String prenom, String ville, String cp);
+  List<ClientDto> listerClientsAvecCriteres(int idOuvrier, String nom, String prenom, String ville,
+      String cp);
 
   List<ClientDto> listerClientsPasUtilisateur(int idUser);
 }

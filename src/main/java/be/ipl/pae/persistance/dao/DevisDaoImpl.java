@@ -94,7 +94,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   private void recupererLesAmenagementsDunDevis(DevisDto devis) throws SQLException {
     String queryAmenagements =
         "SELECT * FROM pae.devis d, pae.travaux t, pae.types_amenagements ta "
-            + "WHERE d.devis_id=t.devis_id AND ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
+            + "WHERE d.devis_id=t.devis_id AND "
+            + "ta.type_amenagement=t.type_amenagement AND d.devis_id = ?";
     PreparedStatement prepareStatement = this.dal.createStatement(queryAmenagements);
 
     prepareStatement.setInt(1, devis.getDevisId());
