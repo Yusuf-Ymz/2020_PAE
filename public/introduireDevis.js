@@ -1,6 +1,7 @@
 "use strict";
 import { getData, postData, specialGetData } from "./utilsAPI.js";
 //import printTable from "./utilsHtml.js"
+import notify from "./utils.js";
 import { homeWorker, HomeUser } from "./index.js";
 var searchVille = document.getElementById('villeSearch'),
     searchCP = document.getElementById('codePostalSearch'),
@@ -32,24 +33,31 @@ function displayAmenagements(response) {
     let amenagements = response.amenagements;
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
+    //let z = "<label class="customcheck">One <input type="checkbox" checked="checked"><span class="checkmark"></span></label>";
     for (let i = 0; i < amenagements.length; i++) {
-        let div = document.createElement("div");
-        div.className = "form-check col-md-6 mt-3";
+        let id = "amenagement" + amenagements[i]["id"];
 
+        let div = document.createElement("div");
+        div.className = " col-md-6 mt-3";
+        let label = document.createElement("label");
+        label.className = "customcheck";
+        label.htmlFor = id;
+        label.innerHTML = amenagements[i]["libelle"];
+        
+        let span = document.createElement("span");
+        span.className = "checkmark";
+        
         let input = document.createElement("input");
         input.type = "checkbox";
-        input.className = "form-check-input amenagements ml-2";
-        let id = "amenagement" + amenagements[i]["id"];
+        input.className = " amenagements ml-2";
         input.id = id;
         input.value = amenagements[i]["id"];
 
-        let label = document.createElement("label");
-        label.className = "form-check-label";
-        label.htmlFor = id;
-        label.innerHTML = amenagements[i]["libelle"];
 
+
+        label.appendChild(input);
+        label.appendChild(span);
         div.appendChild(label);
-        div.appendChild(input);
         divAmenagements.appendChild(div);
     }
 
@@ -59,29 +67,7 @@ function displayAmenagements(response) {
 function onError(err) {
     console.log(err);
     console.log(err.responseText);
-    afficherNotif(err.responseText);
-}
-
-function afficherNotif(msg) {
-    Swal.fire({
-        position: 'center',
-        icon: 'error',
-        timerProgressBar: true,
-        title: msg,
-        showConfirmButton: false,
-        timer: 1500
-    })
-}
-
-function afficherNotifSuccess(msg) {
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        timerProgressBar: true,
-        title: msg,
-        showConfirmButton: false,
-        timer: 1500
-    })
+    notify("error",err.responseText);
 }
 
 $(document).ready(function (e) {
@@ -129,28 +115,27 @@ $(document).ready(function (e) {
     })
 
     function onPost(response) {
-        afficherNotifSuccess("Devis Introduit");
+        notify("success","Devis Introduit");
     }
     $("#ajouterClient").click(function (e) {
         e.preventDefault();
         // TODO à revoir
         if (!$("#nomC")[0].checkValidity()) {
-            afficherNotif("Erreur champ nom");
+            notify("error","Erreur champ nom invalide");
         } else if (!$("#prenomC")[0].checkValidity()) {
-            afficherNotif("Erreur champ prenom");
+            notify("error","Erreur champ prenom invalide");
         } else if (!$("#rueC")[0].checkValidity()) {
-            afficherNotif("Erreur champ rue");
+            notify("error","Erreur champ rue invalide");
         } else if (!$("#numC")[0].checkValidity()) {
-            afficherNotif("Erreur champ numéro");
-       
+            notify("error","Erreur champ numéro invalide");
         } else if (!$("#cpC")[0].checkValidity()) {
-            afficherNotif("Erreur champ code postal");
+            notify("error","Erreur champ code postal invalide");
         } else if (!$("#villeC")[0].checkValidity()) {
-            afficherNotif("Erreur champ ville");
+            notify("error","Erreur champ ville invalide");
         } else if (!$("#emailC")[0].checkValidity()) {
-            afficherNotif("Erreur champ email");
+            notify("error","Erreur champ email invalide");
         } else if (!$("#telC")[0].checkValidity()) {
-            afficherNotif("Erreur champ téléphone");
+            notify("error","Erreur champ téléphone invalide");
         } else {
             let data = {
                 action: "ajouterClient",

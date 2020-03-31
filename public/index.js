@@ -1,5 +1,4 @@
 "use strict";
-//import { getData, postData, deleteData, updateData } from "./utilsAPI.js";
 let token = undefined;
 $("#HeaderContent").load("header.html");
 $("#loader").load("loader.html");

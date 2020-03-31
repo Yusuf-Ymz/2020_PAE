@@ -93,38 +93,54 @@
             </table>
         </div>
         <div class="col-6">
-            <div class="form-group">
-                <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
-                <label for="confirmerCommande" class="text-dark font-weight-bold">Confirmer la commande
-                    d'aménagements
+            <div>
+                <label class="customcheck text-dark font-weight-bold" for="confirmerCommande">
+                    Confirmer la commande d'aménagements
+                    <input type="checkbox"name="" id="confirmerCommande" autocomplete="off">
+                    <span class="checkmark"></span>
                 </label>
             </div>
-            <div class="form-group">
-                <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
-                <label for="confirmerDateDebut" class="text-dark font-weight-bold">
-                    Confirmer date de début des travaux</label>
+            <div>
+                <label class="customcheck text-dark font-weight-bold" for="confirmerDateDebut">
+                    Confirmer date de début des travaux
+                    <input type="checkbox"name="" id="confirmerDateDebut" autocomplete="off">
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <div class="form-group">
-                <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
-                <label for="repousserDateDebut" class="text-dark font-weight-bold">Repousser la date de début des
-                    travaux</label>
-                <input type="date" id="inputRepousser" min="2020-05-01">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="customcheck text-dark font-weight-bold" for="repousserDateDebut">
+                        Repousser la date de début des travaux
+                        <input type="checkbox"name="" id="repousserDateDebut" autocomplete="off">
+                        <span class="checkmark"></span>
+                    </label>    
+                </div>
+                <div class="col-md-6">
+                    <input type="date" id="inputRepousser" min="2020-05-01">
+                </div>
+                
             </div>
-            <div class="form-group">
-                <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
-                <label for="indiquerFactureMilieu" class="text-dark font-weight-bold">Indiquer que la facture de
-                    milieu de
-                    chantier est envoyée</label>
+            <div><label class="customcheck text-dark font-weight-bold" for="indiquerFactureMilieu">
+                Indiquer que la facture de milieu de chantier est envoyée
+                    <input type="checkbox"name="" id="indiquerFactureMilieu" autocomplete="off">
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <div class="form-group">
-                <input type="checkbox" name="" id="indiquerFactureFin" autocomplete="off">
-                <label for="indiquerFactureFin" class="text-dark font-weight-bold">Indiquer que la facture de fin de
-                    chantier est envoyée</label>
+            <div>
+                <label class="customcheck text-dark font-weight-bold" for="indiquerFactureFin">
+                    Indiquer que la facture de fin de chantier est envoyée
+                    <input type="checkbox"name="" id="indiquerFactureFin" autocomplete="off">
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <div class="form-group">
-                <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
-                <label for="rendreVisible" class="text-dark font-weight-bold">Rendre la réalisation visible</label>
+            <div>
+                <label class="customcheck text-dark font-weight-bold" for="rendreVisible">
+                    Rendre la réalisation visible
+                    <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
+                    <span class="checkmark"></span>
+                </label>
             </div>
+            
         </div>
     </div>
     <div class="col-6">
@@ -132,9 +148,10 @@
         <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
         </table>
     </div>
-    <div class="row" >
+    <div class="row">
         <div class="offset-6 col-6 " style="margin-right: -20px;">
-            <button class="btn btn-danger btn-md  btn-block text-white" id="annulerDemande" autocomplete="off">Annuler la demande
+            <button class="btn btn-danger btn-md  btn-block text-white" id="annulerDemande" autocomplete="off">Annuler
+                la demande
                 d'aménagements</button>
         </div>
     </div>

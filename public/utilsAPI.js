@@ -19,10 +19,12 @@ function postData(url = "", data = {}, token, onPost, onError) {
     data: JSON.stringify(data),
     dataType: "json",
     beforeSend: function(){
+      $('#body').hide();
       $('#loader').show();
     },
     complete: function(){ 
       $('#loader').hide();
+      $('#body').show();
     },
     success: onPost,
     error: onError
@@ -48,10 +50,12 @@ function getData(url = "", data = "", token, onGet, onError) {
     data: data,
     dataType: "json",
     beforeSend: function(){
+      $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){
+    complete: function(){ 
       $('#loader').hide();
+      $('#body').show();
     },
     success: onGet,
     error: onError
@@ -76,10 +80,12 @@ function deleteData(url = "", token, onDelete, onError) {
     headers: headers,
     dataType: "json",
     beforeSend: function(){
+      $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){
+    complete: function(){ 
       $('#loader').hide();
+      $('#body').show();
     },
     success: onDelete,
     error: onError
@@ -107,10 +113,12 @@ function updateData(url = "", data = {}, token, onPut, onError) {
     data: JSON.stringify(data),
     dataType: "json",
     beforeSend: function(){
+      $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){
+    complete: function(){ 
       $('#loader').hide();
+      $('#body').show();
     },
     success: onPut,
     error: onError
