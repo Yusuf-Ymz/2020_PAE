@@ -43,7 +43,8 @@ public class UserServlet extends HttpServlet {
 
       String token = req.getHeader("Authorization");
       int userId = ServletUtils.estConnecte(token);
-
+      System.out.println(token);
+      System.out.println(userId);
       if (userId != -1 && userUcc.obtenirUtilisateur(userId).isOuvrier()) {
         System.out.println("if");
         if (req.getParameter("action").equals("listeUser")) {

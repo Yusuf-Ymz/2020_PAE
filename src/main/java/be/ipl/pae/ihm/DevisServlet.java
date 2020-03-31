@@ -91,6 +91,7 @@ public class DevisServlet extends HttpServlet {
               objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
               break;
             default:
+              super.doGet(req, resp);
               break;
           }
 

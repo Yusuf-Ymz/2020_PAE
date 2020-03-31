@@ -1,5 +1,6 @@
 import { getData, postData } from "./utilsAPI.js";
 import { homeWorker } from "./index.js";
+import notify  from "./utils.js";
 
 let token = localStorage.getItem("token");
 let devisID = -1;
@@ -138,11 +139,13 @@ function onGetConsulterError(err) {
 
 function onPostCheckBox(response){
     //console.log(response.etat);
+    notify("success","L'état a bien été mis à jour");
     $('#etatVersionOuvrier').text(response.etat);
+
 }
 
-function onError(response){
-    console.log(response);
+function onCheckBoxError(response) {
+    notify("error","Les modifications n'ont pas pu être effectué");
 }
 
 //Eventuelles erreurs à corriger et ajouter taprès ceci!
@@ -153,7 +156,7 @@ $('#confirmerCommande').change(function(){
         etat: "accepte",
         id: devisID
       };
-      postData("/devis", data, null, onPostCheckBox, onError); //Revoir les nuls.
+      postData("/devis", data, null, onPostCheckBox, onCheckBoxError); //Revoir les nuls.
 
     } /*else {
       const data = {
@@ -171,7 +174,7 @@ $('#confirmerDateDebut').change(function(){
         etat: "accepte",
         id: devisID
       };
-      postData("/devis", data, null, onPostCheckBox, null);
+      postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
     } /*else {
       const data = {
         action: "confirmerDateDebut",
