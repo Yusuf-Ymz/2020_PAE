@@ -248,7 +248,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Override
   public DevisDto insererDevis(DevisDto devis, String[] photos) {
     String query = "INSERT INTO pae.devis "
-        + "VALUES (DEFAULT,?,?,?,?,'Devis introduit',NULL,CURRENT_TIMESTAMP) "
+        + "VALUES (DEFAULT,?,?,?,?,'Devis introduit',CURRENT_TIMESTAMP,NULL) "
         + "RETURNING devis_id;";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
@@ -274,12 +274,12 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   private void insererPhotos(DevisDto devis, String[] photos) {
-    String query = "INSERT INTO pae.photos VALUES (DEFAULT, FALSE,FALSE,NULL,?,?)";
+    String query = "INSERT INTO pae.photos VALUES (DEFAULT,?,FALSE,FALSE,NULL,?)";
     PreparedStatement ps = dal.createStatement(query);
     try {
-      ps.setInt(1, devis.getDevisId());
+      ps.setInt(2, devis.getDevisId());
       for (String photo : photos) {
-        ps.setString(2, photo);
+        ps.setString(1, photo);
         ps.execute();
       }
     } catch (SQLException exception) {

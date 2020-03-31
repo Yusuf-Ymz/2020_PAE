@@ -114,6 +114,7 @@ $(document).ready(function (e) {
             im = im.replace(",","?????");
             photos.push(im);
         }
+        console.log(amenagements);
         console.log(photos);
         let data = {
             action: "insererDevis",
@@ -174,6 +175,7 @@ $(document).ready(function (e) {
         $("#myModal").modal('hide');
         let client = response.client;
         idClient = client.idClient;
+        $("#idClient").val(idClient);
         $("#nomInfo").val(client.nom);
         $("#prenomInfo").val(client.prenom);
     }
