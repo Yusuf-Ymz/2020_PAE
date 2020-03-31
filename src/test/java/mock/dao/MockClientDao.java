@@ -75,9 +75,10 @@ public class MockClientDao implements ClientDao {
 
   @Override
   public List<String> rechercheCodePostaux(String codePostal) {
-    // TODO Auto-generated method stub
-
-    return null;
+    List<String> listeCp = new ArrayList<String>();
+    String mockCp1 = "1030";
+    listeCp.add(mockCp1);
+    return listeCp;
   }
 
   @Override

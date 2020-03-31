@@ -1,5 +1,6 @@
 package be.ipl.pae.bizz.bizz;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -116,7 +117,8 @@ class ClientUccTest {
 
   @Test
   void testListerCp() {
-    // TODO
+    List<String> clients = this.clientUcc.listerCp(1, "1030");
+    assertNotNull("1030", clients.get(0));
   }
 
 
@@ -128,7 +130,12 @@ class ClientUccTest {
   }
 
   void testListerClientsAvecFiltreOk() {
-    // TODO
+    List<ClientDto> clients =
+        this.clientUcc.listerClientsAvecCriteres(1, "nom", "prenom", "ville", "cp");
+    assertEquals("nom", clients.get(0).getNom());
+    assertEquals("prenom", clients.get(0).getPrenom());
+    assertEquals("ville", clients.get(0).getVille());
+    assertEquals("cp", clients.get(0).getCodePostal());
   }
 
   @Test
