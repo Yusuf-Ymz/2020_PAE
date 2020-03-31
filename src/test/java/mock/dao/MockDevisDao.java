@@ -74,4 +74,10 @@ public class MockDevisDao implements DevisDao {
 
   }
 
+  @Override
+  public String getEtatActuel(int idDevis) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

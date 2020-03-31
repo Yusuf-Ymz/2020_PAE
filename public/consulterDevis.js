@@ -7,7 +7,7 @@ let devisID = -1;
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
     homeWorker();
-    data["action"] = "consulterDevis";
+    data["action"] = "consulterDevisEnTantQueOuvrier";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
    
@@ -21,7 +21,7 @@ function consulterDevisEntantQueOuvrier(url, data) {
 
 function consulterDevisEntantQueClient(url, data) {
     homeWorker();
-    data["action"] = "consulterDevis";
+    data["action"] = "consulterDevisEnTantQueClient";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
    
@@ -135,6 +135,16 @@ function onGetConsulterDevisOuvrier(response) {
 function onGetConsulterError(err) {
     console.error(err.responseJSON.error);
 }
+
+function onPostCheckBox(response){
+    //console.log(response.etat);
+    $('#etatVersionOuvrier').text(response.etat);
+}
+
+function onError(response){
+    console.log(response);
+}
+
 //Eventuelles erreurs à corriger et ajouter taprès ceci!
 $('#confirmerCommande').change(function(){
     if($(this).is(":checked")) {
@@ -143,15 +153,15 @@ $('#confirmerCommande').change(function(){
         etat: "accepte",
         id: devisID
       };
-      postData("/devis", data, null, null, null); //Revoir les nuls.
+      postData("/devis", data, null, onPostCheckBox, onError); //Revoir les nuls.
 
-    } else {
+    } /*else {
       const data = {
         action: "confirmerCommande",
         etat: "nonAccepte"
       };
-      postData("/devis", data, null, null, null);
-    }
+      postData("/devis", data, null, onPostCheckBox, null);
+    }*/
 });
 
 $('#confirmerDateDebut').change(function(){
@@ -161,14 +171,14 @@ $('#confirmerDateDebut').change(function(){
         etat: "accepte",
         id: devisID
       };
-      postData("/devis", data, null, null, null);
-    } else {
+      postData("/devis", data, null, onPostCheckBox, null);
+    } /*else {
       const data = {
         action: "confirmerDateDebut",
         etat: "nonAccepte"
       };
       postData("/devis", data, null, null, null);
-    }
+    }*/
 });
 
 $('#repousserDateDebut').change(function(){
@@ -179,14 +189,14 @@ $('#repousserDateDebut').change(function(){
         newDate: $("#inputRepousser").val(),
         id: devisID
       };
-      postData("/devis", data, null, null, null);
-    } else {
+      postData("/devis", data, null, onPostCheckBox, null);
+    } /*else {
       const data = {
         action: "repousserDateDebut",
         etat: "nonAccepte"
       };
       postData("/devis", data, null, null, null);
-    }
+    }*/
     
     
 });

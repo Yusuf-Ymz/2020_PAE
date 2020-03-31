@@ -19,8 +19,7 @@ class DevisUccTest {
     Config.load("test.properties");
     InjectionService injecSvc = new InjectionService();
     this.devisUcc = new DevisUccImpl();
-    System.out.println(devisUcc.getClass());
-    // injecSvc.injectDependencies(devisUcc);
+    injecSvc.injectDependencies(devisUcc);
     this.devis = null;
   }
 

@@ -60,6 +60,6 @@ public interface DevisUcc {
    * @param idDevis l'id du devis à changer.
    * @param newEtat le nouvel état.
    */
-  void changerEtatDevis(int idDevis, String newEtat);
+  boolean changerEtatDevis(int idDevis, String newEtat);
 
 }

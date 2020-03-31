@@ -162,13 +162,35 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public void changerEtatDevis(int idDevis, String newEtat) {
+  public boolean changerEtatDevis(int idDevis, String newEtat) {
     try {
       dal.startTransaction();
-      devisdao.changerEtatDevis(idDevis, newEtat);
-    } catch (Exception e) {
+      String etatActuel = devisdao.getEtatActuel(idDevis);
+      System.out.println(etatActuel);
+      switch (etatActuel) {
+        case "Introduit":
+          if (newEtat.equalsIgnoreCase("Commande Confirmée")
+              || newEtat.equalsIgnoreCase("Date Confirmée")) {
+            devisdao.changerEtatDevis(idDevis, newEtat);
+            return true;
+          }
+          break;
+        case "Commande confirmée":
+          System.out.println("commande confirmee");
+          if (newEtat.equalsIgnoreCase("Date Confirmée")) {
+            devisdao.changerEtatDevis(idDevis, newEtat);
+            return true;
+          }
+          break;
+        default:
+          System.out.println("Changement impossible.");
+          return false;
+      }
+      return false;
+    } catch (Exception exception) {
       dal.rollbackTransaction();
-      e.printStackTrace();
+      exception.printStackTrace();
+      throw exception;
     } finally {
       dal.commitTransaction();
     }

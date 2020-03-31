@@ -61,4 +61,12 @@ public interface DevisDao {
    * @param newEtat le nouvel état du devis.
    */
   void changerEtatDevis(int idDevis, String newEtat);
+
+  /**
+   * Permet de récupérer l'état actuel du devis.
+   * 
+   * @param idDevis l'id du devis duquel on doit récupérer l'état.
+   * @return
+   */
+  String getEtatActuel(int idDevis);
 }

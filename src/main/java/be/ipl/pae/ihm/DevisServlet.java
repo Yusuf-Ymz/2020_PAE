@@ -139,29 +139,37 @@ public class DevisServlet extends HttpServlet {
         break;
 
       case "confirmerCommande":
-        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
-          confirmerCommande(Integer.parseInt(body.get("id").toString()));
-
+        if (body.get("etat").toString().equalsIgnoreCase("accepte")
+            && confirmerCommande(Integer.parseInt(body.get("id").toString()))) {
+          json = "{\"etat\":\"Commande Confirmée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+        } else {
+          json = "{\"error\":\"Erreur\"}";
+          status = HttpServletResponse.SC_NOT_ACCEPTABLE;
+          ServletUtils.sendResponse(resp, json, status);
         }
-        json = "{\"modification\":\"OK\"";
-        status = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, status);
         break;
 
       case "confirmerDateDebut":
-        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
-          confirmerDateDebut(Integer.parseInt(body.get("id").toString()));
+        System.out.println(body.get("etat").toString());
+        if (body.get("etat").toString().equalsIgnoreCase("accepte")
+            && confirmerDateDebut(Integer.parseInt(body.get("id").toString()))) {
+          json = "{\"etat\":\"Date Début Confirmée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+        } else {
+          json = "{\"error\":\"Erreur\"}";
+          status = HttpServletResponse.SC_NOT_ACCEPTABLE;
+          ServletUtils.sendResponse(resp, json, status);
         }
-        json = "{\"moddification\":\"OK\"";
-        status = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, status);
         break;
 
       case "repousserDateDebut":
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("confirmerDateDebut accepté");
         }
-        json = "{\"modification\":\"OK\"";
+        json = "{\"etat\":\"A changer.\"}";
         status = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, status);
         break;
@@ -225,13 +233,11 @@ public class DevisServlet extends HttpServlet {
     }
   }
 
-  private void confirmerCommande(int devis) {
-    // System.out.println("état du devis numéro " + devis + " passé en " + etat + ".");
-    devisUcc.changerEtatDevis(devis, "Commande Confirmée");
+  private boolean confirmerCommande(int devis) {
+    return devisUcc.changerEtatDevis(devis, "Commande Confirmée");
   }
 
-  private void confirmerDateDebut(int idDevis) {
-
-    devisUcc.changerEtatDevis(idDevis, "Date Confirmée");
+  private boolean confirmerDateDebut(int idDevis) {
+    return devisUcc.changerEtatDevis(idDevis, "Date Confirmée");
   }
 }
