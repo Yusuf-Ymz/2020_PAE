@@ -2,7 +2,6 @@ package be.ipl.pae.persistance.dao;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
-import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.exception.FatalException;
 import be.ipl.pae.persistance.dal.DalBackendServices;
@@ -231,7 +230,7 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
   }
 
   @Override
-  public UserDto rechercherClientAvecId(int idClient) {
+  public ClientDto rechercherClientAvecId(int idClient) {
     String query = "SELECT * FROM pae.clients WHERE client_id = ? ";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
@@ -240,7 +239,7 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
       if (!rs.next()) {
         return null;
       }
-      UserDto client = fact.getUserDto();
+      ClientDto client = fact.getClientDto();
       return client;
     } catch (SQLException exception) {
       exception.printStackTrace();

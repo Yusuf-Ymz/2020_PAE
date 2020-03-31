@@ -1,6 +1,7 @@
 package be.ipl.pae.bizz.bizz;
 
 import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
@@ -121,14 +122,12 @@ class UserUccImpl implements UserUcc {
       UserDto ouvrier = this.userDao.obtenirUserAvecId(ouvrierId);
       if (ouvrier.isOuvrier()) {
         UserDto utilisateur = this.userDao.obtenirUserAvecId(idUser);
-        UserDto client = this.clientDao.rechercherClientAvecId(idClient);
-
+        ClientDto client = this.clientDao.rechercherClientAvecId(idClient);
         if (utilisateur != null && !utilisateur.isConfirme() && client != null
             && utilisateur.getClientId() == 0) {
-          userDao.addUtilisateurClient(idUser, idClient);
-          System.out.println(utilisateur);
-          return utilisateur;
+          return userDao.addUtilisateurClient(idUser, idClient);
         }
+        throw new BizException("");// TODO mettre un message correspondant
       }
       throw new BizException(""); // TODO mettre un message correspondant
     } catch (Exception exception) {
@@ -141,16 +140,17 @@ class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto confirmWorker(int userId, int idConfirmed) {
+  public UserDto confirmWorker(int ouvrierId, int userId) {
     try {
       dal.startTransaction();
-      UserDto userConnecte = this.userDao.obtenirUserAvecId(userId);
+      UserDto userConnecte = this.userDao.obtenirUserAvecId(ouvrierId);
       if (userConnecte.isOuvrier()) {
-        UserDto userConfirm = this.userDao.obtenirUserAvecId(idConfirmed);
-        if (!userConfirm.isConfirme()) {
-          userDao.addConfirmWorkerWithId(idConfirmed);
-          return userConfirm;
+        UserDto userConfirmer = this.userDao.obtenirUserAvecId(userId);
+        if (!userConfirmer.isConfirme()) {
+
+          return userDao.addConfirmWorkerWithId(userId);
         }
+        throw new BizException("");// TODO mettre un message correspondant
       }
       throw new BizException("");// TODO mettre un message correspondant
     } catch (Exception exception) {
@@ -183,6 +183,5 @@ class UserUccImpl implements UserUcc {
       dal.commitTransaction();
     }
   }
-
 
 }

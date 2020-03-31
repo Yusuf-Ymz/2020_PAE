@@ -18,7 +18,7 @@ public class MockUserDao implements UserDao {
     if ("pseudo".equals(pseudo)) {
       UserDto user = dtoFactory.getUserDto();
       user.setPseudo("pseudo");
-      user.setPassword("$2a$10$PxKZ8cmdyrS/BLWw.Llo9utWaMZowp.2rGKtuB/paZCIepGMCbb.u");
+      user.setPassword("azerty");
       user.setConfirme(true);
       return user;
     }
@@ -33,6 +33,7 @@ public class MockUserDao implements UserDao {
     for (int i = 0; i < 5; i++) {
       UserDto user = this.dtoFactory.getUserDto();
       user.setClientId(i);
+      user.setConfirme(true);
       listeUser.add(user);
     }
 
@@ -46,10 +47,8 @@ public class MockUserDao implements UserDao {
 
     for (int i = 0; i < 5; i++) {
       UserDto user = this.dtoFactory.getUserDto();
-      user.setClientId(i);
       user.setConfirme(false);
       listeUser.add(user);
-
 
     }
 
@@ -71,22 +70,24 @@ public class MockUserDao implements UserDao {
   }
 
   @Override
-  public void addUtilisateurClient(int idUser, int idClient) {
+  public UserDto addUtilisateurClient(int idUser, int idClient) {
 
     UserDto user = dtoFactory.getUserDto();
     user.setUserId(idUser);
     user.setConfirme(true);
-
+    user.setClientId(idClient);
+    return user;
   }
 
   @Override
-  public void addConfirmWorkerWithId(int idConfirmed) {
+  public UserDto addConfirmWorkerWithId(int idConfirmed) {
 
     UserDto user = dtoFactory.getUserDto();
 
     user.setUserId(idConfirmed);
     user.setConfirme(true);
     user.setOuvrier(true);
+    return user;
   }
 
   @Override

@@ -37,7 +37,7 @@ public interface UserDao {
   UserDto obtenirUserAvecId(int id);
 
 
-  void addConfirmWorkerWithId(int idConfirmed);
+  UserDto addConfirmWorkerWithId(int newOuvrierId);
 
 
   void inscrireUser(UserDto user);
@@ -47,5 +47,5 @@ public interface UserDao {
   boolean emailExiste(String email);
 
 
-  void addUtilisateurClient(int idUser, int idClient);
+  UserDto addUtilisateurClient(int idUser, int idClient);
 }

@@ -161,7 +161,7 @@ class User implements UserBiz {
     return "User [pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email
         + ", ville=" + ville + ", ouvrier=" + ouvrier + ", confirme=" + confirme
         + ", dateInscription=" + dateInscription + ", password=" + password + ", userId=" + userId
-        + "]";
+        + ", clientId=" + clientId + "]";
   }
 
 }

@@ -1,7 +1,6 @@
 package be.ipl.pae.persistance.dao;
 
 import be.ipl.pae.bizz.dto.ClientDto;
-import be.ipl.pae.bizz.dto.UserDto;
 
 import java.util.List;
 
@@ -38,5 +37,5 @@ public interface ClientDao {
 
   List<ClientDto> rechercherClientsPasUtilisateur();
 
-  UserDto rechercherClientAvecId(int idClient);
+  ClientDto rechercherClientAvecId(int idClient);
 }

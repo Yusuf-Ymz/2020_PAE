@@ -2,7 +2,6 @@ package mock.dao;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
-import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.ClientDao;
 
@@ -136,9 +135,9 @@ public class MockClientDao implements ClientDao {
   }
 
   @Override
-  public UserDto rechercherClientAvecId(int idClient) {
-    // TODO Auto-generated method stub
-    return null;
+  public ClientDto rechercherClientAvecId(int idClient) {
+    ClientDto client = this.dtoFactory.getClientDto();
+    return client;
   }
 
 }

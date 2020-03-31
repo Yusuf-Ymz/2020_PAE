@@ -106,14 +106,14 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   @Override
-  public void addConfirmWorkerWithId(int idConfirmed) {
+  public UserDto addConfirmWorkerWithId(int newOuvrierId) {
     String query =
         "UPDATE pae.utilisateurs SET confirme = true, ouvrier = true WHERE utilisateur_id = ?";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
-      prepareStatement.setInt(1, idConfirmed);
+      prepareStatement.setInt(1, newOuvrierId);
       prepareStatement.execute();
-
+      return this.obtenirUserAvecId(newOuvrierId);
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException();
@@ -176,7 +176,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   }
 
   @Override
-  public void addUtilisateurClient(int idUser, int idClient) {
+  public UserDto addUtilisateurClient(int idUser, int idClient) {
     // ne fonctionne pas
     String query =
         "UPDATE pae.utilisateurs SET confirme = true, client_id = ? WHERE utilisateur_id = ?";
@@ -186,6 +186,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       prepareStatement.setInt(2, idUser);
       prepareStatement.execute();
 
+      return this.obtenirUserAvecId(idUser);
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException();
