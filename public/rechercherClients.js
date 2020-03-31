@@ -2,11 +2,12 @@ import { getData } from "./utilsAPI.js";
 import {printTable} from "./utilsHtml.js"
 import {homeWorker} from "./index.js";
 
-import  {onGetMesDevisList}  from "./rechercherDevis.js";
+import  {onGetMesDevisListOuvrier}  from "./rechercherDevis.js";
 
 $(document).ready(function () {
 
     $('#rechercher_tous_les_clients').on('click',function (e) {
+
        homeWorker();
     
         let token = localStorage.getItem("token");
@@ -20,6 +21,7 @@ $(document).ready(function () {
 
 
     function onGetClientList(response) {
+        
         $("#listerClients").show();
         $("#searchCard").show();
         $("#searchContent").show();
@@ -31,18 +33,18 @@ $(document).ready(function () {
         let nombtnTab = ["visualiser devis"];
         
         printTable("listerClients", response.clients,nombtnTab,"N° client",[doGetClientDevis],"/devis");
-
+        
     }
 
     function doGetClientDevis(url,data){
         
         homeWorker();
-
+      
         let token = localStorage.getItem("token");
         data["action"] ="devisDuClient";
         
         $("#listeDeMesDevis").show();
-        getData(url, data, token, onGetMesDevisList, onClientListError);
+        getData(url, data, token, onGetMesDevisListOuvrier, onClientListError);
     }
      
     function onClientListError(err) {

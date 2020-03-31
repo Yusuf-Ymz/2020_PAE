@@ -4,12 +4,9 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.ClientUcc;
+import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.main.Config;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
@@ -45,6 +42,8 @@ public class ClientServlet extends HttpServlet {
   private ClientUcc clientUcc;
   @Inject
   private DtoFactory fact;
+  @Inject
+  private UserUcc userUcc;
 
   /**
    * Instancie le client servlet.
@@ -66,19 +65,21 @@ public class ClientServlet extends HttpServlet {
       String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
       int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
       String action = req.getParameter("action");
-      if (idUser != -1) {
+
+      if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
+
         if (ACTIONGETCP.equalsIgnoreCase(action)) {
-          List<String> cpx = clientUcc.listerCp(idUser, req.getParameter(KEYWORD));
+          List<String> cpx = clientUcc.listerCp(req.getParameter(KEYWORD));
           json = "{\"cpx\":" + genson.serialize(cpx) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONGETNOMS.equalsIgnoreCase(action)) {
-          List<String> noms = clientUcc.listerNomsClients(idUser, req.getParameter(KEYWORD));
+          List<String> noms = clientUcc.listerNomsClients(req.getParameter(KEYWORD));
           json = "{\"names\":" + genson.serialize(noms) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONGETVILLE.equalsIgnoreCase(action)) {
-          List<String> villes = clientUcc.listerVilles(idUser, req.getParameter(KEYWORD));
+          List<String> villes = clientUcc.listerVilles(req.getParameter(KEYWORD));
           json = "{\"villes\":" + genson.serialize(villes) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
@@ -87,13 +88,12 @@ public class ClientServlet extends HttpServlet {
           String prenom = req.getParameter("prenom");
           String ville = req.getParameter("ville");
           String cp = req.getParameter("cp");
-          List<ClientDto> clients;
-          clients = clientUcc.listerClientsAvecCriteres(idUser, nom, prenom, ville, cp);
+          List<ClientDto> clients = clientUcc.listerClientsAvecCriteres(nom, prenom, ville, cp);
           json = "{\"clients\":" + genson.serialize(clients) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONGETPRENOM.equalsIgnoreCase(action)) {
-          List<String> prenoms = clientUcc.listerPrenomsClients(idUser, req.getParameter(KEYWORD));
+          List<String> prenoms = clientUcc.listerPrenomsClients(req.getParameter(KEYWORD));
           json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
@@ -108,12 +108,12 @@ public class ClientServlet extends HttpServlet {
           client.setRue(req.getParameter("rue"));
           client.setVille(req.getParameter("ville"));
           client.setNumero(req.getParameter("numero"));
-          client = clientUcc.insertClient(client, idUser);
+          client = clientUcc.insertClient(client);
           json = "{\"client\":" + genson.serialize(client) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONCLIENTPASUTILISATEUR.equalsIgnoreCase(action)) {
-          List<ClientDto> clients = clientUcc.listerClientsPasUtilisateur(idUser);
+          List<ClientDto> clients = clientUcc.listerClientsPasUtilisateur();
           String listeSerialisee =
               this.gensonClient.serialize(clients, new GenericType<List<ClientDto>>() {});
           json = "{\"data\":" + listeSerialisee + "}";
@@ -137,12 +137,16 @@ public class ClientServlet extends HttpServlet {
       throws ServletException, IOException {
 
     Map<String, Object> body = ServletUtils.decoderBodyJson(req);
+
     String action = (String) body.get("action");
     String token = req.getHeader("Authorization");
     int idUser = ServletUtils.estConnecte(token);
+
     String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
     int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
-    if (idUser != -1) {
+
+    if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
+
       if (ACTIONINSERTCLIENT.equalsIgnoreCase(action)) {
         ClientDto client = fact.getClientDto();
         client.setNom((String) body.get("nom"));
@@ -154,11 +158,12 @@ public class ClientServlet extends HttpServlet {
         client.setRue((String) body.get("rue"));
         client.setVille((String) body.get("ville"));
         client.setNumero((String) body.get("numero"));
-        client = clientUcc.insertClient(client, idUser);
+        client = clientUcc.insertClient(client);
         json = "{\"client\":" + genson.serialize(client) + "}";
         statusCode = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, statusCode);
       }
+
     } else {
       ServletUtils.sendResponse(resp, json, statusCode);
     }
@@ -173,28 +178,16 @@ public class ClientServlet extends HttpServlet {
    * @throws Exception : une exception
    */
   private void listCustomer(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-    String token = req.getHeader("Authorization");
-    String json = "{\"error\":\"Vous n'avez pas accés ces informations\"}";
-    int idUser = ServletUtils.estConnecte(token);
+
+
     int status = HttpServletResponse.SC_UNAUTHORIZED;
-    if (idUser != -1) {
-      Algorithm algorithm = Algorithm.HMAC512(secret);
-      JWTVerifier verifier = JWT.require(algorithm).build();
-      DecodedJWT jwt = verifier.verify(token);
-      int userId = jwt.getClaim("id").asInt();
 
+    List<ClientDto> listeClients = this.clientUcc.listerClients();
 
-      List<ClientDto> listeClients = this.clientUcc.listerClients(userId);
-
-      String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
-      json = "{\"clients\":" + liste + "}";
-      status = HttpServletResponse.SC_OK;
-      ServletUtils.sendResponse(resp, json, status);
-
-    } else {
-      ServletUtils.sendResponse(resp, json, status);
-    }
-
+    String liste = gensonClient.serialize(listeClients, new GenericType<List<ClientDto>>() {});
+    String json = "{\"clients\":" + liste + "}";
+    status = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, status);
 
   }
 }

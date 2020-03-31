@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ClientUcc {
 
-  ClientDto insertClient(ClientDto client, int idOuvrier);
+  ClientDto insertClient(ClientDto client);
 
   /**
    * Renvoie la liste des clients.
@@ -14,18 +14,17 @@ public interface ClientUcc {
    * @param idOuvrier : id du client
    * @return une liste des clients
    */
-  List<ClientDto> listerClients(int idOuvrier);
+  List<ClientDto> listerClients();
 
-  List<String> listerNomsClients(int idOuvrier, String nom);
+  List<String> listerNomsClients(String nom);
 
-  List<String> listerPrenomsClients(int idOuvrier, String prenom);
+  List<String> listerPrenomsClients(String prenom);
 
-  List<String> listerVilles(int idOuvrier, String ville);
+  List<String> listerVilles(String ville);
 
-  List<String> listerCp(int idOuvrier, String cp);
+  List<String> listerCp(String cp);
 
-  List<ClientDto> listerClientsAvecCriteres(int idOuvrier, String nom, String prenom, String ville,
-      String cp);
+  List<ClientDto> listerClientsAvecCriteres(String nom, String prenom, String ville, String cp);
 
-  List<ClientDto> listerClientsPasUtilisateur(int idUser);
+  List<ClientDto> listerClientsPasUtilisateur();
 }

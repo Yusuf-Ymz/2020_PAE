@@ -2,8 +2,10 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
+import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
 
@@ -27,6 +29,8 @@ public class DevisServlet extends HttpServlet {
   private DtoFactory fact;
   @Inject
   private DevisUcc devisUcc;
+  @Inject
+  private UserUcc userUcc;
 
   /**
    * Instancie le devis servlet.
@@ -43,46 +47,69 @@ public class DevisServlet extends HttpServlet {
       int userId = ServletUtils.estConnecte(token);
       String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
       int status = HttpServletResponse.SC_UNAUTHORIZED;
+      String action = req.getParameter("action");
+      List<DevisDto> listeDevis = null;
+      DevisDto devis = null;
+      String objetSerialize = null;
+
       if (userId != -1) {
-        String action = req.getParameter("action");
-        List<DevisDto> listeDevis = null;
-        DevisDto devis = null;
-        String objetSerialize = null;
-        switch (action) {
-          case "mesDevis":
-            listeDevis = devisUcc.listerSesDevis(userId);
-            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
-            break;
-          case "tousLesDevis":
-            listeDevis = devisUcc.listerTousLesDevis(userId);
-            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
-            break;
-          case "devisDuClient":
+        UserDto user = this.userUcc.obtenirUtilisateur(userId);
 
-            int clientId = Integer.parseInt(req.getParameter("N° client").toString());
+        if (user.isConfirme() && !user.isOuvrier()) {
 
-            listeDevis = devisUcc.listerDevisClient(userId, clientId);
-            objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
-            break;
-          case "consulterDevis":
-            int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-            devis = devisUcc.consulterDevis(userId, devisId);
-            objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
-            break;
-          default:
-            break;
-        }
+          switch (action) {
+            case "mesDevis":
 
-        if (listeDevis != null) {
-          json = "{\"devis\":" + objetSerialize + "}";
+              listeDevis = devisUcc.listerSesDevis(userId);
+              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              break;
+            case "consulterDevisEnTantQueClient":
+              int devisId = Integer.parseInt(req.getParameter("devisId").toString());
+              devis = devisUcc.consulterDevisEnTantQueClient(user.getClientId(), devisId);
+              objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+              break;
+            default:
+              break;
+          }
+        } else if (user.isOuvrier()) {
+
+          switch (action) {
+
+            case "tousLesDevis":
+              listeDevis = devisUcc.listerTousLesDevis();
+              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              break;
+            case "devisDuClient":
+              int clientId = Integer.parseInt(req.getParameter("N° client").toString());
+
+              listeDevis = devisUcc.listerDevisClient(clientId);
+              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              break;
+            case "consulterDevisEnTantQueOuvrier":
+              int devisId = Integer.parseInt(req.getParameter("devisId").toString());
+              devis = devisUcc.consulterDevisEnTantQueOuvrier(devisId);
+              objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+              break;
+            default:
+              break;
+          }
+
         } else {
-          json = "{\"devis\":" + objetSerialize + "}";
+          ServletUtils.sendResponse(resp, json, status);
         }
-        status = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, status);
+
+
+        json = "{\"devis\":" + objetSerialize + "}";
+
+
       } else {
         ServletUtils.sendResponse(resp, json, status);
       }
+
+
+
+      status = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, status);
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
@@ -101,10 +128,8 @@ public class DevisServlet extends HttpServlet {
       throws ServletException, IOException {
     // super.doPost(req, resp);
     // TODO il faut tester si c'est un ouvrier
-    // int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-
-
     Map<String, Object> body = ServletUtils.decoderBodyJson(req);
+
     String action = body.get("action").toString();
     int status;
     String json;
@@ -118,7 +143,7 @@ public class DevisServlet extends HttpServlet {
           confirmerCommande(Integer.parseInt(body.get("id").toString()));
 
         }
-        json = "{\"moddification\":\"OK\"";
+        json = "{\"modification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, status);
         break;
@@ -136,7 +161,7 @@ public class DevisServlet extends HttpServlet {
         if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
           System.out.println("confirmerDateDebut accepté");
         }
-        json = "{\"moddification\":\"OK\"";
+        json = "{\"modification\":\"OK\"";
         status = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, status);
         break;
@@ -166,6 +191,7 @@ public class DevisServlet extends HttpServlet {
       }
       String photos = body.get("photos").toString();
       err = "Veuillez sélectionner des aménagements";
+
       photos = photos.replace("[", "");
       photos = photos.replace("]", "");
       String[] lphotos = photos.split(",");
@@ -177,10 +203,9 @@ public class DevisServlet extends HttpServlet {
       devis.setDateDebut(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
-
       int[] lesAmenagements = genson.deserialize(amenagements, int[].class);
-
       DevisDto newDevis = devisUcc.insererDevis(devis, idClient, lesAmenagements, lphotos);
+
       String json =
           "{\"devis\":" + genson.serialize(newDevis, new GenericType<DevisDto>() {}) + "}";
       int statusCode = HttpServletResponse.SC_OK;

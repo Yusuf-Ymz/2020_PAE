@@ -2,9 +2,7 @@ package be.ipl.pae.bizz.bizz;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
-import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.ClientUcc;
-import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.UserDao;
@@ -21,14 +19,10 @@ class ClientUccImpl implements ClientUcc {
   private DalServices dal;
 
   @Override
-  public ClientDto insertClient(ClientDto client, int idOuvrier) {
+  public ClientDto insertClient(ClientDto client) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
 
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
 
       return clientDao.insererClient(client);
     } catch (Exception exception) {
@@ -42,14 +36,11 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<ClientDto> listerClients(int idClient) {
+  public List<ClientDto> listerClients() {
 
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idClient);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       return this.clientDao.listerClients();
     } catch (Exception exception) {
       exception.printStackTrace();
@@ -63,14 +54,11 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<ClientDto> listerClientsAvecCriteres(int idOuvrier, String nom, String prenom,
-      String ville, String cp) {
+  public List<ClientDto> listerClientsAvecCriteres(String nom, String prenom, String ville,
+      String cp) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       return clientDao.rechercherClients(ville, cp, nom, prenom);
     } catch (Exception exception) {
       dal.rollbackTransaction();
@@ -83,13 +71,10 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<String> listerNomsClients(int idOuvrier, String nom) {
+  public List<String> listerNomsClients(String nom) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       List<String> nomsClients = clientDao.rechercherNoms(nom);
       return nomsClients;
     } catch (Exception exception) {
@@ -103,13 +88,10 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<String> listerVilles(int idOuvrier, String ville) {
+  public List<String> listerVilles(String ville) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       List<String> villes = clientDao.rechercherVilles(ville);
       return villes;
     } catch (Exception exception) {
@@ -123,13 +105,10 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<String> listerCp(int idOuvrier, String cp) {
+  public List<String> listerCp(String cp) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       List<String> cpx = clientDao.rechercheCodePostaux(cp);
       return cpx;
     } catch (Exception exception) {
@@ -143,13 +122,10 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<String> listerPrenomsClients(int idOuvrier, String prenom) {
+  public List<String> listerPrenomsClients(String prenom) {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       List<String> prenomsClients = clientDao.rechercherPrenoms(prenom);
       return prenomsClients;
     } catch (Exception exception) {
@@ -163,13 +139,10 @@ class ClientUccImpl implements ClientUcc {
   }
 
   @Override
-  public List<ClientDto> listerClientsPasUtilisateur(int idOuvrier) {
+  public List<ClientDto> listerClientsPasUtilisateur() {
     try {
       dal.startTransaction();
-      UserDto user = userDao.obtenirUserAvecId(idOuvrier);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
+
       return clientDao.rechercherClientsPasUtilisateur();
     } catch (Exception exception) {
       dal.rollbackTransaction();

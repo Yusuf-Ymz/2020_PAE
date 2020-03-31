@@ -12,7 +12,7 @@ public interface DevisUcc {
    * @param idUser : l'utilisateur qui fait la requête
    * @return la liste de tous les devis
    */
-  List<DevisDto> listerTousLesDevis(int idUser);
+  List<DevisDto> listerTousLesDevis();
 
   /**
    * Renvoie la liste des devis de l'utilisateur.
@@ -31,7 +31,7 @@ public interface DevisUcc {
    * @param idUser : l'utilisateur qui fait la requête
    * @return la liste des devis de l'utilisateur
    */
-  List<DevisDto> listerDevisClient(int idUser, int idClient);
+  List<DevisDto> listerDevisClient(int idClient);
 
   /**
    * Renvoie le devis correspondant à l'id si l'user est un ouvrier ou le propriétaire du devis.
@@ -40,8 +40,16 @@ public interface DevisUcc {
    * @param idDevis : l'id du devis
    * @return le devis
    */
-  DevisDto consulterDevis(int idUser, int idDevis);
+  DevisDto consulterDevisEnTantQueOuvrier(int idDevis);
 
+  /**
+   * Renvoie le devis correspondant à l'id si l'user est un ouvrier ou le propriétaire du devis.
+   * 
+   * @param idUser : l'id de l'utilisateur
+   * @param idDevis : l'id du devis
+   * @return le devis
+   */
+  DevisDto consulterDevisEnTantQueClient(int idUser, int idDevis);
 
 
   DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);

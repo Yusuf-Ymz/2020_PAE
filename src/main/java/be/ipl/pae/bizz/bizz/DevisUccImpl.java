@@ -16,6 +16,8 @@ import be.ipl.pae.persistance.dao.UserDao;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 class DevisUccImpl implements DevisUcc {
 
   @Inject
@@ -29,13 +31,10 @@ class DevisUccImpl implements DevisUcc {
   @Inject
   private AmenagementDao amenagementDao;
 
-  public List<DevisDto> listerTousLesDevis(int idUser) {
+  public List<DevisDto> listerTousLesDevis() {
     try {
       dal.startTransaction();
-      UserDto user = this.userdao.obtenirUserAvecId(idUser);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits pour effectuer cette action");
-      }
+
       return this.devisdao.obtenirTousLesDevis();
     } catch (Exception exception) {
       dal.rollbackTransaction();
@@ -47,11 +46,14 @@ class DevisUccImpl implements DevisUcc {
 
   }
 
+
   public List<DevisDto> listerSesDevis(int idUser) {
     try {
       dal.startTransaction();
+
       UserDto user = this.userdao.obtenirUserAvecId(idUser);
-      if (user.getClientId() == 0) {
+
+      if (!user.isConfirme()) {
         throw new BizException("Cette action n'est pas réalisable");
       }
 
@@ -64,17 +66,14 @@ class DevisUccImpl implements DevisUcc {
       dal.commitTransaction();
     }
 
+
   }
 
   @Override
-  public List<DevisDto> listerDevisClient(int idUser, int idClient) {
+  public List<DevisDto> listerDevisClient(int idClient) {
     try {
-      dal.startTransaction();
-      UserDto user = this.userdao.obtenirUserAvecId(idUser);
-      if (!user.isOuvrier()) {
-        throw new BizException("Vous n'avez pas les droits");
-      }
 
+      dal.startTransaction();
       return this.devisdao.obtenirSesDevis(idClient);
     } catch (Exception exception) {
       dal.rollbackTransaction();
@@ -86,20 +85,13 @@ class DevisUccImpl implements DevisUcc {
   }
 
   @Override
-  public DevisDto consulterDevis(int idUser, int idDevis) {
+  public DevisDto consulterDevisEnTantQueOuvrier(int idDevis) {
     // TODO Auto-generated method stub
     try {
+
       dal.startTransaction();
-      UserDto user = this.userdao.obtenirUserAvecId(idUser);
 
-      DevisDto devis = null;
-
-      if (user.isOuvrier()) {
-        devis = devisdao.consulterDevisEnTantQuOuvrier(idDevis);
-      } else {
-        devis = devisdao.consulterDevisEnTantQueUtilisateur(user.getClientId(), idDevis);
-      }
-
+      DevisDto devis = devisdao.consulterDevisEnTantQuOuvrier(idDevis);
 
       if (devis == null) {
         throw new BizException("Erreur dans la requête");
@@ -115,6 +107,33 @@ class DevisUccImpl implements DevisUcc {
     }
 
   }
+
+
+
+  @Override
+  public DevisDto consulterDevisEnTantQueClient(int clientId, int idDevis) {
+    // TODO Auto-generated method stub
+    try {
+
+      dal.startTransaction();
+
+      DevisDto devis = devisdao.consulterDevisEnTantQueUtilisateur(clientId, idDevis);
+
+      if (devis == null) {
+        throw new BizException("Erreur dans la requête");
+      }
+
+      return devis;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+
 
   @Override
   public DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos) {
@@ -147,12 +166,14 @@ class DevisUccImpl implements DevisUcc {
     try {
       dal.startTransaction();
       devisdao.changerEtatDevis(idDevis, newEtat);
-    } catch (Exception exception) {
+    } catch (Exception e) {
       dal.rollbackTransaction();
-      exception.printStackTrace();
+      e.printStackTrace();
     } finally {
       dal.commitTransaction();
     }
   }
+
+
 
 }

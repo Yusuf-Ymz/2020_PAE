@@ -28,15 +28,19 @@ public interface UserUcc {
    * 
    * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
    */
-  List<UserDto> listerUsers(int userId);
+  List<UserDto> listerUsers();
 
-  List<UserDto> listerUsersPreinscrit(int userId);
+  List<UserDto> listerUsersPreinscrit();
 
-  UserDto confirmUser(int ouvrierId, int idUser, int idClient);
+  UserDto confirmUser(int idUser, int idClient);
 
-  UserDto confirmWorker(int userId, int idConfirmed);
+  UserDto confirmWorker(int idConfirmed);
 
-  UserDto trouverInfoUtilisateur(int ouvrierId, int userId);
+  UserDto trouverInfoUtilisateur(int userId);
+
+
+
+  UserDto obtenirUtilisateur(int userId);
 
 
 }
