@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     $('#rechercher_mes_devis').on('click', function (e) {
         console.log("cliquer ");
-        homeWorker();
+        HomeUser();
         let token = localStorage.getItem("token");
         const data = {
             action: "mesDevis"

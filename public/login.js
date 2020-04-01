@@ -25,12 +25,13 @@ const LoginForm = (errorMessage = "") => {
 function onPostLogin(response) {
   $("#pseudo").val("");
   $("#mdp").val("");
-  localStorage.setItem("token", response.token);
-  localStorage.setItem('ouvrier', response.user.ouvrier);
 
-  if (response.user.ouvrier == true) {
-   firstViewWorker();
-   // homeWorker();
+  localStorage.setItem("token", response.token);
+
+  window.glob = response.user;
+  console.log(window.glob);
+  if (window.glob.ouvrier === true) {
+    firstViewWorker();
   } else {
     firstViewUser();
   }
@@ -50,7 +51,7 @@ function onPostInscription(response) {
   $("#ville").val("");
   $("#mdp_inscription").val("");
   $("#re_mdp_inscription").val("");
-  notify("success","Vous avez bien été enregistré");
+  notify("success", "Vous avez bien été enregistré");
   LoginForm();
 }
 
@@ -107,8 +108,9 @@ $(document).ready(function () {
   });
 
   $("#inscription").on('click', function (e) {
-    console.log("clic");
+  
     e.preventDefault();
+    
     if ($("#mdp_inscription")[0].checkValidity() && $("#re_mdp_inscription")[0] === $("#mdp_inscription")) {
       alert("Le mot de passe est invalideS");
     }

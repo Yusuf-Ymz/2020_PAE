@@ -120,7 +120,7 @@ public class ClientServlet extends HttpServlet {
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONLISTERCLIENTS.equalsIgnoreCase(action)) {
-          listCustomer(req, resp);// à modifer aussi
+          listCustomer(resp);// à modifer aussi
         }
       } else {
         ServletUtils.sendResponse(resp, json, statusCode);
@@ -177,7 +177,7 @@ public class ClientServlet extends HttpServlet {
    * @param resp : la reponse
    * @throws Exception : une exception
    */
-  private void listCustomer(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+  private void listCustomer(HttpServletResponse resp) throws Exception {
 
 
     int status = HttpServletResponse.SC_UNAUTHORIZED;

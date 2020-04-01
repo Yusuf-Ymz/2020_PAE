@@ -45,24 +45,31 @@ public class UserServlet extends HttpServlet {
       int userId = ServletUtils.estConnecte(token);
       System.out.println(token);
       System.out.println(userId);
-      if (userId != -1 && userUcc.obtenirUtilisateur(userId).isOuvrier()) {
-        System.out.println("if");
-        if (req.getParameter("action").equals("listeUser")) {
-          displayListUsers(req, resp);
-        }
-        if (req.getParameter("action").equals("confirmerInscription")) {
-          System.out.println("lsiter");
-          displayListUsersPreregistered(req, resp);
-        } else if (req.getParameter("action").equals("recupererUtilisateur")) {
-          System.out.println("je rentre pas");
-          afficherInfoUtilisateur(req, resp);
-        } else if (req.getParameter("action").equals("obtenirUser")) {
+      UserDto user = userUcc.obtenirUtilisateur(userId);
 
-          json = "{\"user\":" + genson.serialize(userUcc.obtenirUtilisateur(userId)) + "}";
+      if (userId != -1) {
+
+        if (user.isOuvrier()) {
+
+          if (req.getParameter("action").equals("listeUser")) {
+            displayListUsers(req, resp);
+          } else if (req.getParameter("action").equals("confirmerInscription")) {
+            System.out.println("lsiter");
+            displayListUsersPreregistered(req, resp);
+          } else if (req.getParameter("action").equals("recupererUtilisateur")) {
+            afficherInfoUtilisateur(req, resp);
+          }
+
+        }
+
+        if (req.getParameter("action").equals("obtenirUser")) {
+          json = "{\"user\":" + genson.serialize(user) + "}";
           ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
         }
 
+
       } else {
+
         json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
         int statusCode = HttpServletResponse.SC_UNAUTHORIZED;
         ServletUtils.sendResponse(resp, json, statusCode);
@@ -163,12 +170,10 @@ public class UserServlet extends HttpServlet {
 
       throws Exception {
 
-    String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";
-    int status = HttpServletResponse.SC_UNAUTHORIZED;
     List<UserDto> listeUser = userUcc.listerUsers();
     String listeSerialisee = this.genson.serialize(listeUser, new GenericType<List<UserDto>>() {});
-    json = "{\"listeUser\":" + listeSerialisee + "}";
-    status = HttpServletResponse.SC_OK;
+    String json = "{\"listeUser\":" + listeSerialisee + "}";
+    int status = HttpServletResponse.SC_OK;
     ServletUtils.sendResponse(resp, json, status);
 
   }

@@ -1,5 +1,8 @@
 "use strict";
+
 let token = undefined;
+window.glob = "userInfo";
+
 $("#HeaderContent").load("header.html");
 $("#loader").load("loader.html");
 $("#carouselContent").load("carousel.html");
@@ -10,6 +13,7 @@ $("#linkUserClientContent").load("linkUserClient.html");
 $("#searchContent").load("searchBar.html");
 $("#introduireDevis").load("introduireDevis.html");
 $('#consulterDevis').load("consulterDevis.html");
+
 
 $(document).ready(function () {
 
@@ -24,10 +28,10 @@ $(document).ready(function () {
 
 
   $(".home").on('click', function (e) {
+    
     token = localStorage.getItem("token");
-   
     if (token)
-      HideToHomeWhenConnect();
+      HideToHomeWhenConnect("");
     else
       HideToHomeWhenNotConnect();
   });
@@ -37,7 +41,7 @@ $(document).ready(function () {
   $("#logout").click(e => {
     e.preventDefault();
     localStorage.removeItem("token");
-    localStorage.removeItem("ouvrier");
+    window.glob="";
     token = undefined;
     Swal.fire({
       position: 'buttom-end',
@@ -46,7 +50,7 @@ $(document).ready(function () {
       title: "Déconnexion réussie",
       showConfirmButton: false,
       timer: 1500
-  })
+    })
     HideToHomeWhenNotConnect();
   });
 });
@@ -73,7 +77,14 @@ const HideToHomeWhenNotConnect = () => {
 
 
 //Vue vers le Home quand on est connecté(menu,carousel);
-const HideToHomeWhenConnect = () => {
+const HideToHomeWhenConnect = (response) => {
+
+  if (response !== "") {
+    window.glob = response.user;
+    console.log(window.glob.ouvrier);
+    
+  }
+
 
   $("#logout").show();
   $("#card").hide();
@@ -91,18 +102,18 @@ const HideToHomeWhenConnect = () => {
   $("#listerClients").hide();
   $("#searchCard").hide();
 
-  let user = localStorage.getItem('ouvrier');
-    console.log("user ==> " + user);
-    if (user === "true") {
-      $("#slide-menu").show();
-      $('#rechercher_mes_devis').hide();
-      }else {
-      $('#rechercher_mes_devis').show();
+
+  if (window.glob.ouvrier === true) {
+    $("#slide-menu").show();
+    $('#rechercher_mes_devis').hide();
+  } else {
+    $('#rechercher_mes_devis').show();
   }
 
 }
 
 const SameHide = () => {
+
   $("#logout").show();
   $("#nav_connect").hide();
   $("#login_message").html("");
@@ -127,6 +138,7 @@ const SameHide = () => {
 
 const HomeUser = () => {
   SameHide();
+
   $('#rechercher_mes_devis').show();
 
 }
@@ -138,10 +150,8 @@ const homeWorker = () => {
   SameHide();
 
   $('#rechercher_mes_devis').hide();
- 
-  let user = localStorage.getItem('ouvrier');
-
-  if (user === "true") {
+  console.log(window.glob.ouvrier);
+  if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
   }
 
@@ -149,15 +159,65 @@ const homeWorker = () => {
 
 
 const initialisation = () => {
+  
   $('#loader').hide();
   let token = localStorage.getItem("token");
+  console.log(token);
   if (token) {
-    HideToHomeWhenConnect();
+
+    const data = {
+      action: "obtenirUser"
+    };
+
+    getData('/user', data, token, HideToHomeWhenConnect, onErrorRefresh);
     return token;
   } else {
     HideToHomeWhenNotConnect();
     return;
   }
 };
+
+function onErrorRefresh(err) {
+  console.error(err);
+  Swal.fire({
+    position: 'top-end',
+    icon: 'error',
+    timerProgressBar: true,
+    title: err.responseJSON.error,
+    showConfirmButton: false,
+    timer: 1500
+  })
+}
+
+
+
+function getData(url = "", data = "", token, onGet, onError) {
+  let headers;
+  if (token)
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: token
+    };
+  else
+    headers = {
+      "Content-Type": "application/json"
+    };
+
+  $.ajax({
+    type: "get",
+    url: url,
+    headers: headers,
+    data: data,
+    dataType: "json",
+    beforeSend: function () {
+      $('#loader').show();
+    },
+    complete: function () {
+      $('#loader').hide();
+    },
+    success: onGet,
+    error: onError
+  });
+}
 
 export { HomeUser, homeWorker };
