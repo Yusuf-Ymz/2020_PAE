@@ -5,7 +5,6 @@ import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.bizz.ucc.UserUcc;
-import be.ipl.pae.main.Config;
 
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
@@ -32,7 +31,7 @@ public class ClientServlet extends HttpServlet {
   private static final String ACTIONINSERTCLIENT = "ajouterClient";
   private static final String ACTIONCLIENTPASUTILISATEUR = "listeClientsPasUtilisateur";
   private static final String ACTIONLISTERCLIENTS = "listerClients";
-  private String secret;
+
   private Genson genson;
   private Genson gensonClient;
 
@@ -50,7 +49,7 @@ public class ClientServlet extends HttpServlet {
    */
   public ClientServlet() {
 
-    this.secret = Config.getConfiguration("secret");
+
     this.genson = new Genson();
     this.gensonClient = ServletUtils.getGensonClient();
 

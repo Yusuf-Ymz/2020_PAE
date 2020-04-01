@@ -52,10 +52,10 @@ public class UserServlet extends HttpServlet {
         if (user.isOuvrier()) {
 
           if (req.getParameter("action").equals("listeUser")) {
-            displayListUsers(req, resp);
+            displayListUsers(resp);
           } else if (req.getParameter("action").equals("confirmerInscription")) {
             System.out.println("lsiter");
-            displayListUsersPreregistered(req, resp);
+            displayListUsersPreregistered(resp);
           } else if (req.getParameter("action").equals("recupererUtilisateur")) {
             afficherInfoUtilisateur(req, resp);
           }
@@ -162,11 +162,10 @@ public class UserServlet extends HttpServlet {
   /**
    * Gére la requete permettant de lister tous les utilisateurs inscrits.
    * 
-   * @param req : la requete
    * @param resp : le resp
    * @throws Exception : une exception
    */
-  private void displayListUsers(HttpServletRequest req, HttpServletResponse resp)
+  private void displayListUsers(HttpServletResponse resp)
 
       throws Exception {
 
@@ -182,12 +181,11 @@ public class UserServlet extends HttpServlet {
   /**
    * Gére la requete permettant de lister tous les utilisateurs en demande de confirmations
    * d'inscriptions.
-   * 
-   * @param req : la requete
+   *
    * @param resp : le resp
    * @throws Exception : une exception
    */
-  private void displayListUsersPreregistered(HttpServletRequest req, HttpServletResponse resp)
+  private void displayListUsersPreregistered(HttpServletResponse resp)
 
       throws IOException {
 

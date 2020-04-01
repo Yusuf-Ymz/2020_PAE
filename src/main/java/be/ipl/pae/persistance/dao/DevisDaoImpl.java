@@ -350,15 +350,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   public String getEtatActuel(int idDevis) {
     String query = "SELECT etat FROM pae.devis WHERE devis_id = ?;";
     PreparedStatement preparedStatement = dal.createStatement(query);
-    String etatActuel = "";
+    String etatActuel = null;
     try {
       preparedStatement.setInt(1, idDevis);
       ResultSet rs = preparedStatement.executeQuery();
-      rs.next();
-      etatActuel = rs.getString(1);
-      // System.out.println(etatActuel);
-    } catch (SQLException e) {
-      e.printStackTrace();
+      if (rs.next()) {
+        etatActuel = rs.getString(1);
+        return etatActuel;
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
     return etatActuel;
   }

@@ -24,7 +24,6 @@ public interface UserUcc {
   /**
    * Renvoie la liste des utilisateurs.
    * 
-   * @param userId
    * 
    * @return renvoie une liste des utilisateurs ou null si pas d'utilisateurs
    */

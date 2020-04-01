@@ -5,14 +5,12 @@ import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.ClientDao;
-import be.ipl.pae.persistance.dao.UserDao;
 
 import java.util.List;
 
 class ClientUccImpl implements ClientUcc {
 
-  @Inject
-  private UserDao userDao;
+
   @Inject
   private ClientDao clientDao;
   @Inject

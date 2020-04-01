@@ -11,7 +11,6 @@ public interface ClientUcc {
   /**
    * Renvoie la liste des clients.
    * 
-   * @param idOuvrier : id du client
    * @return une liste des clients
    */
   List<ClientDto> listerClients();
