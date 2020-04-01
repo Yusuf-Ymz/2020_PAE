@@ -1,9 +1,12 @@
 package be.ipl.pae.bizz.bizz;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
+import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
 
@@ -25,63 +28,43 @@ class DevisUccTest {
 
 
   @Test
-  void testListerTousLesDevisException() {
-    // TODO Auto-generated method stub
-    // assertThrows(BizException.class, () -> devisUcc.listerTousLesDevis(-1));
-    assertTrue(true);
+  void testListerTousLesDevisOk() {
+    assertNotNull(devisUcc.listerTousLesDevis());
   }
 
   @Test
-  void testListerTousLesDevisClient() {
+  void testListerDevisDUnClientVide() {
     // TODO Auto-generated method stub
-    assertTrue(true);
+    assertTrue(devisUcc.listerDevisDUnCLient(2).size() == 0);
   }
 
   @Test
-  void testListerTousLesDevisOuvrier() {
+  void testListerDevisDUnClientPasVide() {
     // TODO Auto-generated method stub
-    assertTrue(true);
+    assertTrue(devisUcc.listerDevisDUnCLient(1).size() == 1);
   }
 
   @Test
-  void testListerMesDevisException() {
+  void testConsulterDevisEnTantQueOuvrierException() {
     // TODO Auto-generated method stub
-    assertTrue(true);
+    assertThrows(BizException.class, () -> devisUcc.consulterDevisEnTantQueOuvrier(-1));
   }
 
   @Test
-  void testListerMesDevisOk() {
+  void testConsulterDevisEnTantQueOuvrierOk() {
     // TODO Auto-generated method stub
-    assertTrue(true);
+    assertNotNull(devisUcc.consulterDevisEnTantQueOuvrier(1));
   }
 
   @Test
-  void testListerDevisClientException() {
+  void testConsulterDevisEnTantQueUtilisateurException() {
     // TODO Auto-generated method stub
-    assertTrue(true);
+    assertThrows(BizException.class, () -> devisUcc.consulterDevisEnTantQueUtilisateur(2, 1));
   }
 
   @Test
-  void testListerDevisClientOk() {
+  void testConsulterDevisEnTantQueUtilisateurOk() {
     // TODO Auto-generated method stub
-    assertTrue(true);
-  }
-
-  @Test
-  void testConsulterDevisException() {
-    // TODO Auto-generated method stub
-    assertTrue(true);
-  }
-
-  @Test
-  void testConsulterDevisOuvrier() {
-    // TODO Auto-generated method stub
-    assertTrue(true);
-  }
-
-  @Test
-  void testConsulterDevisClient() {
-    // TODO Auto-generated method stub
-    assertTrue(true);
+    assertNotNull(devisUcc.consulterDevisEnTantQueUtilisateur(1, 1));
   }
 }

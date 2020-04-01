@@ -66,7 +66,7 @@ public class DevisServlet extends HttpServlet {
               break;
             case "consulterDevisEnTantQueClient":
               int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-              devis = devisUcc.consulterDevisEnTantQueClient(user.getClientId(), devisId);
+              devis = devisUcc.consulterDevisEnTantQueUtilisateur(user.getClientId(), devisId);
               objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
               break;
             default:

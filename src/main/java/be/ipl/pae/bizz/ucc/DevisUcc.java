@@ -38,7 +38,7 @@ public interface DevisUcc {
    * @param idDevis : l'id du devis
    * @return le devis
    */
-  DevisDto consulterDevisEnTantQueClient(int idUser, int idDevis);
+  DevisDto consulterDevisEnTantQueUtilisateur(int idUser, int idDevis);
 
 
   DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);

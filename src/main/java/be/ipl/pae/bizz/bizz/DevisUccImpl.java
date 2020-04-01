@@ -93,7 +93,7 @@ class DevisUccImpl implements DevisUcc {
 
 
   @Override
-  public DevisDto consulterDevisEnTantQueClient(int clientId, int idDevis) {
+  public DevisDto consulterDevisEnTantQueUtilisateur(int clientId, int idDevis) {
     // TODO Auto-generated method stub
     try {
 
