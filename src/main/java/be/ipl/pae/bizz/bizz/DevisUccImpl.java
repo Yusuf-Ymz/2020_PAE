@@ -4,7 +4,6 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
@@ -47,42 +46,25 @@ class DevisUccImpl implements DevisUcc {
   }
 
 
-  public List<DevisDto> listerSesDevis(int idUser) {
-    try {
-      dal.startTransaction();
+  public List<DevisDto> listerDevisDUnCLient(int idClient) {
 
-      UserDto user = this.userdao.obtenirUserAvecId(idUser);
-
-      if (!user.isConfirme()) {
-        throw new BizException("Cette action n'est pas réalisable");
-      }
-
-      return this.devisdao.obtenirSesDevis(user.getClientId());
-    } catch (Exception exception) {
-      dal.rollbackTransaction();
-      exception.printStackTrace();
-      throw exception;
-    } finally {
-      dal.commitTransaction();
-    }
-
-
-  }
-
-  @Override
-  public List<DevisDto> listerDevisClient(int idClient) {
     try {
 
       dal.startTransaction();
+
       return this.devisdao.obtenirSesDevis(idClient);
+
     } catch (Exception exception) {
+
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
     } finally {
       dal.commitTransaction();
     }
+
   }
+
 
   @Override
   public DevisDto consulterDevisEnTantQueOuvrier(int idDevis) {

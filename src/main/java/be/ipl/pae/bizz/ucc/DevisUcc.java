@@ -7,9 +7,7 @@ import java.util.List;
 public interface DevisUcc {
   /**
    * Renvoie la liste de tous les devis.
-   *
    * 
-   * @param idUser : l'utilisateur qui fait la requête
    * @return la liste de tous les devis
    */
   List<DevisDto> listerTousLesDevis();
@@ -18,25 +16,16 @@ public interface DevisUcc {
    * Renvoie la liste des devis de l'utilisateur.
    * 
    * 
-   * @param idUser : l'utilisateur qui fait la requête
+   * @param idClient : l'utilisateur qui fait la requête
    * @return la liste des devis de l'utilisateur
    */
-  List<DevisDto> listerSesDevis(int idUser);
+  List<DevisDto> listerDevisDUnCLient(int idClient);
 
 
-  /**
-   * Renvoie la liste des devis de l'utilisateur.
-   * 
-   * 
-   * @param idUser : l'utilisateur qui fait la requête
-   * @return la liste des devis de l'utilisateur
-   */
-  List<DevisDto> listerDevisClient(int idClient);
 
   /**
    * Renvoie le devis correspondant à l'id si l'user est un ouvrier ou le propriétaire du devis.
    * 
-   * @param idUser : l'id de l'utilisateur
    * @param idDevis : l'id du devis
    * @return le devis
    */

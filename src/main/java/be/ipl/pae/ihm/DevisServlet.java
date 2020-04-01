@@ -53,6 +53,7 @@ public class DevisServlet extends HttpServlet {
       String objetSerialize = null;
 
       if (userId != -1) {
+
         UserDto user = this.userUcc.obtenirUtilisateur(userId);
 
         if (user.isConfirme() && !user.isOuvrier()) {
@@ -60,7 +61,7 @@ public class DevisServlet extends HttpServlet {
           switch (action) {
             case "mesDevis":
 
-              listeDevis = devisUcc.listerSesDevis(userId);
+              listeDevis = devisUcc.listerDevisDUnCLient(user.getClientId());
               objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
               break;
             case "consulterDevisEnTantQueClient":
@@ -82,7 +83,7 @@ public class DevisServlet extends HttpServlet {
             case "devisDuClient":
               int clientId = Integer.parseInt(req.getParameter("N° client").toString());
 
-              listeDevis = devisUcc.listerDevisClient(clientId);
+              listeDevis = devisUcc.listerDevisDUnCLient(clientId);
               objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
               break;
             case "consulterDevisEnTantQueOuvrier":
