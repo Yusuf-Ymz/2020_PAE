@@ -93,7 +93,7 @@ public class AuthentificationServlet extends HttpServlet {
       status = HttpServletResponse.SC_OK;
 
     } catch (BizException exception) {
-      json = "{\"error\":\"La connexion a échoué. Pseudo et mot de passe non correspondants.\"}";
+      json = "{\"error\":\"" + exception.getMessage() + "\"}";
 
     } catch (FatalException exception) {
       json = "{\"error\":\"Problème interne\"}";

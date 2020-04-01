@@ -115,6 +115,7 @@ $(document).ready(function (e) {
     })
 
     function onPost(response) {
+        getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         notify("success","Devis Introduit");
     }
     $("#ajouterClient").click(function (e) {
@@ -149,7 +150,6 @@ $(document).ready(function (e) {
                 email: $("#emailC").val(),
                 telephone: $("#telC").val(),
             };
-            $("input").val("");
             postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
         }
 
@@ -163,6 +163,7 @@ $(document).ready(function (e) {
         $("#idClient").val(idClient);
         $("#nomInfo").val(client.nom);
         $("#prenomInfo").val(client.prenom);
+        notify("success","Client ajouté");
     }
 
     function onPostError(response) {
