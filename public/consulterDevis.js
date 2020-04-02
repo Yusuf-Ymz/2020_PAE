@@ -157,7 +157,6 @@ $('#confirmerCommande').change(function(){
     if($(this).is(":checked")) {
       const data = {
         action: "confirmerCommande",
-        etat: "accepte",
         id: devisID
       };
       postData("/devis", data, null, onPostCheckBox, onCheckBoxError); //Revoir les nuls.
@@ -175,7 +174,6 @@ $('#confirmerDateDebut').change(function(){
     if ($(this).is(":checked")){
         const data = {
         action: "confirmerDateDebut",
-        etat: "accepte",
         id: devisID
       };
       postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
@@ -192,7 +190,6 @@ $('#repousserDateDebut').change(function(){
     if ($(this).is(":checked")){
         const data = {
         action: "repousserDateDebut",
-        etat: "accepte",
         newDate: $("#inputRepousser").val(),
         id: devisID
       };

@@ -77,19 +77,20 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public void changerEtatDevis(int idDevis, String newEtat) {
-    DevisDto devis = dtoFactory.getDevisDto();
-
-    devis.setDevisId(idDevis);
-    devis.setEtat("Date Début Confirmée");
-
-  }
+  public void changerEtatDevis(int idDevis, String newEtat) {}
 
   @Override
   public String getEtatActuel(int idDevis) {
-
     if (idDevis == 1) {
-      return "Date Début Confirmée";
+      return "Date début confirmée";
+    }
+
+    if (idDevis == 2) {
+      return "Commande confirmée";
+    }
+
+    if (idDevis == 3) {
+      return "Introduit";
     }
 
     return null;

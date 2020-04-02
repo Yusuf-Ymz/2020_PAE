@@ -1,5 +1,6 @@
 package be.ipl.pae.bizz.bizz;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -99,5 +100,31 @@ class DevisUccTest {
   @Test
   void testConsulterDevisEnTantQueUtilisateurOk() {
     assertNotNull(devisUcc.consulterDevisEnTantQueUtilisateur(1, 1));
+  }
+
+
+  @Test
+  void testChangerEtatDevisException() {
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(-1, null));
+  }
+
+  @Test
+  void testChangerEtatDevisIntroduitKo() {
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(1, "Commande confirmée"));
+  }
+
+  @Test
+  void testChangerEtatDevisIntroduitOk() {
+    assertDoesNotThrow(() -> devisUcc.changerEtatDevis(3, "Commande confirmée"));
+  }
+
+  @Test
+  void testChangerEtatDevisCommandeConfirmeeKo() {
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Commande confirmée"));
+  }
+
+  @Test
+  void testChangerEtatDevisCommandeConfirmeeOk() {
+    assertDoesNotThrow(() -> devisUcc.changerEtatDevis(3, "Date début confirmée"));
   }
 }

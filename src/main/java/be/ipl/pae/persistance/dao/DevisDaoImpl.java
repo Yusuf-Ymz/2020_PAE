@@ -354,14 +354,17 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     try {
       preparedStatement.setInt(1, idDevis);
       ResultSet rs = preparedStatement.executeQuery();
+
       if (rs.next()) {
         etatActuel = rs.getString(1);
         return etatActuel;
       }
+
+      return null;
     } catch (SQLException exception) {
       exception.printStackTrace();
+      throw new FatalException();
     }
-    return etatActuel;
   }
 
 }

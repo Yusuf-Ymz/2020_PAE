@@ -54,9 +54,9 @@ public interface DevisUcc {
   /**
    * Cette méthode permet de changer l'état du devis à l'état newEtat
    * 
-   * @param idDevis l'id du devis à changer.
-   * @param newEtat le nouvel état.
+   * @param idDevis : l'id du devis à changer.
+   * @param newEtat : le nouvel état.
    */
-  boolean changerEtatDevis(int idDevis, String newEtat);
+  void changerEtatDevis(int idDevis, String newEtat);
 
 }

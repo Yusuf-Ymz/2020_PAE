@@ -133,47 +133,21 @@ public class DevisServlet extends HttpServlet {
     Map<String, Object> body = ServletUtils.decoderBodyJson(req);
 
     String action = body.get("action").toString();
-    int status;
-    String json;
+
     switch (action) {
       case "insererDevis":
         insererDevis(body, resp);
         break;
 
       case "confirmerCommande":
-        if (body.get("etat").toString().equalsIgnoreCase("accepte")
-            && confirmerCommande(Integer.parseInt(body.get("id").toString()))) {
-          json = "{\"etat\":\"Commande Confirmée\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-        } else {
-          json = "{\"error\":\"Erreur\"}";
-          status = HttpServletResponse.SC_NOT_ACCEPTABLE;
-          ServletUtils.sendResponse(resp, json, status);
-        }
+        changerEtat(body, resp, action);
         break;
 
       case "confirmerDateDebut":
-        System.out.println(body.get("etat").toString());
-        if (body.get("etat").toString().equalsIgnoreCase("accepte")
-            && confirmerDateDebut(Integer.parseInt(body.get("id").toString()))) {
-          json = "{\"etat\":\"Date Début Confirmée\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-        } else {
-          json = "{\"error\":\"Erreur\"}";
-          status = HttpServletResponse.SC_NOT_ACCEPTABLE;
-          ServletUtils.sendResponse(resp, json, status);
-        }
+        changerEtat(body, resp, action);
         break;
 
       case "repousserDateDebut":
-        if (body.get("etat").toString().equalsIgnoreCase("accepte")) {
-          System.out.println("confirmerDateDebut accepté");
-        }
-        json = "{\"etat\":\"A changer.\"}";
-        status = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, status);
         break;
 
       default:
@@ -226,7 +200,7 @@ public class DevisServlet extends HttpServlet {
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (FatalException exception) {
       err = "{\"error\":\" Erreur serveur \"}";
-      int statusCode = HttpServletResponse.SC_CONFLICT;
+      int statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (Exception exception) {
       exception.printStackTrace();
@@ -235,11 +209,45 @@ public class DevisServlet extends HttpServlet {
     }
   }
 
-  private boolean confirmerCommande(int devis) {
-    return devisUcc.changerEtatDevis(devis, "Commande Confirmée");
-  }
+  private void changerEtat(Map<String, Object> body, HttpServletResponse resp, String nouvelEtat) {
 
-  private boolean confirmerDateDebut(int idDevis) {
-    return devisUcc.changerEtatDevis(idDevis, "Date Confirmée");
+    int devisId = Integer.parseInt(body.get("id").toString());
+    String json;
+    int status;
+    try {
+      switch (nouvelEtat) {
+        case "confirmerCommande":
+          devisUcc.changerEtatDevis(devisId, "Commande confirmée");
+          json = "{\"etat\":\"Commande confirmée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+
+        case "confirmerDateDebut":
+          devisUcc.changerEtatDevis(devisId, "Date début confirmée");
+          json = "{\"etat\":\"Date début confirmée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+
+        case "repousserDateDebut":
+          json = "{\"etat\":\"A changer.\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+        default:
+          break;
+      }
+    } catch (BizException exception) {
+      exception.printStackTrace();
+      json = "{\"error\":\"État invalide\"}";
+      status = HttpServletResponse.SC_NOT_ACCEPTABLE;
+      ServletUtils.sendResponse(resp, json, status);
+    } catch (FatalException exception) {
+      exception.printStackTrace();
+      json = "{\"error\":\"interne\"}";
+      status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+      ServletUtils.sendResponse(resp, json, status);
+    }
   }
 }

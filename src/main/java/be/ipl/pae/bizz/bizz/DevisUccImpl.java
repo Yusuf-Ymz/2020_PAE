@@ -22,7 +22,6 @@ class DevisUccImpl implements DevisUcc {
   private DalServices dal;
   @Inject
   private DevisDao devisdao;
-
   @Inject
   private ClientDao clientDao;
   @Inject
@@ -142,31 +141,35 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public boolean changerEtatDevis(int idDevis, String newEtat) {
+  public void changerEtatDevis(int idDevis, String newEtat) {
     try {
       dal.startTransaction();
       String etatActuel = devisdao.getEtatActuel(idDevis);
-      System.out.println(etatActuel);
+
+      if (etatActuel == null) {
+        throw new BizException("Le devis n'existe pas");
+      }
+
       switch (etatActuel) {
         case "Introduit":
-          if (newEtat.equalsIgnoreCase("Commande Confirmée")
-              || newEtat.equalsIgnoreCase("Date Confirmée")) {
+          if (newEtat.equalsIgnoreCase("Commande confirmée")
+              || newEtat.equalsIgnoreCase("Date début confirmée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            return true;
+            return;
           }
           break;
         case "Commande confirmée":
-          System.out.println("commande confirmee");
-          if (newEtat.equalsIgnoreCase("Date Confirmée")) {
+          if (newEtat.equalsIgnoreCase("Date début confirmée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            return true;
+            return;
           }
           break;
         default:
           System.out.println("Changement impossible.");
-          return false;
+          break;
       }
-      return false;
+
+      throw new BizException("Changement impossible.");
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
