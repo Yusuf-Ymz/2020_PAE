@@ -1,8 +1,11 @@
 package be.ipl.pae.bizz.bizz;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
@@ -46,7 +49,14 @@ class UserUccTest {
    * @Test public void testSeConnecterOk() { assertNotNull(ucc.seConnecter("pseudo", "azerty")); }
    */
 
-  // Pour créer ce test je dois avoir un dtoFactoryMock je pense pour récupérer un user
+  // Pour créer
+  // ce test
+  // je dois
+  // avoir un
+  // dtoFactoryMock je
+  // pense pour
+  // récupérer un user
+
   // @Test
   // public void testInscriptionOk() {
   // UserDto user = dtoFactory.getUserDto();
@@ -61,7 +71,7 @@ class UserUccTest {
   // UserDto user = dtoFactory.getUserDto();
   // user.setEmail("email");
   // user.setPseudo(" ");
-  // assertThrows(BizException.class,() -> ucc.inscrire(user));
+  // assertThrows(BizException.class, () -> ucc.inscrire(user));
   // }
   //
   // @Test
@@ -69,7 +79,7 @@ class UserUccTest {
   // UserDto user = dtoFactory.getUserDto();
   // user.setEmail(" ");
   // user.setPseudo("pseudo");
-  // assertThrows(BizException.class,() -> ucc.inscrire(user));
+  // assertThrows(BizException.class, () -> ucc.inscrire(user));
   // }
 
 
@@ -86,18 +96,36 @@ class UserUccTest {
     assertNotNull(ucc.listerUsersPreinscrit());
   }
 
-  /*
-   * @Test public void testConfirmUserOk() { int idClient = 2; int idUser = 3; int idOuvrier = 1;
-   * UserDto user = ucc.confirmUser(idUser, idClient); assertNotNull(user);
-   * assertTrue(user.isConfirme()); assertEquals(user.getClientId(), 2); }
-   * 
-   * @Test public void testConfirmWorkerOk() { int idOuvrier = 1; int idUser = 2; UserDto user =
-   * ucc.confirmWorker(idUser); assertNotNull(user); assertTrue(user.isConfirme());
-   * assertTrue(user.isOuvrier()); }
-   * 
-   * @Test public void testTrouverInfoUtilisateurOk() {
-   * 
-   * int idUser = 2; assertNotNull(ucc.trouverInfoUtilisateur(idUser)); }
-   */
+
+  @Test
+  public void testConfirmUserOk() {
+    int idClient = 2;
+    int idUser = 3;
+
+    UserDto user = ucc.confirmUser(idUser, idClient);
+    assertNotNull(user);
+    System.out.println(user);
+    assertTrue(user.isConfirme());
+
+    assertEquals(user.getClientId(), 2);
+  }
+
+  @Test
+  public void testConfirmWorkerOk() {
+
+    int idUser = 2;
+    UserDto user = ucc.confirmWorker(idUser);
+    assertNotNull(user);
+    assertTrue(user.isConfirme());
+    assertTrue(user.isOuvrier());
+  }
+
+  @Test
+  public void testTrouverInfoUtilisateurOk() {
+
+    int idUser = 2;
+    assertNotNull(ucc.trouverInfoUtilisateur(idUser));
+  }
+
 
 }

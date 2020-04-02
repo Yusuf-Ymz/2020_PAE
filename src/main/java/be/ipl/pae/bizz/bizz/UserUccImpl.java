@@ -123,10 +123,14 @@ class UserUccImpl implements UserUcc {
       UserDto utilisateur = this.userDao.obtenirUserAvecId(idUser);
       ClientDto client = this.clientDao.rechercherClientAvecId(idClient);
 
+      System.out.println(utilisateur != null);
+      System.out.println(!utilisateur.isConfirme());
+      System.out.println(client != null);
+      System.out.println(utilisateur.getClientId() == 0);
       if (utilisateur != null && !utilisateur.isConfirme() && client != null
           && utilisateur.getClientId() == 0) {
-        userDao.addUtilisateurClient(idUser, idClient);
-        System.out.println(utilisateur);
+        utilisateur = userDao.addUtilisateurClient(idUser, idClient);
+
         return utilisateur;
       }
       throw new BizException();
@@ -148,7 +152,7 @@ class UserUccImpl implements UserUcc {
       UserDto userConfirm = this.userDao.obtenirUserAvecId(idConfirmed);
 
       if (userConfirm != null && !userConfirm.isConfirme()) {
-        userDao.addConfirmWorkerWithId(idConfirmed);
+        userConfirm = userDao.addConfirmWorkerWithId(idConfirmed);
         return userConfirm;
 
       }

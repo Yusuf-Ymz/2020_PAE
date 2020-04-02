@@ -62,6 +62,10 @@ public class MockUserDao implements UserDao {
 
     if (id == 1) {
       user.setOuvrier(true);
+      user.setConfirme(true);
+    } else if (id == 3) {
+      user.setConfirme(false);
+      return user;
     } else {
       user.setOuvrier(false);
     }
@@ -76,6 +80,8 @@ public class MockUserDao implements UserDao {
     user.setUserId(idUser);
     user.setConfirme(true);
     user.setClientId(idClient);
+
+    System.out.println(user);
     return user;
   }
 

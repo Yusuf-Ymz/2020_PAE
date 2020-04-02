@@ -138,6 +138,7 @@ public class MockClientDao implements ClientDao {
   @Override
   public ClientDto rechercherClientAvecId(int idClient) {
     ClientDto client = this.dtoFactory.getClientDto();
+    client.setIdClient(idClient);
     return client;
   }
 
