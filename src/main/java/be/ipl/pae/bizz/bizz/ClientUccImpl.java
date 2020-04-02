@@ -20,8 +20,6 @@ class ClientUccImpl implements ClientUcc {
   public ClientDto insertClient(ClientDto client) {
     try {
       dal.startTransaction();
-
-
       return clientDao.insererClient(client);
     } catch (Exception exception) {
       exception.printStackTrace();
@@ -37,8 +35,8 @@ class ClientUccImpl implements ClientUcc {
   public List<ClientDto> listerClients() {
 
     try {
-      dal.startTransaction();
 
+      dal.startTransaction();
       return this.clientDao.listerClients();
     } catch (Exception exception) {
       exception.printStackTrace();

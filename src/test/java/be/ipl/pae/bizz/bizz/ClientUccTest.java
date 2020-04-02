@@ -56,7 +56,7 @@ class ClientUccTest {
 
   }
 
-
+  @Test
   void testListerNomsClientsOk() {
     List<String> liste = clientUcc.listerNomsClients("so");
     assertNotNull(liste);
@@ -87,7 +87,7 @@ class ClientUccTest {
     assertEquals(2, this.clientUcc.listerCp("10").size());
   }
 
-
+  @Test
   void testListerClientsAvecCriteresOk() {
     assertNotNull(this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1"));
     assertEquals(1,
