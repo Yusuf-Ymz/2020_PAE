@@ -53,15 +53,30 @@ class ServletUtils {
 
   private static String secret = Config.getConfiguration("secret");
 
+
+  /**
+   * Renvoie un genson pour l'utilisateur.
+   * 
+   * @return un genson
+   */
   public static Genson getGensonUser() {
     return gensonUser;
   }
 
+  /**
+   * Renvoie un genson pour devis
+   * 
+   * @return un genson
+   */
   public static Genson getGensonDevis() {
     return gensonDevis;
   }
 
-
+  /**
+   * Renvoie un genson pour le client.
+   * 
+   * @return un genson
+   */
   public static Genson getGensonClient() {
     return gensonClient;
   }
@@ -70,6 +85,12 @@ class ServletUtils {
     return gensonUtilisateurSansMdp.serialize(user);
   }
 
+  /**
+   * Vérifie si l'utilisateur est connecté(token) ou pas.
+   * 
+   * @param token : le token à verifier
+   * @return l'id de utilisateur ou -1 si pas de token valide
+   */
   public static int estConnecte(String token) {
     if (token != null) {
       Algorithm algorithm = Algorithm.HMAC512(secret);
@@ -81,6 +102,13 @@ class ServletUtils {
     return -1;
   }
 
+  /**
+   * Renvoie la reponse au front-end.
+   * 
+   * @param resp : la reponse de la requete
+   * @param json : le body de la reponse
+   * @param statusCode : le status code
+   */
   public static void sendResponse(HttpServletResponse resp, String json, int statusCode) {
     try {
       resp.setStatus(statusCode);
@@ -94,6 +122,12 @@ class ServletUtils {
 
   }
 
+  /**
+   * Traite les données envoyés au server et les mets dans une map.
+   * 
+   * @param req : la requete
+   * @return une map avec les données de la requete
+   */
   public static Map<String, Object> decoderBodyJson(HttpServletRequest req) {
     StringBuffer jb = new StringBuffer();
     String line = null;
@@ -111,6 +145,11 @@ class ServletUtils {
     return body;
   }
 
+  /**
+   * Renvoie un genson.
+   * 
+   * @return le genson d'amenagement
+   */
   public static Genson getGensonAmenagement() {
     return gensonAmenagement;
   }
