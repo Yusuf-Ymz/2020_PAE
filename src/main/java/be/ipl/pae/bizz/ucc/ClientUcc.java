@@ -24,7 +24,7 @@ public interface ClientUcc {
   /**
    * Renvoie les noms des clients sous forme de liste.
    * 
-   * @param nom
+   * @param nom : le nom du client
    * @return la liste des noms
    */
   List<String> listerNomsClients(String nom);
@@ -32,7 +32,7 @@ public interface ClientUcc {
   /**
    * Renvoie les prenoms des clients sous forme de liste.
    * 
-   * @param prenom
+   * @param prenom : le prenom du client
    * @return la liste des prenoms
    */
   List<String> listerPrenomsClients(String prenom);
@@ -40,7 +40,7 @@ public interface ClientUcc {
   /**
    * Renvoie les villes des clients sous forme de liste.
    * 
-   * @param ville
+   * @param ville : la ville
    * @return la liste des villes
    */
   List<String> listerVilles(String ville);
@@ -48,7 +48,7 @@ public interface ClientUcc {
   /**
    * Renvoie les code postaux des clients sous forme de liste.
    * 
-   * @param cp
+   * @param cp : le code postal
    * @return la liste des code postaux.
    */
   List<String> listerCp(String cp);

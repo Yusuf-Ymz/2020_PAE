@@ -43,10 +43,10 @@ public interface DevisUcc {
   /**
    * Insére un devis dans la db.
    * 
-   * @param devis
-   * @param idClient
-   * @param amenagements
-   * @param photos
+   * @param devis : le devis à inserer
+   * @param idClient : l'id du client auquel on veut lier le devis au client
+   * @param amenagements : tableau d'amenagements represantant les travaux du devis
+   * @param photos : tableau des photos avant aménagements
    * @return le devis inserer
    */
   DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);

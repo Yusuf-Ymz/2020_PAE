@@ -12,7 +12,7 @@ public interface AmenagementDto {
   /**
    * Modifie l'id de l'amenagement.
    * 
-   * @param id
+   * @param id : nouvel id de l'amenagement
    */
   void setId(int id);
 
@@ -26,7 +26,7 @@ public interface AmenagementDto {
   /**
    * Modifie le libelle de l'amenagement.
    * 
-   * @param libelle
+   * @param libelle : le nouveau libelle
    */
   void setLibelle(String libelle);
 
