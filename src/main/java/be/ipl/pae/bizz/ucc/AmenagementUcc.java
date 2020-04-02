@@ -7,7 +7,7 @@ import java.util.List;
 public interface AmenagementUcc {
 
   /**
-   * Liste tous les aménagements
+   * Liste tous les aménagements.
    * 
    * @return la liste des aménagements
    */
