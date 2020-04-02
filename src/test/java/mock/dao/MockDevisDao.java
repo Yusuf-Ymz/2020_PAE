@@ -2,6 +2,7 @@ package mock.dao;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.DevisDao;
 
@@ -61,13 +62,20 @@ public class MockDevisDao implements DevisDao {
 
   @Override
   public DevisDto insererDevis(DevisDto devis, String[] photos) {
-    // TODO Auto-generated method stub
-    return null;
+    DevisDto d = dtoFactory.getDevisDto();
+    List<PhotoDto> ph = new ArrayList<PhotoDto>();
+
+    for (String photo : photos) {
+      PhotoDto p = dtoFactory.getPhotoDto();
+      p.setPhoto(photo);
+      ph.add(p);
+    }
+    d.setPhotosAvant(ph);
+    return d;
   }
 
   @Override
   public void changerEtatDevis(int idDevis, String newEtat) {
-    // TODO Auto-generated method stub
 
   }
 

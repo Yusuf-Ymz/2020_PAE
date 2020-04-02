@@ -31,6 +31,13 @@ public class MockAmenagementDao implements AmenagementDao {
 
   @Override
   public AmenagementDto getAmenagementById(int id) {
+    amenagements = new ArrayList<AmenagementDto>();
+    for (int i = 0; i < 3; i++) {
+      AmenagementDto am = dtoFactory.getAmenagementDto();
+      am.setId(i);
+      am.setLibelle("test");
+      amenagements.add(am);
+    }
     return amenagements.stream().filter(a -> a.getId() == id).findAny().orElse(null);
   }
 

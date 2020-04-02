@@ -38,25 +38,31 @@ class DevisUccTest {
         () -> devisUcc.insererDevis(devis, idClient, amenagements, photos));
   }
 
+  @Test
   void testInsererDevisSansAmenagements() {
     int idClient = 1;
-    int[] amenagements = new int[0];
+    int[] amenagements = {11};
     String[] photos = {""};
+    devis = dtoFactory.getDevisDto();
     assertThrows(BizException.class,
         () -> devisUcc.insererDevis(devis, idClient, amenagements, photos));
   }
 
+  @Test
   void testInsererDevisSansPhotos() {
     int idClient = 1;
     int[] amenagements = {1};
     String[] photos = {};
+    devis = dtoFactory.getDevisDto();
     assertNotNull(devisUcc.insererDevis(devis, idClient, amenagements, photos));
   }
 
+  @Test
   void testInsererDevisOk() {
     int idClient = 1;
     int[] amenagements = {1};
     String[] photos = {"test"};
+    devis = dtoFactory.getDevisDto();
     assertNotNull(devisUcc.insererDevis(devis, idClient, amenagements, photos));
   }
 
