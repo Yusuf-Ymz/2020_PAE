@@ -40,7 +40,15 @@ public interface DevisUcc {
    */
   DevisDto consulterDevisEnTantQueUtilisateur(int idUser, int idDevis);
 
-
+  /**
+   * Insére un devis dans la db.
+   * 
+   * @param devis
+   * @param idClient
+   * @param amenagements
+   * @param photos
+   * @return le devis inserer
+   */
   DevisDto insererDevis(DevisDto devis, int idClient, int[] amenagements, String[] photos);
 
   /**

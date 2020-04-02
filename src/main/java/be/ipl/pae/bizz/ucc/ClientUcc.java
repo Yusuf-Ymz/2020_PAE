@@ -21,12 +21,36 @@ public interface ClientUcc {
    */
   List<ClientDto> listerClients();
 
+  /**
+   * Renvoie les noms des clients sous forme de liste.
+   * 
+   * @param nom
+   * @return la liste des noms
+   */
   List<String> listerNomsClients(String nom);
 
+  /**
+   * Renvoie les prenoms des clients sous forme de liste.
+   * 
+   * @param prenom
+   * @return la liste des prenoms
+   */
   List<String> listerPrenomsClients(String prenom);
 
+  /**
+   * Renvoie les villes des clients sous forme de liste.
+   * 
+   * @param ville
+   * @return la liste des villes
+   */
   List<String> listerVilles(String ville);
 
+  /**
+   * Renvoie les code postaux des clients sous forme de liste.
+   * 
+   * @param cp
+   * @return la liste des code postaux.
+   */
   List<String> listerCp(String cp);
 
   /**
