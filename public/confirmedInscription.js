@@ -28,6 +28,7 @@ function afficherVueConfirmerUtilisateur() {
 }
 
 $("#confirmed_inscriptions").on("click", function () {
+  $("#titre-page").text("Confirmer inscription");
   afficherVueConfirmerUtilisateur();
 });
 
@@ -86,6 +87,7 @@ function onPostSuccess(response) {
 
 function onPostError(response) {
   console.log(response.error);
+  $('#loader').hide();
   notify("error", "Le client n'a pas pu être ajouté");
 }
 
@@ -102,6 +104,7 @@ function onGet(response) {
 
 function onError(err) {
   console.log(err);
+  $('#loader').hide();
   $("#table_users_preinscrit").html("<i class='far fa-frown'></i>  " + err.text);
 }
 
@@ -126,6 +129,7 @@ const lierUtilisateurClient = (url, data) => {
   homeWorker();
   data["action"] = 'recupererUtilisateur';
   console.log(data);
+  $("#titre-page").text("Lier les utilisateurs aux clients");
   getData(url, data, token, onGetUtilisateur, onErrorGetUtilisateur);
 }
 
@@ -148,7 +152,7 @@ function onGetUtilisateur(response) {
 }
 
 function onErrorGetUtilisateur(err) {
-
+  $('#loader').hide();
 }
 
 function onGetLier(response) {
@@ -165,6 +169,7 @@ function onGetLier(response) {
 
 function onErrorLier(err) {
   console.log(err);
+  $('#loader').hide();
   $("#table_clients_noUsers").html("<i class='far fa-frown'></i>  " + err.text);
 }
 

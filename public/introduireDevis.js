@@ -66,6 +66,7 @@ function displayAmenagements(response) {
 
 function onError(err) {
     console.log(err);
+    $('#loader').hide();
     console.log(err.responseText);
     notify("error",err.responseText);
 }
@@ -78,6 +79,7 @@ $(document).ready(function (e) {
         $("#searchContent").hide();
         $("#searchCard").show();
         $("#card").show();
+        $("#titre-page").text("Introduire devis");
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
     });

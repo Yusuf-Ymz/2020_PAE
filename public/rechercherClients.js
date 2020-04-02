@@ -8,12 +8,12 @@ $(document).ready(function () {
 
     $('#rechercher_tous_les_clients').on('click',function (e) {
 
-       homeWorker();
-    
+        homeWorker();
         let token = localStorage.getItem("token");
         const data = {
             action: "listerClients"
         }
+      
         getData("/client", data, token, onGetClientList, onClientListError);
     });
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 
     function onGetClientList(response) {
-        
+        $("#titre-page").text("Liste des clients");
         $("#listerClients").show();
         $("#searchCard").show();
         $("#searchContent").show();
@@ -39,16 +39,15 @@ $(document).ready(function () {
     function doGetClientDevis(url,data){
         
         homeWorker();
-      
         let token = localStorage.getItem("token");
         data["action"] ="devisDuClient";
-        
         $("#listeDeMesDevis").show();
         getData(url, data, token, onGetMesDevisListOuvrier, onClientListError);
     }
      
     function onClientListError(err) {
         console.error(err);
+        $('#loader').hide();
         Swal.fire({
             position: 'top-end',
             icon: 'error',

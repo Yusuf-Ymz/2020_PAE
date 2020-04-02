@@ -57,7 +57,7 @@ $(document).ready(function () {
 
 //UTILISER CES FONCTIONS PLS....
 
-// vue vers le menu quand on est un QUIDAM!!!
+
 const HideToHomeWhenNotConnect = () => {
 
   $("#nav_connect").show();
@@ -75,8 +75,6 @@ const HideToHomeWhenNotConnect = () => {
 }
 
 
-
-//Vue vers le Home quand on est connecté(menu,carousel);
 const HideToHomeWhenConnect = (response) => {
 
   if (response !== "") {
@@ -134,7 +132,6 @@ const SameHide = () => {
   $('#listeDeMesDevis').hide();
 }
 
-//premier page que l'utilisateur voit quand il se connecte!!!
 
 const HomeUser = () => {
   SameHide();
@@ -143,8 +140,6 @@ const HomeUser = () => {
 
 }
 
-
-//Premier vu que l'ouvrier voit quand il se connecte !!!
 const homeWorker = () => {
 
   SameHide();
@@ -168,8 +163,8 @@ const initialisation = () => {
     const data = {
       action: "obtenirUser"
     };
-
     getData('/user', data, token, HideToHomeWhenConnect, onErrorRefresh);
+
     return token;
   } else {
     HideToHomeWhenNotConnect();
@@ -179,6 +174,7 @@ const initialisation = () => {
 
 function onErrorRefresh(err) {
   console.error(err);
+  $('#loader').hide();
   Swal.fire({
     position: 'top-end',
     icon: 'error',

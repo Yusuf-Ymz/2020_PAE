@@ -39,7 +39,9 @@ function onPostLogin(response) {
 
 function onErrorLogin(err) {
   console.error(err.responseJSON.error);
+  $('#loader').hide();
   LoginForm(err.responseJSON.error);
+  
 }
 
 
@@ -58,6 +60,7 @@ function onPostInscription(response) {
 function onErrorInscription(err) {
   console.error("Error :" + err.responseJSON.error);
   RegisterForm(err.responseJSON.error);
+  $('#loader').hide();
 }
 
 

@@ -37,6 +37,7 @@ function consulterDevisEntantQueClient(url, data) {
 function onGetConsulterDevisClient(response) {
     $('#nomVersionClient').html(response.devis["Nom du client"]);
     $('#prenomVersionClient').html(response.devis["Prénom du client"]);
+    $("#titre-page").text("Détails du devis");
     console.log(response);
     let types = response.devis["Types d'aménagements"];
     let amenagements = "";
@@ -86,6 +87,7 @@ function onGetConsulterDevisClient(response) {
 
 function onGetConsulterDevisOuvrier(response) {
     console.log(response);
+    $("#titre-page").text("Détails du devis");
     $('#nomVersionOuvrier').html(response.devis["Nom du client"]);
     $('#prenomVersionOuvrier').html(response.devis["Prénom du client"]);
     devisID = response.devis["devisId"];
@@ -135,6 +137,7 @@ function onGetConsulterDevisOuvrier(response) {
 
 function onGetConsulterError(err) {
     console.error(err.responseJSON.error);
+    $('#loader').hide();
 }
 
 function onPostCheckBox(response){
@@ -146,6 +149,7 @@ function onPostCheckBox(response){
 
 function onCheckBoxError(response) {
     notify("error","Les modifications n'ont pas pu être effectué");
+    $('#loader').hide();
 }
 
 //Eventuelles erreurs à corriger et ajouter taprès ceci!
