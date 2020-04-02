@@ -5,6 +5,7 @@ import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.AmenagementDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockAmenagementDao implements AmenagementDao {
@@ -12,16 +13,25 @@ public class MockAmenagementDao implements AmenagementDao {
   @Inject
   private DtoFactory dtoFactory;
 
+  private List<AmenagementDto> amenagements;
+
+
+
   @Override
   public List<AmenagementDto> listerLesAmenagements() {
-    // TODO Auto-generated method stub
-    return null;
+    amenagements = new ArrayList<AmenagementDto>();
+    for (int i = 0; i < 3; i++) {
+      AmenagementDto am = dtoFactory.getAmenagementDto();
+      am.setId(i);
+      am.setLibelle("test");
+      amenagements.add(am);
+    }
+    return amenagements;
   }
 
   @Override
   public AmenagementDto getAmenagementById(int id) {
-    // TODO Auto-generated method stub
-    return null;
+    return amenagements.stream().filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
 }

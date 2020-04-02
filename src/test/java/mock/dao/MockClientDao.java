@@ -110,14 +110,18 @@ public class MockClientDao implements ClientDao {
   @Override
   public ClientDto getClientById(int id) {
 
-    ClientDto client = this.dtoFactory.getClientDto();
+    List<ClientDto> listeClients = new ArrayList<ClientDto>();
+    for (int i = 0; i < 5; i++) {
+      ClientDto client = this.dtoFactory.getClientDto();
 
-    client.setNom("nom1");
-    client.setPrenom("prenom1");
-    client.setIdClient(id);
+      client.setNom("nom" + i);
+      client.setPrenom("prenom" + i);
+      client.setIdClient(i);
 
+      listeClients.add(client);
 
-    return client;
+    }
+    return listeClients.stream().filter(c -> c.getIdClient() == id).findAny().orElse(null);
 
   }
 

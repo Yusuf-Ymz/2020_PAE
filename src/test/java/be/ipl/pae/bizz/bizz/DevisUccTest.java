@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 class DevisUccTest {
   private DevisUcc devisUcc;
   private DevisDto devis;
+  private DtoFactory dtoFactory;
 
   @BeforeEach
   void setUp() throws Exception {
@@ -24,8 +26,39 @@ class DevisUccTest {
     this.devisUcc = new DevisUccImpl();
     injecSvc.injectDependencies(devisUcc);
     this.devis = null;
+    this.dtoFactory = new DtoFactoryImpl();
   }
 
+  @Test
+  void testInsererDevisAvecClientInExistant() {
+    int idClient = 5;
+    int[] amenagements = {0};
+    String[] photos = {""};
+    assertThrows(BizException.class,
+        () -> devisUcc.insererDevis(devis, idClient, amenagements, photos));
+  }
+
+  void testInsererDevisSansAmenagements() {
+    int idClient = 1;
+    int[] amenagements = new int[0];
+    String[] photos = {""};
+    assertThrows(BizException.class,
+        () -> devisUcc.insererDevis(devis, idClient, amenagements, photos));
+  }
+
+  void testInsererDevisSansPhotos() {
+    int idClient = 1;
+    int[] amenagements = {1};
+    String[] photos = {};
+    assertNotNull(devisUcc.insererDevis(devis, idClient, amenagements, photos));
+  }
+
+  void testInsererDevisOk() {
+    int idClient = 1;
+    int[] amenagements = {1};
+    String[] photos = {"test"};
+    assertNotNull(devisUcc.insererDevis(devis, idClient, amenagements, photos));
+  }
 
   @Test
   void testListerTousLesDevisOk() {
@@ -34,37 +67,31 @@ class DevisUccTest {
 
   @Test
   void testListerDevisDUnClientVide() {
-    // TODO Auto-generated method stub
     assertTrue(devisUcc.listerDevisDUnCLient(2).size() == 0);
   }
 
   @Test
   void testListerDevisDUnClientPasVide() {
-    // TODO Auto-generated method stub
     assertTrue(devisUcc.listerDevisDUnCLient(1).size() == 1);
   }
 
   @Test
   void testConsulterDevisEnTantQueOuvrierException() {
-    // TODO Auto-generated method stub
     assertThrows(BizException.class, () -> devisUcc.consulterDevisEnTantQueOuvrier(-1));
   }
 
   @Test
   void testConsulterDevisEnTantQueOuvrierOk() {
-    // TODO Auto-generated method stub
     assertNotNull(devisUcc.consulterDevisEnTantQueOuvrier(1));
   }
 
   @Test
   void testConsulterDevisEnTantQueUtilisateurException() {
-    // TODO Auto-generated method stub
     assertThrows(BizException.class, () -> devisUcc.consulterDevisEnTantQueUtilisateur(2, 1));
   }
 
   @Test
   void testConsulterDevisEnTantQueUtilisateurOk() {
-    // TODO Auto-generated method stub
     assertNotNull(devisUcc.consulterDevisEnTantQueUtilisateur(1, 1));
   }
 }
