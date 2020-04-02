@@ -38,7 +38,7 @@ public interface UserUcc {
   List<UserDto> listerUsersPreinscrit();
 
   /**
-   * Lie un utilisateur a un client et confirme l'utilisateur
+   * Lie un utilisateur a un client et confirme l'utilisateur.
    * 
    * 
    * @param idUser : id de l'utilisateur à lier
@@ -48,7 +48,7 @@ public interface UserUcc {
   UserDto confirmUser(int idUser, int idClient);
 
   /**
-   * Permet à l'utilisateur non confirmé en paramètre de devenir un ouvrier confirmé
+   * Permet à l'utilisateur non confirmé en paramètre de devenir un ouvrier confirmé.
    * 
    * 
    * @param userId : id de l'utilisateur non confirmé
@@ -57,7 +57,7 @@ public interface UserUcc {
   UserDto confirmWorker(int userId);
 
   /**
-   * Vas chercher l'utilisateur avec le même id que le paramètre
+   * Vas chercher l'utilisateur avec le même id que le paramètre.
    * 
    * 
    * @param userId : id de l'utilisateur
