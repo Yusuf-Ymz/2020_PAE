@@ -33,7 +33,7 @@ $(document).ready(function () {
 
 function onGetTousLesDevisList(response) {
     $("#listeDeTousLesDevis").show();
-
+    $("#titre-page").text("Liste de tous les devis");
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
     printTable("listeDeTousLesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
@@ -42,7 +42,7 @@ function onGetTousLesDevisList(response) {
 function onGetMesDevisList(response) {
 
     $("#listeDeMesDevis").show();
-
+    $("#titre-page").text("Mes devis");
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
     printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueClient], "/devis");
@@ -52,7 +52,7 @@ function onGetMesDevisList(response) {
 function onGetMesDevisListOuvrier(response) {
 
     $("#listeDeMesDevis").show();
-
+    $("#titre-page").text("Liste devis d'un client");
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     let nombtnTab = ["visualiser devis"];
     printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
@@ -61,6 +61,7 @@ function onGetMesDevisListOuvrier(response) {
 
 function onDevisListError(err) {
     console.error(err);
+    $('#loader').hide();
     Swal.fire({
         position: 'top-end',
         icon: 'error',
@@ -70,9 +71,5 @@ function onDevisListError(err) {
         timer: 1500
     })
 }
-
-
-
-
 
 export { onGetTousLesDevisList, onGetMesDevisList, onDevisListError,onGetMesDevisListOuvrier };

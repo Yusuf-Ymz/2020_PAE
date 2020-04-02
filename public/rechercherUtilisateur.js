@@ -11,8 +11,7 @@ $(document).ready(function () {
         const data = {
             action: 'listeUser'
           };
-
-        
+          
         getData("/user",data , token, onGetUserList, onUserListError);
     });
 
@@ -23,7 +22,7 @@ $(document).ready(function () {
         $("#filtre_utilisateur").show();
         $("#filtre_client").hide();
         $("#filtre_amenagement").hide();
-       
+        $("#titre-page").text("Liste des utilisateurs");
         printTable("listeUser", response.listeUser);
         
     }
@@ -32,6 +31,7 @@ $(document).ready(function () {
 
     function onUserListError(err) {
         console.error(err);
+        $('#loader').hide();
         Swal.fire({
             position: 'top-end',
             icon: 'error',
