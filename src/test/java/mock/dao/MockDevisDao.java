@@ -56,7 +56,9 @@ public class MockDevisDao implements DevisDao {
 
   @Override
   public void accepterDateTravaux(int numeroDevis) {
-    // TODO Auto-generated method stub
+    DevisDto devis = dtoFactory.getDevisDto();
+    devis.setEtat("accepté");
+    devis.setDevisId(numeroDevis);
 
   }
 
@@ -76,12 +78,20 @@ public class MockDevisDao implements DevisDao {
 
   @Override
   public void changerEtatDevis(int idDevis, String newEtat) {
+    DevisDto devis = dtoFactory.getDevisDto();
+
+    devis.setDevisId(idDevis);
+    devis.setEtat("Date Début Confirmée");
 
   }
 
   @Override
   public String getEtatActuel(int idDevis) {
-    // TODO Auto-generated method stub
+
+    if (idDevis == 1) {
+      return "Date Début Confirmée";
+    }
+
     return null;
   }
 
