@@ -64,7 +64,7 @@ class ServletUtils {
   }
 
   /**
-   * Renvoie un genson pour devis
+   * Renvoie un genson pour devis.
    * 
    * @return un genson
    */
