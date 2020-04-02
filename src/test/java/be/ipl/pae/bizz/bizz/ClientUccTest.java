@@ -20,7 +20,6 @@ class ClientUccTest {
   @Inject
   private DtoFactory dtoFactory;
   private ClientUcc clientUcc;
-  private ClientDto client;
 
   @BeforeEach
   void setUp() throws Exception {
@@ -29,7 +28,6 @@ class ClientUccTest {
     this.clientUcc = new ClientUccImpl();
     System.out.println(clientUcc.getClass());
     injecSvc.injectDependencies(clientUcc);
-    this.client = null;
     dtoFactory = new DtoFactoryImpl();
   }
 

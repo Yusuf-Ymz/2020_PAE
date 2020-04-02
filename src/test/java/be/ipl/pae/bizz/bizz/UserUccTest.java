@@ -56,6 +56,11 @@ class UserUccTest {
   }
 
   @Test
+  void testSeConnecterMauvaisPseudoBonMdp() {
+    assertThrows(BizException.class, () -> ucc.seConnecter("mauvaisPseudo", "azerty"));
+  }
+
+  @Test
   public void testSeConnecterUserPasConfirme() {
     assertThrows(BizException.class, () -> ucc.seConnecter("nonConfirme", "azerty"));
   }
@@ -70,7 +75,7 @@ class UserUccTest {
   }
 
   @Test
-  public void testInscritpionPseudoDouble() {
+  public void testInscriptionPseudoDouble() {
     UserDto user = dtoFactory.getUserDto();
     user.setEmail("email");
     user.setPseudo(" ");
@@ -78,7 +83,7 @@ class UserUccTest {
   }
 
   @Test
-  public void testInscritpionEmailDouble() {
+  public void testInscriptionEmailDouble() {
     UserDto user = dtoFactory.getUserDto();
     user.setEmail(" ");
     user.setPseudo("pseudo");
@@ -87,13 +92,11 @@ class UserUccTest {
 
   @Test
   public void testListerUserOk() {
-    int userId = 1;
     assertNotNull(ucc.listerUsers());
   }
 
   @Test
   public void testListerUsersPreinscritOk() {
-    int userId = 1;
     assertNotNull(ucc.listerUsersPreinscrit());
   }
 

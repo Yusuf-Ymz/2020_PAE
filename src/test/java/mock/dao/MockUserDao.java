@@ -102,8 +102,6 @@ public class MockUserDao implements UserDao {
   @Override
   public void inscrireUser(UserDto user) {
 
-    UserDto mockUser = dtoFactory.getUserDto();
-    mockUser = user;
 
   }
 
