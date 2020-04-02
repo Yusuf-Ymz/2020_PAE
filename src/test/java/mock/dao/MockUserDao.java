@@ -24,6 +24,7 @@ public class MockUserDao implements UserDao {
     } else if ("nonConfirme".equals(pseudo)) {
       user.setPseudo("nonConfirme");
       user.setPassword("azerty");
+      return user;
     }
     return null;
   }

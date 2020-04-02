@@ -35,6 +35,8 @@ public class UserServlet extends HttpServlet {
     this.genson = ServletUtils.getGensonUser();
   }
 
+
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -91,6 +93,12 @@ public class UserServlet extends HttpServlet {
     }
   }
 
+  /**
+   * Gère la requête permettant d'aller rechercher les information de l'utilisateur.
+   * 
+   * @param resp : le resp
+   * @throws Exception : une exception
+   */
   private void afficherInfoUtilisateur(HttpServletRequest req, HttpServletResponse resp) {
 
 
