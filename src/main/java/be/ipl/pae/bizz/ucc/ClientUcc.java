@@ -41,9 +41,8 @@ public interface ClientUcc {
   List<ClientDto> listerClientsAvecCriteres(String nom, String prenom, String ville, String cp);
 
   /**
-   * Recherche la liste des clients qui ne sont pas liés à un utilisateur
+   * Recherche la liste des clients qui ne sont pas liés à un utilisateur.
    * 
-   * @param nom : nom que les clients devront avoir
    * @return une liste des clients qui ne sont pas liés à un utilisateur
    */
   List<ClientDto> listerClientsPasUtilisateur();

@@ -65,7 +65,7 @@ public class UserServlet extends HttpServlet {
         }
 
         if (req.getParameter("action").equals("obtenirUser")) {
-          json = "{\"user\":" + genson.serialize(user) + "}";
+          json = "{\"user\":" + ServletUtils.serializeUser(user) + "}";
           ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
         }
 

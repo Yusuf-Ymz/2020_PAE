@@ -49,6 +49,8 @@ class ServletUtils {
   private static Genson gensonPhoto =
       new GensonBuilder().withConverters(new PhotoConverter()).create();
 
+  private static Genson gensonUtilisateurSansMdp = new GensonBuilder().exclude("password").create();
+
   private static String secret = Config.getConfiguration("secret");
 
   public static Genson getGensonUser() {
@@ -64,6 +66,9 @@ class ServletUtils {
     return gensonClient;
   }
 
+  public static String serializeUser(UserDto user) {
+    return gensonUtilisateurSansMdp.serialize(user);
+  }
 
   public static int estConnecte(String token) {
     if (token != null) {

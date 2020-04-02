@@ -176,7 +176,6 @@ class UserUccImpl implements UserUcc {
 
       return user;
 
-
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
