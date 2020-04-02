@@ -168,26 +168,26 @@ class UserUccImpl implements UserUcc {
 
   }
 
-  @Override
-  public UserDto trouverInfoUtilisateur(int userId) {
-    try {
-      dal.startTransaction();
-
-      UserDto user = this.userDao.obtenirUserAvecId(userId);
-
-      if (user != null) {
-        return user;
-      }
-      throw new BizException("");// TODO mettre un message correspondant
-
-    } catch (Exception exception) {
-      dal.rollbackTransaction();
-      exception.printStackTrace();
-      throw exception;
-    } finally {
-      dal.commitTransaction();
-    }
-  }
+  // @Override
+  // public UserDto trouverInfoUtilisateur(int userId) {
+  // try {
+  // dal.startTransaction();
+  //
+  // UserDto user = this.userDao.obtenirUserAvecId(userId);
+  //
+  // if (user != null) {
+  // return user;
+  // }
+  // throw new BizException("");// TODO mettre un message correspondant
+  //
+  // } catch (Exception exception) {
+  // dal.rollbackTransaction();
+  // exception.printStackTrace();
+  // throw exception;
+  // } finally {
+  // dal.commitTransaction();
+  // }
+  // }
 
   @Override
   public UserDto obtenirUtilisateur(int userId) {

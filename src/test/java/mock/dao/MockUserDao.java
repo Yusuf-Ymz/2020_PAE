@@ -15,12 +15,15 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto obtenirUser(String pseudo) {
+    UserDto user = dtoFactory.getUserDto();
     if ("pseudo".equals(pseudo)) {
-      UserDto user = dtoFactory.getUserDto();
       user.setPseudo("pseudo");
       user.setPassword("azerty");
       user.setConfirme(true);
       return user;
+    } else if ("nonConfirme".equals(pseudo)) {
+      user.setPseudo("nonConfirme");
+      user.setPassword("azerty");
     }
     return null;
   }
@@ -64,12 +67,11 @@ public class MockUserDao implements UserDao {
       user.setOuvrier(true);
       user.setConfirme(true);
     } else if (id == 3) {
-      user.setConfirme(false);
+      user.setConfirme(true);
       return user;
-    } else {
-      user.setOuvrier(false);
+    } else if (id == 10) {
+      return null;
     }
-
     return user;
   }
 
@@ -106,7 +108,7 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean pseudoExiste(String pseudo) {
-    if (pseudo.equals(" ")) {
+    if (!pseudo.equals(" ")) {
       return false;
     }
 
@@ -115,7 +117,7 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean emailExiste(String email) {
-    if (email.equals(" ")) {
+    if (!email.equals(" ")) {
       return false;
     }
 

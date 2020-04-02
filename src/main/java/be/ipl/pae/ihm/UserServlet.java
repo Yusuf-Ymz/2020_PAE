@@ -95,7 +95,7 @@ public class UserServlet extends HttpServlet {
 
 
     int userId = Integer.parseInt(req.getParameter("N° utilisateur").toString());
-    UserDto user = userUcc.trouverInfoUtilisateur(userId);
+    UserDto user = userUcc.obtenirUtilisateur(userId);
 
     String json = "{\"data\":" + genson.serialize(user, new GenericType<UserDto>() {}) + "}";
     int statusCode = HttpServletResponse.SC_OK;
