@@ -62,16 +62,16 @@ public class MockDevisDao implements DevisDao {
 
   @Override
   public DevisDto insererDevis(DevisDto devis, String[] photos) {
-    DevisDto d = dtoFactory.getDevisDto();
+    DevisDto devis2 = dtoFactory.getDevisDto();
     List<PhotoDto> ph = new ArrayList<PhotoDto>();
 
     for (String photo : photos) {
-      PhotoDto p = dtoFactory.getPhotoDto();
-      p.setPhoto(photo);
-      ph.add(p);
+      PhotoDto phtos = dtoFactory.getPhotoDto();
+      phtos.setPhoto(photo);
+      ph.add(phtos);
     }
-    d.setPhotosAvant(ph);
-    return d;
+    devis2.setPhotosAvant(ph);
+    return devis2;
   }
 
   @Override
