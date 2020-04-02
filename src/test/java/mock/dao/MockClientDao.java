@@ -19,6 +19,7 @@ public class MockClientDao implements ClientDao {
     if (client != null) {
       ClientDto clientDto = this.dtoFactory.getClientDto();
       clientDto.setIdClient(1);
+      return clientDto;
     }
     return null;
   }
@@ -77,7 +78,9 @@ public class MockClientDao implements ClientDao {
   public List<String> rechercheCodePostaux(String codePostal) {
     List<String> listeCp = new ArrayList<String>();
     String mockCp1 = "1030";
+    String mockCp2 = "1080";
     listeCp.add(mockCp1);
+    listeCp.add(mockCp2);
     return listeCp;
   }
 
@@ -128,6 +131,7 @@ public class MockClientDao implements ClientDao {
       client.setNom("nom" + i);
       client.setPrenom("prenom" + i);
       client.setIdClient(i);
+
       listeClients.add(client);
 
     }

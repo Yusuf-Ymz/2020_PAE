@@ -1,8 +1,11 @@
 package be.ipl.pae.bizz.bizz;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
@@ -14,7 +17,8 @@ import java.util.List;
 
 class ClientUccTest {
 
-
+  @Inject
+  private DtoFactory dtoFactory;
   private ClientUcc clientUcc;
   private ClientDto client;
 
@@ -26,10 +30,19 @@ class ClientUccTest {
     System.out.println(clientUcc.getClass());
     injecSvc.injectDependencies(clientUcc);
     this.client = null;
+    dtoFactory = new DtoFactoryImpl();
   }
 
   @Test
-  void testInsertClientException() {
+  void testInsertClientOK() {
+    ClientDto nextClient = dtoFactory.getClientDto();
+    nextClient.setIdClient(1);
+    nextClient.setNom("nom1");
+    nextClient.setNumero("prenom1");
+    ClientDto clientInsert = clientUcc.insertClient(nextClient);
+
+    assertNotNull(clientInsert);
+    assertEquals(1, clientInsert.getIdClient());
 
   }
 
@@ -39,88 +52,55 @@ class ClientUccTest {
 
     List<ClientDto> liste = clientUcc.listerClients();
     assertNotNull(liste);
+    assertEquals(3, liste.size());
 
   }
 
-  @Test
-  void testListerClientsException() {
-
-
-
-  }
-
-
-
-  @Test
-  void testListerNomsClientsException() {
-
-
-
-  }
 
   void testListerNomsClientsOk() {
-
-
-    assertNotNull(clientUcc.listerNomsClients("so"));
-  }
-
-
-
-  @Test
-  void testListerPrenomsClientsException() {
-
-
+    List<String> liste = clientUcc.listerNomsClients("so");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
 
   @Test
   void testListerPrenomsClientsOk() {
 
-    assertNotNull(clientUcc.listerPrenomsClients("so"));
-
-  }
-
-  @Test
-  void testListerVillesException() {
-
-
+    List<String> liste = clientUcc.listerPrenomsClients("so");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
   @Test
   void testListerVillesOk() {
-
-    assertNotNull(this.clientUcc.listerVilles("br"));
-
-
+    List<String> liste = this.clientUcc.listerVilles("br");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
 
 
   @Test
-  void testListerCp() {
-    // TODO
+  void testListerCpOk() {
+    assertNotNull(this.clientUcc.listerCp("10"));
+    assertEquals(2, this.clientUcc.listerCp("10").size());
   }
 
 
-  @Test
-  void testListerClientsAvecFiltreException() {
-
+  void testListerClientsAvecCriteresOk() {
+    assertNotNull(this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1"));
+    assertEquals(1,
+        this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1").size());
   }
 
-  void testListerClientsAvecFiltreOk() {
-    // TODO
-  }
 
-  @Test
-  void testListerClientsPasUtilisateurException() {
-
-
-  }
 
   @Test
   void testListerClientsPasUtilisateur() {
 
-    assertNotNull(this.clientUcc.listerVilles("bru"));
+    assertNotNull(this.clientUcc.listerClientsPasUtilisateur());
+    assertEquals(5, this.clientUcc.listerClientsPasUtilisateur().size());
 
   }
 
