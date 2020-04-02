@@ -65,7 +65,7 @@ public interface UserDao {
   /**
    * Vérifie si l'email passé en paramètre exist.
    * 
-   * @param pseudo : email à vérifier
+   * @param email : email à vérifier
    * @return true si l'email exist sinon false.
    */
   boolean emailExiste(String email);

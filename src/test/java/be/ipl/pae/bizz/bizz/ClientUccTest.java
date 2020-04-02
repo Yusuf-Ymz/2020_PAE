@@ -34,7 +34,7 @@ class ClientUccTest {
   }
 
   @Test
-  void testInsertClientOK() {
+  void testInsertClientOk() {
     ClientDto nextClient = dtoFactory.getClientDto();
     nextClient.setIdClient(1);
     nextClient.setNom("nom1");
