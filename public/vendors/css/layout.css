@@ -2,6 +2,22 @@ body {
   background-color: darkgray;
 }
 
+[data-toggle="collapse"]:after {
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f054";
+    transform: rotate(90deg) ;
+    float: right;
+    transition: all linear 0.25s;
+    
+    }   
+  [data-toggle="collapse"].collapsed:after {
+    transform: rotate(0deg) ;
+  }
+  
 /*------navbar------------*/
 
 .navbar-expand-lg .navbar-nav.side-nav {
@@ -270,34 +286,6 @@ input:invalid:focus {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 3px;
 }
-
-/*.loader {
-  margin: auto;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border: 8px solid #ffffff;
-  border-radius: 50%;
-  border-top: 8px solid #3498db;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: spin 2s linear infinite; 
-  animation: spin 2s linear infinite;
-}
-
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-*/
 
 .liCouleur {
   background-color: transparent !important;

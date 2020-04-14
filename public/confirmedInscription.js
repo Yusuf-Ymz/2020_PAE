@@ -19,6 +19,9 @@ function afficherNotif(msg) {
 
 function afficherVueConfirmerUtilisateur() {
   homeWorker();
+  $("#filtre_user").show();
+  $("#filtre_client").hide();
+  $("#filtre_amenagement").hide();
   const data = {
     action: 'confirmerInscription'
   };

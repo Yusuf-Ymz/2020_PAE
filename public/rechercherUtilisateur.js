@@ -1,6 +1,6 @@
 import { getData } from "./utilsAPI.js";
-import {printTable} from "./utilsHtml.js";
-import {homeWorker} from "./index.js";
+import { printTable } from "./utilsHtml.js";
+import { homeWorker } from "./index.js";
 
 
 $(document).ready(function () {
@@ -10,37 +10,40 @@ $(document).ready(function () {
         console.log(token);
         const data = {
             action: 'listeUser'
-          };
-          
-        getData("/user",data , token, onGetUserList, onUserListError);
+        };
+
+        getData("/user", data, token, onGetUserList, onUserListError);
     });
 
-    function onGetUserList(response) {
-        $("#listeUser").show();     
-        $("#searchCard").show();
-        $("#searchContent").show();
-        $("#filtre_utilisateur").show();
-        $("#filtre_client").hide();
-        $("#filtre_amenagement").hide();
-        $("#titre-page").text("Liste des utilisateurs");
-        printTable("listeUser", response.listeUser);
-        
-    }
-
-    
-
-    function onUserListError(err) {
-        console.error(err);
-        $('#loader').hide();
-        Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            timerProgressBar: true,
-            title: err.responseJSON.error,
-            showConfirmButton: false,
-            timer: 1500
-          })
-    }
 
 
 });
+
+function onGetUserList(response) {
+    $("#listeUser").show();
+    $("#searchCard").show();
+    $("#searchContent").show();
+    $("#filtre_user").show();
+    $("#filtre_client").hide();
+    $("#filtre_amenagement").hide();
+    $("#titre-page").text("Liste des utilisateurs");
+    printTable("listeUser", response.listeUser);
+
+}
+
+
+
+function onUserListError(err) {
+    console.error(err);
+    $('#loader').hide();
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        timerProgressBar: true,
+        title: err.responseJSON.error,
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
+export { onGetUserList }

@@ -7,18 +7,21 @@
   <link rel="stylesheet" href="vendors/css/bootstrapOveride.css">
   <link rel="stylesheet" href="vendors/css/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/css/all.min.css">
-
+  <link rel="stylesheet" href="vendors/css/jquery-ui.min.css">
   <link rel="stylesheet" href="vendors/css/searchBarStyle.css">
   <link rel="stylesheet" href="vendors/css/layout.css">
 
 
   <script src="vendors/js/jquery.min.js"></script>
+  <script src="vendors/js/jquery-ui.min.js"></script>
+
   <script src="vendors/js/popper.min.js"></script>
   <script src="vendors/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!---a changer avec  les fichiers hors ligne-->
 
   <!--fichier qui export (attention ordre) -->
+  
   <script src="./index.js" type="module"></script>
   <script src="./consulterDevis.js" type="module"></script>
   <script src="./rechercherDevis.js" type="module"></script>
@@ -31,7 +34,7 @@
   <script src="./introduireDevis.js" type="module"></script>
   <script src="./rechercherClients.js" type="module"></script>
   <script src="./login.js" type="module"></script>
-
+  <script src="./autocompletion.js" type="module"> </script>
 </head>
 
 <body style="overflow-x: hidden;">
@@ -47,7 +50,7 @@
     <div id="card" class="container-fluid ">
       <div class="card mt-5" style=" width: 100% ; height: 100%;">
         <div class="card-body " style="background-color:white;">
-         
+
           <div class="container register" style="display: none;">
             <!---style="display: none;"-->
             <div class="row">
@@ -66,7 +69,7 @@
           </div>
           <div class="container-fluid">
             <div id="searchCard" class="card shadow mb-4" style="display: none;">
-              <h3 id="titre-page" class="card-title mt-3 ml-2 row p" ></h3>
+              <h3 id="titre-page" class="card-title mt-3 ml-2 row p"></h3>
               <div id="searchContent" class="mt-4 "></div>
               <div id="confirmedInscriptionContent" class="table-responsive"></div>
               <div id="listeUser" class="table-responsive">

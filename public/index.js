@@ -1,5 +1,4 @@
 "use strict";
-
 let token = undefined;
 window.glob = "userInfo";
 
@@ -79,7 +78,7 @@ const HideToHomeWhenConnect = (response) => {
 
   if (response !== "") {
     window.glob = response.user;
-    console.log(window.glob.ouvrier);
+    console.log(window.glob);
     
   }
 
