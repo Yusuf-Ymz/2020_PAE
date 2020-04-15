@@ -3,21 +3,23 @@ body {
 }
 
 [data-toggle="collapse"]:after {
-      font: normal normal normal 14px/1 FontAwesome;
-      font-size: inherit;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f054";
-    transform: rotate(90deg) ;
-    float: right;
-    transition: all linear 0.25s;
-    
-    }   
-  [data-toggle="collapse"].collapsed:after {
-    transform: rotate(0deg) ;
-  }
-  
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f054";
+  transform: rotate(90deg);
+  float: right;
+  transition: all linear 0.25s;
+}
+
+[data-toggle="collapse"].collapsed:after {
+  transform: rotate(0deg);
+}
+
 /*------navbar------------*/
 
 .navbar-expand-lg .navbar-nav.side-nav {
@@ -340,6 +342,7 @@ svg {
 }
 
 /* Hide the browser's default checkbox */
+
 .customcheck input {
   position: absolute;
   opacity: 0;
@@ -347,6 +350,7 @@ svg {
 }
 
 /* Create a custom checkbox */
+
 .checkmark {
   position: absolute;
   top: 0;
@@ -358,17 +362,20 @@ svg {
 }
 
 /* On mouse-over, add a grey background color */
-.customcheck:hover input ~ .checkmark {
+
+.customcheck:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.customcheck input:checked ~ .checkmark {
+
+.customcheck input:checked~.checkmark {
   background-color: #02cf32;
   border-radius: 5px;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
+
 .checkmark:after {
   content: "";
   position: absolute;
@@ -376,11 +383,13 @@ svg {
 }
 
 /* Show the checkmark when checked */
-.customcheck input:checked ~ .checkmark:after {
+
+.customcheck input:checked~.checkmark:after {
   display: block;
 }
 
 /* Style the checkmark/indicator */
+
 .customcheck .checkmark:after {
   left: 9px;
   top: 5px;

@@ -88,7 +88,8 @@ public class ClientServlet extends HttpServlet {
           String ville = req.getParameter("ville");
           String cp = req.getParameter("cp");
           List<ClientDto> clients = clientUcc.listerClientsAvecCriteres(nom, prenom, ville, cp);
-          json = "{\"clients\":" + genson.serialize(clients) + "}";
+          json = "{\"clients\":"
+              + gensonClient.serialize(clients, new GenericType<List<ClientDto>>() {}) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONGETPRENOM.equalsIgnoreCase(action)) {

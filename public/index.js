@@ -27,7 +27,7 @@ $(document).ready(function () {
 
 
   $(".home").on('click', function (e) {
-    
+
     token = localStorage.getItem("token");
     if (token)
       HideToHomeWhenConnect("");
@@ -40,7 +40,7 @@ $(document).ready(function () {
   $("#logout").click(e => {
     e.preventDefault();
     localStorage.removeItem("token");
-    window.glob="";
+    window.glob = "";
     token = undefined;
     Swal.fire({
       position: 'buttom-end',
@@ -79,7 +79,7 @@ const HideToHomeWhenConnect = (response) => {
   if (response !== "") {
     window.glob = response.user;
     console.log(window.glob);
-    
+
   }
 
 
@@ -121,7 +121,8 @@ const SameHide = () => {
   $("#listeUser").hide();
   $("#linkUserClientContent").hide();
   $("#confirmedInscriptionContent").hide();
-
+  $("#btn_remove_filters").hide();
+  $("#result").hide();
   $("#listeDeTousLesDevis").hide();
   $("#card").show();
   $("#listerClients").hide();
@@ -153,7 +154,7 @@ const homeWorker = () => {
 
 
 const initialisation = () => {
-  
+
   $('#loader').hide();
   let token = localStorage.getItem("token");
   console.log(token);

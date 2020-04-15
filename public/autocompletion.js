@@ -1,22 +1,28 @@
 import { getData } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
+import { displayClient } from "./introduireDevis.js";
 
-let action, url, headers, currentRequestValue;
+let action, url, headers, currentRequestValue, currentDisplayFunction, idOfInputCurruntlyClicked;
 const getVille = "getVille";
 const getNom = "getNom";
 const getPrenom = "getPrenom";
 const getCP = "getCP";
 
-let idOfInputCurruntlyClicked;
-
 function doResponse(response) {
 
-    $("#titre_resultat").html("Affininé les recherches - Resultat(s) pour (" + currentRequestValue + ")");
+    $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
+
     $(':input').val('');
+
+    if ($("#introduireDevis").css('display') != 'none') {
+        displayClient(response);
+        return;
+    }
 
     switch (url) {
         case "/client":
+
             onGetClientList(response);
             break;
         case "/user":
@@ -39,15 +45,38 @@ $(document).ready(function () {
         url = "/user";
     }
 
+    $("#btn_remove_filters").click(function (e) {
+        e.preventDefault();
+
+        $("#btn_remove_filters").hide();
+        $("#result").hide();
+
+        let token = localStorage.getItem("token");
+        let data;
+
+        if (url === "/client") {
+            data = {
+                action: "listerClients"
+            }
+        }
+
+        getData(url, data, token, doResponse, onError);
+    })
+
+
     $("#rechercher").click(function (e) {
         e.preventDefault();
+
+        $("#btn_remove_filters").show();
+        $("#result").show();
 
         let data;
         switch (url) {
 
             case "/client":
+                action = "listClientsAffine";
                 data = {
-                    action: "listClientsAffine",
+                    action: action,
                     nom: $("#nom_client").val(),
                     prenom: $("#prenom_client").val(),
                     ville: $("#ville_client").val(),
@@ -95,6 +124,7 @@ $(document).ready(function () {
     //filtre client
     $("#ville_client").click(function (e) {
         e.preventDefault();
+
         action = getVille;
         idOfInputCurruntlyClicked = "#ville_client";
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -236,7 +266,7 @@ function doAutocompleteRequest(request, reponse) {
 function printResult(...tabInputValue) {
     let result = "";
     tabInputValue.forEach(inputValue => {
-     
+
         if (inputValue !== "") {
             result += inputValue + " - ";
         }

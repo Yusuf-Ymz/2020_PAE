@@ -43,7 +43,7 @@ function getData(url = "", data = "", token, onGet, onError) {
       "Content-Type": "application/json"
     };
 
-  $.ajax({
+   $.ajax({
     type: "get",
     url: url,
     headers: headers,
@@ -60,6 +60,9 @@ function getData(url = "", data = "", token, onGet, onError) {
     success: onGet,
     error: onError
   });
+
+  
+ 
 }
 
 function deleteData(url = "", token, onDelete, onError) {

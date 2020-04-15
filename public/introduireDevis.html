@@ -1,99 +1,78 @@
 <!--<h3 class="row p">Introduire devis</h3>-->
-<h5 class="mt-3 p pb-0">Rechercher un client existant </h5>
 
-<div class="row p">
-  <div class="form-group col-md-3">
-    <label for="villeSearch">Ville :</label>
-    <input type="text" class="form-control" id="villeSearch" placeholder="Entrer le nom de la Ville"autocomplete="off">
-    <div id="resultsVille" class="ml-3 auto-suggest"style="display: none;">
-  </div>
-  </div>
-  <div class="form-group col-md-3">
-    <label for="codePostalSearch">Code postal:</label>
-    <input type="text" class="form-control" id="codePostalSearch" placeholder="Entrer le code postal"autocomplete="off">
-    <div id="resultsCP" class="ml-3 auto-suggest" style="display: none;">
-     
-  </div>
-  </div>
-  <div class="form-group col-md-3">
-    <label for="clientName">Nom du client</label>
-    <input type="text" class="form-control" id="clientName" placeholder="Entrer le nom du client"autocomplete="off">
-    <div id="resultsName" class="ml-3 auto-suggest"style="display: none;" >
-      
-  </div>
-  </div>
-  <div class="form-group col-md-3">
-    <label for="clientPrenom">Prénom du client</label>
-    <input type="text" class="form-control" id="clientPrenom" placeholder="Entrer prénom du client"
-      autocomplete="off">
-    <div id="resultsPrenom" class="ml-3 auto-suggest" style="display: none;">
 
-    </div>
-  </div>
-</div>
-<h5 class="p mt-0 pt-0">Si le client recherché n'existe pas  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">ajouter-le</button></h5>  
-<div class=" table-responsive row p pt-0 pb-0 mb-0 mt-0 " id="tableClients" >
-  
+<h5 class="p mt-0 pt-0">Si le client recherché n'existe pas <button type="button" class="btn btn-success"
+    data-toggle="modal" data-target="#myModal">ajouter-le</button></h5>
+<div class=" table-responsive row p pt-0 pb-0 mb-0 mt-0 " id="tableClients">
+
 </div>
 <div class="modal fade" id="myModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-    
+
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Ajouter un client</h4>
       </div>
-      
+
       <!-- Modal body -->
       <div class="modal-body">
         <div class="form-group">
           <label for="nomC">Nom :</label>
-          <input type="text" class="form-control" id="nomC" placeholder="Entrer le nom du client" autocomplete="off" required>
+          <input type="text" class="form-control" id="nomC" placeholder="Entrer le nom du client" autocomplete="off"
+            required>
         </div>
         <div class="form-group ">
           <label for="prenomC">Prénom :</label>
-          <input type="text" class="form-control" id="prenomC" placeholder="Entrer le pénom du client" autocomplete="off" required>
+          <input type="text" class="form-control" id="prenomC" placeholder="Entrer le pénom du client"
+            autocomplete="off" required>
         </div>
         <div class="form-group">
           <label for="rueC">Rue :</label>
-          <input type="text" class="form-control" id="rueC" placeholder="Entrer le nom de la rue" autocomplete="off" required>
+          <input type="text" class="form-control" id="rueC" placeholder="Entrer le nom de la rue" autocomplete="off"
+            required>
         </div>
         <div class="form-group">
           <label for="numC">Numéro :</label>
-          <input type="text" class="form-control" id="numC" placeholder="Entrer le numéro de domicile" autocomplete="off" required>
+          <input type="text" class="form-control" id="numC" placeholder="Entrer le numéro de domicile"
+            autocomplete="off" required>
         </div>
-       <!----<div class="form-group">
+        <!----<div class="form-group">
           <label for="boiteC">Boite :</label>
           <input type="text" class="form-control" id="boiteC" placeholder="Entrer le numéro de boite" autocomplete="off" required>
         </div>-->
         <div class="form-group">
           <label for="cpC">Code postal :</label>
-          <input type="number" class="form-control" id="cpC" placeholder="Entrer le code postal" autocomplete="off" required>
+          <input type="number" class="form-control" id="cpC" placeholder="Entrer le code postal" autocomplete="off"
+            required>
         </div>
         <div class="form-group">
           <label for="villeC">Ville :</label>
-          <input type="text" class="form-control" id="villeC" placeholder="Entrer la ville du client" autocomplete="off" required>
+          <input type="text" class="form-control" id="villeC" placeholder="Entrer la ville du client" autocomplete="off"
+            required>
         </div>
         <div class="form-group">
           <label for="emailC">e-mail :</label>
-          <input type="email" class="form-control" id="emailC" placeholder="Entrer l'e-mail du client" autocomplete="off" required>
+          <input type="email" class="form-control" id="emailC" placeholder="Entrer l'e-mail du client"
+            autocomplete="off" required>
         </div>
         <div class="form-group">
           <label for="telC">Téléphone :</label>
-          <input type="tel" class="form-control" id="telC" placeholder="Entrer le numéro de téléphone" autocomplete="off" required>
+          <input type="tel" class="form-control" id="telC" placeholder="Entrer le numéro de téléphone"
+            autocomplete="off" required>
         </div>
       </div>
-      
+
       <!-- Modal footer -->
       <div class="modal-footer" style="height: 50px;">
-        <div class="position-absolute top-left ml-3 "> 
+        <div class="position-absolute top-left ml-3 ">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
-      </div>  
-      <div class="position-absolute top-right mr-3"> 
-        <button type="button" class="btn btn-success" id="ajouterClient">Ajouter</button>  
-      </div> 
+        </div>
+        <div class="position-absolute top-right mr-3">
+          <button type="button" class="btn btn-success" id="ajouterClient">Ajouter</button>
+        </div>
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -101,8 +80,8 @@
   <div class="col-md-3">
     <input type="hidden" id="idClient">
     <div class="form-group">
-      <label >Nom du client :</label>
-      <input type="text" class="form-control" id="nomInfo" disabled >
+      <label>Nom du client :</label>
+      <input type="text" class="form-control" id="nomInfo" disabled>
     </div>
     <div class="form-group">
       <label>Prénom du client</label>
@@ -118,10 +97,11 @@
     </div>
     <div class="form-group">
       <label for="dureeTravaux">Durée des travaux:</label>
-      <input type="number" class="form-control" id="dureeTravaux" placeholder="Entrer la durée des travaux" required pattern="[0-9]*">
+      <input type="number" class="form-control" id="dureeTravaux" placeholder="Entrer la durée des travaux" required
+        pattern="[0-9]*">
     </div>
     <div class="form-group">
-      <button type="button" class="btn btn-success" id="insererDevis" >Introduire</button>
+      <button type="button" class="btn btn-success" id="insererDevis">Introduire</button>
     </div>
   </div>
   <div class="col-md-9">
@@ -137,6 +117,6 @@
       </div>
     </div>
   </div>
-  
+
 
 </div>
