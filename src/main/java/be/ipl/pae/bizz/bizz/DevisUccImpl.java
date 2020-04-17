@@ -189,7 +189,6 @@ class DevisUccImpl implements DevisUcc {
       boolean visible, boolean preferee) {
     try {
       dal.startTransaction();
-
       AmenagementDto amenagement = amenagementDao.getAmenagementById(idAmenagement);
       if (amenagement == null) {
         throw new BizException("Amenagement inexistant");
@@ -214,6 +213,7 @@ class DevisUccImpl implements DevisUcc {
       photo.setDevis(devis);
       photo.setPhoto(strPhoto);
       photo.setPreferee(preferee);
+      photo.setVisible(visible);
       PhotoDto newPhoto = devisdao.insererPhotoApresAmenagement(photo);
       return newPhoto;
     } catch (Exception exception) {

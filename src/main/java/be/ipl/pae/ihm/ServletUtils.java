@@ -305,6 +305,7 @@ class ServletUtils {
         throws Exception {
       // TODO Auto-generated method stub
       writer.beginObject();
+      writer.writeNumber("id", object.getId());
       writer.writeString("libelle", object.getLibelle());
       writer.endObject();
 

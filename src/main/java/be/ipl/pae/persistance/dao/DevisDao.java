@@ -10,7 +10,7 @@ public interface DevisDao {
   /**
    * Renvoie le devis correspondant à l'id.
    * 
-   * @param idDevis : l'id du devis
+   * @param id : l'id du devis
    * @return le devis correspondant à l'id, null sinon
    */
   DevisDto obtenirDevisById(int id);

@@ -167,7 +167,6 @@ public class DevisServlet extends HttpServlet {
     int idDevis = Integer.parseInt(body.get("idDevis").toString());
     boolean visible = Boolean.parseBoolean(body.get("photoVisible").toString());
     boolean preferee = Boolean.parseBoolean(body.get("photoPreferee").toString());
-    System.out.println(preferee);
     String json = "{\"error\":\"Erreur du serveur\"";
     try {
       final PhotoDto newPhoto =
