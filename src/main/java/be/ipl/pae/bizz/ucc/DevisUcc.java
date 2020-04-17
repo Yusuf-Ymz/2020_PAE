@@ -1,6 +1,7 @@
 package be.ipl.pae.bizz.ucc;
 
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 
 import java.util.List;
 
@@ -58,5 +59,17 @@ public interface DevisUcc {
    * @param newEtat : le nouvel état.
    */
   void changerEtatDevis(int idDevis, String newEtat);
+
+  /**
+   *
+   * @param photo
+   * @param idAmenagement
+   * @param idDevis
+   * @param visible
+   * @param preferee
+   * @return la photo inserer
+   */
+  PhotoDto insererPhotoApresAmenagement(String photo, int idAmenagement, int idDevis,
+      boolean visible, boolean preferee);
 
 }

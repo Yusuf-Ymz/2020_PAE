@@ -84,4 +84,18 @@ public interface PhotoDto {
    * @param devis : le devis qui va posséder cette photo
    */
   void setDevis(DevisDto devis);
+
+  /**
+   * Renvoie true si c'est la photo preférée d'un devis false sinon.
+   * 
+   * @return un boolean
+   */
+  boolean isPreferee();
+
+  /**
+   * Change la valuer de l'attribut.
+   * 
+   * @param preferee
+   */
+  void setPreferee(boolean preferee);
 }

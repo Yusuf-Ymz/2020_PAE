@@ -293,11 +293,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     String query = "INSERT INTO pae.travaux VALUES (?,?)";
 
     List<AmenagementDto> amenagements = devis.getAmenagements();
-    System.out.println(devis.getDevisId());
     try {
       for (AmenagementDto amenagement : amenagements) {
         PreparedStatement ps = dal.createStatement(query);
-        System.out.println(amenagement.getId());
         ps.setInt(1, devis.getDevisId());
         ps.setInt(2, amenagement.getId());
         ps.execute();
@@ -308,8 +306,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-
-  private DevisDto obtenirDevisById(int id) {
+  @Override
+  public DevisDto obtenirDevisById(int id) {
     String query = "SELECT * FROM pae.clients c, pae.devis d "
         + "LEFT OUTER JOIN pae.photos p ON d.photo_preferee=p.photo_id "
         + "WHERE d.client = c.client_id AND d.devis_id = ?";
@@ -323,7 +321,12 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         fillObject(client, rs);
         fillObject(devis, rs);
         devis.setClient(client);
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        devis.setPhotoPreferee(photoPreferee);
       }
+      recupererLesAmenagementsDunDevis(devis);
+
       return devis;
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -338,7 +341,6 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     try {
       preparedStatement.setString(1, newEtat);
       preparedStatement.setInt(2, idDevis);
-      System.out.println(preparedStatement);
       preparedStatement.execute();
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -366,5 +368,69 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       throw new FatalException();
     }
   }
+
+  @Override
+  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee) {
+    String query = "INSERT INTO pae.photos VALUES (DEFAULT,?,TRUE,?,?,?) RETURNING photo_id";
+    PreparedStatement ps = dal.createStatement(query);
+    try {
+      ps.setString(1, photo.getPhoto());
+      ps.setBoolean(2, photo.isVisible());
+      ps.setInt(3, photo.getAmenagement().getId());
+      ps.setInt(4, photo.getDevis().getDevisId());
+      ResultSet rs = ps.executeQuery();
+      PhotoDto newPhoto = null;
+      if (rs.next()) {
+        int idPhoto = rs.getInt(1);
+        if (preferee) {
+          insererPhotoPreferee(photo.getDevis().getDevisId(), idPhoto);
+        }
+        newPhoto = getPhotoById(idPhoto);
+      }
+      return newPhoto;
+
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+
+  }
+
+
+
+  private PhotoDto getPhotoById(int idPhoto) {
+    String query = "SELECT * FROM pae.photos WHERE photo_id = ?";
+    PreparedStatement ps = dal.createStatement(query);
+    PhotoDto photo = fact.getPhotoDto();
+    try {
+      ps.setInt(1, idPhoto);
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        fillObject(photo, rs);
+        return photo;
+      }
+      return null;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+
+  }
+
+  private void insererPhotoPreferee(int devisId, int idPhoto) {
+    String query = "UPDATE pae.devis SET photo_preferee = ? WHERE devis_id = ?";
+    PreparedStatement ps = dal.createStatement(query);
+    try {
+      ps.setInt(1, idPhoto);
+      ps.setInt(2, devisId);
+      ps.execute();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+
+  }
+
+
 
 }

@@ -37,8 +37,8 @@ class ServletUtils {
   private static Genson gensonUser =
       new GensonBuilder().withConverters(new UtilisateurConverter()).create();
 
-  private static Genson gensonDevis =
-      new GensonBuilder().withConverters(new DevisConverter()).create();
+  private static Genson gensonDevis = new GensonBuilder().withConverters(new DevisConverter())
+      .withConverters(new PhotoConverter()).create();
 
   private static Genson gensonClient =
       new GensonBuilder().withConverters(new ClientConverter()).create();
@@ -285,6 +285,8 @@ class ServletUtils {
       writer.beginObject();
 
       writer.writeNumber("Photo id", object.getPhotoId());
+      writer.writeBoolean("Visible", object.isVisible());
+      writer.writeBoolean("Preferee", object.isPreferee());
       writer.writeString("Photo", object.getPhoto());
 
       writer.endObject();

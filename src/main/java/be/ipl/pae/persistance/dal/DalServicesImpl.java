@@ -37,7 +37,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public PreparedStatement createStatement(String query) {
     PreparedStatement stmt = null;
     Connection conn = connection.get();
-    System.out.println("conn ps -> " + conn);
     try {
       stmt = conn.prepareStatement(query);
     } catch (SQLException exception) {
@@ -62,7 +61,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public void commitTransaction() {
     try {
       Connection conn = connection.get();
-      System.out.println("commit " + conn);
       conn.commit();
       conn.close();
     } catch (SQLException exception) {
@@ -80,7 +78,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
   public void rollbackTransaction() {
     try {
       Connection conn = connection.get();
-      System.out.println("ROLLBACK " + conn);
       conn.rollback();
     } catch (SQLException exception) {
       exception.printStackTrace();

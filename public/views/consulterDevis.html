@@ -1,6 +1,5 @@
 <div id="consulterDevis" class="table-responsive">
 
-    <h3 class="row p">Informations sur le devis</h3>
     <div class="container-fluid" id="versionClient">
         <div class="row">
             <div class="col-6">
@@ -145,11 +144,25 @@
 
             </div>
         </div>
-        <div class="col-6">
-            Photo(s) après aménagements:
-            <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
-            </table>
+        <div class="row">
+            <div class="col-6">
+                Photo(s) après aménagements:
+                <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
+                </table>
+            </div>
+            <div class="col-6 ">
+                <p class="text-dark font-weight-bold "> Insérer des photos après aménagements :</p>
+                <div id="drop-container-apres">
+                    <div>
+                        <p class="drop-area-text "><a style="font-size: 1em;color: #e0dfdf;" href=""
+                                id="selectImageApres">Cliquez ici pour
+                                choisir une image </a>ou faites-la glisser ici</p>
+                        <input type="file" id="inputFileApres" class="d-none">
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="row">
             <div class="offset-6 col-6 " style="margin-right: -20px;">
                 <button class="btn btn-danger btn-md  btn-block text-white" id="annulerDemande"

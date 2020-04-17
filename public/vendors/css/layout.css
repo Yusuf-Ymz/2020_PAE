@@ -205,6 +205,14 @@ input:invalid:focus {
   max-width: 600px;
 }
 
+#drop-container-apres {
+  background: #ffffff;
+  min-height: 200px;
+  padding: 10px;
+  border: #07c6f1 2px dashed;
+  max-width: 600px;
+}
+
 .drop-area-text {
   text-align: center;
   color: #e0dfdf;
@@ -234,6 +242,11 @@ input:invalid:focus {
 .image {
   height: 150px;
   width: 150px;
+}
+
+.image-modal {
+  height: 250px;
+  width: 250px;
 }
 
 .result_focus {

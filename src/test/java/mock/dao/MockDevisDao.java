@@ -96,4 +96,18 @@ public class MockDevisDao implements DevisDao {
     return null;
   }
 
+
+
+  @Override
+  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public DevisDto obtenirDevisById(int id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

@@ -4,6 +4,8 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
+import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
@@ -26,6 +28,8 @@ class DevisUccImpl implements DevisUcc {
   private ClientDao clientDao;
   @Inject
   private AmenagementDao amenagementDao;
+  @Inject
+  private DtoFactory dtoFact;
 
   public List<DevisDto> listerTousLesDevis() {
     try {
@@ -177,6 +181,47 @@ class DevisUccImpl implements DevisUcc {
     } finally {
       dal.commitTransaction();
     }
+  }
+
+
+  @Override
+  public PhotoDto insererPhotoApresAmenagement(String sPhoto, int idAmenagement, int idDevis,
+      boolean visible, boolean preferee) {
+    try {
+      dal.startTransaction();
+      PhotoDto photo = dtoFact.getPhotoDto();
+      AmenagementDto amenagement = amenagementDao.getAmenagementById(idAmenagement);
+      if (amenagement == null) {
+        throw new BizException("Amenagement inexistant");
+      }
+      DevisDto devis = devisdao.obtenirDevisById(idDevis);
+      if (devis == null) {
+        throw new BizException("Devis inexistant");
+      }
+
+      if (preferee && devis.getPhotoPreferee().getPhotoId() != 0) {
+        throw new BizException("Le devis posséde déjà une photo préférée");
+      }
+      AmenagementDto amenagementPhoto = devis.getAmenagements().stream()
+          .filter(a -> a.getId() == idAmenagement).findAny().orElse(null);
+
+      if (amenagementPhoto == null) {
+        throw new BizException(
+            "L'aménagament de la photo ne fait pas partie des aménagement du devis");
+      }
+      photo.setAmenagement(amenagement);
+      photo.setDevis(devis);
+      photo.setPhoto(sPhoto);
+      PhotoDto newPhoto = devisdao.insererPhotoApresAmenagement(photo, preferee);
+      return newPhoto;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+
   }
 
 

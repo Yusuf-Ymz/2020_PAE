@@ -14,6 +14,8 @@ class Photo implements PhotoBiz {
   @FieldDb("visible")
   private boolean visible;
 
+  private boolean preferee;
+
   private AmenagementDto amenagement;
 
   private DevisDto devis;
@@ -89,6 +91,16 @@ class Photo implements PhotoBiz {
   public void setDevis(DevisDto devis) {
     // TODO Auto-generated method stub
     this.devis = devis;
+  }
+
+  @Override
+  public boolean isPreferee() {
+    return preferee;
+  }
+
+  @Override
+  public void setPreferee(boolean preferee) {
+    this.preferee = preferee;
   }
 
 }

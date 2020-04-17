@@ -1,10 +1,20 @@
 package be.ipl.pae.persistance.dao;
 
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 
 import java.util.List;
 
 public interface DevisDao {
+
+  /**
+   * Renvoie le devis correspondant à l'id.
+   * 
+   * @param idDevis
+   * @return le devis correspondant à l'id, null sinon
+   */
+  DevisDto obtenirDevisById(int id);
+
   /**
    * Renvoie tous les devis.
    * 
@@ -69,4 +79,13 @@ public interface DevisDao {
    * @return l'etat actuel
    */
   String getEtatActuel(int idDevis);
+
+  /**
+   * Permet d'insérer une photo après aménagement.
+   * 
+   * @param photo : la photo à insérer
+   * @param preferee
+   * @return la photo qui a été insérer
+   */
+  PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee);
 }

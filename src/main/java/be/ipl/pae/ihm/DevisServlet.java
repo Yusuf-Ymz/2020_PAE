@@ -2,6 +2,7 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
+import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
@@ -150,10 +151,41 @@ public class DevisServlet extends HttpServlet {
       case "repousserDateDebut":
         break;
 
+      case "ajouterPhotoApresAmenagement":
+        ajouterPhotoApresApresAmenagement(body, resp);
+        break;
       default:
         super.doPost(req, resp);
         break;
     }
+  }
+
+  private void ajouterPhotoApresApresAmenagement(Map<String, Object> body,
+      HttpServletResponse resp) {
+    String photo = body.get("image").toString();
+    int idAmenagement = Integer.parseInt(body.get("typeAmenagement").toString());
+    int idDevis = Integer.parseInt(body.get("idDevis").toString());
+    boolean visible = Boolean.parseBoolean(body.get("photoVisible").toString());
+    boolean preferee = Boolean.parseBoolean(body.get("photoPreferee").toString());
+    System.out.println(preferee);
+    String json = "{\"error\":\"Erreur du serveur\"";
+    try {
+      PhotoDto newPhoto =
+          devisUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
+      json = "{\"success\":\"Photo ajouté\",\"photo\":"
+          + genson.serialize(newPhoto, new GenericType<PhotoDto>() {}) + "}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
+    } catch (BizException exception) {
+      json = "{\"error\":\"" + exception.getMessage() + "\"}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_CONFLICT);
+    } catch (FatalException exception) {
+      json = "{\"error\":\"Erreur du serveur\"}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+
   }
 
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
@@ -195,7 +227,7 @@ public class DevisServlet extends HttpServlet {
       int statusCode = HttpServletResponse.SC_OK;
       ServletUtils.sendResponse(resp, json, statusCode);
     } catch (BizException exception) {
-      err = "{\"error\":" + exception.getMessage() + "\"}";
+      err = "{\"error\":\\\"" + exception.getMessage() + "\"}";
       int statusCode = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (FatalException exception) {
@@ -204,7 +236,6 @@ public class DevisServlet extends HttpServlet {
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (Exception exception) {
       exception.printStackTrace();
-
       ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
     }
   }
