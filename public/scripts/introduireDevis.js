@@ -5,13 +5,13 @@ import notify from "./utils.js";
 import { homeWorker, HomeUser } from "./index.js";
 
 let idClient = -1;
-let i = 0;
+
 
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
-    //let z = "<label class="customcheck">One <input type="checkbox" checked="checked"><span class="checkmark"></span></label>";
+    
     for (let i = 0; i < amenagements.length; i++) {
         let id = "amenagement" + amenagements[i]["id"];
 
@@ -158,6 +158,8 @@ $(document).ready(function (e) {
     }
 
 
+
+
     $("#drop-container").on('dragenter', function (e) {
         e.preventDefault();
         console.log("dragenter");
@@ -183,28 +185,25 @@ $(document).ready(function (e) {
         console.log(fileList);
         for (let x = 0; x < fileList.length; x++) {
             let file = fileList[x];
-            i += 1;
-            converFile(file, i);
+            converFile(file);
         }
 
     });
 
-    function converFile(file, i) {
+    function converFile(file) {
         var reader = new FileReader();
         reader.onloadend = function () {
             let img = document.createElement("img");
-            img.id = "image" + i;
             img.className = "image rounded imageAvant";
             $("#drop-container").append(img);
-            $("#image" + i).attr("src", reader.result);
+            $(img).attr("src", reader.result);
         }
-
         reader.readAsDataURL(file);
     }
-    $("#inputFile")[0].onchange = function (e) {
+    $("#inputFile").on("change",function (e) {
         var file = e.target.files[0];
         converFile(file);
-    }
+    });
     $("#drop-container").on('dragover', function (e) {
         e.preventDefault();
     })
@@ -279,8 +278,6 @@ function displayClient(response) {
         let trData = document.createElement("tr");
         tbody.appendChild(trData);
         const element = response[i];
-
-        
 
         let champ = document.createElement("td");
         champ.innerHTML = element["Nom"];
