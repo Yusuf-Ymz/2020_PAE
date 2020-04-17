@@ -22,22 +22,21 @@ public class RootServlet extends DefaultServlet {
     try {
       if (req.getRequestURI().contentEquals("/")) {
 
-        String body = readHtmlContent();
         resp.setContentType("text/html");
         resp.setCharacterEncoding("utf-8");
         resp.setStatus(HttpServletResponse.SC_OK);
+        String body = readHtmlContent();
         resp.getWriter().write(body);
 
       } else {
         super.doGet(req, resp);
       }
-    }
 
-    catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
       resp.setStatus(500);
       resp.setContentType("text/html");
-      byte[] msgBytes = e.getMessage().getBytes("UTF-8");
+      byte[] msgBytes = exception.getMessage().getBytes("UTF-8");
       resp.setContentLength(msgBytes.length);
       resp.setCharacterEncoding("utf-8");
       resp.getOutputStream().write(msgBytes);
@@ -49,7 +48,7 @@ public class RootServlet extends DefaultServlet {
    * Lit tous les fichiers html present dans le repetoire public/views.
    * 
    * @return le body de html
-   * @throws IOException
+   * @throws IOException : l'exception lancée
    */
   private String readHtmlContent() throws IOException {
 
