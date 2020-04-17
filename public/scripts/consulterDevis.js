@@ -1,11 +1,10 @@
 import { getData, postData } from "./utilsAPI.js";
 import { homeWorker } from "./index.js";
-import { ajouterPhotoApresAmenagement, ajouterPhoto,viderLesPhotoApresAmenagement } from "./insererPhoto.js"
+import { ajouterPhotoApresAmenagement, ajouterPhoto,viderLesPhotoApresAmenagement,setAmenagements} from "./insererPhoto.js"
 import notify from "./utils.js";
 
 let token = localStorage.getItem("token");
 let devisID = -1;
-let amenagements;
 
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
@@ -99,6 +98,7 @@ function onGetConsulterDevisOuvrier(response) {
     let amenagements = "";
     let types = response.devis["Types d'aménagements"];
     types = JSON.parse(types);
+    setAmenagements(types);
     for (let i = 0; i < types.length; i++) {
         amenagements += types[i].libelle + ",\n";
     }
@@ -158,13 +158,7 @@ function onCheckBoxError(response) {
     $('#loader').hide();
 }
 
-function getAmenagements(response){
-    let array = response.amenagements;
-    amenagements = new Array();
-    for(let i = 0;i<array.length;i++){
-        amenagements[array[i]["id"]] = array[i]["libelle"];
-    }  
-}
+
 
 function  onErrorAmenagements(response){
     console.error(response);
@@ -186,7 +180,7 @@ $(document).ready(function () {
         $(this).css('background', '#FFF');
         let fileList = e.originalEvent.dataTransfer.files;
         for (let x = 0; x < fileList.length; x++) {
-             ajouterPhotoApresAmenagement(fileList[x],amenagements,devisID);
+             ajouterPhotoApresAmenagement(fileList[x],devisID);
         }
     });
 
@@ -203,8 +197,6 @@ $(document).ready(function () {
         var file = e.target.files[0];
         ajouterPhotoApresAmenagement(file,amenagements,devisID);
     });
-
-    getData("/amenagement", null, localStorage.getItem("token"), getAmenagements, onErrorAmenagements);
 
     //Eventuelles erreurs à corriger et ajouter taprès ceci!
     $('#confirmerCommande').change(function () {

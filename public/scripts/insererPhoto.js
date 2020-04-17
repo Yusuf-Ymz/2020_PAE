@@ -8,7 +8,12 @@ let idxDernierModalTraite = 0;
 let aAfficheLePremier = false;
 let numModal = 1;
 let devis;
-let photos = Array();
+let amenagements = new Array();
+let photos = new Array();
+
+function setAmenagements(amenagementsDuDevis){
+    amenagements = amenagementsDuDevis;
+}
 
 function viderLesPhotoApresAmenagement() {
     photos = Array();
@@ -33,12 +38,12 @@ function displayPhotoApresAmenagement() {
     }
 }
 
-function ajouterPhotoApresAmenagement(image, amenagements, idDevis) {
+function ajouterPhotoApresAmenagement(image, idDevis) {
     var reader = new FileReader();
     devis = idDevis;
     reader.onloadend = function () {
         z += 2
-        let modal = createModal(reader.result, amenagements, idDevis);
+        let modal = createModal(reader.result, idDevis);
         numModal += 1;
         $("#versionOuvrier").append(modal);
         modals.push(modal);
@@ -96,7 +101,7 @@ function converFileToImg(file, div, className) {
     reader.readAsDataURL(file);
 }
 
-function createOptionSelect(amenagements) {
+function createOptionSelect() {
     let div = document.createElement("div");
     div.className = "form-group mt-3";
 
@@ -109,19 +114,18 @@ function createOptionSelect(amenagements) {
     selectOpt.id = "amenagementsPhoto";
 
     for (let i = 0; i < amenagements.length; i++) {
-        if (amenagements[i]) {
             let option = document.createElement("option");
-            option.value = i;
-            option.innerHTML = amenagements[i];
+            option.value = amenagements[i].id;
+            option.innerHTML = amenagements[i].libelle;
             selectOpt.appendChild(option);
-        }
+        
     }
     div.appendChild(label);
     div.appendChild(selectOpt);
     return div;
 }
 
-function createModal(image, amenagements, idDevis) {
+function createModal(image, idDevis) {
     let divModal = document.createElement("div");
     divModal.className = "modal fade";
     divModal.id = "modal" + numModal;
@@ -155,7 +159,7 @@ function createModal(image, amenagements, idDevis) {
     let checkbox = createCheckBox("Photo préférée ?", z - 1, "isPhotoPref");
     let checkbox2 = createCheckBox("Photo visible ?", z, "isPhotoVisible");
 
-    let optionSelect = createOptionSelect(amenagements);
+    let optionSelect = createOptionSelect();
 
     let modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
@@ -252,5 +256,5 @@ function passerALaProchainePhoto() {
         displayPhotoApresAmenagement();
     }
 }
-export { converFileToImg, ajouterPhotoApresAmenagement,viderLesPhotoApresAmenagement,ajouterPhoto };
+export { converFileToImg, ajouterPhotoApresAmenagement,viderLesPhotoApresAmenagement,ajouterPhoto,setAmenagements };
 
