@@ -38,6 +38,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
   for (let x = 0; x < arrayToPrint.length; x++) {
 
     trData = document.createElement("tr");
+
     tbody.appendChild(trData);
     const element = arrayToPrint[x];
     for (const propriete in element) {
@@ -47,20 +48,28 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
         trData.id = element[propriete];
         continue;
       }
+      trData.addEventListener("dblclick", e => {
+        e.preventDefault();
 
+        let data = {};
+        data[idNom] = trData.id;
+        console.log(data);
+        lesFonction[0](url, data);
+
+      })
       if (propriete === "Types d'aménagements") {
         let amenagements = "";
         element[propriete] = JSON.parse(element[propriete]);
-      
+
         for (let i = 0; i < element[propriete].length; i++) {
           amenagements += element[propriete][i].libelle + ",\n";
         }
-     
-        
+
+
         monChamp.innerHTML = amenagements;
       } else if (propriete === "Photo préférée") {
-        if(element[propriete] !== null)
-        monChamp.innerHTML = "<img class='image' src='" + element[propriete] + "'/>";
+        if (element[propriete] !== null)
+          monChamp.innerHTML = "<img class='image' src='" + element[propriete] + "'/>";
       } else {
         monChamp.innerHTML = element[propriete];
       }
@@ -72,12 +81,12 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
 
     if (tabButtonValue.length > 0) {
       for (let i = 0; i < tabButtonValue.length; i++) {
-          addButton(tabButtonValue[i], trData, idNom, lesFonction[i], url);
+        addButton(tabButtonValue[i], trData, idNom, lesFonction[i], url);
       }
     }
 
   }
- 
+
 }
 
 

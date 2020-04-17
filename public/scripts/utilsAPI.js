@@ -1,6 +1,9 @@
 
-function postData(url = "", data = {}, token, onPost, onError) {
+
+function chooseHeaderForRequest(token) {
+  
   let headers;
+  
   if (token)
     headers = {
       "Content-Type": "application/json",
@@ -11,6 +14,14 @@ function postData(url = "", data = {}, token, onPost, onError) {
       "Content-Type": "application/json"
     };
 
+  return headers;
+}
+
+
+function postData(url = "", data = {}, token, onPost, onError) {
+
+  let headers = chooseHeaderForRequest(token);
+
   $.ajax({
     contentType: "json",
     type: "post",
@@ -18,11 +29,11 @@ function postData(url = "", data = {}, token, onPost, onError) {
     headers: headers,
     data: JSON.stringify(data),
     dataType: "json",
-    beforeSend: function(){
+    beforeSend: function () {
       $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){ 
+    complete: function () {
       $('#loader').hide();
       $('#body').show();
     },
@@ -32,28 +43,20 @@ function postData(url = "", data = {}, token, onPost, onError) {
 }
 
 function getData(url = "", data = "", token, onGet, onError) {
-  let headers;
-  if (token)
-    headers = {
-      "Content-Type": "application/json",
-      Authorization: token
-    };
-  else
-    headers = {
-      "Content-Type": "application/json"
-    };
 
-   $.ajax({
+  let headers = chooseHeaderForRequest(token);
+
+  $.ajax({
     type: "get",
     url: url,
     headers: headers,
     data: data,
     dataType: "json",
-    beforeSend: function(){
+    beforeSend: function () {
       $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){ 
+    complete: function () {
       $('#loader').hide();
       $('#body').show();
     },
@@ -61,32 +64,24 @@ function getData(url = "", data = "", token, onGet, onError) {
     error: onError
   });
 
-  
- 
+
+
 }
 
 function deleteData(url = "", token, onDelete, onError) {
-  let headers;
-  if (token)
-    headers = {
-      "Content-Type": "application/json",
-      Authorization: token
-    };
-  else
-    headers = {
-      "Content-Type": "application/json"
-    };
+
+  let headers = chooseHeaderForRequest(token);
 
   $.ajax({
     type: "delete",
     url: url,
     headers: headers,
     dataType: "json",
-    beforeSend: function(){
+    beforeSend: function () {
       $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){ 
+    complete: function () {
       $('#loader').hide();
       $('#body').show();
     },
@@ -97,16 +92,9 @@ function deleteData(url = "", token, onDelete, onError) {
 }
 
 function updateData(url = "", data = {}, token, onPut, onError) {
-  let headers;
-  if (token)
-    headers = {
-      "Content-Type": "application/json",
-      Authorization: token
-    };
-  else
-    headers = {
-      "Content-Type": "application/json"
-    };
+
+
+  let headers = chooseHeaderForRequest(token);
 
   $.ajax({
     contentType: "json",
@@ -115,11 +103,11 @@ function updateData(url = "", data = {}, token, onPut, onError) {
     headers: headers,
     data: JSON.stringify(data),
     dataType: "json",
-    beforeSend: function(){
+    beforeSend: function () {
       $('#body').hide();
       $('#loader').show();
     },
-    complete: function(){ 
+    complete: function () {
       $('#loader').hide();
       $('#body').show();
     },
@@ -128,17 +116,9 @@ function updateData(url = "", data = {}, token, onPut, onError) {
   });
 }
 
-function specialGetData(url = "", data = {}, token,currentRequest ,onGet, onError) {
-  let headers;
-  if (token)
-    headers = {
-      "Content-Type": "application/json",
-      Authorization: token
-    };
-  else
-    headers = {
-      "Content-Type": "application/json"
-    };
+function specialGetData(url = "", data = {}, token, currentRequest, onGet, onError) {
+
+  let headers = chooseHeaderForRequest(token);
 
   let ajax = $.ajax({
     type: "get",
@@ -146,9 +126,9 @@ function specialGetData(url = "", data = {}, token,currentRequest ,onGet, onErro
     headers: headers,
     data: data,
     dataType: "json",
-    beforeSend : function()    {           
-      if(currentRequest != null) {
-          currentRequest.abort();
+    beforeSend: function () {
+      if (currentRequest != null) {
+        currentRequest.abort();
       }
     },
     success: onGet,
@@ -162,5 +142,7 @@ export {
   postData,
   deleteData,
   updateData,
-  specialGetData
+  specialGetData,
+  chooseHeaderForRequest
 }
+

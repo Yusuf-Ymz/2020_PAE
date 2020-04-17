@@ -9,10 +9,12 @@ $(document).ready(function () {
         console.log("cliquer ");
         homeWorker();
         let token = localStorage.getItem("token");
+        
         const data = {
             action: "tousLesDevis"
         }
         getData("/devis", data, token, onGetTousLesDevisList, onDevisListError);
+
     });
 
     $('#rechercher_mes_devis').on('click', function (e) {
@@ -35,6 +37,9 @@ function onGetTousLesDevisList(response) {
     $("#listeDeTousLesDevis").show();
     $("#titre-page").text("Liste de tous les devis");
     $("#searchCard").show();// pas encore d'option de recherche pour devis
+    
+    $("#searchContent").show();
+    
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
@@ -60,8 +65,10 @@ function onGetMesDevisListOuvrier(response) {
     $("#listeDeMesDevis").show();
     $("#titre-page").text("Liste devis d'un client");
     $("#searchCard").show();
-
-    let nombtnTab = ["visualiser devis"];
+    $("#filtre_amenagement").show();
+    $("#filtre_user").hide();
+    $("#filtre_client").hide();
+    let nombtnTab = ["visualiser devis"];   
     printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 
 }

@@ -30,5 +30,6 @@ public class BizException extends RuntimeException {
 
   public int getStatusCode() {
     return this.statusCode;
+
   }
 }

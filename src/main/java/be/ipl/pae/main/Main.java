@@ -4,10 +4,10 @@ import be.ipl.pae.ihm.AmenagementServlet;
 import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.ihm.ClientServlet;
 import be.ipl.pae.ihm.DevisServlet;
+import be.ipl.pae.ihm.RootServlet;
 import be.ipl.pae.ihm.UserServlet;
 
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -25,7 +25,8 @@ public class Main {
     System.out.println(context.getContextPath());
     context.setContextPath("/");
     context.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
-    context.addServlet(new ServletHolder(new DefaultServlet()), "/");
+
+    context.addServlet(new ServletHolder(new RootServlet()), "/");
     context.setResourceBase("public");
 
     Config.load("prod.properties");

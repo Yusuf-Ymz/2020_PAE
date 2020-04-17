@@ -158,8 +158,6 @@ $(document).ready(function (e) {
     }
 
 
-
-
     $("#drop-container").on('dragenter', function (e) {
         e.preventDefault();
         console.log("dragenter");

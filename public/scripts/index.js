@@ -2,7 +2,7 @@
 let token = undefined;
 window.glob = "userInfo";
 
-$("#HeaderContent").load("header.html");
+/*$("#HeaderContent").load("header.html");
 $("#loader").load("loader.html");
 $("#carouselContent").load("carousel.html");
 $("#loginContent").load("login.html");
@@ -11,7 +11,7 @@ $("#confirmedInscriptionContent").load("confirmedInscription.html");
 $("#linkUserClientContent").load("linkUserClient.html");
 $("#searchContent").load("searchBar.html");
 $("#introduireDevis").load("introduireDevis.html");
-$('#consulterDevis').load("consulterDevis.html");
+$('#consulterDevis').load("consulterDevis.html");*/
 
 
 $(document).ready(function () {
@@ -24,8 +24,7 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
-
-
+ 
   $(".home").on('click', function (e) {
 
     token = localStorage.getItem("token");

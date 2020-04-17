@@ -1,13 +1,16 @@
-import { getData } from "./utilsAPI.js";
+import { getData,chooseHeaderForRequest } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
 import { displayClient } from "./introduireDevis.js";
 
-let action, url, headers, currentRequestValue, currentDisplayFunction, idOfInputCurruntlyClicked;
+let action, url, headers, currentRequestValue, idOfInputCurruntlyClicked;
 const getVille = "getVille";
 const getNom = "getNom";
 const getPrenom = "getPrenom";
 const getCP = "getCP";
+const urlClient = "/client";
+const urlUser = "/user";
+const urlDevis = "/devis";
 
 function doResponse(response) {
 
@@ -21,12 +24,14 @@ function doResponse(response) {
     }
 
     switch (url) {
-        case "/client":
-
+        case urlClient:
             onGetClientList(response);
             break;
-        case "/user":
+        case urlUser:
             onGetUserList(response);
+            break;
+        case urlDevis:
+            break;
         default:
             break;
     }
@@ -40,24 +45,42 @@ function onError(err) {
 $(document).ready(function () {
 
     if ($('filtre_client').css('display') != 'none') {
-        url = "/client";
+        url = urlClient;
     } else if ($('filtre_user').css('display') != 'none') {
-        url = "/user";
+        url = urlUser;
+    } else if ($("#filtre_amenagement").css('display') != "none") {
+        url = urlDevis;
     }
 
     $("#btn_remove_filters").click(function (e) {
+
         e.preventDefault();
 
         $("#btn_remove_filters").hide();
         $("#result").hide();
 
         let token = localStorage.getItem("token");
+
         let data;
 
-        if (url === "/client") {
-            data = {
-                action: "listerClients"
-            }
+        switch (url) {
+            case urlClient:
+                data = {
+                    action: "listerClients"
+                }
+                break;
+            case urlUser:
+                data = {
+                    action: "listeUser"
+                }
+                break;
+            case urlDevis:
+                data = {
+                    action: "tousLesDevis"
+                }
+                break;
+            default:
+                break;
         }
 
         getData(url, data, token, doResponse, onError);
@@ -68,12 +91,12 @@ $(document).ready(function () {
         e.preventDefault();
 
         $("#btn_remove_filters").show();
-        $("#result").show();
 
-        let data;
+
+        let data, values;
         switch (url) {
 
-            case "/client":
+            case urlClient:
                 action = "listClientsAffine";
                 data = {
                     action: action,
@@ -82,15 +105,17 @@ $(document).ready(function () {
                     ville: $("#ville_client").val(),
                     cp: $("#code_postal_client").val()
                 }
-                const values = [$("#nom_client").val(), $("#prenom_client").val(), $("#ville_client").val(), $("#code_postal_client").val()];
-                currentRequestValue = printResult(...values);
+
+                values = [$("#nom_client").val(), $("#prenom_client").val(), $("#ville_client").val(), $("#code_postal_client").val()];
+
+
                 break;
-            case "/user":
+            case urlUser:
                 data = {
                     //a faire
                 }
                 break;
-            case "/devis":
+            case urlDevis:
                 data = {
                     type: $("#types_amenagements").val(),
                     date: $("#date_du_devis").val(),
@@ -102,36 +127,34 @@ $(document).ready(function () {
 
             default:
                 break;
+
         }
 
+        currentRequestValue = printResult(...values);
+        $("#result").show();
         let token = localStorage.getItem("token");
+
         getData(url, data, token, doResponse, onError);
+
+
 
     });
 
-    let token = localStorage.getItem("token");
-
-    if (token)
-        headers = {
-            "Content-Type": "application/json",
-            Authorization: token
-        };
-    else
-        headers = {
-            "Content-Type": "application/json"
-        };
 
     //filtre client
     $("#ville_client").click(function (e) {
         e.preventDefault();
-
+        
         action = getVille;
         idOfInputCurruntlyClicked = "#ville_client";
+
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
             minLength: 0,
             source: doAutocompleteRequest
         });
+
         auto.autocomplete('search');
+
     });
 
     $("#code_postal_client").click(function (e) {
@@ -238,12 +261,14 @@ $(document).ready(function () {
 });
 
 function doAutocompleteRequest(request, reponse) {
+ 
+    let header = chooseHeaderForRequest(localStorage.getItem('token'));
 
     $.ajax({
 
         type: "get",
         url: url,
-        headers: headers,
+        headers: header,
         data: {
             keyword: request.term,
             action: action
@@ -274,3 +299,4 @@ function printResult(...tabInputValue) {
 
     return result;
 }
+

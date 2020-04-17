@@ -67,6 +67,10 @@
     color: #fff;
 }
 
+tr:hover, tr.selected {
+    background-color: rgb(120, 211, 140)
+}
+
 #searchContent {
     background-color: transparent !important;
 }

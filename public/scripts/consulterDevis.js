@@ -97,7 +97,7 @@ function onGetConsulterDevisOuvrier(response) {
     for (let i = 0; i < types.length; i++) {
         amenagements += types[i].libelle + ",\n";
     }
-
+    
     $('#dateDebutVersionOuvrier').html(response.devis["Date de début"]);
     $('#dateVersionOuvrier').html(response.devis["Date devis"]);
     $('#dureeVersionOuvrier').html(response.devis["duree"]);
