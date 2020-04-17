@@ -370,7 +370,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee) {
+  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
     String query = "INSERT INTO pae.photos VALUES (DEFAULT,?,TRUE,?,?,?) RETURNING photo_id";
     PreparedStatement ps = dal.createStatement(query);
     try {
@@ -382,7 +382,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       PhotoDto newPhoto = null;
       if (rs.next()) {
         int idPhoto = rs.getInt(1);
-        if (preferee) {
+        if (photo.isPreferee()) {
           insererPhotoPreferee(photo.getDevis().getDevisId(), idPhoto);
         }
         newPhoto = getPhotoById(idPhoto);

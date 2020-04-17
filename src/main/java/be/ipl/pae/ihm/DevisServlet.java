@@ -170,7 +170,7 @@ public class DevisServlet extends HttpServlet {
     System.out.println(preferee);
     String json = "{\"error\":\"Erreur du serveur\"";
     try {
-      PhotoDto newPhoto =
+      final PhotoDto newPhoto =
           devisUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
       json = "{\"success\":\"Photo ajouté\",\"photo\":"
           + genson.serialize(newPhoto, new GenericType<PhotoDto>() {}) + "}";
@@ -181,8 +181,9 @@ public class DevisServlet extends HttpServlet {
     } catch (FatalException exception) {
       json = "{\"error\":\"Erreur du serveur\"}";
       ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_PRECONDITION_FAILED);
     }
 
 

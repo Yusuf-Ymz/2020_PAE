@@ -10,7 +10,7 @@ public interface DevisDao {
   /**
    * Renvoie le devis correspondant à l'id.
    * 
-   * @param idDevis
+   * @param idDevis : l'id du devis
    * @return le devis correspondant à l'id, null sinon
    */
   DevisDto obtenirDevisById(int id);
@@ -84,8 +84,7 @@ public interface DevisDao {
    * Permet d'insérer une photo après aménagement.
    * 
    * @param photo : la photo à insérer
-   * @param preferee
    * @return la photo qui a été insérer
    */
-  PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee);
+  PhotoDto insererPhotoApresAmenagement(PhotoDto photo);
 }

@@ -95,7 +95,7 @@ public interface PhotoDto {
   /**
    * Change la valuer de l'attribut.
    * 
-   * @param preferee
+   * @param preferee : la nouvelle valeure de l'attribut
    */
   void setPreferee(boolean preferee);
 }

@@ -185,11 +185,11 @@ class DevisUccImpl implements DevisUcc {
 
 
   @Override
-  public PhotoDto insererPhotoApresAmenagement(String sPhoto, int idAmenagement, int idDevis,
+  public PhotoDto insererPhotoApresAmenagement(String strPhoto, int idAmenagement, int idDevis,
       boolean visible, boolean preferee) {
     try {
       dal.startTransaction();
-      PhotoDto photo = dtoFact.getPhotoDto();
+
       AmenagementDto amenagement = amenagementDao.getAmenagementById(idAmenagement);
       if (amenagement == null) {
         throw new BizException("Amenagement inexistant");
@@ -209,10 +209,12 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException(
             "L'aménagament de la photo ne fait pas partie des aménagement du devis");
       }
+      PhotoDto photo = dtoFact.getPhotoDto();
       photo.setAmenagement(amenagement);
       photo.setDevis(devis);
-      photo.setPhoto(sPhoto);
-      PhotoDto newPhoto = devisdao.insererPhotoApresAmenagement(photo, preferee);
+      photo.setPhoto(strPhoto);
+      photo.setPreferee(preferee);
+      PhotoDto newPhoto = devisdao.insererPhotoApresAmenagement(photo);
       return newPhoto;
     } catch (Exception exception) {
       dal.rollbackTransaction();

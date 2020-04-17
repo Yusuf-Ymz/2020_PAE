@@ -99,7 +99,7 @@ public class MockDevisDao implements DevisDao {
 
 
   @Override
-  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo, boolean preferee) {
+  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
     // TODO Auto-generated method stub
     return null;
   }

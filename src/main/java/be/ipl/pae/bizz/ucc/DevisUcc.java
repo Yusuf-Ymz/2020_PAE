@@ -61,12 +61,13 @@ public interface DevisUcc {
   void changerEtatDevis(int idDevis, String newEtat);
 
   /**
-   *
-   * @param photo
-   * @param idAmenagement
-   * @param idDevis
-   * @param visible
-   * @param preferee
+   * Insére une photo après aménagements.
+   * 
+   * @param photo : la photo au format base64
+   * @param idAmenagement : l'id de l'aménagement
+   * @param idDevis : l'id du devis
+   * @param visible : si la photo est visble par tous
+   * @param preferee : si la photo est celle preférée
    * @return la photo inserer
    */
   PhotoDto insererPhotoApresAmenagement(String photo, int idAmenagement, int idDevis,
