@@ -1,9 +1,9 @@
-import { getData,chooseHeaderForRequest } from "./utilsAPI.js";
+import { getData, chooseHeaderForRequest } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
 import { displayClient } from "./introduireDevis.js";
 
-let action, url, headers, currentRequestValue, idOfInputCurruntlyClicked;
+let action, url, currentRequestValue, idOfInputCurruntlyClicked;
 const getVille = "getVille";
 const getNom = "getNom";
 const getPrenom = "getPrenom";
@@ -44,13 +44,6 @@ function onError(err) {
 
 $(document).ready(function () {
 
-    if ($('filtre_client').css('display') != 'none') {
-        url = urlClient;
-    } else if ($('filtre_user').css('display') != 'none') {
-        url = urlUser;
-    } else if ($("#filtre_amenagement").css('display') != "none") {
-        url = urlDevis;
-    }
 
     $("#btn_remove_filters").click(function (e) {
 
@@ -58,11 +51,10 @@ $(document).ready(function () {
 
         $("#btn_remove_filters").hide();
         $("#result").hide();
-
-        let token = localStorage.getItem("token");
+        chooseUrl();
 
         let data;
-
+        console.log("-> " + url);
         switch (url) {
             case urlClient:
                 data = {
@@ -82,7 +74,7 @@ $(document).ready(function () {
             default:
                 break;
         }
-
+        let token = localStorage.getItem("token");
         getData(url, data, token, doResponse, onError);
     })
 
@@ -90,12 +82,13 @@ $(document).ready(function () {
     $("#rechercher").click(function (e) {
         e.preventDefault();
 
+        chooseUrl();
+
         $("#btn_remove_filters").show();
 
-
         let data, values;
+        console.log("url = " + url);
         switch (url) {
-
             case urlClient:
                 action = "listClientsAffine";
                 data = {
@@ -107,8 +100,6 @@ $(document).ready(function () {
                 }
 
                 values = [$("#nom_client").val(), $("#prenom_client").val(), $("#ville_client").val(), $("#code_postal_client").val()];
-
-
                 break;
             case urlUser:
                 data = {
@@ -144,7 +135,7 @@ $(document).ready(function () {
     //filtre client
     $("#ville_client").click(function (e) {
         e.preventDefault();
-        
+
         action = getVille;
         idOfInputCurruntlyClicked = "#ville_client";
 
@@ -261,9 +252,9 @@ $(document).ready(function () {
 });
 
 function doAutocompleteRequest(request, reponse) {
- 
-    let header = chooseHeaderForRequest(localStorage.getItem('token'));
 
+    let header = chooseHeaderForRequest(localStorage.getItem('token'));
+    chooseUrl();
     $.ajax({
 
         type: "get",
@@ -300,3 +291,16 @@ function printResult(...tabInputValue) {
     return result;
 }
 
+
+function chooseUrl() {
+    if ($('#filtre_client').css('display') != 'none') {
+        url = urlClient;
+        console.log("client");
+    } else if ($('#filtre_user').css('display') != 'none') {
+        url = urlUser;
+        console.log("user");
+    } else if ($("#filtre_amenagement").css('display') != "none") {
+        url = urlDevis;
+        console.log("devis");
+    }
+}

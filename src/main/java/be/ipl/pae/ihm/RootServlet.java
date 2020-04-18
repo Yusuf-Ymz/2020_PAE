@@ -52,18 +52,21 @@ public class RootServlet extends DefaultServlet {
    */
   private String readHtmlContent() throws IOException {
 
-    String body = new String(Files.readAllBytes(Paths.get("./public/views/index.html")));
+    String basePathDirectories = "./public/views/";
 
-    body += new String(Files.readAllBytes(Paths.get("./public/views/loader.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/header.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/carousel.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/login.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/inscription.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/searchBar.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/confirmedInscription.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/linkUserClient.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/introduireDevis.html")));
-    body += new String(Files.readAllBytes(Paths.get("./public/views/consulterDevis.html")));
+    String body = new String(Files.readAllBytes(Paths.get(basePathDirectories + "index.html")));
+
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "loader.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "header.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "carousel.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "login.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "inscription.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "searchBar.html")));
+    body += new String(
+        Files.readAllBytes(Paths.get(basePathDirectories + "confirmedInscription.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "linkUserClient.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "introduireDevis.html")));
+    body += new String(Files.readAllBytes(Paths.get(basePathDirectories + "consulterDevis.html")));
 
     return body;
   }

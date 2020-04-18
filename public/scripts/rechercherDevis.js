@@ -27,10 +27,6 @@ $(document).ready(function () {
         getData("/devis", data, token, onGetMesDevisList, onDevisListError);
     });
 
-
-
-
-
 });
 
 function onGetTousLesDevisList(response) {
@@ -39,7 +35,6 @@ function onGetTousLesDevisList(response) {
     $("#searchCard").show();// pas encore d'option de recherche pour devis
     
     $("#searchContent").show();
-    
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();

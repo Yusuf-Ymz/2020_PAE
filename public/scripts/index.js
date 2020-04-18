@@ -70,6 +70,7 @@ const HideToHomeWhenNotConnect = () => {
   $("#slide-menu").hide();
   $("#rechercher_mes_devis").hide();
   $("#searchCard").hide();
+
 }
 
 
@@ -129,6 +130,7 @@ const SameHide = () => {
   $("#introduireDevis").hide();
   $('#consulterDevis').hide();
   $('#listeDeMesDevis').hide();
+  $("#searchContent").hide();
 }
 
 
@@ -144,7 +146,7 @@ const homeWorker = () => {
   SameHide();
 
   $('#rechercher_mes_devis').hide();
-  console.log(window.glob.ouvrier);
+  
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
   }
