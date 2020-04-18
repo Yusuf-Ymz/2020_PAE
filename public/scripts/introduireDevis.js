@@ -3,12 +3,14 @@ import { getData, postData, specialGetData } from "./utilsAPI.js";
 
 import notify from "./utils.js";
 import { homeWorker, HomeUser } from "./index.js";
+import {printTable} from "./utilsHtml.js";
 
 let idClient = -1;
 
 
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
+    console.log(amenagements);
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
     
@@ -227,103 +229,24 @@ function getListClient() {
 
 
 function displayClient(response) {
-
-
+    console.log(response);
+    let nombtnTab = ["Sélectionner"];   
     let div_container = $("#tableClients")[0];
-    div_container.innerHTML = "";
-    let table = document.createElement("table");
-    table.className = "table table-bordered mt-0";
-
-    div_container.appendChild(table);
-    let thead = document.createElement("thead");
-    table.appendChild(thead);
-
-
-    let tr = document.createElement("th");
-    tr.innerHTML = "Nom";
-    thead.appendChild(tr);
-
-
-    tr = document.createElement("th");
-    tr.innerHTML = "Prénom";
-    thead.appendChild(tr);
-
-    tr = document.createElement("th");
-    tr.innerHTML = "e-mail";
-    thead.appendChild(tr);
-
-    tr = document.createElement("th");
-    tr.innerHTML = "Ville";
-    thead.appendChild(tr);
-
-    tr = document.createElement("th");
-    tr.innerHTML = "Code Postal";
-    thead.appendChild(tr);
-
-    tr = document.createElement("th");
-    tr.innerHTML = "N° téléphone";
-    thead.appendChild(tr);
-
-    tr = document.createElement("th");
-    tr.innerHTML = "";
-    thead.appendChild(tr);
-
-    response = response.clients;
-
-    let tbody = document.createElement("tbody");
-
-    table.appendChild(tbody);
-
-    for (let i = 0; i < response.length; i++) {
-        let trData = document.createElement("tr");
-        tbody.appendChild(trData);
-        const element = response[i];
-
-        let champ = document.createElement("td");
-        champ.innerHTML = element["Nom"];
-        trData.appendChild(champ);
-        champ.className = "nom";
-
-        champ = document.createElement("td");
-        champ.innerHTML = element["Prénom"];
-        trData.appendChild(champ);
-        champ.className = "prenom";
-
-        champ = document.createElement("td");
-        champ.innerHTML = element["Email"];
-        trData.appendChild(champ);
-
-        champ = document.createElement("td");
-        champ.innerHTML = element["Ville"];
-        trData.appendChild(champ);
-
-        champ = document.createElement("td");
-        champ.innerHTML = element["Code postal"];
-        trData.appendChild(champ);
-
-        champ = document.createElement("td");
-        champ.innerHTML = element["Téléphone"];
-        trData.appendChild(champ);
-
-        champ = document.createElement("td");
-        let button = document.createElement("button");
-        button.innerHTML = "Sélectionner";
-        button.className = "btn btn-primary"
-        button.value = element["N° client"];
-        champ.appendChild(button);
-        trData.appendChild(champ);
-
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            idClient = e.target.value;
-            $("#idClient").val(idClient);
-            let tr = e.target.parentNode.parentNode;
-            let nom = tr.getElementsByClassName('nom');
-            let prenom = tr.getElementsByClassName('prenom');
-            $("#nomInfo").val(nom[0].innerHTML);
-            $("#prenomInfo").val(prenom[0].innerHTML);
-        });
-    }
-
+    printTable("tableClients", response.clients, nombtnTab, "N° client", [selectionnerClient]);
 }
+
+function selectionnerClient(url, data){
+    console.log(data);
+    idClient = data["N° client"];
+    $("#idClient").val(idClient);
+    let tr = document.getElementById(idClient);
+    console.log(tr);
+    let nom = $('#' + idClient +" td:first-child").html();
+    let prenom = $('#' + idClient +" td:nth-child(2)").html();
+    console.log(nom);
+    console.log(prenom);
+    $("#nomInfo").val(nom);
+    $("#prenomInfo").val(prenom);
+}
+
 export { displayClient } 
