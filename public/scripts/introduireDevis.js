@@ -3,17 +3,53 @@ import { getData, postData, specialGetData } from "./utilsAPI.js";
 
 import notify from "./utils.js";
 import { homeWorker, HomeUser } from "./index.js";
-import {printTable} from "./utilsHtml.js";
+import { printTable } from "./utilsHtml.js";
 
 let idClient = -1;
 
+function ajouterAmenagement() {
+
+    let data = {
+        libelle: $("#libelle").val(),
+    };
+
+    postData("/amenagement", data, localStorage.getItem("token"), onPostAmenagement, onError);
+}
+
+function onPostAmenagement(response) {
+    $(':input').val('');
+    notify("success", "aménagement ajouté !");
+    $("#amenagementModal").modal('hide');
+    let id = "amenagement" + response.amenagement.id;
+
+    let div = document.createElement("div");
+    div.className = " col-md-6 mt-3";
+    let label = document.createElement("label");
+    label.className = "customcheck";
+    label.htmlFor = id;
+    label.innerHTML = response.amenagement.libelle;
+
+    let span = document.createElement("span");
+    span.className = "checkmark";
+
+    let input = document.createElement("input");
+    input.type = "checkbox";
+    input.className = " amenagements ml-2";
+    input.id = id;
+    input.value = response.amenagement.id;
+
+    label.appendChild(input);
+    label.appendChild(span);
+    div.appendChild(label);
+    $("#amenagements").append(div);
+}
 
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
     console.log(amenagements);
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
-    
+
     for (let i = 0; i < amenagements.length; i++) {
         let id = "amenagement" + amenagements[i]["id"];
 
@@ -33,8 +69,6 @@ function displayAmenagements(response) {
         input.id = id;
         input.value = amenagements[i]["id"];
 
-
-
         label.appendChild(input);
         label.appendChild(span);
         div.appendChild(label);
@@ -53,6 +87,15 @@ function onError(err) {
 
 $(document).ready(function (e) {
 
+    $("#insererAmenagement").click(function (e) {
+        e.preventDefault();
+        $("#amenagementModal").modal('show');
+    });
+
+    $("#ajouterAmenagementModal").click(function (e) {
+        ajouterAmenagement();
+    });
+
     $("#indroduire_devis").click(function (e) {
         e.preventDefault();
         homeWorker();
@@ -63,10 +106,18 @@ $(document).ready(function (e) {
         $("#filtre_client").show();
         $("#filtre_user").hide();
         $("#filtre_amenagement").hide();
-
+        $("#searchDisplayClient").show();
         $("#titre-page").text("Introduire devis");
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
+    });
+
+    $("#btn_remove_client").click(function(e){
+        e.preventDefault();
+        $(this).hide();
+        $("#searchContent").fadeIn();
+        $("#searchDisplayClient").fadeIn();
+
     });
 
     $("#insererDevis").click(function (e) {
@@ -105,7 +156,7 @@ $(document).ready(function (e) {
         $(':input').val('');
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         notify("success", "Devis Introduit");
-        
+
     }
     $("#ajouterClient").click(function (e) {
         e.preventDefault();
@@ -159,9 +210,6 @@ $(document).ready(function (e) {
         console.log(response.error);
     }
 
-
-
-
     $("#drop-container").on('dragenter', function (e) {
         e.preventDefault();
         console.log("dragenter");
@@ -202,7 +250,7 @@ $(document).ready(function (e) {
         }
         reader.readAsDataURL(file);
     }
-    $("#inputFile").on("change",function (e) {
+    $("#inputFile").on("change", function (e) {
         var file = e.target.files[0];
         converFile(file);
     });
@@ -221,7 +269,6 @@ $(document).ready(function (e) {
 function getListClient() {
     let data = {
         action: "listerClients",
-
     };
     getData("/client", data, localStorage.getItem("token"), displayClient, onError);
 }
@@ -230,23 +277,26 @@ function getListClient() {
 
 function displayClient(response) {
     console.log(response);
-    let nombtnTab = ["Sélectionner"];   
+    let nombtnTab = ["Sélectionner"];
     let div_container = $("#tableClients")[0];
     printTable("tableClients", response.clients, nombtnTab, "N° client", [selectionnerClient]);
 }
 
-function selectionnerClient(url, data){
+function selectionnerClient(url, data) {
     console.log(data);
     idClient = data["N° client"];
     $("#idClient").val(idClient);
     let tr = document.getElementById(idClient);
-    console.log(tr);
-    let nom = $('#' + idClient +" td:first-child").html();
-    let prenom = $('#' + idClient +" td:nth-child(2)").html();
-    console.log(nom);
-    console.log(prenom);
+    //console.log(tr);
+    let nom = $('#' + idClient + " td:first-child").html();
+    let prenom = $('#' + idClient + " td:nth-child(2)").html();
+    //onsole.log(nom);
+    //console.log(prenom);
     $("#nomInfo").val(nom);
     $("#prenomInfo").val(prenom);
+    $("#searchContent").fadeOut();
+    $("#searchDisplayClient").fadeOut();
+    $("#btn_remove_client").show();
 }
 
 export { displayClient } 

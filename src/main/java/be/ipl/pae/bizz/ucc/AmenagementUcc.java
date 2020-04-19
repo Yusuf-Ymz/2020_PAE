@@ -12,4 +12,12 @@ public interface AmenagementUcc {
    * @return la liste des aménagements
    */
   List<AmenagementDto> listerTousLesAmenagements();
+
+  /**
+   * Insére un aménagement et le renvoie.
+   * 
+   * @param amenagement : l'aménagement à insérer
+   * @return l'aménagement inséré
+   */
+  AmenagementDto ajouterAmenagement(AmenagementDto amenagement);
 }

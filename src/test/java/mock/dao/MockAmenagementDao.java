@@ -41,4 +41,10 @@ public class MockAmenagementDao implements AmenagementDao {
     return amenagements.stream().filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
+  @Override
+  public AmenagementDto ajouterAmenagment(AmenagementDto amenagement) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

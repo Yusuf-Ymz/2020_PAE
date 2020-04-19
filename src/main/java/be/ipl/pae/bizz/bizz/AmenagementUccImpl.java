@@ -30,4 +30,18 @@ class AmenagementUccImpl implements AmenagementUcc {
     }
   }
 
+  @Override
+  public AmenagementDto ajouterAmenagement(AmenagementDto amenagement) {
+    try {
+      dal.startTransaction();
+      return amenagementDao.ajouterAmenagment(amenagement);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
 }

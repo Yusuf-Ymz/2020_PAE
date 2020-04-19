@@ -59,4 +59,22 @@ class AmenagementDaoImpl extends DaoUtils implements AmenagementDao {
 
   }
 
+  @Override
+  public AmenagementDto ajouterAmenagment(AmenagementDto amenagement) {
+    String query =
+        "INSERT INTO pae.types_amenagements VALUES (DEFAULT,?) RETURNING type_amenagement";
+    PreparedStatement ps = dal.createStatement(query);
+    try {
+      ps.setString(1, amenagement.getLibelle());
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        return getAmenagementById(rs.getInt(1));
+      }
+      return null;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException();
+    }
+  }
+
 }

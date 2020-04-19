@@ -1,10 +1,10 @@
 <!--<h3 class="row p">Introduire devis</h3>-->
 <div id="introduireDevis" class="table-responsive">
-
-  <h5 class="p mt-0 pt-0">Si le client recherché n'existe pas <button type="button" class="btn btn-success"
-      data-toggle="modal" data-target="#myModal">ajouter-le</button></h5>
-  <div class=" table-responsive row p pt-0 pb-0 mb-0 mt-0 " id="tableClients">
-
+  <div id="searchDisplayClient">
+    <h5 class="p mt-0 pt-0">Si le client recherché n'existe pas <button type="button" class="btn btn-success"
+        data-toggle="modal" data-target="#myModal">ajouter-le</button></h5>
+    <div class=" table-responsive row p pt-0 pb-0 mb-0 mt-0 " id="tableClients">
+    </div>
   </div>
   <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
@@ -80,6 +80,10 @@
     <div class="col-md-3">
       <input type="hidden" id="idClient">
       <div class="form-group">
+        <button id="btn_remove_client" class="btn lbl-default h-5" style="display: none;">Choisir un autre
+          client <span><i class="fas fa-times-circle fa-lg"></i></span></button>
+      </div>
+      <div class="form-group">
         <label>Nom du client :</label>
         <input type="text" class="form-control" id="nomInfo" disabled>
       </div>
@@ -106,6 +110,35 @@
     </div>
     <div class="col-md-9">
       <h5>Les types d'aménagements:</h5>
+      <p class="mt-3"><a id="insererAmenagement" href="/amenagement">Cliquer ici</a> pour créer un nouvel aménagement
+      </p>
+      <div class="modal fade" id="amenagementModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Ajouter un aménagement</h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="libelle">Libelle :</label>
+                <input type="text" class="form-control" id="libelle" placeholder="" autocomplete="off" required>
+              </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer" style="height: 50px;">
+              <div class="position-absolute top-left ml-3 ">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+              </div>
+              <div class="position-absolute top-right mr-3">
+                <button type="button" class="btn btn-success" id="ajouterAmenagementModal">Ajouter</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
       <div class="row" id='amenagements'>
 
       </div>

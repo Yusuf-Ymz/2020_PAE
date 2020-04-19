@@ -10,4 +10,6 @@ public interface AmenagementDao {
 
   AmenagementDto getAmenagementById(int id);
 
+  AmenagementDto ajouterAmenagment(AmenagementDto amenagement);
+
 }

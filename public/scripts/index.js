@@ -1,4 +1,5 @@
 "use strict";
+import {getData} from "./utilsAPI.js";
 let token = undefined;
 window.glob = "userInfo";
 
@@ -188,7 +189,7 @@ function onErrorRefresh(err) {
 
 
 
-function getData(url = "", data = "", token, onGet, onError) {
+/*function getData(url = "", data = "", token, onGet, onError) {
   let headers;
   if (token)
     headers = {
@@ -215,6 +216,6 @@ function getData(url = "", data = "", token, onGet, onError) {
     success: onGet,
     error: onError
   });
-}
+}*/
 
 export { HomeUser, homeWorker };
