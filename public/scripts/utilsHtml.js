@@ -38,7 +38,14 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
   for (let x = 0; x < arrayToPrint.length; x++) {
 
     trData = document.createElement("tr");
+    trData.addEventListener("dblclick", e => {
+      e.preventDefault();
+      let data = {};
+      data[idNom] = e.currentTarget.id;
+      console.log(data);
+      lesFonction[0](url, data);
 
+    });
     tbody.appendChild(trData);
     const element = arrayToPrint[x];
     for (const propriete in element) {
@@ -48,15 +55,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
         trData.id = element[propriete];
         continue;
       }
-      trData.addEventListener("dblclick", e => {
-        e.preventDefault();
-
-        let data = {};
-        data[idNom] = trData.id;
-        console.log(data);
-        lesFonction[0](url, data);
-
-      })
+  
       if (propriete === "Types d'aménagements") {
         let amenagements = "";
         element[propriete] = JSON.parse(element[propriete]);
