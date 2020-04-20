@@ -86,6 +86,15 @@ class ServletUtils {
   }
 
   /**
+   * Renvoie un genson pour la photo.
+   * 
+   * @return un genson
+   */
+  public static Genson getGensonPhoto() {
+    return gensonPhoto;
+  }
+
+  /**
    * Vérifie si l'utilisateur est connecté(token) ou pas.
    * 
    * @param token : le token à verifier

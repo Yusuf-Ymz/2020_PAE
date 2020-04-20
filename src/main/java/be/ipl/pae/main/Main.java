@@ -4,6 +4,7 @@ import be.ipl.pae.ihm.AmenagementServlet;
 import be.ipl.pae.ihm.AuthentificationServlet;
 import be.ipl.pae.ihm.ClientServlet;
 import be.ipl.pae.ihm.DevisServlet;
+import be.ipl.pae.ihm.PhotoServlet;
 import be.ipl.pae.ihm.RootServlet;
 import be.ipl.pae.ihm.UserServlet;
 
@@ -51,6 +52,10 @@ public class Main {
     HttpServlet amenagementServlet = new AmenagementServlet();
     injectionService.injectDependencies(amenagementServlet);
     context.addServlet(new ServletHolder(amenagementServlet), "/amenagement");
+
+    HttpServlet photoServlet = new PhotoServlet();
+    injectionService.injectDependencies(photoServlet);
+    context.addServlet(new ServletHolder(photoServlet), "/photo");
 
     Server server = new Server(Config.getConfigurationToInt("port"));
     server.setHandler(context);
