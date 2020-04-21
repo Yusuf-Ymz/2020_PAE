@@ -154,7 +154,8 @@ function onPostCheckBox(response) {
 }
 
 function onCheckBoxError(response) {
-    notify("error", "Les modifications n'ont pas pu être effectué");
+    console.log(response);
+    notify("error", "Les modifications n'ont pas pu être effectuées");
     $('#loader').hide();
 }
 
@@ -207,13 +208,7 @@ $(document).ready(function () {
             };
             postData("/devis", data, null, onPostCheckBox, onCheckBoxError); //Revoir les nuls.
 
-        } /*else {
-      const data = {
-        action: "confirmerCommande",
-        etat: "nonAccepte"
-      };
-      postData("/devis", data, null, onPostCheckBox, null);
-    }*/
+        }
     });
 
     $('#confirmerDateDebut').change(function () {
@@ -223,13 +218,7 @@ $(document).ready(function () {
                 id: devisID
             };
             postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
-        } /*else {
-      const data = {
-        action: "confirmerDateDebut",
-        etat: "nonAccepte"
-      };
-      postData("/devis", data, null, null, null);
-    }*/
+        }
     });
 
     $('#repousserDateDebut').change(function () {
@@ -239,14 +228,28 @@ $(document).ready(function () {
                 newDate: $("#inputRepousser").val(),
                 id: devisID
             };
-            postData("/devis", data, null, onPostCheckBox, null);
-        } /*else {
-      const data = {
-        action: "repousserDateDebut",
-        etat: "nonAccepte"
-      };
-      postData("/devis", data, null, null, null);
-    }*/
+            postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+        }
     });
+
+    $('#indiquerFactureMilieu').change(function(){
+        if ($(this).is(":checked")){
+            const data = {
+                action: "indiquerFactureMilieuPayee",
+                id: devisID
+            };
+            postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+        }
+    })
+
+    $('#indiquerFactureFin').change(function(){
+        if ($(this).is(":checked")){
+            const data = {
+                action: "indiquerFactureFinPayee",
+                id: devisID
+            };
+            postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+        }
+    })
 });
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };
