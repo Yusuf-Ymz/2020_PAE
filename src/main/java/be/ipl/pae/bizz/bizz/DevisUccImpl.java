@@ -1,5 +1,7 @@
 package be.ipl.pae.bizz.bizz;
 
+import java.util.ArrayList;
+import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -12,9 +14,6 @@ import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.AmenagementDao;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -153,26 +152,33 @@ class DevisUccImpl implements DevisUcc {
       if (etatActuel == null) {
         throw new BizException("Le devis n'existe pas");
       }
-
+      System.out.println(etatActuel);
       switch (etatActuel) {
-        case "Introduit":
-          if (newEtat.equalsIgnoreCase("Commande confirmée")
-              || newEtat.equalsIgnoreCase("Date début confirmée")) {
+        case "Devis introduit":
+          if (newEtat.equalsIgnoreCase("Commande confirmée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
             return;
           }
           break;
         case "Commande confirmée":
-          if (newEtat.equalsIgnoreCase("Date début confirmée")) {
+          if (newEtat.equalsIgnoreCase("Acompte payé")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
             return;
           }
           break;
-        default:
-          System.out.println("Changement impossible.");
+        case "Acompte payé":
+          if (newEtat.equalsIgnoreCase("Facture milieu chantier envoyée")) {
+            devisdao.changerEtatDevis(idDevis, newEtat);
+            return;
+          }
+          break;
+        case "Facture milieu chantier envoyée":
+          if (newEtat.equalsIgnoreCase("Facture de décompte envoyée")) {
+            devisdao.changerEtatDevis(idDevis, newEtat);
+            return;
+          }
           break;
       }
-
       throw new BizException("Changement impossible.");
     } catch (Exception exception) {
       dal.rollbackTransaction();

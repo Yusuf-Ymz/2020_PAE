@@ -1,5 +1,15 @@
 package be.ipl.pae.ihm;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
@@ -9,19 +19,6 @@ import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
-
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -151,6 +148,10 @@ public class DevisServlet extends HttpServlet {
       case "repousserDateDebut":
         break;
 
+      case "indiquerFactureMilieuPayee":
+        changerEtat(body, resp, action);
+        break;
+
       case "ajouterPhotoApresAmenagement":
         ajouterPhotoApresApresAmenagement(body, resp);
         break;
@@ -255,14 +256,28 @@ public class DevisServlet extends HttpServlet {
           break;
 
         case "confirmerDateDebut":
-          devisUcc.changerEtatDevis(devisId, "Date début confirmée");
-          json = "{\"etat\":\"Date début confirmée\"}";
+          devisUcc.changerEtatDevis(devisId, "Acompte payé");
+          json = "{\"etat\":\"Acompte payé\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "repousserDateDebut":
           json = "{\"etat\":\"A changer.\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+
+        case "indiquerFactureMilieuPayee":
+          devisUcc.changerEtatDevis(devisId, "Facture milieu chantier envoyée");
+          json = "{\"etat\":\"Facture milieu chantier envoyée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+
+        case "indiquerFactureFinPayee":
+          devisUcc.changerEtatDevis(devisId, "Facture de décompte envoyée");
+          json = "{\"etat\":\"Facture de décompte envoyée\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
