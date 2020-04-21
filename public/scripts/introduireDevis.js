@@ -17,7 +17,7 @@ function ajouterAmenagement() {
 }
 
 function onPostAmenagement(response) {
-    $(':input').val('');
+    $("#libelle").val("");
     notify("success", "aménagement ajouté !");
     $("#amenagementModal").modal('hide');
     let id = "amenagement" + response.amenagement.id;
@@ -37,7 +37,7 @@ function onPostAmenagement(response) {
     input.className = " amenagements ml-2";
     input.id = id;
     input.value = response.amenagement.id;
-
+    input.checked = "true";
     label.appendChild(input);
     label.appendChild(span);
     div.appendChild(label);
@@ -46,7 +46,6 @@ function onPostAmenagement(response) {
 
 function displayAmenagements(response) {
     let amenagements = response.amenagements;
-    console.log(amenagements);
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
 
@@ -87,6 +86,7 @@ function onError(err) {
 
 $(document).ready(function (e) {
 
+    console.log(idClient);
     $("#insererAmenagement").click(function (e) {
         e.preventDefault();
         $("#amenagementModal").modal('show');
@@ -102,17 +102,23 @@ $(document).ready(function (e) {
         $("#introduireDevis").show();
         $("#searchCard").show();
         $("#card").show();
-        $("#searchContent").show();
+
         $("#filtre_client").show();
         $("#filtre_user").hide();
         $("#filtre_amenagement").hide();
-        $("#searchDisplayClient").show();
-        $("#titre-page").text("Introduire devis");
+        if (idClient > 0) {
+            $("#searchContent").hide();
+            $("#searchDisplayClient").hide();
+        } else {
+            $("#searchContent").show();
+            $("#searchDisplayClient").show();
+        }
+        $("#titre-page").text("Introduire un nouveau devis");
         getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
         getListClient();
     });
 
-    $("#btn_remove_client").click(function(e){
+    $("#btn_remove_client").click(function (e) {
         e.preventDefault();
         $(this).hide();
         $("#searchContent").fadeIn();
@@ -153,8 +159,11 @@ $(document).ready(function (e) {
     })
 
     function onPost(response) {
-        $(':input').val('');
-        getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
+        //$(':input').val('');
+        $(".inputDevis").val('');
+        idClient = -1;
+        $("#searchContent").show();
+        $("#searchDisplayClient").show();
         notify("success", "Devis Introduit");
 
     }
@@ -285,11 +294,13 @@ function displayClient(response) {
 function selectionnerClient(url, data) {
     console.log(data);
     idClient = data["N° client"];
+    console.log(idClient);
     $("#idClient").val(idClient);
-    let tr = document.getElementById(idClient);
-    //console.log(tr);
-    let nom = $('#' + idClient + " td:first-child").html();
-    let prenom = $('#' + idClient + " td:nth-child(2)").html();
+    let tr = $("#tableClients").find("#" + idClient);
+
+    console.log(tr);
+    let nom = $("#tableClients").find("#" + idClient).find("td:first-child").html();
+    let prenom = $("#tableClients").find("#" + idClient).find("td:nth-child(2)").html();
     //onsole.log(nom);
     //console.log(prenom);
     $("#nomInfo").val(nom);

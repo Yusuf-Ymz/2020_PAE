@@ -39,12 +39,13 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
 
     trData = document.createElement("tr");
     trData.addEventListener("dblclick", e => {
+      console.log( e.currentTarget);
+      console.log(e.target);
       e.preventDefault();
       let data = {};
       data[idNom] = e.currentTarget.id;
       console.log(data);
       lesFonction[0](url, data);
-
     });
     tbody.appendChild(trData);
     const element = arrayToPrint[x];
@@ -103,6 +104,7 @@ function addButton(valeurBouton, parent, nomJsonId, functionLancee, url) {
 
   button.addEventListener("click", e => {
     e.preventDefault();
+    console.log(e.target);
     const id = e.target.value;
     let data = {};
     data[nomJsonId] = id;
