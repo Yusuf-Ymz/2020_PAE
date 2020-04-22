@@ -126,19 +126,37 @@ public class MockUserDao implements UserDao {
   @Override
   public List<String> rechercherNomsUtilisateurs(String nom) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> noms = new ArrayList<String>();
+
+    if (nom == "test") {
+      noms.add("hello");
+    }
+
+    return noms;
   }
 
   @Override
   public List<String> rechercherPrenomsUtilisateurs(String prenom) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> prenoms = new ArrayList<String>();
+
+    if (prenom == "test") {
+      prenoms.add("hello");
+    }
+
+    return prenoms;
   }
 
   @Override
   public List<String> rechercherVillesUtilisateurs(String ville) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> villes = new ArrayList<String>();
+
+    if (ville == "test") {
+      villes.add("hello");
+    }
+
+    return villes;
   }
 
   @Override

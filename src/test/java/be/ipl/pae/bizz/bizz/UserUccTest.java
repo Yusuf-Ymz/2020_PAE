@@ -145,5 +145,40 @@ class UserUccTest {
     assertThrows(BizException.class, () -> ucc.obtenirUtilisateur(idUser));
   }
 
+  @Test
+  public void testlisterNomsUtilisateursOk() {
+    assertTrue(ucc.listerNomsUtilisateurs("test").size() > 0);
+  }
+
+  @Test
+  public void testlisterNomsUtilisateursVide() {
+    assertTrue(ucc.listerNomsUtilisateurs("yusuf").size() == 0);
+  }
+
+  @Test
+  public void testlisterPrenomsUtilisateursOk() {
+    assertTrue(ucc.listerPrenomsUtilisateurs("test").size() > 0);
+  }
+
+  @Test
+  public void testlisterPrenomsUtilisateursVide() {
+    assertTrue(ucc.listerNomsUtilisateurs("yusuf").size() == 0);
+  }
+
+  @Test
+  public void testlisterVillesUtilisateursOk() {
+    assertTrue(ucc.listerVillesUtilisateurs("test").size() > 0);
+  }
+
+  @Test
+  public void testlisterVillesUtilisateursVide() {
+    assertTrue(ucc.listerVillesUtilisateurs("yusuf").size() == 0);
+  }
+
+  @Test
+  public void testlisterUtilisateursAvecCriteres() {
+
+  }
+
 
 }

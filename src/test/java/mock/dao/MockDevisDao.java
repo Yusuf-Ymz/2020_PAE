@@ -113,33 +113,131 @@ public class MockDevisDao implements DevisDao {
   @Override
   public List<String> rechercherNomsClients(String nom) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> noms = new ArrayList<String>();
+
+    if (nom == "test") {
+      noms.add("hello");
+    }
+
+    return noms;
   }
 
   @Override
   public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> amenagements = new ArrayList<String>();
+
+    if (amenagement == "test") {
+      amenagements.add("hello");
+    }
+
+    return amenagements;
   }
 
   @Override
   public List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
       String dateDevis, int montantMin, int montantMax) {
-    // TODO Auto-generated method stub
-    return null;
+    List<DevisDto> devis = new ArrayList<DevisDto>();
+
+    if (client == "yusuf" && typeAmenagement == null && montantMin == -1 && montantMax == -1
+        && dateDevis == null) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == null && typeAmenagement == "test" && dateDevis == null && montantMin == -1
+        && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == null && typeAmenagement == null && dateDevis == null && montantMin == -1
+        && montantMax == 1000) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == null && typeAmenagement == null && dateDevis == null && montantMax == -1
+        && montantMin == 100) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == null && typeAmenagement == null && dateDevis != null && montantMax == -1
+        && montantMin == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == "baptiste" && typeAmenagement == "basses-tiges" && dateDevis == null
+        && montantMin == -1 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == "paul" && typeAmenagement == "basses-tiges" && dateDevis != null
+        && montantMin == -1 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == "charles" && typeAmenagement == "basses-tiges" && dateDevis != null
+        && montantMin == 100 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (client == "albert" && typeAmenagement == "basses-tiges" && dateDevis != null
+        && montantMin == 100 && montantMax == 1000) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+
+
+    return devis;
   }
 
   @Override
   public List<String> rechercherAmenagements(String amenagement, int clientId) {
-    // TODO Auto-generated method stub
-    return null;
+    List<String> amenagements = new ArrayList<String>();
+
+    if (clientId == 1 && amenagement == "test") {
+      amenagements.add("hello");
+    }
+
+    return amenagements;
   }
 
   @Override
   public List<DevisDto> rechercherMesDevisAffine(int clientId, String typeAmenagement,
       String dateDevis, int montantMin, int montantMax) {
-    // TODO Auto-generated method stub
-    return null;
+    List<DevisDto> devis = new ArrayList<DevisDto>();
+
+    if (clientId == 1 && typeAmenagement == "test" && dateDevis == null && montantMin == -1
+        && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 2 && montantMax == 1000) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 3 && montantMin == 100) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 4 && dateDevis != null) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 5 && typeAmenagement == "test" && dateDevis != null && montantMin == -1
+        && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 6 && typeAmenagement == "test" && dateDevis != null && montantMin == 100
+        && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (clientId == 7 && typeAmenagement == "test" && dateDevis != null && montantMin == 100
+        && montantMax == 1000) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    return devis;
   }
 
 }
