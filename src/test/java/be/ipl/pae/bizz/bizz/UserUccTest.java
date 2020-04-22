@@ -177,7 +177,13 @@ class UserUccTest {
 
   @Test
   public void testlisterUtilisateursAvecCriteres() {
+    assertTrue(ucc.listerUtilisateursAvecCriteres("yilmaz", null, null).size() > 0);
+    assertTrue(ucc.listerUtilisateursAvecCriteres("yilmaz", "yusuf", null).size() == 0);
+    assertTrue(ucc.listerUtilisateursAvecCriteres("yilmaz", "yusuf", "paris").size() == 0);
 
+
+    assertTrue(ucc.listerUtilisateursAvecCriteres("yaffa", "elie", null).size() > 0);
+    assertTrue(ucc.listerUtilisateursAvecCriteres("okou", "gnakouri", "bxl").size() > 0);
   }
 
 

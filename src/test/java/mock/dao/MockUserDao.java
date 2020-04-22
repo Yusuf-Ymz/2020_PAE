@@ -162,7 +162,22 @@ public class MockUserDao implements UserDao {
   @Override
   public List<UserDto> rechercherUtilisateurs(String nom, String prenom, String ville) {
     // TODO Auto-generated method stub
-    return null;
+    List<UserDto> users = new ArrayList<UserDto>();
+
+    if (nom == "yilmaz" && prenom == null && ville == null) {
+      users.add(dtoFactory.getUserDto());
+    }
+
+    if (nom == "yaffa" && prenom == "elie" && ville == null) {
+      users.add(dtoFactory.getUserDto());
+    }
+
+    if (nom == "okou" && prenom == "gnakouri" && ville != null) {
+      users.add(dtoFactory.getUserDto());
+    }
+
+
+    return users;
   }
 
 }
