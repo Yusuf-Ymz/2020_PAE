@@ -35,7 +35,7 @@ function doResponse(response) {
             onGetUserList(response);
             break;
         case urlDevis:
-            if ($('#rechercher_tous_les_devis').css('display') != "none") {
+            if ($('#listeDeTousLesDevis').css('display') != "none") {
                 onGetTousLesDevisList(response);
             } else {
                 onGetMesDevisList(response);
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 break;
             case urlDevis:
 
-                if ($('#rechercher_tous_les_devis').css('display') != "none") {
+                if ($('#listeDeTousLesDevis').css('display') != "none") {
                     data = {
                         action: "tousLesDevis"
                     }
@@ -136,7 +136,8 @@ $(document).ready(function () {
             case urlDevis:
 
 
-                if ($('#rechercher_tous_les_devis').css('display') != "none") {
+                if ($('#listeDeTousLesDevis').css('display') != "none") {
+                    console.log("tous");
                     action =  "listerTousLesDevisAffine";
                     data = {                   
                         action: action,
@@ -148,6 +149,7 @@ $(document).ready(function () {
                     }
 
                 } else {
+                    console.log("mes");
                     action = "listerMesDevisAffine";
                     data = {
                         action: action,
