@@ -3,14 +3,16 @@ package be.ipl.pae.bizz.bizz;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class DevisUccTest {
   private DevisUcc devisUcc;

@@ -43,16 +43,13 @@ class UserUccImpl implements UserUcc {
         throw new BizException("Vous n'êtes pas confirmé");
       }
 
+      dal.commitTransaction();
       return newUserDto;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
-
   }
 
   public void inscrire(UserDto user) {
@@ -69,12 +66,12 @@ class UserUccImpl implements UserUcc {
       }
 
       userDao.inscrireUser(user);
+
+      dal.commitTransaction();
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -85,16 +82,15 @@ class UserUccImpl implements UserUcc {
 
       dal.startTransaction();
 
-      return userDao.obtenirListeUser();
+      List<UserDto> users = userDao.obtenirListeUser();
 
+      dal.commitTransaction();
+      return users;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
 
@@ -102,17 +98,17 @@ class UserUccImpl implements UserUcc {
   public List<UserDto> listerUsersPreinscrit() {
 
     try {
-
       dal.startTransaction();
-      return userDao.obtenirListeUsersPreInscrit();
+
+      List<UserDto> users = userDao.obtenirListeUsersPreInscrit();
+
+      dal.commitTransaction();
+      return users;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -126,15 +122,15 @@ class UserUccImpl implements UserUcc {
       if (utilisateur != null && !utilisateur.isConfirme() && client != null
           && utilisateur.getClientId() == 0) {
         utilisateur = userDao.addUtilisateurClient(idUser, idClient);
+        dal.commitTransaction();
         return utilisateur;
       }
+
       throw new BizException();
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -148,19 +144,16 @@ class UserUccImpl implements UserUcc {
 
       if (userConfirm != null && !userConfirm.isConfirme()) {
         userConfirm = userDao.addConfirmWorkerWithId(idConfirmed);
+        dal.commitTransaction();
         return userConfirm;
-
       }
-      throw new BizException("utilisateur n'existe pas ou n'est pas confirmé");
 
+      throw new BizException("utilisateur n'existe pas ou n'est pas confirmé");
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -174,17 +167,14 @@ class UserUccImpl implements UserUcc {
         throw new BizException("utilisateur introuvable");
       }
 
+      dal.commitTransaction();
       return user;
 
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
-
   }
 
 

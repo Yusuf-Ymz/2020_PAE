@@ -20,13 +20,17 @@ class AmenagementUccImpl implements AmenagementUcc {
   public List<AmenagementDto> listerTousLesAmenagements() {
     try {
       dal.startTransaction();
-      return amenagementDao.listerLesAmenagements();
+
+      List<AmenagementDto> amenagements = amenagementDao.listerLesAmenagements();
+
+      dal.commitTransaction();
+      return amenagements;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
     } finally {
-      dal.commitTransaction();
+
     }
   }
 
@@ -34,13 +38,17 @@ class AmenagementUccImpl implements AmenagementUcc {
   public AmenagementDto ajouterAmenagement(AmenagementDto amenagement) {
     try {
       dal.startTransaction();
-      return amenagementDao.ajouterAmenagment(amenagement);
+
+      AmenagementDto amenagementBis = amenagementDao.ajouterAmenagment(amenagement);
+
+      dal.commitTransaction();
+      return amenagementBis;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
     } finally {
-      dal.commitTransaction();
+
     }
   }
 
