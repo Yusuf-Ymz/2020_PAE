@@ -82,12 +82,34 @@ public interface DevisUcc {
   List<String> listerNomsClients(String nom);
 
   /**
+   * Renvoie une liste des aménagements qui sont présents dans les devis d'un client.
+   * 
+   * @param amenagement : le type d'aménagement
+   * @param clientId : le client
+   * @return liste des aménagements
+   */
+  List<String> listerAmenagementsRecherches(String amenagement, int clientId);
+
+  /**
    * Renvoie une liste des aménagements qui sont présents dans des devis.
    * 
    * @param amenagement : le type d'aménagement
    * @return liste des aménagements
    */
   List<String> listerAmenagementsTousLesClients(String amenagement);
+
+  /**
+   * Renvoie une liste de devis du client dont les attributs sont similaires aux paramètres.
+   * 
+   * @param clientId : le client
+   * @param typeAmenagement : le type d'aménagement
+   * @param dateDevis : la date du devis
+   * @param montantMin : le montant minimum
+   * @param montantMax : le montant maximum
+   * @return la liste des devis correspondant
+   */
+  List<DevisDto> listerMesDevisAffine(int clientId, String typeAmenagement, String dateDevis,
+      int montantMin, int montantMax);
 
   /**
    * Renvoie une liste de devis dont les attributs sont similaires aux paramètres.

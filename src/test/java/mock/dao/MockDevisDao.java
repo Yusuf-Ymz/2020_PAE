@@ -129,4 +129,17 @@ public class MockDevisDao implements DevisDao {
     return null;
   }
 
+  @Override
+  public List<String> rechercherAmenagements(String amenagement, int clientId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<DevisDto> rechercherMesDevisAffine(int clientId, String typeAmenagement,
+      String dateDevis, int montantMin, int montantMax) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

@@ -97,6 +97,16 @@ public interface DevisDao {
   List<String> rechercherNomsClients(String nom);
 
   /**
+   * Renvoie une liste des tous les types d'aménagements du client dont le libelle est similaire au
+   * paramètre.
+   * 
+   * @param amenagement : caractères à matche
+   * @param clientId : le client
+   * @return liste des amenagements
+   */
+  List<String> rechercherAmenagements(String amenagement, int clientId);
+
+  /**
    * Renvoie une liste des tous les types d'aménagements de tous les clients dont le libelle est
    * similaire au paramètre.
    * 
@@ -104,6 +114,19 @@ public interface DevisDao {
    * @return liste des amenagements
    */
   List<String> rechercherAmenagementsTousLesClients(String amenagement);
+
+  /**
+   * Renvoie une liste de devis d'un client dont les attributs sont similaires aux paramètres.
+   * 
+   * @param clientId : le client
+   * @param typeAmenagement : le type d'aménagement
+   * @param dateDevis : la date du devis
+   * @param montantMin : le montant minimum
+   * @param montantMax : le montant maximum
+   * @return la liste des devis correspondant
+   */
+  List<DevisDto> rechercherMesDevisAffine(int clientId, String typeAmenagement, String dateDevis,
+      int montantMin, int montantMax);
 
   /**
    * Renvoie une liste de devis dont les attributs sont similaires aux paramètres.

@@ -298,5 +298,42 @@ class DevisUccImpl implements DevisUcc {
   }
 
 
+  @Override
+  public List<String> listerAmenagementsRecherches(String amenagement, int clientId) {
+    // TODO Auto-generated method stub
+    try {
+      dal.startTransaction();
+
+      List<String> amenagements = devisdao.rechercherAmenagements(amenagement, clientId);
+
+      dal.commitTransaction();
+      return amenagements;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+
+  @Override
+  public List<DevisDto> listerMesDevisAffine(int clientId, String typeAmenagement, String dateDevis,
+      int montantMin, int montantMax) {
+    try {
+      dal.startTransaction();
+
+      List<DevisDto> devis = devisdao.rechercherMesDevisAffine(clientId, typeAmenagement, dateDevis,
+          montantMin, montantMax);
+
+      dal.commitTransaction();
+      return devis;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+
 
 }

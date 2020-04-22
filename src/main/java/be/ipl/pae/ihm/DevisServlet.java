@@ -56,7 +56,6 @@ public class DevisServlet extends HttpServlet {
         UserDto user = this.userUcc.obtenirUtilisateur(userId);
 
         if (user.isConfirme() && !user.isOuvrier()) {
-
           switch (action) {
             case "mesDevis":
               listerMesDevis(resp, user.getClientId(), status);
@@ -65,7 +64,12 @@ public class DevisServlet extends HttpServlet {
               int devisId = Integer.parseInt(req.getParameter("devisId").toString());
               consulterDevisEnTantQueClient(resp, devisId, user.getClientId(), status);
               break;
+            case "getTypes":
+              listerAmenagementsRecherches(resp, req.getParameter("keyword"), user.getClientId(),
+                  status);
+              break;
             case "listerMesDevisAffine":
+              listerMesDevisAffine(resp, req, user.getClientId(), status);
               break;
             default:
               break;
@@ -86,10 +90,10 @@ public class DevisServlet extends HttpServlet {
               consulterDevisEnTantQueOuvrier(resp, devisId, status);
               break;
             case "getNom":
-              listerNomsClients(resp, req.getParameter("keyword"), status);
+              listerNomsClientsRecherches(resp, req.getParameter("keyword"), status);
               break;
             case "getTypes":
-              listerAmenagementsTousLesClients(resp, req.getParameter("keyword"), status);
+              listerAmenagementsTousLesClientsRecherches(resp, req.getParameter("keyword"), status);
               break;
             case "listerTousLesDevisAffine":
               listerTousLesDevisAffine(resp, req, status);
@@ -190,6 +194,22 @@ public class DevisServlet extends HttpServlet {
   }
 
   /**
+   * Gère la requête permettant d'afficher tous les devis d'un client.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param keyword : caractères à match
+   * @param clientId : le client en question
+   * @param status : status ok
+   */
+  private void listerAmenagementsRecherches(HttpServletResponse resp, String keyword, int clientId,
+      int status) {
+    List<String> amenagements = devisUcc.listerAmenagementsRecherches(keyword, clientId);
+    String objetSerialize = genson.serialize(amenagements);
+    String json = "{\"noms\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
    * Gère la requête permettant d'afficher dans la barre des recherches les noms de clients
    * correspondant au keyword.
    * 
@@ -197,7 +217,7 @@ public class DevisServlet extends HttpServlet {
    * @param keyword : caractères à matcher
    * @param status : status ok
    */
-  private void listerNomsClients(HttpServletResponse resp, String keyword, int status) {
+  private void listerNomsClientsRecherches(HttpServletResponse resp, String keyword, int status) {
     List<String> noms = devisUcc.listerNomsClients(keyword);
     String objetSerialize = genson.serialize(noms);
     String json = "{\"noms\":" + objetSerialize + "}";
@@ -212,7 +232,7 @@ public class DevisServlet extends HttpServlet {
    * @param keyword : caractères à matcher
    * @param status : status ok
    */
-  private void listerAmenagementsTousLesClients(HttpServletResponse resp, String keyword,
+  private void listerAmenagementsTousLesClientsRecherches(HttpServletResponse resp, String keyword,
       int status) {
     List<String> amenagements = devisUcc.listerAmenagementsTousLesClients(keyword);
     String objetSerialize = genson.serialize(amenagements);
@@ -244,6 +264,36 @@ public class DevisServlet extends HttpServlet {
     }
     List<DevisDto> devis = devisUcc.listerTousLesDevisAffine(client, typeAmenagement, dateDevis,
         montantMin, montantMax);
+
+    String objetSerialize = genson.serialize(devis, new GenericType<List<DevisDto>>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant de lister tous les devis d'un client selon des critères.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param req : la requête
+   * @param clientId: le client
+   * @param status : status ok
+   */
+  private void listerMesDevisAffine(HttpServletResponse resp, HttpServletRequest req, int clientId,
+      int status) {
+    final String typeAmenagement = req.getParameter("type");
+    final String dateDevis = req.getParameter("date");
+
+    int montantMin = Integer.MIN_VALUE;
+    if (!req.getParameter("montantMin").trim().isEmpty()) {
+      montantMin = Integer.parseInt(req.getParameter("montantMin"));
+    }
+    int montantMax = Integer.MAX_VALUE;
+    if (!req.getParameter("montantMax").trim().isEmpty()) {
+      montantMax = Integer.parseInt(req.getParameter("montantMax"));
+    }
+
+    List<DevisDto> devis =
+        devisUcc.listerMesDevisAffine(clientId, typeAmenagement, dateDevis, montantMin, montantMax);
 
     String objetSerialize = genson.serialize(devis, new GenericType<List<DevisDto>>() {});
     String json = "{\"devis\":" + objetSerialize + "}";
