@@ -8,6 +8,7 @@ const getVille = "getVille";
 const getNom = "getNom";
 const getPrenom = "getPrenom";
 const getCP = "getCP";
+const getType = "getTypes"
 const urlClient = "/client";
 const urlUser = "/user";
 const urlDevis = "/devis";
@@ -107,7 +108,9 @@ $(document).ready(function () {
                 }
                 break;
             case urlDevis:
+                action = "listerDevisAffine"
                 data = {
+                    action : action,
                     type: $("#types_amenagements").val(),
                     date: $("#date_du_devis").val(),
                     montantMin: $("#montant_min").val(),

@@ -87,4 +87,21 @@ public interface DevisDao {
    * @return la photo qui a été insérer
    */
   PhotoDto insererPhotoApresAmenagement(PhotoDto photo);
+
+  /**
+   * Renvoie une liste des tous les clients dont le nom est similaire au paramètre.
+   * 
+   * @param nom : caractères à match
+   * @return liste des noms
+   */
+  List<String> rechercherNomsClients(String nom);
+
+  /**
+   * Renvoie une liste des tous les types d'aménagements de tous les clients dont le libelle est
+   * similaire au paramètre.
+   * 
+   * @param amenagement : caractères à match
+   * @return liste des amenagements
+   */
+  List<String> rechercherAmenagementsTousLesClients(String amenagement);
 }

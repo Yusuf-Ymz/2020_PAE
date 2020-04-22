@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 
 class DalServicesImpl implements DalServices, DalBackendServices {
-  private static ThreadLocal<Connection> connection;
+  private ThreadLocal<Connection> connection;
   private DataSource ds;
 
   /**
@@ -29,7 +29,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
       exception.printStackTrace();
       System.exit(1);
     }
-    DalServicesImpl.connection = new ThreadLocal<Connection>();
+    connection = new ThreadLocal<Connection>();
     this.ds = setupDataSource();
   }
 

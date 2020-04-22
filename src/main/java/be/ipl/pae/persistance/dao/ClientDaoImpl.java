@@ -107,7 +107,7 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     ville = ville.replace("%", "\\" + "%");
     ville += "%";
     String query = "SELECT DISTINCT c.ville FROM pae.clients c "
-        + "WHERE LOWER(c.ville) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ;";
+        + "WHERE LOWER(c.ville) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> villes = new ArrayList<String>();
     try {

@@ -110,4 +110,16 @@ public class MockDevisDao implements DevisDao {
     return null;
   }
 
+  @Override
+  public List<String> rechercherNomsClients(String nom) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

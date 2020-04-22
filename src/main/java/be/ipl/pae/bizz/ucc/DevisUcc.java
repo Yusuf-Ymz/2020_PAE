@@ -73,4 +73,20 @@ public interface DevisUcc {
   PhotoDto insererPhotoApresAmenagement(String photo, int idAmenagement, int idDevis,
       boolean visible, boolean preferee);
 
+  /**
+   * Renvoie une liste des noms des clients possédant un devis.
+   * 
+   * @param nom : le nom du client
+   * @return liste des clients
+   */
+  List<String> listerNomsClients(String nom);
+
+  /**
+   * Renvoie une liste des aménagements qui sont présents dans des devis.
+   * 
+   * @param amenagement : le type d'aménagement
+   * @return liste des aménagements
+   */
+  List<String> listerAmenagementsTousLesClients(String amenagement);
+
 }

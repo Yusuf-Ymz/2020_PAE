@@ -60,6 +60,8 @@ public class UserServlet extends HttpServlet {
             displayListUsersPreregistered(resp);
           } else if (req.getParameter("action").equals("recupererUtilisateur")) {
             afficherInfoUtilisateur(req, resp);
+          } else if (req.getParameter("action").equals("listUtilisateursAffines")) {
+            listerUtilisateursAffines(req, resp);
           }
 
         }
@@ -108,6 +110,16 @@ public class UserServlet extends HttpServlet {
     String json = "{\"data\":" + genson.serialize(user, new GenericType<UserDto>() {}) + "}";
     int statusCode = HttpServletResponse.SC_OK;
     ServletUtils.sendResponse(resp, json, statusCode);
+
+  }
+
+  /**
+   * Renvoie la liste des utilisateurs correspondant aux critères de recherches.
+   * 
+   * @param req : la requête
+   * @param resp : la réponse
+   */
+  private void listerUtilisateursAffines(HttpServletRequest req, HttpServletResponse resp) {
 
   }
 

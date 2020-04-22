@@ -1,15 +1,5 @@
 package be.ipl.pae.ihm;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
@@ -19,6 +9,19 @@ import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
+
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DevisServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -44,11 +47,9 @@ public class DevisServlet extends HttpServlet {
       String token = req.getHeader("Authorization");
       int userId = ServletUtils.estConnecte(token);
       String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
-      int status = HttpServletResponse.SC_UNAUTHORIZED;
+      int status = HttpServletResponse.SC_OK;
+
       String action = req.getParameter("action");
-      List<DevisDto> listeDevis = null;
-      DevisDto devis = null;
-      String objetSerialize = null;
 
       if (userId != -1) {
 
@@ -58,58 +59,51 @@ public class DevisServlet extends HttpServlet {
 
           switch (action) {
             case "mesDevis":
-
-              listeDevis = devisUcc.listerDevisDUnCLient(user.getClientId());
-              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              listerMesDevis(resp, user.getClientId(), status);
               break;
             case "consulterDevisEnTantQueClient":
               int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-              devis = devisUcc.consulterDevisEnTantQueUtilisateur(user.getClientId(), devisId);
-              objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+              consulterDevisEnTantQueClient(resp, devisId, user.getClientId(), status);
+              break;
+            case "listerMesDevisAffine":
               break;
             default:
               break;
           }
-        } else if (user.isOuvrier()) {
+        } else {
 
           switch (action) {
 
             case "tousLesDevis":
-              listeDevis = devisUcc.listerTousLesDevis();
-              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              listerTousLesDevis(resp, status);
               break;
             case "devisDuClient":
               int clientId = Integer.parseInt(req.getParameter("N° client").toString());
-
-              listeDevis = devisUcc.listerDevisDUnCLient(clientId);
-              objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+              listerLesDevisDUnClient(resp, clientId, status);
               break;
             case "consulterDevisEnTantQueOuvrier":
               int devisId = Integer.parseInt(req.getParameter("devisId").toString());
-              devis = devisUcc.consulterDevisEnTantQueOuvrier(devisId);
-              objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+              consulterDevisEnTantQueOuvrier(resp, devisId, status);
+              break;
+            case "getNom":
+              listerNomsClients(resp, req.getParameter("keyword"), status);
+              break;
+            case "getTypes":
+              listerAmenagementsTousLesClients(resp, req.getParameter("keyword"), status);
+              break;
+            case "listerTousLesDevisAffine":
               break;
             default:
               super.doGet(req, resp);
               break;
           }
 
-        } else {
-          ServletUtils.sendResponse(resp, json, status);
         }
-
-
-        json = "{\"devis\":" + objetSerialize + "}";
-
-
       } else {
+        status = HttpServletResponse.SC_UNAUTHORIZED;
         ServletUtils.sendResponse(resp, json, status);
       }
 
-
-
-      status = HttpServletResponse.SC_OK;
-      ServletUtils.sendResponse(resp, json, status);
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
@@ -121,6 +115,101 @@ public class DevisServlet extends HttpServlet {
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     }
+  }
+
+  /**
+   * Gère la requête permettant d'afficher les devis d'un client.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param clientId : l'id du client dont on doit afficher les devis
+   */
+  private void listerMesDevis(HttpServletResponse resp, int clientId, int status) {
+    List<DevisDto> listeDevis = devisUcc.listerDevisDUnCLient(clientId);
+    String objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher un de ses devis en tant qu'utilisateur.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param devisId : l'id du devis à afficher
+   * @param clientId : l'id du client à qui appartient le devis
+   */
+  private void consulterDevisEnTantQueClient(HttpServletResponse resp, int devisId, int clientId,
+      int status) {
+    DevisDto devis = devisUcc.consulterDevisEnTantQueUtilisateur(clientId, devisId);
+    String objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher le devis d'un utilisateur.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param devisId : l'id du devis à afficher
+   */
+  private void consulterDevisEnTantQueOuvrier(HttpServletResponse resp, int devisId, int status) {
+    DevisDto devis = devisUcc.consulterDevisEnTantQueOuvrier(devisId);
+    String objetSerialize = genson.serialize(devis, new GenericType<DevisDto>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher tous les devis.
+   * 
+   * @param resp : la réponse à envoyer au client
+   */
+  private void listerTousLesDevis(HttpServletResponse resp, int status) {
+    List<DevisDto> listeDevis = devisUcc.listerTousLesDevis();
+    String objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher tous les devis d'un client.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param clientId : le client en question
+   */
+  private void listerLesDevisDUnClient(HttpServletResponse resp, int clientId, int status) {
+    List<DevisDto> listeDevis = devisUcc.listerDevisDUnCLient(clientId);
+    String objetSerialize = genson.serialize(listeDevis, new GenericType<List<DevisDto>>() {});
+    String json = "{\"devis\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher dans la barre des recherches les noms de clients
+   * correspondant au keyword.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param keyword : caractères à matcher
+   */
+  private void listerNomsClients(HttpServletResponse resp, String keyword, int status) {
+    List<String> noms = devisUcc.listerNomsClients(keyword);
+    String objetSerialize = genson.serialize(noms);
+    String json = "{\"noms\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
+  /**
+   * Gère la requête permettant d'afficher dans la barre des recherches les types d'aménagements
+   * correspondant au keyword.
+   * 
+   * @param resp : la réponse à envoyer au client
+   * @param keyword : caractères à matcher
+   */
+  private void listerAmenagementsTousLesClients(HttpServletResponse resp, String keyword,
+      int status) {
+    List<String> amenagements = devisUcc.listerAmenagementsTousLesClients(keyword);
+    String objetSerialize = genson.serialize(amenagements);
+    String json = "{\"amenagements\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
   }
 
   @Override

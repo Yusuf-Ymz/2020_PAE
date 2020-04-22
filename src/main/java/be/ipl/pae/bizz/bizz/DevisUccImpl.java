@@ -1,7 +1,5 @@
 package be.ipl.pae.bizz.bizz;
 
-import java.util.ArrayList;
-import java.util.List;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -14,6 +12,9 @@ import be.ipl.pae.persistance.dal.DalServices;
 import be.ipl.pae.persistance.dao.AmenagementDao;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -230,6 +231,41 @@ class DevisUccImpl implements DevisUcc {
       dal.commitTransaction();
     }
 
+  }
+
+
+  @Override
+  public List<String> listerNomsClients(String nom) {
+    try {
+      dal.startTransaction();
+
+      List<String> nomsClients = devisdao.rechercherNomsClients(nom);
+      return nomsClients;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+
+  @Override
+  public List<String> listerAmenagementsTousLesClients(String amenagement) {
+    // TODO Auto-generated method stub
+    try {
+      dal.startTransaction();
+
+      List<String> amenagements = devisdao.rechercherAmenagementsTousLesClients(amenagement);
+      return amenagements;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
   }
 
 

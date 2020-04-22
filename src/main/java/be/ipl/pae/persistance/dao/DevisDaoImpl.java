@@ -431,6 +431,55 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
   }
 
+  @Override
+  public List<String> rechercherNomsClients(String nom) {
+    // TODO Auto-generated method stub
+    nom = nom.replace("%", "\\" + "%");
+    nom += "%";
+    String query = "SELECT DISTINCT c.nom FROM pae.clients c, pae.devis d "
+        + "WHERE d.client=c.client_id AND " + "LOWER(c.nom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> noms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, nom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String villeDb = rs.getString(1);
+        noms.add(villeDb);
+      }
+      return noms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
+    amenagement = amenagement.replace("%", "\\" + "%");
+    amenagement += "%";
+    String query =
+        "SELECT DISTINCT ta.libelle FROM pae.travaux tr, pae.devis d, pae.types_amenagements ta "
+            + "WHERE d.devis_id=tr.devis_id AND tr.type_amenagement=ta.type_amenagement "
+            + "AND LOWER(ta.libelle) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> amenagements = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, amenagement);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String villeDb = rs.getString(1);
+        amenagements.add(villeDb);
+      }
+      return amenagements;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
 
 
 }
