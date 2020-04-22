@@ -445,8 +445,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       prepareStatement.setString(1, nom);
       ResultSet rs = prepareStatement.executeQuery();
       while (rs.next()) {
-        String villeDb = rs.getString(1);
-        noms.add(villeDb);
+        String nomDb = rs.getString(1);
+        noms.add(nomDb);
       }
       return noms;
     } catch (SQLException exception) {
@@ -470,10 +470,77 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       prepareStatement.setString(1, amenagement);
       ResultSet rs = prepareStatement.executeQuery();
       while (rs.next()) {
-        String villeDb = rs.getString(1);
-        amenagements.add(villeDb);
+        String amenagementDb = rs.getString(1);
+        amenagements.add(amenagementDb);
       }
       return amenagements;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
+      String dateDevis, int montantMin, int montantMax) {
+    client = client.replace("%", "\\" + "%");
+    client += "%";
+
+    typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
+    typeAmenagement += "%";
+
+    String query = null;
+
+    if (dateDevis.isEmpty()) {
+      query =
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
+              + "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
+              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
+    } else {
+      query =
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
+              + "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
+              + "d.date_devis=? AND " + "d.montant_total BETWEEN ? AND ?"
+              + " ORDER BY d.date_debut";
+    }
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+
+    try {
+      prepareStatement.setString(1, client);
+      prepareStatement.setString(2, typeAmenagement);
+      if (!dateDevis.isEmpty()) {
+        prepareStatement.setDate(3, Date.valueOf(dateDevis));
+        prepareStatement.setInt(4, montantMin);
+        prepareStatement.setInt(5, montantMax);
+      } else {
+        prepareStatement.setInt(3, montantMin);
+        prepareStatement.setInt(4, montantMax);
+      }
+
+      ResultSet rs = prepareStatement.executeQuery();
+
+      List<DevisDto> listeDevis = new ArrayList<DevisDto>();
+      while (rs.next()) {
+        DevisDto devis = fact.getDevisDto();
+        fillObject(devis, rs);
+
+        ClientDto clientBis = fact.getClientDto();
+        fillObject(clientBis, rs);
+        devis.setClient(clientBis);
+
+        PhotoDto photoPreferee = fact.getPhotoDto();
+        fillObject(photoPreferee, rs);
+        devis.setPhotoPreferee(photoPreferee);
+
+        recupererLesAmenagementsDunDevis(devis);
+        listeDevis.add(devis);
+      }
+
+      return listeDevis;
+
     } catch (SQLException exception) {
       exception.printStackTrace();
       throw new FatalException(exception.getMessage());

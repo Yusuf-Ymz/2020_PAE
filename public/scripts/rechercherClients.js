@@ -34,10 +34,7 @@ function onGetClientList(response) {
     $("#filtre_user").hide();
     $("#filtre_amenagement").hide();
 
-
-    let nombtnTab = ["visualiser devis"];
-
-    printTable("listerClients", response.clients, nombtnTab, "N° client", [doGetClientDevis], "/devis");
+    printTable("listerClients", response.clients, [], "N° client", [doGetClientDevis], "/devis");
 
 }
 

@@ -162,43 +162,32 @@ class DevisUccImpl implements DevisUcc {
 
       System.out.println(etatActuel);
 
-      boolean actionTraitee = false;
       switch (etatActuel) {
         case "Devis introduit":
           if (newEtat.equalsIgnoreCase("Commande confirmée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            actionTraitee = true;
-            return;
           }
           break;
         case "Commande confirmée":
           if (newEtat.equalsIgnoreCase("Acompte payé")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            actionTraitee = true;
-            return;
           }
           break;
         case "Acompte payé":
           if (newEtat.equalsIgnoreCase("Facture milieu chantier envoyée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            actionTraitee = true;
-            return;
           }
           break;
         case "Facture milieu chantier envoyée":
           if (newEtat.equalsIgnoreCase("Facture de décompte envoyée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
-            actionTraitee = true;
-            return;
           }
           break;
+        default:
+          throw new BizException("Changement impossible.");
       }
 
-      if (actionTraitee)
-        dal.commitTransaction();
-      else
-        throw new BizException("Changement impossible.");
-
+      dal.commitTransaction();
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
@@ -282,6 +271,25 @@ class DevisUccImpl implements DevisUcc {
 
       dal.commitTransaction();
       return amenagements;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+
+  @Override
+  public List<DevisDto> listerTousLesDevisAffine(String client, String typeAmenagement,
+      String dateDevis, int montantMin, int montantMax) {
+    try {
+      dal.startTransaction();
+
+      List<DevisDto> devis = devisdao.rechercherTousLesDevisAffine(client, typeAmenagement,
+          dateDevis, montantMin, montantMax);
+
+      dal.commitTransaction();
+      return devis;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();

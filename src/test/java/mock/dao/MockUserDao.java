@@ -123,4 +123,28 @@ public class MockUserDao implements UserDao {
     return true;
   }
 
+  @Override
+  public List<String> rechercherNomsUtilisateurs(String nom) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<String> rechercherPrenomsUtilisateurs(String prenom) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<String> rechercherVillesUtilisateurs(String ville) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<UserDto> rechercherUtilisateurs(String nom, String prenom, String ville) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

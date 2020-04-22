@@ -79,4 +79,38 @@ public interface UserDao {
    * @return l'utilisateur modifié
    */
   UserDto addUtilisateurClient(int idUser, int idClient);
+
+  /**
+   * Renvoie une liste des noms des utilisateurs similaire au paramètre.
+   * 
+   * @param nom : le nom à matcher
+   * @return la liste des noms
+   */
+  List<String> rechercherNomsUtilisateurs(String nom);
+
+  /**
+   * Renvoie une liste des prénoms des utilisateurs similaire au paramètre
+   * 
+   * @param prenom : le prénom à matcher
+   * @return la liste des prénoms
+   */
+  List<String> rechercherPrenomsUtilisateurs(String prenom);
+
+  /**
+   * Renvoie une liste des villes des utilisateurs similaire au paramètre
+   * 
+   * @param ville : la ville à matcher
+   * @return la liste des villes
+   */
+  List<String> rechercherVillesUtilisateurs(String ville);
+
+  /**
+   * Renvoie une liste contenant les utilisateurs dont les paramètre sont similaires aux attributs.
+   * 
+   * @param nom : le nom à matcher
+   * @param prenom : le prénom à matcher
+   * @param ville : la ville à matcher
+   * @return la lister des utilisateurs
+   */
+  List<UserDto> rechercherUtilisateurs(String nom, String prenom, String ville);
 }

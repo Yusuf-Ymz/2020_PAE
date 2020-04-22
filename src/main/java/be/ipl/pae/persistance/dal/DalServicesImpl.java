@@ -49,8 +49,9 @@ class DalServicesImpl implements DalServices, DalBackendServices {
 
   public void startTransaction() {
     try {
-      if (connection.get() != null)
+      if (connection.get() != null) {
         throw new FatalException("startTransaction déjà commencé avant");
+      }
 
       Connection conn = ds.getConnection();
       connection.set(conn);
@@ -65,8 +66,9 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     try {
       Connection conn = null;
 
-      if ((conn = connection.get()) == null)
+      if ((conn = connection.get()) == null) {
         throw new FatalException("pas de connection");
+      }
 
       conn.commit();
       conn.close();
@@ -87,8 +89,9 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     try {
       Connection conn = null;
 
-      if ((conn = connection.get()) == null)
+      if ((conn = connection.get()) == null) {
         throw new FatalException("pas de start transaction");
+      }
 
       conn.rollback();
       this.connection.set(null);

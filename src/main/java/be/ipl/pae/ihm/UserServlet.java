@@ -60,8 +60,14 @@ public class UserServlet extends HttpServlet {
             displayListUsersPreregistered(resp);
           } else if (req.getParameter("action").equals("recupererUtilisateur")) {
             afficherInfoUtilisateur(req, resp);
-          } else if (req.getParameter("action").equals("listUtilisateursAffines")) {
+          } else if (req.getParameter("action").equals("listeUtilisateursAffine")) {
             listerUtilisateursAffines(req, resp);
+          } else if (req.getParameter("action").equals("getVille")) {
+            listerVillesUtilisateurs(req, resp);
+          } else if (req.getParameter("action").equals("getNom")) {
+            listerNomsUtilisateurs(req, resp);
+          } else if (req.getParameter("action").equals("getPrenom")) {
+            listerPrenomsUtilisateurs(req, resp);
           }
 
         }
@@ -113,6 +119,33 @@ public class UserServlet extends HttpServlet {
 
   }
 
+  private void listerVillesUtilisateurs(HttpServletRequest req, HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> villes = userUcc.listerVillesUtilisateurs(keyword);
+
+    String json = "{\"villes\":" + genson.serialize(villes) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  private void listerNomsUtilisateurs(HttpServletRequest req, HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> noms = userUcc.listerNomsUtilisateurs(keyword);
+
+    String json = "{\"noms\":" + genson.serialize(noms) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  private void listerPrenomsUtilisateurs(HttpServletRequest req, HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> prenoms = userUcc.listerPrenomsUtilisateurs(keyword);
+
+    String json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
   /**
    * Renvoie la liste des utilisateurs correspondant aux critères de recherches.
    * 
@@ -120,7 +153,17 @@ public class UserServlet extends HttpServlet {
    * @param resp : la réponse
    */
   private void listerUtilisateursAffines(HttpServletRequest req, HttpServletResponse resp) {
+    String nom = req.getParameter("nom");
+    String prenom = req.getParameter("prenom");
+    String ville = req.getParameter("ville");
 
+    List<UserDto> users = userUcc.listerUtilisateursAvecCriteres(nom, prenom, ville);
+    System.out.println(users.size());
+
+    String json =
+        "{\"listeUser\":" + genson.serialize(users, new GenericType<List<UserDto>>() {}) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
   }
 
 

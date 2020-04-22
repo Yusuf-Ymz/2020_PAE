@@ -65,5 +65,37 @@ public interface UserUcc {
    */
   UserDto obtenirUtilisateur(int userId);
 
+  /**
+   * Renvoie une liste contenant les noms des utilisateurs similaire au paramètre.
+   * 
+   * @param nom : nom à matcher
+   * @return la liste des noms
+   */
+  List<String> listerNomsUtilisateurs(String nom);
 
+  /**
+   * Renvoie une liste contenant les prénoms des utilisateurs similaire au paramètre.
+   * 
+   * @param prenom : prénom à matcher
+   * @return la liste des prénoms
+   */
+  List<String> listerPrenomsUtilisateurs(String prenom);
+
+  /**
+   * Renvoie une liste contenant les villes des utilisateurs similaire au paramètre.
+   * 
+   * @param ville : la ville à matcher
+   * @return la liste des villes
+   */
+  List<String> listerVillesUtilisateurs(String ville);
+
+  /**
+   * Renvoie une liste contenant les utilisateurs dont les paramètre sont similaires aux attributs.
+   * 
+   * @param nom : le nom à matcher
+   * @param prenom : le prénom à matcher
+   * @param ville : la ville à matcher
+   * @return la lister des utilisateurs
+   */
+  List<UserDto> listerUtilisateursAvecCriteres(String nom, String prenom, String ville);
 }

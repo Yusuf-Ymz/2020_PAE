@@ -29,8 +29,6 @@ class AmenagementUccImpl implements AmenagementUcc {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-
     }
   }
 
@@ -47,8 +45,6 @@ class AmenagementUccImpl implements AmenagementUcc {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-
     }
   }
 

@@ -16,6 +16,8 @@ const urlDevis = "/devis";
 
 function doResponse(response) {
 
+    console.log(response);
+
     $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
 
     $(':input').val('');
@@ -120,18 +122,22 @@ $(document).ready(function () {
             case urlUser:
                 
                     data = {
-                        action: "listeAffineUtilisateur",
+                        action: "listeUtilisateursAffine",
                         nom: $("#nom_utilisateur").val(),
                         prenom: $("#prenom_utilisateur").val(),
                         ville: $("#ville_utilisateur").val(),
                     }
+
+                    console.log($("#nom_utilisateur").val());
+                    console.log($("#prenom_utilisateur").val());
+                    console.log($("#ville_utilisateur").val());
                 
                 break;
             case urlDevis:
 
 
                 if ($('#rechercher_tous_les_devis').css('display') != "none") {
-                    action =  "listerDevisAffineEnTantQueOuvrier";
+                    action =  "listerTousLesDevisAffine";
                     data = {                   
                         action: action,
                         type: $("#types_amenagements").val(),
@@ -142,7 +148,7 @@ $(document).ready(function () {
                     }
 
                 } else {
-                    action = "listerDevisAffineEnTantQueUtilisateur";
+                    action = "listerMesDevisAffine";
                     data = {
                         action: action,
                         type: $("#types_amenagements").val(),
@@ -150,6 +156,7 @@ $(document).ready(function () {
                         montantMin: $("#montant_min").val(),
                         montantMax: $("#montant_max").val(),
                     }
+                    console.log($("#date_du_devis").val());
                 }
                 break;
 

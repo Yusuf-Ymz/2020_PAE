@@ -39,8 +39,7 @@ function onGetTousLesDevisList(response) {
     $("#filtre_user").hide();
     $("#filtre_client").hide();
     $("#nom_client_hidden").show();
-    let nombtnTab = ["visualiser devis"];
-    printTable("listeDeTousLesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
+    printTable("listeDeTousLesDevis", response.devis,[], "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 }
 
 function onGetMesDevisList(response) {
@@ -53,8 +52,7 @@ function onGetMesDevisList(response) {
     $("#filtre_user").hide();
     $("#filtre_client").hide();
     $("#nom_client_hidden").hide();
-    let nombtnTab = ["visualiser devis"];
-    printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueClient], "/devis");
+    printTable("listeDeMesDevis", response.devis,[], "devisId", [consulterDevisEntantQueClient], "/devis");
 }
 
 
@@ -66,8 +64,7 @@ function onGetMesDevisListOuvrier(response) {
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
-    let nombtnTab = ["visualiser devis"];   
-    printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
+    printTable("listeDeMesDevis", response.devis,[], "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 
 }
 

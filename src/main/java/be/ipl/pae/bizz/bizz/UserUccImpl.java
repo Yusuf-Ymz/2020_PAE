@@ -177,5 +177,70 @@ class UserUccImpl implements UserUcc {
     }
   }
 
+  @Override
+  public List<String> listerNomsUtilisateurs(String nom) {
+    try {
+      dal.startTransaction();
+
+      List<String> nomsUtilisateurs = userDao.rechercherNomsUtilisateurs(nom);
+
+      dal.commitTransaction();
+      return nomsUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<String> listerPrenomsUtilisateurs(String prenom) {
+    try {
+      dal.startTransaction();
+
+      List<String> prenomsUtilisateurs = userDao.rechercherPrenomsUtilisateurs(prenom);
+
+      dal.commitTransaction();
+      return prenomsUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<String> listerVillesUtilisateurs(String ville) {
+    try {
+      dal.startTransaction();
+
+      List<String> villesUtilisateurs = userDao.rechercherVillesUtilisateurs(ville);
+
+      dal.commitTransaction();
+      return villesUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<UserDto> listerUtilisateursAvecCriteres(String nom, String prenom, String ville) {
+    // TODO Auto-generated method stub
+    try {
+      dal.startTransaction();
+
+      List<UserDto> users = userDao.rechercherUtilisateurs(nom, prenom, ville);
+
+      dal.commitTransaction();
+      return users;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
 
 }
