@@ -520,26 +520,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         prepareStatement.setInt(4, montantMax);
       }
 
-      ResultSet rs = prepareStatement.executeQuery();
-
-      List<DevisDto> listeDevis = new ArrayList<DevisDto>();
-      while (rs.next()) {
-        DevisDto devis = fact.getDevisDto();
-        fillObject(devis, rs);
-
-        ClientDto clientBis = fact.getClientDto();
-        fillObject(clientBis, rs);
-        devis.setClient(clientBis);
-
-        PhotoDto photoPreferee = fact.getPhotoDto();
-        fillObject(photoPreferee, rs);
-        devis.setPhotoPreferee(photoPreferee);
-
-        recupererLesAmenagementsDunDevis(devis);
-        listeDevis.add(devis);
-      }
-
-      return listeDevis;
+      return rechercherDevisAffine(prepareStatement);
 
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -611,26 +592,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         prepareStatement.setInt(4, montantMax);
       }
 
-      ResultSet rs = prepareStatement.executeQuery();
-
-      List<DevisDto> listeDevis = new ArrayList<DevisDto>();
-      while (rs.next()) {
-        DevisDto devis = fact.getDevisDto();
-        fillObject(devis, rs);
-
-        ClientDto clientBis = fact.getClientDto();
-        fillObject(clientBis, rs);
-        devis.setClient(clientBis);
-
-        PhotoDto photoPreferee = fact.getPhotoDto();
-        fillObject(photoPreferee, rs);
-        devis.setPhotoPreferee(photoPreferee);
-
-        recupererLesAmenagementsDunDevis(devis);
-        listeDevis.add(devis);
-      }
-
-      return listeDevis;
+      return rechercherDevisAffine(prepareStatement);
 
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -638,6 +600,28 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
+  private List<DevisDto> rechercherDevisAffine(PreparedStatement prepareStatement)
+      throws SQLException {
+    ResultSet rs = prepareStatement.executeQuery();
 
+    List<DevisDto> listeDevis = new ArrayList<DevisDto>();
+    while (rs.next()) {
+      DevisDto devis = fact.getDevisDto();
+      fillObject(devis, rs);
+
+      ClientDto clientBis = fact.getClientDto();
+      fillObject(clientBis, rs);
+      devis.setClient(clientBis);
+
+      PhotoDto photoPreferee = fact.getPhotoDto();
+      fillObject(photoPreferee, rs);
+      devis.setPhotoPreferee(photoPreferee);
+
+      recupererLesAmenagementsDunDevis(devis);
+      listeDevis.add(devis);
+    }
+
+    return listeDevis;
+  }
 
 }
