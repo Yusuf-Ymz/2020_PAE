@@ -2,6 +2,7 @@ import { getData, chooseHeaderForRequest } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
 import { displayClient } from "./introduireDevis.js";
+import { onGetTousLesDevisList, onGetMesDevisList } from "./rechercherDevis.js";
 
 let action, url, currentRequestValue, idOfInputCurruntlyClicked;
 const getVille = "getVille";
@@ -32,6 +33,11 @@ function doResponse(response) {
             onGetUserList(response);
             break;
         case urlDevis:
+            if ($('#rechercher_tous_les_devis').css('display') != "none") {
+                onGetTousLesDevisList(response);
+            } else {
+                onGetMesDevisList(response);
+            }
             break;
         default:
             break;
@@ -68,9 +74,18 @@ $(document).ready(function () {
                 }
                 break;
             case urlDevis:
-                data = {
-                    action: "tousLesDevis"
+
+                if ($('#rechercher_tous_les_devis').css('display') != "none") {
+                    data = {
+                        action: "tousLesDevis"
+                    }
+
+                } else {
+                    data = {
+                        action: "devisDuClient"
+                    }
                 }
+
                 break;
             default:
                 break;
@@ -103,19 +118,38 @@ $(document).ready(function () {
                 values = [$("#nom_client").val(), $("#prenom_client").val(), $("#ville_client").val(), $("#code_postal_client").val()];
                 break;
             case urlUser:
-                data = {
-                    //a faire
-                }
+                
+                    data = {
+                        action: "listeAffineUtilisateur",
+                        nom: $("#nom_utilisateur").val(),
+                        prenom: $("#prenom_utilisateur").val(),
+                        ville: $("#ville_utilisateur").val(),
+                    }
+                
                 break;
             case urlDevis:
-                action = "listerDevisAffine"
-                data = {
-                    action : action,
-                    type: $("#types_amenagements").val(),
-                    date: $("#date_du_devis").val(),
-                    montantMin: $("#montant_min").val(),
-                    montantMax: $("#montant_max").val(),
-                    client: $("#nom_client_amenagement").val()
+
+
+                if ($('#rechercher_tous_les_devis').css('display') != "none") {
+                    action =  "listerDevisAffineEnTantQueOuvrier";
+                    data = {                   
+                        action: action,
+                        type: $("#types_amenagements").val(),
+                        date: $("#date_du_devis").val(),
+                        montantMin: $("#montant_min").val(),
+                        montantMax: $("#montant_max").val(),
+                        client: $("#nom_client_amenagement").val()
+                    }
+
+                } else {
+                    action = "listerDevisAffineEnTantQueUtilisateur";
+                    data = {
+                        action: action,
+                        type: $("#types_amenagements").val(),
+                        date: $("#date_du_devis").val(),
+                        montantMin: $("#montant_min").val(),
+                        montantMax: $("#montant_max").val(),
+                    }
                 }
                 break;
 
@@ -124,7 +158,7 @@ $(document).ready(function () {
 
         }
 
-        currentRequestValue = printResult(...values);
+        //currentRequestValue = printResult(...values);
         $("#result").show();
         let token = localStorage.getItem("token");
 

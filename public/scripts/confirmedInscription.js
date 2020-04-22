@@ -20,13 +20,13 @@ function afficherNotif(msg) {
 function afficherVueConfirmerUtilisateur() {
 
   homeWorker();
-  console.log("je ddddd");
+  
 
   $("#searchCard").show();
   $("#searchContent").show();
-  $("#filtre_user").hide();
-  $("#filtre_client").show();
-  console.log( $("#filtre_client").show());
+
+  $("#filtre_user").show();
+  $("#filtre_client").hide();
   $("#filtre_amenagement").hide();
   const data = {
     action: 'confirmerInscription'
@@ -105,8 +105,8 @@ function onGet(response) {
   $("#confirmedInscriptionContent").show();
   $("#searchCard").show();
   $("#searchContent").show();
-  $("#filtre_client").show();
-  $("#filtre_utilisateur").hide();
+  $("#filtre_user").show();
+  $("#filtre_client").hide();
   $("#filtre_amenagement").hide();
   let id;
   printTable("table_users_preinscrit", response.data, ["Valider ouvrier", "Lier à un client"], "N° utilisateur", [confirmerOuvrier, lierUtilisateurClient], "/user");
@@ -134,8 +134,7 @@ function onPostConfirmerOuvrierError() {
 }
 
 const lierUtilisateurClient = (url, data) => {
-  console.log(data);
-  console.log(url);
+
   homeWorker();
   $("#searchCard").show();
   $("#searchContent").show();
@@ -143,7 +142,7 @@ const lierUtilisateurClient = (url, data) => {
   $("#filtre_client").show();
   $("#filtre_amenagement").hide();
   data["action"] = 'recupererUtilisateur';
-  console.log(data);
+  
   $("#titre-page").text("Lier les utilisateurs aux clients");
   getData(url, data, token, onGetUtilisateur, onErrorGetUtilisateur);
 }

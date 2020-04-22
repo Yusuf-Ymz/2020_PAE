@@ -38,6 +38,7 @@ function onGetTousLesDevisList(response) {
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
+    $("#nom_client_hidden").show();
     let nombtnTab = ["visualiser devis"];
     printTable("listeDeTousLesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 }
@@ -47,9 +48,11 @@ function onGetMesDevisList(response) {
     $("#listeDeMesDevis").show();
     $("#titre-page").text("Mes devis");
     $("#searchCard").show();// pas encore d'option de recherche pour devis
+    $("#searchContent").show();
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
+    $("#nom_client_hidden").hide();
     let nombtnTab = ["visualiser devis"];
     printTable("listeDeMesDevis", response.devis, nombtnTab, "devisId", [consulterDevisEntantQueClient], "/devis");
 }
