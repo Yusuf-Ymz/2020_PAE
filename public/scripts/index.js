@@ -1,5 +1,5 @@
 "use strict";
-import {getData} from "./utilsAPI.js";
+import { getData } from "./utilsAPI.js";
 let token = undefined;
 window.glob = "userInfo";
 
@@ -25,7 +25,7 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
- 
+
   $(".home").on('click', function (e) {
 
     token = localStorage.getItem("token");
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
 
 const HideToHomeWhenNotConnect = () => {
-
+  $(".user-info").hide();
   $("#nav_connect").show();
   $(".register").hide();
   $("#carouselContent").show();
@@ -80,9 +80,9 @@ const HideToHomeWhenConnect = (response) => {
   if (response !== "") {
     window.glob = response.user;
     console.log(window.glob);
-
+    let user = window.glob;
+    fillCardUserInfos(user.pseudo, user.prenom + " " + user.nom, user.ville, user.email, user.dateInscription);
   }
-
 
   $("#logout").show();
   $("#card").hide();
@@ -115,7 +115,7 @@ const SameHide = () => {
   $("#logout").show();
   $("#nav_connect").hide();
   $("#login_message").html("");
-
+  $(".user-info").show();
   $(".register").hide();
   $("#carouselContent").hide();
   $("#logo").hide();
@@ -147,7 +147,7 @@ const homeWorker = () => {
   SameHide();
 
   $('#rechercher_mes_devis').hide();
-  
+
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
   }
@@ -159,7 +159,7 @@ const initialisation = () => {
 
   $('#loader').hide();
   let token = localStorage.getItem("token");
-  console.log(token);
+
   if (token) {
 
     const data = {
@@ -187,8 +187,30 @@ function onErrorRefresh(err) {
   })
 }
 
+function fillCardUserInfos(pseudo, name, city, email, date) {
 
+  $("#currentPseudo").html(pseudo);
+  $("#currentName").html(name);
+  $("#currentCity").html(city);
+  $("#currentEmail").html(email);
+  $("#currentDate").html(dateFormating(date));
+}
 
+function dateFormating(date) {
+
+  let day = JSON.stringify(date.dayOfMonth);
+  console.log("taille = " + day.length);
+  if (day.length == 1) {
+    day = "0" + day;
+  }
+  let month = JSON.stringify(date.monthValue);
+  if (month.length == 1) {
+    month = "0" + month;
+  }
+
+  return day + "/" + month + "/" + date.year;
+
+}
 /*function getData(url = "", data = "", token, onGet, onError) {
   let headers;
   if (token)
@@ -218,4 +240,4 @@ function onErrorRefresh(err) {
   });
 }*/
 
-export { HomeUser, homeWorker };
+export { HomeUser, homeWorker, fillCardUserInfos };

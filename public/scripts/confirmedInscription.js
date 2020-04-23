@@ -21,19 +21,21 @@ function afficherVueConfirmerUtilisateur() {
 
   homeWorker();
   
-
   $("#searchCard").show();
   $("#searchContent").show();
 
   $("#filtre_user").show();
   $("#filtre_client").hide();
   $("#filtre_amenagement").hide();
+  
   const data = {
     action: 'confirmerInscription'
   };
+  
   token = localStorage.getItem("token");
-  console.log(token);
+
   getData("/user", data, token, onGet, onError);
+
 }
 
 
@@ -108,7 +110,8 @@ function onGet(response) {
   $("#filtre_user").show();
   $("#filtre_client").hide();
   $("#filtre_amenagement").hide();
-  let id;
+  
+  
   printTable("table_users_preinscrit", response.data, ["Valider ouvrier", "Lier à un client"], "N° utilisateur", [confirmerOuvrier, lierUtilisateurClient], "/user");
 }
 
@@ -199,4 +202,6 @@ const lierUtilisateurClientTable = (url, data) => {
   postData(url, data, token, onPostLier, onErrorLier);
 }
 
+
+export {onGet};
 

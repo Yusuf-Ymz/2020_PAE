@@ -180,4 +180,28 @@ public class MockUserDao implements UserDao {
     return users;
   }
 
+  @Override
+  public List<String> rechercherNomsUtilisateursNonConfirme(String nom) {
+
+    return this.rechercherNomsUtilisateurs(nom);
+  }
+
+  @Override
+  public List<String> rechercherPrenomsUtilisateursNonConfirme(String prenom) {
+
+    return this.rechercherPrenomsUtilisateurs(prenom);
+  }
+
+  @Override
+  public List<String> rechercherVillesUtilisateursNonConfirme(String ville) {
+
+    return this.rechercherVillesUtilisateurs(ville);
+  }
+
+  @Override
+  public List<UserDto> rechercherUtilisateurNonConfirme(String nom, String prenom, String ville) {
+
+    return this.rechercherUtilisateurs(nom, prenom, ville);
+  }
+
 }

@@ -1,6 +1,7 @@
 import { getData, chooseHeaderForRequest } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
+import { onGet } from "./confirmedInscription.js";
 import { displayClient } from "./introduireDevis.js";
 import { onGetTousLesDevisList, onGetMesDevisList } from "./rechercherDevis.js";
 
@@ -9,7 +10,13 @@ const getVille = "getVille";
 const getNom = "getNom";
 const getPrenom = "getPrenom";
 const getCP = "getCP";
+
 const getType = "getTypes"
+
+const getPrenomNonConfirme = "getPrenomNonConfirme";
+const getVilleNonConfirme = "getVilleNonConfirme";
+const getNomNonConfirme = "getNomNonConfirme";
+
 const urlClient = "/client";
 const urlUser = "/user";
 const urlDevis = "/devis";
@@ -17,7 +24,6 @@ const urlDevis = "/devis";
 function doResponse(response) {
 
     console.log(response);
-
     $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
 
     $(':input').val('');
@@ -32,7 +38,11 @@ function doResponse(response) {
             onGetClientList(response);
             break;
         case urlUser:
-            onGetUserList(response);
+            if ($("#listeUser").css('display') != 'none') {
+                onGetUserList(response);
+            } else {
+                onGet(response);
+            }
             break;
         case urlDevis:
             if ($('#listeDeTousLesDevis').css('display') != "none") {
@@ -71,9 +81,16 @@ $(document).ready(function () {
                 }
                 break;
             case urlUser:
-                data = {
-                    action: "listeUser"
+                if ($("#listeUser").css('display') != 'none') {
+                    data = {
+                        action: "listeUser"
+                    }
+                } else {
+                    data = {
+                        action: "confirmerInscription"
+                    }
                 }
+
                 break;
             case urlDevis:
 
@@ -105,7 +122,7 @@ $(document).ready(function () {
         $("#btn_remove_filters").show();
 
         let data, values;
-        console.log("url = " + url);
+        
         switch (url) {
             case urlClient:
                 action = "listClientsAffine";
@@ -120,26 +137,30 @@ $(document).ready(function () {
                 values = [$("#nom_client").val(), $("#prenom_client").val(), $("#ville_client").val(), $("#code_postal_client").val()];
                 break;
             case urlUser:
-                
-                    data = {
-                        action: "listeUtilisateursAffine",
-                        nom: $("#nom_utilisateur").val(),
-                        prenom: $("#prenom_utilisateur").val(),
-                        ville: $("#ville_utilisateur").val(),
-                    }
 
-                    console.log($("#nom_utilisateur").val());
-                    console.log($("#prenom_utilisateur").val());
-                    console.log($("#ville_utilisateur").val());
-                
+                if ($("#listeUser").css('display') != 'none') {
+                    action = "listeUtilisateursAffine";
+                } else {
+                    action = "listeUtilisateursNonConfirmeAffine";
+                }
+
+                data = {
+                    action: action,
+                    nom: $("#nom_utilisateur").val(),
+                    prenom: $("#prenom_utilisateur").val(),
+                    ville: $("#ville_utilisateur").val(),
+                }
+                console.log($("#nom_utilisateur").val());
+                console.log($("#prenom_utilisateur").val());
+                console.log($("#ville_utilisateur").val());
+
                 break;
             case urlDevis:
 
-
                 if ($('#listeDeTousLesDevis').css('display') != "none") {
-                    console.log("tous");
-                    action =  "listerTousLesDevisAffine";
-                    data = {                   
+
+                    action = "listerTousLesDevisAffine";
+                    data = {
                         action: action,
                         type: $("#types_amenagements").val(),
                         date: $("#date_du_devis").val(),
@@ -149,7 +170,7 @@ $(document).ready(function () {
                     }
 
                 } else {
-                    console.log("mes");
+
                     action = "listerMesDevisAffine";
                     data = {
                         action: action,
@@ -158,8 +179,9 @@ $(document).ready(function () {
                         montantMin: $("#montant_min").val(),
                         montantMax: $("#montant_max").val(),
                     }
-                    console.log($("#date_du_devis").val());
+
                 }
+
                 break;
 
             default:
@@ -168,7 +190,7 @@ $(document).ready(function () {
         }
 
         //currentRequestValue = printResult(...values);
-        $("#result").show();
+        // $("#result").show();
         let token = localStorage.getItem("token");
 
         getData(url, data, token, doResponse, onError);
@@ -237,7 +259,12 @@ $(document).ready(function () {
     //nom user
     $("#ville_utilisateur").click(function (e) {
         e.preventDefault();
-        action = getVille;
+        if ($("#listeUser").css('display') != 'none') {
+            action = getVille;
+        } else {
+            action = getVilleNonConfirme;
+        }
+        console.log("action " + action);
         idOfInputCurruntlyClicked = "#ville_utilisateur";
 
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -249,7 +276,12 @@ $(document).ready(function () {
     });
     $("#nom_utilisateur").click(function (e) {
         e.preventDefault();
-        action = getNom;
+        if ($("#listeUser").css('display') != 'none') {
+            action = getNom;
+        } else {
+            action = getNomNonConfirme;
+        }
+
         idOfInputCurruntlyClicked = "#nom_utilisateur";
 
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -261,8 +293,12 @@ $(document).ready(function () {
     });
     $("#prenom_utilisateur").click(function (e) {
         e.preventDefault();
+        if ($("#listeUser").css('display') != 'none') {
+            action = getPrenom;
+        } else {
+            action = getPrenomNonConfirme;
+        }
 
-        action = getPrenom;
         idOfInputCurruntlyClicked = "#prenom_utilisateur";
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
             minLength: 0,
@@ -341,12 +377,12 @@ function printResult(...tabInputValue) {
 function chooseUrl() {
     if ($('#filtre_client').css('display') != 'none') {
         url = urlClient;
-        console.log("client");
+
     } else if ($('#filtre_user').css('display') != 'none') {
         url = urlUser;
-        console.log("user");
+
     } else if ($("#filtre_amenagement").css('display') != "none") {
         url = urlDevis;
-        console.log("devis");
+
     }
 }

@@ -1,5 +1,5 @@
 import { postData } from "./utilsAPI.js";
-import { HomeUser, homeWorker } from "./index.js";
+import { HomeUser, homeWorker, fillCardUserInfos } from "./index.js";
 import { firstViewWorker, firstViewUser } from "./premierVueConnexion.js";
 import notify from "./utils.js";
 
@@ -30,6 +30,8 @@ function onPostLogin(response) {
 
   window.glob = response.user;
   console.log(window.glob);
+  let user = window.glob;
+  fillCardUserInfos(user.pseudo, user.prenom + " " + user.nom, user.ville, user.email, user.dateInscription);
   if (window.glob.ouvrier === true) {
     firstViewWorker();
   } else {
@@ -41,7 +43,7 @@ function onErrorLogin(err) {
   console.error(err.responseJSON.error);
   $('#loader').hide();
   LoginForm(err.responseJSON.error);
-  
+
 }
 
 
@@ -111,9 +113,9 @@ $(document).ready(function () {
   });
 
   $("#inscription").on('click', function (e) {
-  
+
     e.preventDefault();
-    
+
     if ($("#mdp_inscription")[0].checkValidity() && $("#re_mdp_inscription")[0] === $("#mdp_inscription")) {
       alert("Le mot de passe est invalideS");
     }

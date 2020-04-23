@@ -113,4 +113,41 @@ public interface UserDao {
    * @return la lister des utilisateurs
    */
   List<UserDto> rechercherUtilisateurs(String nom, String prenom, String ville);
+
+  /**
+   * Renvoie une liste des noms des utilisateurs non confirmé similaire au paramètre.
+   * 
+   * @param nom : le nom à matcher
+   * @return la liste des noms
+   */
+  List<String> rechercherNomsUtilisateursNonConfirme(String nom);
+
+  /**
+   * Renvoie une liste des prénoms des utilisateurs non confirmé similaire au paramètre
+   * 
+   * @param prenom : le prénom à matcher
+   * @return la liste des prénoms
+   */
+  List<String> rechercherPrenomsUtilisateursNonConfirme(String prenom);
+
+  /**
+   * Renvoie une liste des villes des utilisateurs non confirmé similaire au paramètre
+   * 
+   * @param ville : la ville à matcher
+   * @return la liste des villes
+   */
+  List<String> rechercherVillesUtilisateursNonConfirme(String ville);
+
+  /**
+   * Renvoie une liste contenant les utilisateurs non confirmé dont les paramètre sont similaires
+   * aux attributs.
+   * 
+   * @param nom : le nom à matcher
+   * @param prenom : le prénom à matcher
+   * @param ville : la ville à matcher
+   * @return la lister des utilisateurs
+   */
+  List<UserDto> rechercherUtilisateurNonConfirme(String nom, String prenom, String ville);
+
+
 }

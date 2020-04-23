@@ -98,4 +98,39 @@ public interface UserUcc {
    * @return la lister des utilisateurs
    */
   List<UserDto> listerUtilisateursAvecCriteres(String nom, String prenom, String ville);
+
+  /**
+   * Renvoie une liste contenant les noms des utilisateurs similaire au paramètre.
+   * 
+   * @param nom : nom à matcher
+   * @return la liste des noms
+   */
+  List<String> listerNomsUtilisateursNonConfirme(String nom);
+
+  /**
+   * Renvoie une liste contenant les prénoms des utilisateurs non confirmé similaire au paramètre.
+   * 
+   * @param prenom : prénom à matcher
+   * @return la liste des prénoms
+   */
+  List<String> listerPrenomsUtilisateursNonConfirme(String prenom);
+
+  /**
+   * Renvoie une liste contenant les villes des utilisateurs non confirmé similaire au paramètre.
+   * 
+   * @param ville : la ville à matcher
+   * @return la liste des villes
+   */
+  List<String> listerVillesUtilisateursNonConfirme(String ville);
+
+  /**
+   * Renvoie une liste contenant les utilisateurs non confirmé dont les paramètre sont similaires
+   * aux attributs.
+   * 
+   * @param nom : le nom à matcher
+   * @param prenom : le prénom à matcher
+   * @param ville : la ville à matcher
+   * @return la lister des utilisateurs non confirmé
+   */
+  List<UserDto> listerUtilisateursNonConfirmeAvecCriteres(String nom, String prenom, String ville);
 }

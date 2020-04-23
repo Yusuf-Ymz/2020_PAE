@@ -242,5 +242,70 @@ class UserUccImpl implements UserUcc {
     }
   }
 
+  @Override
+  public List<String> listerNomsUtilisateursNonConfirme(String nom) {
+    try {
+      dal.startTransaction();
+
+      List<String> nomsUtilisateurs = userDao.rechercherNomsUtilisateursNonConfirme(nom);
+
+      dal.commitTransaction();
+      return nomsUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<String> listerPrenomsUtilisateursNonConfirme(String prenom) {
+    try {
+      dal.startTransaction();
+
+      List<String> prenomsUtilisateurs = userDao.rechercherPrenomsUtilisateursNonConfirme(prenom);
+
+      dal.commitTransaction();
+      return prenomsUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<String> listerVillesUtilisateursNonConfirme(String ville) {
+    try {
+      dal.startTransaction();
+
+      List<String> villesUtilisateurs = userDao.rechercherVillesUtilisateursNonConfirme(ville);
+
+      dal.commitTransaction();
+      return villesUtilisateurs;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  @Override
+  public List<UserDto> listerUtilisateursNonConfirmeAvecCriteres(String nom, String prenom,
+      String ville) {
+    try {
+      dal.startTransaction();
+
+      List<UserDto> users = userDao.rechercherUtilisateurNonConfirme(nom, prenom, ville);
+
+      dal.commitTransaction();
+      return users;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
 
 }

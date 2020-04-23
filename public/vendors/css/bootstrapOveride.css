@@ -4,3 +4,13 @@
     background-color: #de2c3c !important;
     border-color: #fa001b !important ;
 }
+.dropdown-menu {
+    width: 350px !important;
+    
+  }
+
+.dropdown-menu .card-body{
+    padding: 0 !important;
+    padding-top: 0.7em !important;
+}
+

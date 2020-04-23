@@ -295,6 +295,111 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       throw new FatalException(exception.getMessage());
     }
   }
+
+  @Override
+  public List<String> rechercherNomsUtilisateursNonConfirme(String nom) {
+    nom = nom.replace("%", "\\" + "%");
+    nom += "%";
+    String query = "SELECT DISTINCT u.nom FROM pae.utilisateurs u "
+        + "WHERE LOWER(u.nom) LIKE (?) AND u.confirme ='false'";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> noms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, nom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String nomDb = rs.getString(1);
+        noms.add(nomDb);
+      }
+      return noms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+
+  }
+
+  @Override
+  public List<String> rechercherPrenomsUtilisateursNonConfirme(String prenom) {
+    prenom = prenom.replace("%", "\\" + "%");
+    prenom += "%";
+    String query = "SELECT DISTINCT u.prenom FROM pae.utilisateurs u "
+        + "WHERE LOWER(u.prenom) LIKE (?) AND u.confirme ='false' ";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> prenoms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, prenom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String prenomDb = rs.getString(1);
+        prenoms.add(prenomDb);
+      }
+      return prenoms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> rechercherVillesUtilisateursNonConfirme(String ville) {
+    ville = ville.replace("%", "\\" + "%");
+    ville += "%";
+    String query = "SELECT DISTINCT u.ville FROM pae.utilisateurs u "
+        + "WHERE LOWER(u.ville) LIKE (?) AND u.confirme ='false' ";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> villes = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, ville);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String villesDb = rs.getString(1);
+        villes.add(villesDb);
+      }
+      return villes;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<UserDto> rechercherUtilisateurNonConfirme(String nom, String prenom, String ville) {
+    ville = ville.replace("%", "\\" + "%");
+    ville += "%";
+
+    prenom = prenom.replace("%", "\\" + "%");
+    prenom += "%";
+
+    nom = nom.replace("%", "\\" + "%");
+    nom += "%";
+
+    String query = "SELECT * FROM pae.utilisateurs u " + "WHERE LOWER(u.nom) LIKE LOWER(?) AND "
+        + "LOWER(u.prenom) LIKE LOWER(?) AND "
+        + "LOWER(u.ville) LIKE LOWER(?) AND u.confirme ='false' " + "ORDER BY u.nom ";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<UserDto> users = new ArrayList<UserDto>();
+    try {
+      prepareStatement.setString(1, nom);
+      prepareStatement.setString(2, prenom);
+      prepareStatement.setString(3, ville);
+
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        UserDto user = fact.getUserDto();
+        fillObject(user, rs);
+        users.add(user);
+      }
+
+      return users;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
 }
 
 

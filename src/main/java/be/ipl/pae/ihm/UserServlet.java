@@ -56,7 +56,7 @@ public class UserServlet extends HttpServlet {
           if (req.getParameter("action").equals("listeUser")) {
             displayListUsers(resp);
           } else if (req.getParameter("action").equals("confirmerInscription")) {
-            System.out.println("lsiter");
+
             displayListUsersPreregistered(resp);
           } else if (req.getParameter("action").equals("recupererUtilisateur")) {
             afficherInfoUtilisateur(req, resp);
@@ -68,6 +68,14 @@ public class UserServlet extends HttpServlet {
             listerNomsUtilisateurs(req, resp);
           } else if (req.getParameter("action").equals("getPrenom")) {
             listerPrenomsUtilisateurs(req, resp);
+          } else if (req.getParameter("action").equals("listeUtilisateursNonConfirmeAffine")) {
+            listerUtilisateursAffinesNonConfirme(req, resp);
+          } else if (req.getParameter("action").equals("getVilleNonConfirme")) {
+            listerVillesUtilisateursNonConfirme(req, resp);
+          } else if (req.getParameter("action").equals("getNomNonConfirme")) {
+            listerNomsUtilisateursNonConfirme(req, resp);
+          } else if (req.getParameter("action").equals("getPrenomNonConfirme")) {
+            listerPrenomsUtilisateursNonConfirme(req, resp);
           }
 
         }
@@ -162,6 +170,55 @@ public class UserServlet extends HttpServlet {
 
     String json =
         "{\"listeUser\":" + genson.serialize(users, new GenericType<List<UserDto>>() {}) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  private void listerVillesUtilisateursNonConfirme(HttpServletRequest req,
+      HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> villes = userUcc.listerVillesUtilisateursNonConfirme(keyword);
+
+    String json = "{\"villes\":" + genson.serialize(villes) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  private void listerNomsUtilisateursNonConfirme(HttpServletRequest req, HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> noms = userUcc.listerNomsUtilisateursNonConfirme(keyword);
+
+    String json = "{\"noms\":" + genson.serialize(noms) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  private void listerPrenomsUtilisateursNonConfirme(HttpServletRequest req,
+      HttpServletResponse resp) {
+    String keyword = req.getParameter("keyword");
+    List<String> prenoms = userUcc.listerPrenomsUtilisateursNonConfirme(keyword);
+
+    String json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
+    int statusCode = HttpServletResponse.SC_OK;
+    ServletUtils.sendResponse(resp, json, statusCode);
+  }
+
+  /**
+   * Renvoie la liste des utilisateurs non confirmé correspondant aux critères de recherches.
+   * 
+   * @param req : la requête
+   * @param resp : la réponse
+   */
+  private void listerUtilisateursAffinesNonConfirme(HttpServletRequest req,
+      HttpServletResponse resp) {
+    String nom = req.getParameter("nom");
+    String prenom = req.getParameter("prenom");
+    String ville = req.getParameter("ville");
+
+    List<UserDto> users = userUcc.listerUtilisateursNonConfirmeAvecCriteres(nom, prenom, ville);
+    System.out.println(users.size());
+
+    String json = "{\"data\":" + genson.serialize(users, new GenericType<List<UserDto>>() {}) + "}";
     int statusCode = HttpServletResponse.SC_OK;
     ServletUtils.sendResponse(resp, json, statusCode);
   }

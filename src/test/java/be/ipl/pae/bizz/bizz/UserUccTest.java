@@ -185,6 +185,42 @@ class UserUccTest {
     assertTrue(ucc.listerUtilisateursAvecCriteres("yaffa", "elie", null).size() > 0);
     assertTrue(ucc.listerUtilisateursAvecCriteres("okou", "gnakouri", "bxl").size() > 0);
   }
+  //////
+
+  @Test
+  public void testlisterNomsUtilisateursNonConfirmeOk() {
+    this.testlisterNomsUtilisateursOk();
+  }
+
+  @Test
+  public void testlisterNomsUtilisateursNonConfirmeVide() {
+    this.testlisterNomsUtilisateursVide();
+  }
+
+  @Test
+  public void testlisterPrenomsUtilisateursNonConfirmeOk() {
+    this.testlisterPrenomsUtilisateursOk();
+  }
+
+  @Test
+  public void testlisterPrenomsUtilisateursNonConfirmeVide() {
+    this.testlisterPrenomsUtilisateursVide();
+  }
+
+  @Test
+  public void testlisterVillesUtilisateursNonConfirmeOk() {
+    this.testlisterVillesUtilisateursOk();
+  }
+
+  @Test
+  public void testlisterVillesUtilisateursNonConfirmeVide() {
+    this.testlisterVillesUtilisateursVide();
+  }
+
+  @Test
+  public void testlisterUtilisateursNonConfirmeAvecCriteres() {
+    this.testlisterUtilisateursAvecCriteres();
+  }
 
 
 }
