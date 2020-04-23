@@ -275,25 +275,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     String query = "SELECT * FROM pae.utilisateurs u " + "WHERE LOWER(u.nom) LIKE LOWER(?) AND "
         + "LOWER(u.prenom) LIKE LOWER(?) AND " + "LOWER(u.ville) LIKE LOWER(?) "
         + "ORDER BY u.nom ";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    List<UserDto> users = new ArrayList<UserDto>();
-    try {
-      prepareStatement.setString(1, nom);
-      prepareStatement.setString(2, prenom);
-      prepareStatement.setString(3, ville);
-
-      ResultSet rs = prepareStatement.executeQuery();
-      while (rs.next()) {
-        UserDto user = fact.getUserDto();
-        fillObject(user, rs);
-        users.add(user);
-      }
-
-      return users;
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException(exception.getMessage());
-    }
+    return executeQueryRechercheUtilisateur(query, nom, prenom, ville);
   }
 
   @Override
@@ -380,6 +362,14 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     String query = "SELECT * FROM pae.utilisateurs u " + "WHERE LOWER(u.nom) LIKE LOWER(?) AND "
         + "LOWER(u.prenom) LIKE LOWER(?) AND "
         + "LOWER(u.ville) LIKE LOWER(?) AND u.confirme ='false' " + "ORDER BY u.nom ";
+
+    return executeQueryRechercheUtilisateur(query, nom, prenom, ville);
+  }
+
+
+
+  private List<UserDto> executeQueryRechercheUtilisateur(String query, String nom, String prenom,
+      String ville) {
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<UserDto> users = new ArrayList<UserDto>();
     try {
@@ -400,6 +390,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       throw new FatalException(exception.getMessage());
     }
   }
+
 }
 
 
