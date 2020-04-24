@@ -82,24 +82,7 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     String query = "SELECT * FROM pae.clients cl " + "WHERE LOWER(cl.nom) LIKE LOWER(?) AND "
         + "LOWER(cl.prenom) LIKE LOWER(?) AND " + "lower(cl.ville) LIKE LOWER(?) AND "
         + "cl.code_postal LIKE ? ORDER BY cl.nom ;";
-    PreparedStatement prepareStatement = dal.createStatement(query);
-    List<ClientDto> clients = new ArrayList<ClientDto>();
-    try {
-      prepareStatement.setString(1, nomClient);
-      prepareStatement.setString(2, prenomClient);
-      prepareStatement.setString(3, ville);
-      prepareStatement.setString(4, codePostal);
-      ResultSet rs = prepareStatement.executeQuery();
-      while (rs.next()) {
-        ClientDto client = fact.getClientDto();
-        fillObject(client, rs);
-        clients.add(client);
-      }
-      return clients;
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException(exception.getMessage());
-    }
+    return executeRechercherClientAvecCritere(query, ville, codePostal, nomClient, prenomClient);
   }
 
   @Override
@@ -191,6 +174,151 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
     }
   }
 
+
+  @Override
+  public List<ClientDto> rechercherClientsNonLie(String ville, String codePostal, String nomClient,
+      String prenomClient) {
+    ville = ville.replace("%", "\\" + "%");
+    ville += "%";
+    codePostal = codePostal.replace("%", "\\" + "%");
+    codePostal += "%";
+    prenomClient = prenomClient.replace("%", "\\" + "%");
+    prenomClient += "%";
+    nomClient = nomClient.replace("%", "\\" + "%");
+    nomClient += "%";
+    String query = "SELECT * FROM pae.clients cl " + "WHERE LOWER(cl.nom) LIKE LOWER(?) AND "
+        + "LOWER(cl.prenom) LIKE LOWER(?) AND " + "lower(cl.ville) LIKE LOWER(?) AND "
+        + "cl.code_postal LIKE ? AND cl.client_id NOT IN "
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL) "
+        + " ORDER BY cl.nom ;";
+
+    return executeRechercherClientAvecCritere(query, ville, codePostal, nomClient, prenomClient);
+
+  }
+
+
+  private List<ClientDto> executeRechercherClientAvecCritere(String query, String ville,
+      String codePostal, String nomClient, String prenomClient) {
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<ClientDto> clients = new ArrayList<ClientDto>();
+    try {
+      prepareStatement.setString(1, nomClient);
+      prepareStatement.setString(2, prenomClient);
+      prepareStatement.setString(3, ville);
+      prepareStatement.setString(4, codePostal);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        ClientDto client = fact.getClientDto();
+        fillObject(client, rs);
+        clients.add(client);
+      }
+      return clients;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+
+
+  }
+
+
+  @Override
+  public List<String> rechercherVillesClientNonLie(String ville) {
+    ville = ville.replace("%", "\\" + "%");
+    ville += "%";
+    String query = "SELECT DISTINCT c.ville FROM pae.clients c  "
+        + "WHERE LOWER(c.ville) LIKE LOWER(?)  AND c.client_id NOT IN "
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL) "
+        + " ORDER BY 1 ASC LIMIT 5 ";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> villes = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, ville);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String villeDb = rs.getString(1);
+        villes.add(villeDb);
+      }
+      return villes;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> rechercheCodePostauxClientNonLie(String codePostal) {
+    codePostal = codePostal.replace("%", "\\" + "%");
+    codePostal += "%";
+    String query = "SELECT DISTINCT c.code_postal FROM pae.clients c "
+        + " WHERE c.code_postal LIKE ? AND c.client_id  NOT IN "
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL) "
+        + "ORDER BY 1 ASC LIMIT 5";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> codePostaux = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, codePostal);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String codePostalDb = rs.getString(1);
+        codePostaux.add(codePostalDb);
+      }
+      return codePostaux;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> rechercherPrenomsClientNonLie(String prenom) {
+    prenom = prenom.replace("%", "\\" + "%");
+    prenom += "%";
+    String query = "SELECT DISTINCT c.prenom FROM pae.clients c "
+        + "WHERE LOWER(c.prenom) LIKE LOWER(?) AND c.client_id  NOT IN"
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL) "
+        + " ORDER BY 1 ASC LIMIT 5";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> prenoms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, prenom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String prenomDb = rs.getString(1);
+        prenoms.add(prenomDb);
+      }
+      return prenoms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> rechercherNomsClientNonLie(String nom) {
+    nom = nom.replace("%", "\\" + "%");
+    nom += "%";
+    String query = "SELECT DISTINCT c.nom FROM pae.clients c "
+        + "WHERE LOWER(c.nom) LIKE LOWER(?) AND c.client_id  NOT IN "
+        + "(SELECT u.client_id from pae.utilisateurs u WHERE u.client_id IS NOT NULL) "
+        + "  ORDER BY 1 ASC LIMIT 5";
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> noms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, nom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String nomDb = rs.getString(1);
+        noms.add(nomDb);
+      }
+      return noms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
   @Override
   public ClientDto getClientById(int id) {
     String query = "SELECT * FROM pae.clients c WHERE c.client_id = ?";
@@ -229,6 +357,7 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
       throw new FatalException(exception.getMessage());
     }
   }
+
 
   @Override
   public ClientDto rechercherClientAvecId(int idClient) {

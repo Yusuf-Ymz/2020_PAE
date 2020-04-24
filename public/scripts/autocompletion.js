@@ -1,7 +1,7 @@
 import { getData, chooseHeaderForRequest } from "./utilsAPI.js";
 import { onGetClientList } from "./rechercherClients.js";
 import { onGetUserList } from "./rechercherUtilisateur.js";
-import { onGet } from "./confirmedInscription.js";
+import { onGet, onGetLier } from "./confirmedInscription.js";
 import { displayClient } from "./introduireDevis.js";
 import { onGetTousLesDevisList, onGetMesDevisList } from "./rechercherDevis.js";
 
@@ -35,9 +35,15 @@ function doResponse(response) {
 
     switch (url) {
         case urlClient:
-            onGetClientList(response);
+            if ($("#table_clients_noUsers").css('display') != 'none') {
+                onGetLier(response);
+            } else {
+                onGetClientList(response);
+            }
+
             break;
         case urlUser:
+
             if ($("#listeUser").css('display') != 'none') {
                 onGetUserList(response);
             } else {
@@ -76,40 +82,40 @@ $(document).ready(function () {
         console.log("-> " + url);
         switch (url) {
             case urlClient:
-                data = {
-                    action: "listerClients"
+
+                if ($('#table_clients_noUsers').css('display') != 'none') {
+                    action = "listeClientsPasUtilisateur";
+                } else {
+                    action = "listerClients";
                 }
+
                 break;
             case urlUser:
                 if ($("#listeUser").css('display') != 'none') {
-                    data = {
-                        action: "listeUser"
-                    }
+                    action = "listeUser"
                 } else {
-                    data = {
-                        action: "confirmerInscription"
-                    }
+                    action = "confirmerInscription"
                 }
 
                 break;
             case urlDevis:
 
                 if ($('#listeDeTousLesDevis').css('display') != "none") {
-                    data = {
-                        action: "tousLesDevis"
-                    }
+                    action = "tousLesDevis"
 
                 } else {
-                    data = {
-                        action: "devisDuClient"
-                    }
+                    action = "devisDuClient"
                 }
-
                 break;
             default:
                 break;
         }
+
+
         let token = localStorage.getItem("token");
+        data = {
+            action: action
+        }
         getData(url, data, token, doResponse, onError);
     })
 
@@ -122,10 +128,15 @@ $(document).ready(function () {
         $("#btn_remove_filters").show();
 
         let data, values;
-        
+
         switch (url) {
             case urlClient:
-                action = "listClientsAffine";
+                if ($('#table_clients_noUsers').css('display') != 'none') {
+                    action = "listClientsNonLieAffine";
+                } else {
+                    action = "listClientsAffine";
+                }
+
                 data = {
                     action: action,
                     nom: $("#nom_client").val(),
@@ -203,8 +214,12 @@ $(document).ready(function () {
     //filtre client
     $("#ville_client").click(function (e) {
         e.preventDefault();
+        if ($('#table_clients_noUsers').css('display') != 'none') {
+            action = "getVillesClientNonLie";
+        } else {
+            action = getVille;
+        }
 
-        action = getVille;
         idOfInputCurruntlyClicked = "#ville_client";
 
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -218,7 +233,12 @@ $(document).ready(function () {
 
     $("#code_postal_client").click(function (e) {
         e.preventDefault();
-        action = getCP;
+        if ($('#table_clients_noUsers').css('display') != 'none') {
+            action = "getCPClientNonLie";
+        } else {
+            action = getCP;
+        }
+
         idOfInputCurruntlyClicked = "#code_postal_client";
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
             minLength: 0,
@@ -230,7 +250,13 @@ $(document).ready(function () {
 
     $("#nom_client").click(function (e) {
         e.preventDefault();
-        action = getNom;
+
+        if ($('#table_clients_noUsers').css('display') != 'none') {
+            action = "getNomsClientNonLie";
+        } else {
+            action = getNom;
+        }
+
         idOfInputCurruntlyClicked = "#nom_client";
 
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -243,7 +269,12 @@ $(document).ready(function () {
     $("#prenom_client").click(function (e) {
         e.preventDefault();
 
-        action = getPrenom;
+        if ($('#table_clients_noUsers').css('display') != 'none') {
+            console.log("je passe")
+            action = "getPrenomsClientNonLie";
+        } else {
+            action = getPrenom;
+        }
 
         idOfInputCurruntlyClicked = "#prenom_client";
 

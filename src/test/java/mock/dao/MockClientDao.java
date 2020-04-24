@@ -150,4 +150,35 @@ public class MockClientDao implements ClientDao {
     return client;
   }
 
+  @Override
+  public List<ClientDto> rechercherClientsNonLie(String ville, String codePostal, String nomClient,
+      String prenomClient) {
+
+    return this.rechercherClients(ville, codePostal, nomClient, prenomClient);
+  }
+
+  @Override
+  public List<String> rechercherVillesClientNonLie(String ville) {
+
+    return this.rechercherVilles(ville);
+  }
+
+  @Override
+  public List<String> rechercheCodePostauxClientNonLie(String codePostal) {
+
+    return this.rechercheCodePostaux(codePostal);
+  }
+
+  @Override
+  public List<String> rechercherPrenomsClientNonLie(String prenom) {
+
+    return this.rechercherPrenoms(prenom);
+  }
+
+  @Override
+  public List<String> rechercherNomsClientNonLie(String nom) {
+
+    return this.rechercherNoms(nom);
+  }
+
 }

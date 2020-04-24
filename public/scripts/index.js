@@ -132,6 +132,7 @@ const SameHide = () => {
   $('#consulterDevis').hide();
   $('#listeDeMesDevis').hide();
   $("#searchContent").hide();
+  $("#table_clients_noUsers").hide();
 }
 
 

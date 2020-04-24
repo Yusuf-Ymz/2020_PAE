@@ -149,6 +149,86 @@ class ClientUccImpl implements ClientUcc {
     }
   }
 
+  @Override
+  public List<String> listerNomsClientsNonLie(String nom) {
+    try {
+      dal.startTransaction();
+
+      List<String> nomsClients = clientDao.rechercherNomsClientNonLie(nom);
+      return nomsClients;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+  @Override
+  public List<String> listerPrenomsClientsNonLie(String prenom) {
+    try {
+      dal.startTransaction();
+
+      List<String> prenomsClients = clientDao.rechercherPrenomsClientNonLie(prenom);
+      return prenomsClients;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+  @Override
+  public List<String> listerVillesClientsNonLie(String ville) {
+
+    try {
+      dal.startTransaction();
+
+      List<String> villes = clientDao.rechercherVillesClientNonLie(ville);
+      return villes;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+  @Override
+  public List<String> listerCpClientsNonLie(String cp) {
+    try {
+      dal.startTransaction();
+
+      List<String> cpx = clientDao.rechercheCodePostauxClientNonLie(cp);
+      return cpx;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
+
+  @Override
+  public List<ClientDto> listerClientsNonLieAvecCriteres(String nom, String prenom, String ville,
+      String cp) {
+    try {
+      dal.startTransaction();
+
+      return clientDao.rechercherClientsNonLie(ville, cp, nom, prenom);
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    } finally {
+      dal.commitTransaction();
+    }
+  }
 
 
 }

@@ -203,5 +203,5 @@ const lierUtilisateurClientTable = (url, data) => {
 }
 
 
-export {onGet};
+export {onGet, onGetLier};
 

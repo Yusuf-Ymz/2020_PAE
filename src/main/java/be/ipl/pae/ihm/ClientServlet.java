@@ -27,11 +27,15 @@ public class ClientServlet extends HttpServlet {
   private static final String ACTIONGETVILLE = "getVille";
   private static final String KEYWORD = "keyword";
   private static final String ACTIONCLIENTSAFFINE = "listClientsAffine";
+  private static final String ACTIONCLIENTSNONLIEAFFINE = "listClientsNonLieAffine";
   private static final String ACTIONGETPRENOM = "getPrenom";
   private static final String ACTIONINSERTCLIENT = "ajouterClient";
   private static final String ACTIONCLIENTPASUTILISATEUR = "listeClientsPasUtilisateur";
   private static final String ACTIONLISTERCLIENTS = "listerClients";
-
+  private static final String ACTIONGETNOMSCLIENTNONLIE = "getNomsClientNonLie";
+  private static final String ACTIONGETPRENOMSCLIENTNONLIE = "getPrenomsClientNonLie";
+  private static final String ACTIONGETVILLESCLIENTNONLIE = "getVillesClientNonLie";
+  private static final String ACTIONGETCPCLIENTNONLIE = "getCPClientNonLie";
   private Genson genson;
   private Genson gensonClient;
 
@@ -121,7 +125,39 @@ public class ClientServlet extends HttpServlet {
           ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONLISTERCLIENTS.equalsIgnoreCase(action)) {
           listCustomer(resp);// à modifer aussi
+        } else if (ACTIONGETNOMSCLIENTNONLIE.equals(action)) {
+          List<String> noms = clientUcc.listerNomsClientsNonLie(req.getParameter(KEYWORD));
+          json = "{\"names\":" + genson.serialize(noms) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETPRENOMSCLIENTNONLIE.equalsIgnoreCase(action)) {
+          List<String> prenoms = clientUcc.listerPrenomsClientsNonLie(req.getParameter(KEYWORD));
+          json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETVILLESCLIENTNONLIE.equalsIgnoreCase(action)) {
+          List<String> villes = clientUcc.listerVillesClientsNonLie(req.getParameter(KEYWORD));
+          json = "{\"villes\":" + genson.serialize(villes) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONGETCPCLIENTNONLIE.equalsIgnoreCase(action)) {
+          List<String> cpx = clientUcc.listerCpClientsNonLie(req.getParameter(KEYWORD));
+          json = "{\"cpx\":" + genson.serialize(cpx) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } else if (ACTIONCLIENTSNONLIEAFFINE.equals(action)) {
+          String nom = req.getParameter("nom");
+          String prenom = req.getParameter("prenom");
+          String ville = req.getParameter("ville");
+          String cp = req.getParameter("cp");
+          List<ClientDto> clients =
+              clientUcc.listerClientsNonLieAvecCriteres(nom, prenom, ville, cp);
+          json = "{\"data\":"
+              + gensonClient.serialize(clients, new GenericType<List<ClientDto>>() {}) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
         }
+
       } else {
         ServletUtils.sendResponse(resp, json, statusCode);
       }

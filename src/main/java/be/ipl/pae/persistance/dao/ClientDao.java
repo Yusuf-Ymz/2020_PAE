@@ -43,6 +43,29 @@ public interface ClientDao {
   List<String> rechercherNoms(String nom);
 
   /**
+   * Liste tous les client non lié a un utilisteur qui ont comme "nom","prenom","ville" et
+   * "code_postale" les paramètres suivant nomClient,prenomClient,ville et codePostal.
+   * 
+   * @param nomClient : nom du client
+   * @param prenomClient : prenom du client
+   * @param ville : ville du client
+   * @param codePostal : code postal du client
+   * @return la liste des clients avec les critères
+   */
+  List<ClientDto> rechercherClientsNonLie(String ville, String codePostal, String nomClient,
+      String prenomClient);
+
+  List<String> rechercherVillesClientNonLie(String ville);
+
+  List<String> rechercheCodePostauxClientNonLie(String codePostal);
+
+  List<String> rechercherPrenomsClientNonLie(String prenom);
+
+  List<String> rechercherNomsClientNonLie(String nom);
+
+
+
+  /**
    * Selectionne le client qui a comme id le paramètre id.
    * 
    * @param id : id du client à rechercher

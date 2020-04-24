@@ -64,6 +64,54 @@ public interface ClientUcc {
    */
   List<ClientDto> listerClientsAvecCriteres(String nom, String prenom, String ville, String cp);
 
+
+
+  /**
+   * Renvoie les noms des clients sous forme de liste.
+   * 
+   * @param nom : le nom du client
+   * @return la liste des noms
+   */
+  List<String> listerNomsClientsNonLie(String nom);
+
+  /**
+   * Renvoie les prenoms des clients sous forme de liste.
+   * 
+   * @param prenom : le prenom du client
+   * @return la liste des prenoms
+   */
+  List<String> listerPrenomsClientsNonLie(String prenom);
+
+  /**
+   * Renvoie les villes des clients sous forme de liste.
+   * 
+   * @param ville : la ville
+   * @return la liste des villes
+   */
+  List<String> listerVillesClientsNonLie(String ville);
+
+  /**
+   * Renvoie les code postaux des clients sous forme de liste.
+   * 
+   * @param cp : le code postal
+   * @return la liste des code postaux.
+   */
+  List<String> listerCpClientsNonLie(String cp);
+
+  /**
+   * Recherche la liste des clients avec comme critère les paramètres.
+   * 
+   * @param nom : nom que les clients devront avoir
+   * @param prenom : prenom que les clients devront avoir
+   * @param ville : ville que les clients devront avoir
+   * @param cp : cp que les clients devront avoir
+   * @return une liste des clients avec comme critère les paramètres
+   */
+  List<ClientDto> listerClientsNonLieAvecCriteres(String nom, String prenom, String ville,
+      String cp);
+
+
+
   /**
    * Recherche la liste des clients qui ne sont pas liés à un utilisateur.
    * 
