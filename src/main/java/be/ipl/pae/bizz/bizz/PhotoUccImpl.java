@@ -16,7 +16,7 @@ public class PhotoUccImpl implements PhotoUcc {
   @Inject
   private DalServices dal;
 
-  public List<PhotoDto> listerPhotoCarrousel() throws Exception {
+  public List<PhotoDto> listerPhotoCarrousel() {
     // TODO Auto-generated method stub
     try {
 

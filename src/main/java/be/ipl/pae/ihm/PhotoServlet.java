@@ -54,17 +54,20 @@ public class PhotoServlet extends HttpServlet {
       String json = "{\"error\":\"" + exception.getMessage() + "\"";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
+    }
+  }
+
+  private void listerPhotoCarrousel(HttpServletResponse resp, int status) {
+    List<PhotoDto> listePhotos;
+    try {
+      listePhotos = photoUcc.listerPhotoCarrousel();
+      String objetSerialize = genson.serialize(listePhotos, new GenericType<List<PhotoDto>>() {});
+      String json = "{\"photosCarrousel\":" + objetSerialize + "}";
+      ServletUtils.sendResponse(resp, json, status);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-  }
-
-  private void listerPhotoCarrousel(HttpServletResponse resp, int status) throws Exception {
-    List<PhotoDto> listePhotos = photoUcc.listerPhotoCarrousel();
-    String objetSerialize = genson.serialize(listePhotos, new GenericType<List<PhotoDto>>() {});
-    String json = "{\"photosCarrousel\":" + objetSerialize + "}";
-    ServletUtils.sendResponse(resp, json, status);
   }
 
   @Override
