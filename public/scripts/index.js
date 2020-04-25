@@ -27,8 +27,8 @@ $(document).ready(function () {
 
 
   $(".home").on('click', function (e) {
-
     token = localStorage.getItem("token");
+    remplirCarrousel(token);
     if (token)
       HideToHomeWhenConnect("");
     else
@@ -61,6 +61,7 @@ const HideToHomeWhenNotConnect = () => {
   $(".user-info").hide();
   $("#nav_connect").show();
   $(".register").hide();
+
   $("#carouselContent").show();
   $("#logo").show();
   $("#logout").hide();
@@ -157,10 +158,9 @@ const homeWorker = () => {
 
 
 const initialisation = () => {
-
   $('#loader').hide();
   let token = localStorage.getItem("token");
-
+  remplirCarrousel(token);
   if (token) {
 
     const data = {
@@ -174,6 +174,37 @@ const initialisation = () => {
     return;
   }
 };
+
+function remplirCarrousel(token){
+  const data = {
+      action: "afficherPhotoCarrousel"
+  };
+  getData('/photo', data, token, afficherCarrousel, onErrorRefresh);
+}
+
+function afficherCarrousel(response){
+  let photosCarrousel = response.photosCarrousel;
+  console.log(photosCarrousel);
+  let inner = $(".carousel-inner");
+  let indicator = $(".carousel-indicators");
+  indicator.text("");
+  inner.text("");
+  console.log(photosCarrousel);
+  for (let i = 0; i < photosCarrousel.length; i++) {
+    let div = document.createElement("div");
+    let li = document.createElement("li");
+    li.setAttribute("data-target","#carouselExampleIndicators");
+    li.setAttribute("data-slide-to", i);
+    div.className = "carousel-item"
+    if(i == 0){
+      div.classList.add("active");
+      li.classList.add("active");
+    }
+    div.innerHTML = "<img class='d-block w-100 img_size img-fluid' src='" + photosCarrousel[i].Photo + "'id='" + photosCarrousel[i]['Photo id'] + "'/>";
+    inner.append(div);
+    indicator.append(li);
+}
+}
 
 function onErrorRefresh(err) {
   console.error(err);
