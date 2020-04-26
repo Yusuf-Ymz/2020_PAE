@@ -21,6 +21,7 @@ public class PhotoUccImpl implements PhotoUcc {
   @Inject
   private DalServices dal;
 
+  @Override
   public List<PhotoDto> listerPhotoCarrousel() {
     try {
 
