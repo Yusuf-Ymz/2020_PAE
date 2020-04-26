@@ -49,7 +49,8 @@ public class PhotoDaoImpl extends DaoUtils implements PhotoDao {
   @Override
   public List<PhotoDto> recupererLesPhotosVisibleParAmenagement(int idAmenagement) {
     String query = "SELECT * FROM pae.photos p, pae.types_amenagements a "
-        + "WHERE p.visible = true AND p.type_amenagement = a.type_amenagement AND a.type_amenagement = ?";
+        + "WHERE p.visible = true AND p.type_amenagement = a.type_amenagement "
+        + "AND a.type_amenagement = ?";
     try {
       PreparedStatement prepareStatement = dal.createStatement(query);
       prepareStatement.setInt(1, idAmenagement);

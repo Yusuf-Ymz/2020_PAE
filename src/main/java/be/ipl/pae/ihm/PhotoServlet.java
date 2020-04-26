@@ -2,7 +2,6 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.PhotoDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.bizz.ucc.PhotoUcc;
 import be.ipl.pae.exception.BizException;
@@ -21,12 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PhotoServlet extends HttpServlet {
-  @Inject
-  private DtoFactory dtoFactory;
+
   @Inject
   private PhotoUcc photoUcc;
-  @Inject
-  private PhotoUcc userUcc;
+
   @Inject
   private DevisUcc devisUcc;
 
