@@ -63,9 +63,21 @@ function getData(url = "", data = "", token, onGet, onError) {
     success: onGet,
     error: onError
   });
+}
 
+function getDataWithoutLoader(url = "", data = "", token, onGet, onError) {
 
+  let headers = chooseHeaderForRequest(token);
 
+  $.ajax({
+    type: "get",
+    url: url,
+    headers: headers,
+    data: data,
+    dataType: "json",
+    success: onGet,
+    error: onError
+  });
 }
 
 function deleteData(url = "", token, onDelete, onError) {
@@ -139,6 +151,7 @@ function specialGetData(url = "", data = {}, token, currentRequest, onGet, onErr
 }
 export {
   getData,
+  getDataWithoutLoader,
   postData,
   deleteData,
   updateData,

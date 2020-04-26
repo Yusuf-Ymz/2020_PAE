@@ -26,7 +26,8 @@ function doResponse(response) {
     console.log(response);
     $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
 
-    $(':input').val('');
+    // à ne pas faire car cela pourrait tout faire planter
+    //$(':input').val('');
 
     if ($("#introduireDevis").css('display') != 'none') {
         displayClient(response);

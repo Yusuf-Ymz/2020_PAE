@@ -30,4 +30,13 @@ public interface AmenagementDto {
    */
   void setLibelle(String libelle);
 
+  /**
+   * Renvoie le nombre de photos aprés aménagemements visible.
+   * 
+   * @return le nombre de photos aprés aménagemements visible
+   */
+  int getNbPhotos();
+
+  void setNbPhotos(int nbPhotos);
+
 }

@@ -26,6 +26,7 @@ function onGetUserList(response) {
     $("#filtre_user").show();
     $("#filtre_client").hide();
     $("#filtre_amenagement").hide();
+    $("#selectAmenagementAccueil").hide();
     $("#titre-page").text("Liste des utilisateurs");
     printTable("listeUser", response.listeUser);
 

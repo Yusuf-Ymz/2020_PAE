@@ -102,7 +102,7 @@ $(document).ready(function (e) {
         $("#introduireDevis").show();
         $("#searchCard").show();
         $("#card").show();
-
+        $("#selectAmenagementAccueil").hide();
         $("#filtre_client").show();
         $("#filtre_user").hide();
         $("#filtre_amenagement").hide();

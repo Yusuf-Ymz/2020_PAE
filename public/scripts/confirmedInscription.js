@@ -43,6 +43,7 @@ $(document).ready(function () {
 
   $("#confirmed_inscriptions").on("click", function () {
     $("#titre-page").text("Confirmer inscription");
+    $("#selectAmenagementAccueil").hide();
     afficherVueConfirmerUtilisateur();
   });
   

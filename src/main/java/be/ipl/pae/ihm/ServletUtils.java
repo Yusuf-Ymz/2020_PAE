@@ -297,7 +297,9 @@ class ServletUtils {
       writer.writeBoolean("Visible", object.isVisible());
       writer.writeBoolean("Preferee", object.isPreferee());
       writer.writeString("Photo", object.getPhoto());
-
+      if (object.getAmenagement() != null) {
+        writer.writeString("Amenagement", object.getAmenagement().getLibelle());
+      }
       writer.endObject();
     }
   }

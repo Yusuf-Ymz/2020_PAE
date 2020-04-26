@@ -36,12 +36,15 @@ public class PhotoServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
-      String token = req.getHeader("Authorization");
-      String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+
       int status = HttpServletResponse.SC_OK;
       String action = req.getParameter("action");
       if (action.equals("afficherPhotoCarrousel")) {
         listerPhotoCarrousel(resp, status);
+      } else if (action.equals("afficherPhotoAmenagement")) {
+        listerPhotoParAmenagement(req, resp);
+      } else {
+        super.doGet(req, resp);
       }
 
     } catch (BizException exception) {
@@ -57,6 +60,31 @@ public class PhotoServlet extends HttpServlet {
     }
   }
 
+  private void listerPhotoParAmenagement(HttpServletRequest req, HttpServletResponse resp) {
+    String json = "\"error\":\"Erreur champ aménagement\"";
+    try {
+      int idAmenagement = Integer.parseInt(req.getParameter("amenagement").toString());
+
+      List<PhotoDto> photos = photoUcc.listerPhotoParAmenagement(idAmenagement);
+      json = "{\"photosCarrousel\":"
+          + genson.serialize(photos, new GenericType<List<PhotoDto>>() {}) + "}";
+      int status = HttpServletResponse.SC_OK;
+      ServletUtils.sendResponse(resp, json, status);
+    } catch (FatalException exception) {
+      String error = "{\"error\":\"" + exception.getMessage() + "\"}";
+      int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+      exception.printStackTrace();
+      ServletUtils.sendResponse(resp, error, status);
+    } catch (Exception exception) {
+      int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+      ServletUtils.sendResponse(resp, json, status);
+      exception.printStackTrace();
+    }
+
+
+
+  }
+
   private void listerPhotoCarrousel(HttpServletResponse resp, int status) {
     List<PhotoDto> listePhotos;
     try {
@@ -65,9 +93,9 @@ public class PhotoServlet extends HttpServlet {
       String json = "{\"photosCarrousel\":" + objetSerialize + "}";
       ServletUtils.sendResponse(resp, json, status);
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
   }
 
   @Override

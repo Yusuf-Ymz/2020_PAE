@@ -405,10 +405,12 @@ public class DevisServlet extends HttpServlet {
       int statusCode = HttpServletResponse.SC_OK;
       ServletUtils.sendResponse(resp, json, statusCode);
     } catch (BizException exception) {
+      exception.printStackTrace();
       err = "{\"error\":\\\"" + exception.getMessage() + "\"}";
       int statusCode = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (FatalException exception) {
+      exception.printStackTrace();
       err = "{\"error\":\" Erreur serveur \"}";
       int statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, err, statusCode);

@@ -1,18 +1,8 @@
 "use strict";
-import { getData } from "./utilsAPI.js";
+import { getData, getDataWithoutLoader } from "./utilsAPI.js";
+import notify from "./utils.js";
 let token = undefined;
 window.glob = "userInfo";
-
-/*$("#HeaderContent").load("header.html");
-$("#loader").load("loader.html");
-$("#carouselContent").load("carousel.html");
-$("#loginContent").load("login.html");
-$("#inscriptionContent").load("inscription.html");
-$("#confirmedInscriptionContent").load("confirmedInscription.html");
-$("#linkUserClientContent").load("linkUserClient.html");
-$("#searchContent").load("searchBar.html");
-$("#introduireDevis").load("introduireDevis.html");
-$('#consulterDevis').load("consulterDevis.html");*/
 
 
 $(document).ready(function () {
@@ -24,16 +14,24 @@ $(document).ready(function () {
     $('.slide-nav').toggleClass("active");
     e.preventDefault();
   });
-
+  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
 
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
+    getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
     remplirCarrousel(token);
     if (token)
       HideToHomeWhenConnect("");
-    else
+    else{
       HideToHomeWhenNotConnect();
+    }
   });
+
+  $("#selectAmenagementAccueil").click(function(e){
+    e.preventDefault();
+    console.log("ici");
+    $("#amenagementsAccueil").fadeIn();
+  })
 
 
 
@@ -61,7 +59,7 @@ const HideToHomeWhenNotConnect = () => {
   $(".user-info").hide();
   $("#nav_connect").show();
   $(".register").hide();
-
+  $("#selectAmenagementAccueil").fadeIn();
   $("#carouselContent").show();
   $("#logo").show();
   $("#logout").hide();
@@ -139,15 +137,14 @@ const SameHide = () => {
 
 const HomeUser = () => {
   SameHide();
-
+  $("#selectAmenagementAccueil").hide();
   $('#rechercher_mes_devis').show();
-
 }
 
 const homeWorker = () => {
 
   SameHide();
-
+  $("#selectAmenagementAccueil").hide();
   $('#rechercher_mes_devis').hide();
 
   if (window.glob.ouvrier === true) {
@@ -161,30 +158,78 @@ const initialisation = () => {
   $('#loader').hide();
   let token = localStorage.getItem("token");
   remplirCarrousel(token);
-  if (token) {
 
+  if (token) {
     const data = {
       action: "obtenirUser"
     };
     getData('/user', data, token, HideToHomeWhenConnect, onErrorRefresh);
-
     return token;
   } else {
+    getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
     HideToHomeWhenNotConnect();
     return;
   }
 };
 
-function remplirCarrousel(token){
+function displayAmenagements(response) {
+  let divAmenagements = $("#amenagementsAccueil");
+  divAmenagements.text("");
+  let amenagements = response.amenagements;
+  console.log(amenagements);
+  let row = document.createElement("div");
+  row.className = "row mt-2";
+  divAmenagements.append(row);
+  for (let i = 0; i < amenagements.length; i++) {
+    if (i % 3 == 0) {
+      row = document.createElement("div");
+      row.className = "row mt-2";
+      divAmenagements.append(row);
+    }
+    let divButton = document.createElement("div");
+    divButton.className = "col";
+
+    let button = document.createElement("button");
+    button.className = "btn btn-light";
+    button.innerHTML = amenagements[i].libelle +" ("+amenagements[i].nbPhotos+")" ;
+    button.value = amenagements[i].id;
+
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      let id = e.target.value;
+      console.log(id);
+      let data = {
+        action: "afficherPhotoAmenagement",
+        amenagement: id,
+      };
+      getData("/photo", data, localStorage.getItem('token'), afficherCarrousel);
+    });
+
+    row.append(divButton)
+    divButton.appendChild(button);
+  }
+
+}
+
+function onError(response) {
+  console.log(response);
+}
+
+function remplirCarrousel(token) {
   const data = {
-      action: "afficherPhotoCarrousel"
+    action: "afficherPhotoCarrousel"
   };
   getData('/photo', data, token, afficherCarrousel, onErrorRefresh);
 }
 
-function afficherCarrousel(response){
+function afficherCarrousel(response) {
+  $("#selectAmenagementAccueil").show();
   let photosCarrousel = response.photosCarrousel;
-  console.log(photosCarrousel);
+  if (photosCarrousel.length == 0) {
+    notify("info", "Pas de photo(s) après aménagement disponible pour le moment");
+    return;
+  }
+   $("#amenagementsAccueil").fadeOut();
   let inner = $(".carousel-inner");
   let indicator = $(".carousel-indicators");
   indicator.text("");
@@ -193,17 +238,24 @@ function afficherCarrousel(response){
   for (let i = 0; i < photosCarrousel.length; i++) {
     let div = document.createElement("div");
     let li = document.createElement("li");
-    li.setAttribute("data-target","#carouselExampleIndicators");
+    li.setAttribute("data-target", "#carouselExampleIndicators");
     li.setAttribute("data-slide-to", i);
-    div.className = "carousel-item"
-    if(i == 0){
+    div.className = "carousel-item";
+
+    let divDescription = document.createElement("div");
+    divDescription.className ="carousel-caption d-none d-md-block";
+    let title = document.createElement("h1");
+    title.innerHTML = photosCarrousel[i].Amenagement;
+    if (i == 0) {
       div.classList.add("active");
       li.classList.add("active");
     }
     div.innerHTML = "<img class='d-block w-100 img_size img-fluid' src='" + photosCarrousel[i].Photo + "'id='" + photosCarrousel[i]['Photo id'] + "'/>";
+    div.appendChild(divDescription);
+    divDescription.appendChild(title);
     inner.append(div);
     indicator.append(li);
-}
+  }
 }
 
 function onErrorRefresh(err) {
@@ -243,33 +295,5 @@ function dateFormating(date) {
   return day + "/" + month + "/" + date.year;
 
 }
-/*function getData(url = "", data = "", token, onGet, onError) {
-  let headers;
-  if (token)
-    headers = {
-      "Content-Type": "application/json",
-      Authorization: token
-    };
-  else
-    headers = {
-      "Content-Type": "application/json"
-    };
-
-  $.ajax({
-    type: "get",
-    url: url,
-    headers: headers,
-    data: data,
-    dataType: "json",
-    beforeSend: function () {
-      $('#loader').show();
-    },
-    complete: function () {
-      $('#loader').hide();
-    },
-    success: onGet,
-    error: onError
-  });
-}*/
 
 export { HomeUser, homeWorker, fillCardUserInfos };

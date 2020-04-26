@@ -11,7 +11,7 @@ import java.util.Map;
 public class InjectionService {
 
 
-  public static Map<String, Object> dependencies = new HashMap<String, Object>();
+  private static Map<String, Object> dependencies = new HashMap<String, Object>();
 
   /**
    * Injecte les dépendances de l'objet passé en paramètre.

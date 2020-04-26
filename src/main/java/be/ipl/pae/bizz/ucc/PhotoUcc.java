@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface PhotoUcc {
 
-  List<PhotoDto> listerPhotoCarrousel() throws Exception;
+  List<PhotoDto> listerPhotoCarrousel();
+
+  List<PhotoDto> listerPhotoParAmenagement(int idAmenagement);
 
 }

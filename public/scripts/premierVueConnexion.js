@@ -5,7 +5,8 @@ import { onGetTousLesDevisList, onGetMesDevisList, onDevisListError } from "./re
 
 
 const firstViewWorker = () => {
-  $('#loader').hide();
+  //$('#loader').hide();
+  $("#selectAmenagementAccueil").hide();
   homeWorker();
   let token = localStorage.getItem("token");
   console.log("token = " + token);
@@ -17,7 +18,8 @@ const firstViewWorker = () => {
 
 //premier page que l'utilisateur voit quand il se connecte!!!
 const firstViewUser = () => {
-  $('#loader').hide();
+  //$('#loader').hide();
+  $("#selectAmenagementAccueil").hide();
   HomeUser();
   let token = localStorage.getItem("token");
 

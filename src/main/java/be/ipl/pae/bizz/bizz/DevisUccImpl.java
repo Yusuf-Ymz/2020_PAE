@@ -139,15 +139,13 @@ class DevisUccImpl implements DevisUcc {
         }
         devis.getAmenagements().add(amenagement);
       }
-
+      DevisDto newDevis = devisdao.insererDevis(devis, photos);
       dal.commitTransaction();
-      return devisdao.insererDevis(devis, photos);
+      return newDevis;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 

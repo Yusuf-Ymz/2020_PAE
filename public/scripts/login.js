@@ -27,7 +27,7 @@ function onPostLogin(response) {
   $("#mdp").val("");
 
   localStorage.setItem("token", response.token);
-
+  $("#selectAmenagementAccueil").hide();
   window.glob = response.user;
   console.log(window.glob);
   let user = window.glob;
