@@ -493,17 +493,20 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
     if (dateDevis.isEmpty()) {
       query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
-              + "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
-              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
+              + "tr.type_amenagement=ta.type_amenagement AND " + "LOWER(c.nom) LIKE LOWER(?) AND "
+              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.montant_total BETWEEN ? AND ?"
+              + " ORDER BY d.date_debut";
     } else {
       query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
-              + "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
-              + "d.date_devis=? AND " + "d.montant_total BETWEEN ? AND ?"
-              + " ORDER BY d.date_debut";
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
+              + "tr.type_amenagement=ta.type_amenagement AND " + "LOWER(c.nom) LIKE LOWER(?) AND "
+              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.date_devis=? AND "
+              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
     }
 
     PreparedStatement prepareStatement = dal.createStatement(query);
@@ -532,10 +535,11 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   public List<String> rechercherAmenagements(String amenagement, int clientId) {
     amenagement = amenagement.replace("%", "\\" + "%");
     amenagement += "%";
-    String query =
-        "SELECT DISTINCT ta.libelle FROM pae.clients c,pae.travaux tr, pae.devis d, pae.types_amenagements ta "
-            + "WHERE c.client_id=d.client AND d.devis_id=tr.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
-            + "c.client_id = ? AND LOWER(ta.libelle) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
+    String query = "SELECT DISTINCT ta.libelle FROM pae.clients c,"
+        + "pae.travaux tr, pae.devis d, pae.types_amenagements ta "
+        + "WHERE c.client_id=d.client AND d.devis_id=tr.devis_id AND "
+        + "tr.type_amenagement=ta.type_amenagement AND "
+        + "c.client_id = ? AND LOWER(ta.libelle) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> amenagements = new ArrayList<String>();
@@ -565,17 +569,20 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
     if (dateDevis.isEmpty()) {
       query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
-              + " c.client_id= ? AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
-              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
+              + "tr.type_amenagement=ta.type_amenagement AND " + " c.client_id= ? AND "
+              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.montant_total BETWEEN ? AND ?"
+              + " ORDER BY d.date_debut";
     } else {
       query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND tr.type_amenagement=ta.type_amenagement AND "
-              + "c.client_id= ? AND " + "LOWER(ta.libelle) LIKE LOWER(?) AND "
-              + "d.date_devis=? AND " + "d.montant_total BETWEEN ? AND ?"
-              + " ORDER BY d.date_debut";
+          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
+              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
+              + "tr.type_amenagement=ta.type_amenagement AND " + "c.client_id= ? AND "
+              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.date_devis=? AND "
+              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
     }
 
     PreparedStatement prepareStatement = dal.createStatement(query);
