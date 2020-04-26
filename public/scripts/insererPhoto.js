@@ -219,7 +219,7 @@ function createModal(image, idDevis) {
         $.ajax({
             contentType: "json",
             type: "POST",
-            url: "/devis",
+            url: "/photo",
             headers: headers,
             data: JSON.stringify(data),
             dataType: "json",

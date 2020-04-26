@@ -2,7 +2,6 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
@@ -329,42 +328,13 @@ public class DevisServlet extends HttpServlet {
         changerEtat(body, resp, action);
         break;
 
-      case "ajouterPhotoApresAmenagement":
-        ajouterPhotoApresApresAmenagement(body, resp);
-        break;
       default:
         super.doPost(req, resp);
         break;
     }
   }
 
-  private void ajouterPhotoApresApresAmenagement(Map<String, Object> body,
-      HttpServletResponse resp) {
-    String photo = body.get("image").toString();
-    int idAmenagement = Integer.parseInt(body.get("typeAmenagement").toString());
-    int idDevis = Integer.parseInt(body.get("idDevis").toString());
-    boolean visible = Boolean.parseBoolean(body.get("photoVisible").toString());
-    boolean preferee = Boolean.parseBoolean(body.get("photoPreferee").toString());
-    String json = "{\"error\":\"Erreur du serveur\"";
-    try {
-      final PhotoDto newPhoto =
-          devisUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
-      json = "{\"success\":\"Photo ajouté\",\"photo\":"
-          + genson.serialize(newPhoto, new GenericType<PhotoDto>() {}) + "}";
-      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
-    } catch (BizException exception) {
-      json = "{\"error\":\"" + exception.getMessage() + "\"}";
-      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_CONFLICT);
-    } catch (FatalException exception) {
-      json = "{\"error\":\"Erreur du serveur\"}";
-      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    } catch (Exception exception) {
-      exception.printStackTrace();
-      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_PRECONDITION_FAILED);
-    }
 
-
-  }
 
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
     String err = "";

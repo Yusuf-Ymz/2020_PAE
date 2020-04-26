@@ -3,6 +3,7 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
+import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.bizz.ucc.PhotoUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
@@ -12,6 +13,7 @@ import com.owlike.genson.Genson;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,9 @@ public class PhotoServlet extends HttpServlet {
   private PhotoUcc photoUcc;
   @Inject
   private PhotoUcc userUcc;
+  @Inject
+  private DevisUcc devisUcc;
+
   private Genson genson;
   private static final long serialVersionUID = 1L;
 
@@ -85,6 +90,8 @@ public class PhotoServlet extends HttpServlet {
 
   }
 
+
+
   private void listerPhotoCarrousel(HttpServletResponse resp, int status) {
     List<PhotoDto> listePhotos;
     try {
@@ -92,8 +99,11 @@ public class PhotoServlet extends HttpServlet {
       String objetSerialize = genson.serialize(listePhotos, new GenericType<List<PhotoDto>>() {});
       String json = "{\"photosCarrousel\":" + objetSerialize + "}";
       ServletUtils.sendResponse(resp, json, status);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      String json = "{\"error\":\" Erreur serveur \"}";
+      status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+      ServletUtils.sendResponse(resp, json, status);
     }
 
   }
@@ -102,6 +112,17 @@ public class PhotoServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
+      Map<String, Object> body = ServletUtils.decoderBodyJson(req);
+      String action = body.get("action").toString();
+
+      switch (action) {
+        case "ajouterPhotoApresAmenagement":
+          ajouterPhotoApresApresAmenagement(body, resp);
+          break;
+        default:
+          super.doPost(req, resp);
+          break;
+      }
 
     } catch (BizException exception) {
       exception.printStackTrace();
@@ -113,6 +134,32 @@ public class PhotoServlet extends HttpServlet {
       String json = "{\"error\":\"" + exception.getMessage() + "\"";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
+    }
+  }
+
+  private void ajouterPhotoApresApresAmenagement(Map<String, Object> body,
+      HttpServletResponse resp) {
+    String photo = body.get("image").toString();
+    int idAmenagement = Integer.parseInt(body.get("typeAmenagement").toString());
+    int idDevis = Integer.parseInt(body.get("idDevis").toString());
+    boolean visible = Boolean.parseBoolean(body.get("photoVisible").toString());
+    boolean preferee = Boolean.parseBoolean(body.get("photoPreferee").toString());
+    String json = "{\"error\":\"Erreur du serveur\"";
+    try {
+      final PhotoDto newPhoto =
+          devisUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
+      json = "{\"success\":\"Photo ajouté\",\"photo\":"
+          + genson.serialize(newPhoto, new GenericType<PhotoDto>() {}) + "}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
+    } catch (BizException exception) {
+      json = "{\"error\":\"" + exception.getMessage() + "\"}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_CONFLICT);
+    } catch (FatalException exception) {
+      json = "{\"error\":\"Erreur du serveur\"}";
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_PRECONDITION_FAILED);
     }
   }
 }

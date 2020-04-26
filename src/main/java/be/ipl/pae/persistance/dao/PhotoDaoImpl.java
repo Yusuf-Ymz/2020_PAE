@@ -19,6 +19,7 @@ public class PhotoDaoImpl extends DaoUtils implements PhotoDao {
   @Inject
   private DtoFactory fact;
 
+  @Override
   public List<PhotoDto> recupererLesPhotosVisible() {
     try {
       String queryPhotoAvant = "SELECT * FROM pae.photos p, pae.types_amenagements a "

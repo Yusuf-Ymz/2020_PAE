@@ -22,10 +22,10 @@ class AmenagementDaoImpl extends DaoUtils implements AmenagementDao {
   public List<AmenagementDto> listerLesAmenagements() {
     List<AmenagementDto> amenagements = new ArrayList<AmenagementDto>();
 
-    String query =
-        "SELECT a.*, count(p.*) as \"nbPhotos\" FROM pae.types_amenagements a LEFT OUTER JOIN  pae.photos p "
-            + "ON p.type_amenagement = a.type_amenagement AND p.visible = true "
-            + "GROUP BY a.type_amenagement";
+    String query = "SELECT a.*, count(p.*) as \"nbPhotos\" FROM pae.types_amenagements a "
+        + "LEFT OUTER JOIN  pae.photos p "
+        + "ON p.type_amenagement = a.type_amenagement AND p.visible = true "
+        + "GROUP BY a.type_amenagement";
     PreparedStatement pstatement = dal.createStatement(query);
     try {
       ResultSet rs = pstatement.executeQuery();
