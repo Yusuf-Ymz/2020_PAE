@@ -240,4 +240,10 @@ public class MockDevisDao implements DevisDao {
     return devis;
   }
 
+  @Override
+  public void repousserDateTraveaux(int idDevis, String newDate) {
+    // TODO Auto-generated method stub
+
+  }
+
 }

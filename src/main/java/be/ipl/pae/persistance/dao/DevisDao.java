@@ -140,4 +140,6 @@ public interface DevisDao {
    */
   List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
       String dateDevis, int montantMin, int montantMax);
+
+  public void repousserDateTraveaux(int idDevis, String newDate);
 }

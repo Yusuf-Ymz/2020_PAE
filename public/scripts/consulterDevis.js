@@ -153,6 +153,12 @@ function onPostCheckBox(response) {
 
 }
 
+function onNewDate(response){
+    notify("success", "La date a bien été repoussée");
+    $('#dateDebutVersionOuvrier').text(response.date);
+    console.log(response.date);
+}
+
 function onCheckBoxError(response) {
     console.log(response);
     notify("error", "Les modifications n'ont pas pu être effectuées");
@@ -228,7 +234,7 @@ $(document).ready(function () {
                 newDate: $("#inputRepousser").val(),
                 id: devisID
             };
-            postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+            postData("/devis", data, null, onNewDate, onCheckBoxError);
         }
     });
 
@@ -246,6 +252,16 @@ $(document).ready(function () {
         if ($(this).is(":checked")){
             const data = {
                 action: "indiquerFactureFinPayee",
+                id: devisID
+            };
+            postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+        }
+    })
+
+    $('#rendreVisible').change(function(){
+        if ($(this).is(":checked")){
+            const data = {
+                action: "rendreVisible",
                 id: devisID
             };
             postData("/devis", data, null, onPostCheckBox, onCheckBoxError);

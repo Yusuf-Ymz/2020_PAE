@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -629,6 +630,18 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
 
     return listeDevis;
+  }
+
+  public void repousserDateTraveaux(int idDevis, String newDate) {
+    String query = "UPDATE pae.devis SET date_debut = ? WHERE devis_id = ?";
+    PreparedStatement stmt = dal.createStatement(query);
+    try {
+      stmt.setInt(2, idDevis);
+      stmt.setDate(1, java.sql.Date.valueOf(LocalDate.parse(newDate)));
+      stmt.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
 }

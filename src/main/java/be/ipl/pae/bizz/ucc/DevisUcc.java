@@ -124,4 +124,6 @@ public interface DevisUcc {
   List<DevisDto> listerTousLesDevisAffine(String client, String typeAmenagement, String dateDevis,
       int montantMin, int montantMax);
 
+  public void repousserDate(int devisId, String date);
+
 }

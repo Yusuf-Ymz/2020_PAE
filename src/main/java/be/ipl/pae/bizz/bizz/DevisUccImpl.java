@@ -161,6 +161,8 @@ class DevisUccImpl implements DevisUcc {
       System.out.println(etatActuel);
 
       switch (etatActuel) {
+
+
         case "Devis introduit":
           if (newEtat.equalsIgnoreCase("Commande confirmée")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
@@ -329,6 +331,20 @@ class DevisUccImpl implements DevisUcc {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
+    }
+  }
+
+  public void repousserDate(int devisId, String date) {
+    try {
+      dal.startTransaction();
+
+      devisdao.repousserDateTraveaux(devisId, date);
+
+      dal.commitTransaction();
+    } catch (Exception e) {
+      e.printStackTrace();
+      dal.rollbackTransaction();
+      throw e;
     }
   }
 

@@ -322,12 +322,19 @@ public class DevisServlet extends HttpServlet {
         break;
 
       case "repousserDateDebut":
+        changerEtat(body, resp, action);
         break;
 
       case "indiquerFactureMilieuPayee":
         changerEtat(body, resp, action);
         break;
 
+      case "indiquerFactureFinPayee":
+        changerEtat(body, resp, action);
+        break;
+      case "rendreVisible":
+        changerEtat(body, resp, action);
+        break;
       default:
         super.doPost(req, resp);
         break;
@@ -412,7 +419,8 @@ public class DevisServlet extends HttpServlet {
           break;
 
         case "repousserDateDebut":
-          json = "{\"etat\":\"A changer.\"}";
+          devisUcc.repousserDate(devisId, body.get("newDate").toString());
+          json = "{\"date\":\"" + body.get("newDate").toString() + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
@@ -425,12 +433,16 @@ public class DevisServlet extends HttpServlet {
           break;
 
         case "indiquerFactureFinPayee":
-          /*
-           * devisUcc.changerEtatDevis(devisId, "Facture de décompte envoyée"); json =
-           * "{\"etat\":\"Facture de décompte envoyée\"}"; status = HttpServletResponse.SC_OK;
-           * ServletUtils.sendResponse(resp, json, status);
-           */
+          devisUcc.changerEtatDevis(devisId, "Facture de décompte envoyée");
+          json = "{\"etat\":\"Facture de décompte envoyée\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
           break;
+        case "rendreVisible":
+          devisUcc.changerEtatDevis(devisId, "Visible");
+          json = "{\"etat\":\"visible\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
         default:
           break;
       }
