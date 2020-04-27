@@ -179,7 +179,7 @@ class DevisUccImpl implements DevisUcc {
           }
           break;
         case "Facture milieu chantier envoyée":
-          if (newEtat.equalsIgnoreCase("Facture de décompte envoyée")) {
+          if (newEtat.equalsIgnoreCase("Visible")) {
             devisdao.changerEtatDevis(idDevis, newEtat);
           }
           break;

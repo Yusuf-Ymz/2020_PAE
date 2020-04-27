@@ -431,13 +431,6 @@ public class DevisServlet extends HttpServlet {
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
-
-        case "indiquerFactureFinPayee":
-          devisUcc.changerEtatDevis(devisId, "Facture de décompte envoyée");
-          json = "{\"etat\":\"Facture de décompte envoyée\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
         case "rendreVisible":
           devisUcc.changerEtatDevis(devisId, "Visible");
           json = "{\"etat\":\"visible\"}";
