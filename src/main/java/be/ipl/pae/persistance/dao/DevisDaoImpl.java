@@ -482,7 +482,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
+  public List<String> rechercherAmenagementsDesDevisDeTousLesClients(String amenagement) {
     amenagement = amenagement.replace("%", "\\" + "%");
     amenagement += "%";
     String query =
@@ -515,20 +515,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
             + "pae.clients c ";
 
-    if (!typeAmenagement.trim().isEmpty()) {
+    if (!typeAmenagement.isEmpty()) {
       query += ",pae.travaux tr, pae.types_amenagements ta ";
     }
 
-    query += "WHERE c.client_id=d.client AND ";
+    query += "WHERE c.client_id=d.client AND " + "LOWER(c.nom) LIKE LOWER(?) AND "
+        + "LOWER(c.prenom) LIKE LOWER(?) AND ";
 
-    if (!typeAmenagement.trim().isEmpty()) {
-      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND ";
-    }
-
-    query += "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(c.prenom) LIKE LOWER(?) AND ";
-
-    if (!typeAmenagement.trim().isEmpty()) {
-      query += "LOWER(ta.libelle) LIKE LOWER(?) AND ";
+    if (!typeAmenagement.isEmpty()) {
+      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND "
+          + "LOWER(ta.libelle) LIKE LOWER(?) AND ";
     }
 
     if (!dateDevis.isEmpty()) {
@@ -549,25 +545,10 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     try {
       prepareStatement.setString(1, nomClient);
       prepareStatement.setString(2, prenomClient);
-      int i = 3;
+      int indiceDansLaRequete = 3;
 
-      if (!typeAmenagement.trim().isEmpty()) {
-        typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
-        typeAmenagement += "%";
-        prepareStatement.setString(i, typeAmenagement);
-        i++;
-      }
-
-
-      if (!dateDevis.isEmpty()) {
-        prepareStatement.setDate(i, Date.valueOf(dateDevis));
-        i++;
-      }
-
-      prepareStatement.setInt(i, montantMin);
-      prepareStatement.setInt(i + 1, montantMax);
-
-      return rechercherDevisAffine(prepareStatement);
+      return rechercherDevisAffine(prepareStatement, false, typeAmenagement, dateDevis, montantMin,
+          montantMax, indiceDansLaRequete);
 
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -576,7 +557,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public List<String> rechercherAmenagements(String amenagement, int clientId) {
+  public List<String> rechercherAmenagementsDesDevisDUnClient(String amenagement, int clientId) {
     amenagement = amenagement.replace("%", "\\" + "%");
     amenagement += "%";
     String query = "SELECT DISTINCT ta.libelle FROM pae.clients c,"
@@ -612,18 +593,15 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
             + "pae.clients c ";
 
-    if (!typeAmenagement.trim().isEmpty()) {
+    if (!typeAmenagement.isEmpty()) {
       query += ",pae.travaux tr, pae.types_amenagements ta ";
     }
 
     query += "WHERE c.client_id=d.client AND c.client_id = ? AND ";
 
-    if (!typeAmenagement.trim().isEmpty()) {
-      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND ";
-    }
-
-    if (!typeAmenagement.trim().isEmpty()) {
-      query += "LOWER(ta.libelle) LIKE LOWER(?) AND ";
+    if (!typeAmenagement.isEmpty()) {
+      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND "
+          + "LOWER(ta.libelle) LIKE LOWER(?) AND ";
     }
 
     if (!dateDevis.isEmpty()) {
@@ -635,27 +613,12 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
 
     PreparedStatement prepareStatement = dal.createStatement(query);
-
     try {
       prepareStatement.setInt(1, clientId);
-      int i = 2;
+      int indiceDansLaRequete = 2;
 
-      if (!typeAmenagement.trim().isEmpty()) {
-        typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
-        typeAmenagement += "%";
-        prepareStatement.setString(i, typeAmenagement);
-        i++;
-      }
-
-      if (!dateDevis.isEmpty()) {
-        prepareStatement.setDate(i, Date.valueOf(dateDevis));
-        i++;
-      }
-
-      prepareStatement.setInt(i, montantMin);
-      prepareStatement.setInt(i + 1, montantMax);
-
-      return rechercherDevisAffine(prepareStatement);
+      return rechercherDevisAffine(prepareStatement, true, typeAmenagement, dateDevis, montantMin,
+          montantMax, indiceDansLaRequete);
 
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -663,8 +626,25 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-  private List<DevisDto> rechercherDevisAffine(PreparedStatement prepareStatement)
-      throws SQLException {
+  private List<DevisDto> rechercherDevisAffine(PreparedStatement prepareStatement, boolean mesDevis,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax,
+      int indiceDansLaRequete) throws SQLException {
+
+    if (!typeAmenagement.isEmpty()) {
+      typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
+      typeAmenagement += "%";
+      prepareStatement.setString(indiceDansLaRequete, typeAmenagement);
+      indiceDansLaRequete++;
+    }
+
+    if (!dateDevis.isEmpty()) {
+      prepareStatement.setDate(indiceDansLaRequete, Date.valueOf(dateDevis));
+      indiceDansLaRequete++;
+    }
+
+    prepareStatement.setInt(indiceDansLaRequete, montantMin);
+    prepareStatement.setInt(indiceDansLaRequete + 1, montantMax);
+
     ResultSet rs = prepareStatement.executeQuery();
 
     List<DevisDto> listeDevis = new ArrayList<DevisDto>();
@@ -672,9 +652,11 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       DevisDto devis = fact.getDevisDto();
       fillObject(devis, rs);
 
-      ClientDto clientBis = fact.getClientDto();
-      fillObject(clientBis, rs);
-      devis.setClient(clientBis);
+      if (!mesDevis) {
+        ClientDto clientBis = fact.getClientDto();
+        fillObject(clientBis, rs);
+        devis.setClient(clientBis);
+      }
 
       PhotoDto photoPreferee = fact.getPhotoDto();
       fillObject(photoPreferee, rs);
@@ -687,15 +669,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return listeDevis;
   }
 
-  public void repousserDateTraveaux(int idDevis, String newDate) {
+  @Override
+  public void repousserDateTravaux(int idDevis, String newDate) {
     String query = "UPDATE pae.devis SET date_debut = ? WHERE devis_id = ?";
     PreparedStatement stmt = dal.createStatement(query);
     try {
       stmt.setInt(2, idDevis);
-      stmt.setDate(1, java.sql.Date.valueOf(LocalDate.parse(newDate)));
+      stmt.setDate(1, Date.valueOf(LocalDate.parse(newDate)));
       stmt.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
   }
 

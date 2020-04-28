@@ -133,6 +133,12 @@ public interface DevisUcc {
   List<DevisDto> listerTousLesDevisAffine(String nomClient, String prenomClient,
       String typeAmenagement, String dateDevis, int montantMin, int montantMax);
 
-  public void repousserDate(int devisId, String date);
+  /**
+   * Permet de repousser la date de début des travaux d'un devis.
+   * 
+   * @param devisId : le devis
+   * @param date : la nouvelle date à laquelle va débuter les travaux
+   */
+  void repousserDate(int devisId, String date);
 
 }

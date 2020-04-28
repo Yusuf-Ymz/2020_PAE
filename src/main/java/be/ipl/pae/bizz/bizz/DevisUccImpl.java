@@ -284,7 +284,7 @@ class DevisUccImpl implements DevisUcc {
     try {
       dal.startTransaction();
 
-      List<String> amenagements = devisdao.rechercherAmenagementsTousLesClients(amenagement);
+      List<String> amenagements = devisdao.rechercherAmenagementsDesDevisDeTousLesClients(amenagement);
 
       dal.commitTransaction();
       return amenagements;
@@ -321,7 +321,7 @@ class DevisUccImpl implements DevisUcc {
     try {
       dal.startTransaction();
 
-      List<String> amenagements = devisdao.rechercherAmenagements(amenagement, clientId);
+      List<String> amenagements = devisdao.rechercherAmenagementsDesDevisDUnClient(amenagement, clientId);
 
       dal.commitTransaction();
       return amenagements;
@@ -355,13 +355,13 @@ class DevisUccImpl implements DevisUcc {
     try {
       dal.startTransaction();
 
-      devisdao.repousserDateTraveaux(devisId, date);
+      devisdao.repousserDateTravaux(devisId, date);
 
       dal.commitTransaction();
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
       dal.rollbackTransaction();
-      throw e;
+      throw exception;
     }
   }
 

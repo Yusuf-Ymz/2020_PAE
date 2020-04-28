@@ -123,7 +123,7 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
+  public List<String> rechercherAmenagementsDesDevisDeTousLesClients(String amenagement) {
     // TODO Auto-generated method stub
     List<String> amenagements = new ArrayList<String>();
 
@@ -200,7 +200,7 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public List<String> rechercherAmenagements(String amenagement, int clientId) {
+  public List<String> rechercherAmenagementsDesDevisDUnClient(String amenagement, int clientId) {
     List<String> amenagements = new ArrayList<String>();
 
     if (clientId == 1 && amenagement == "test") {
@@ -251,7 +251,7 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public void repousserDateTraveaux(int idDevis, String newDate) {
+  public void repousserDateTravaux(int idDevis, String newDate) {
     // TODO Auto-generated method stub
 
   }

@@ -68,7 +68,7 @@ public class DevisServlet extends HttpServlet {
                   status);
               break;
             case "listerMesDevisAffine":
-              listerMesDevisAffine(resp, req, user.getClientId(), status);
+              listerDevisAffine(resp, req, user.getClientId(), status);
               break;
             default:
               break;
@@ -98,7 +98,7 @@ public class DevisServlet extends HttpServlet {
               listerAmenagementsTousLesClientsRecherches(resp, req.getParameter("keyword"), status);
               break;
             case "listerTousLesDevisAffine":
-              listerTousLesDevisAffine(resp, req, status);
+              listerDevisAffine(resp, req, -1, status);
               break;
             default:
               super.doGet(req, resp);
@@ -251,13 +251,15 @@ public class DevisServlet extends HttpServlet {
   }
 
   /**
-   * Gère la requête permettant de lister tous les devis selon des critères.
+   * Gère la requête permettant de lister tous les devis ou les devis d'un seul client selon des
+   * critères.
    * 
    * @param resp : la réponse à envoyer au client
    * @param req : la requête
+   * @param clientId : l'id du client(si tous les devis -1)
    * @param status : status ok
    */
-  private void listerTousLesDevisAffine(HttpServletResponse resp, HttpServletRequest req,
+  private void listerDevisAffine(HttpServletResponse resp, HttpServletRequest req, int clientId,
       int status) {
     final String nomClient = req.getParameter("nomClient");
     final String prenomClient = req.getParameter("prenomClient");
@@ -268,42 +270,21 @@ public class DevisServlet extends HttpServlet {
     if (!req.getParameter("montantMin").trim().isEmpty()) {
       montantMin = Integer.parseInt(req.getParameter("montantMin"));
     }
-    int montantMax = Integer.MAX_VALUE;
-    if (!req.getParameter("montantMax").trim().isEmpty()) {
-      montantMax = Integer.parseInt(req.getParameter("montantMax"));
-    }
-    List<DevisDto> devis = devisUcc.listerTousLesDevisAffine(nomClient, prenomClient,
-        typeAmenagement, dateDevis, montantMin, montantMax);
 
-    String objetSerialize = genson.serialize(devis, new GenericType<List<DevisDto>>() {});
-    String json = "{\"devis\":" + objetSerialize + "}";
-    ServletUtils.sendResponse(resp, json, status);
-  }
-
-  /**
-   * Gère la requête permettant de lister tous les devis d'un client selon des critères.
-   * 
-   * @param resp : la réponse à envoyer au client
-   * @param req : la requête
-   * @param clientId: le client
-   * @param status : status ok
-   */
-  private void listerMesDevisAffine(HttpServletResponse resp, HttpServletRequest req, int clientId,
-      int status) {
-    final String typeAmenagement = req.getParameter("type");
-    final String dateDevis = req.getParameter("date");
-
-    int montantMin = Integer.MIN_VALUE;
-    if (!req.getParameter("montantMin").trim().isEmpty()) {
-      montantMin = Integer.parseInt(req.getParameter("montantMin"));
-    }
     int montantMax = Integer.MAX_VALUE;
     if (!req.getParameter("montantMax").trim().isEmpty()) {
       montantMax = Integer.parseInt(req.getParameter("montantMax"));
     }
 
-    List<DevisDto> devis =
-        devisUcc.listerMesDevisAffine(clientId, typeAmenagement, dateDevis, montantMin, montantMax);
+    List<DevisDto> devis = null;
+
+    if (clientId != -1) {
+      devis = devisUcc.listerMesDevisAffine(clientId, typeAmenagement, dateDevis, montantMin,
+          montantMax);
+    } else {
+      devis = devisUcc.listerTousLesDevisAffine(nomClient, prenomClient, typeAmenagement, dateDevis,
+          montantMin, montantMax);
+    }
 
     String objetSerialize = genson.serialize(devis, new GenericType<List<DevisDto>>() {});
     String json = "{\"devis\":" + objetSerialize + "}";
@@ -447,6 +428,7 @@ public class DevisServlet extends HttpServlet {
           json = "{\"etat\":\"visible\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
+          break;
         default:
           break;
       }

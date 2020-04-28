@@ -112,7 +112,7 @@ public interface DevisDao {
    * @param clientId : le client
    * @return liste des amenagements
    */
-  List<String> rechercherAmenagements(String amenagement, int clientId);
+  List<String> rechercherAmenagementsDesDevisDUnClient(String amenagement, int clientId);
 
   /**
    * Renvoie une liste des tous les types d'aménagements de tous les clients dont le libelle est
@@ -121,7 +121,7 @@ public interface DevisDao {
    * @param amenagement : caractères à match
    * @return liste des amenagements
    */
-  List<String> rechercherAmenagementsTousLesClients(String amenagement);
+  List<String> rechercherAmenagementsDesDevisDeTousLesClients(String amenagement);
 
   /**
    * Renvoie une liste de devis d'un client dont les attributs sont similaires aux paramètres.
@@ -150,5 +150,11 @@ public interface DevisDao {
   List<DevisDto> rechercherTousLesDevisAffine(String nomClient, String prenomClient,
       String typeAmenagement, String dateDevis, int montantMin, int montantMax);
 
-  public void repousserDateTraveaux(int idDevis, String newDate);
+  /**
+   * Permet de repousser la date de début des travaux d'un devis.
+   * 
+   * @param idDevis : le devis
+   * @param newDate : la nouvelle date à laquelle va débuter les travaux
+   */
+  void repousserDateTravaux(int idDevis, String newDate);
 }
