@@ -414,4 +414,11 @@ svg {
   transform: rotate(45deg);
 }
 
+@media screen and (max-width: 1235px) {
+
+  #form_recherche{
+    width: 100% !important;
+  }
+
+}
 

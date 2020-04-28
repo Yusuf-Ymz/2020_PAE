@@ -162,9 +162,7 @@ $(document).ready(function () {
                     prenom: $("#prenom_utilisateur").val(),
                     ville: $("#ville_utilisateur").val(),
                 }
-                console.log($("#nom_utilisateur").val());
-                console.log($("#prenom_utilisateur").val());
-                console.log($("#ville_utilisateur").val());
+
 
                 break;
             case urlDevis:
@@ -178,7 +176,8 @@ $(document).ready(function () {
                         date: $("#date_du_devis").val(),
                         montantMin: $("#montant_min").val(),
                         montantMax: $("#montant_max").val(),
-                        client: $("#nom_client_amenagement").val()
+                        nomClient: $("#nom_client_amenagement").val(),//a changé
+                        prenomClient: $("#prenom_client_amenagement").val()
                     }
 
                 } else {
@@ -351,6 +350,18 @@ $(document).ready(function () {
         });
         auto.autocomplete('search');
     });
+
+    $("#prenom_client_amenagement").click(function (e) {
+        e.preventDefault();
+        action = getPrenom
+        idOfInputCurruntlyClicked = "#prenom_client_amenagement";
+        let auto = $(idOfInputCurruntlyClicked).autocomplete({
+            minLength: 0,
+            source: doAutocompleteRequest
+        });
+        auto.autocomplete('search');
+    });
+
 
     $("#types_amenagements").click(function (e) {
         e.preventDefault();

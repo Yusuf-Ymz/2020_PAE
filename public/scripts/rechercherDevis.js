@@ -13,7 +13,8 @@ function onGetTousLesDevisList(response) {
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
-    $("#nom_client_hidden").show();
+    $(".client_hidden").show();
+    $("#form_recherche").css('width',"100%");
     printTable("listeDeTousLesDevis", response.devis, [], "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 }
 
@@ -26,7 +27,8 @@ function onGetMesDevisList(response) {
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
-    $("#nom_client_hidden").hide();
+    $(".client_hidden").hide();
+    $("#form_recherche").css('width',"200%");
     printTable("listeDeMesDevis", response.devis, [], "devisId", [consulterDevisEntantQueClient], "/devis");
 }
 
@@ -39,6 +41,7 @@ function onGetMesDevisListOuvrier(response) {
     $("#filtre_amenagement").show();
     $("#filtre_user").hide();
     $("#filtre_client").hide();
+    
     printTable("listeDeMesDevis", response.devis, [], "devisId", [consulterDevisEntantQueOuvrier], "/devis");
 
 }

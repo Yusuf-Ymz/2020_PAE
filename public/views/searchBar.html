@@ -51,36 +51,44 @@
                                         </div>
                                         <!---------------Devis---------------->
                                         <div id="filtre_amenagement" style="display: none;">
-                                            <div class="col-md-12">
-                                                <div class="form-row mb-3">
-                                                    <div class="form-group col-md-3" id="nom_client_hidden">
-                                                        <label for="nom_client_amenagement">Nom client:</label>
-                                                        <input type="text" class="form-control"
-                                                            id="nom_client_amenagement"
-                                                            placeholder="Entrer le nom du client">
-                                                    </div>
-                                                    <div class="form-group col-md-3">
-                                                        <label for="types_amenagements">Type d'amenagement :</label>
-                                                        <input type="text" class="form-control" id="types_amenagements"
-                                                            placeholder="Entrer le type de l'amenagement">
-                                                    </div>
-                                                    <div class="form-group col-md-2">
-                                                        <label for="date_du_devis">Date du devis :</label>
-                                                        <input type="date" class="form-control" id="date_du_devis">
-                                                    </div>
 
-                                                    <div class="form-group col-md-2">
-                                                        <label>Montant min.</label>
-                                                        <input type="number" class="form-control" id="montant_min"
-                                                            placeholder="€0">
-                                                    </div>
-                                                    <div class="form-group col-md-2 text-right">
-                                                        <label>Montant max.</label>
-                                                        <input type="number" class="form-control" id="montant_max"
-                                                            placeholder="€1,0000">
-                                                    </div>
+                                            <div class="form-row mb-3" id="form_recherche">
+                                                <div class="form-group col-md-2 client_hidden">
+                                                    <label for="nom_client_amenagement">Nom client:</label>
+                                                    <input type="text" class="form-control" id="nom_client_amenagement"
+                                                        placeholder="Entrer le nom du client">
+
+                                                </div>
+                                                <div class="form-group col-md-2 client_hidden">
+
+                                                    <label for="prenom_client_amenagement">Prénom client:</label>
+                                                    <input type="text" class="form-control"
+                                                        id="prenom_client_amenagement"
+                                                        placeholder="Entrer le prénom du client">
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="types_amenagements">Type d'amenagement :</label>
+                                                    <input type="text" class="form-control" id="types_amenagements"
+                                                        placeholder="Entrer le type de l'amenagement">
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="date_du_devis">Date du devis :</label>
+                                                    <input type="date" class="form-control" id="date_du_devis">
+                                                </div>
+
+
+                                                <div class="form-group col-md-2">
+                                                    <label>Montant min.</label>
+                                                    <input type="number" class="form-control" id="montant_min"
+                                                        placeholder="€0">
+                                                </div>
+                                                <div class="form-group col-md-2 text-right">
+                                                    <label>Montant max.</label>
+                                                    <input type="number" class="form-control" id="montant_max"
+                                                        placeholder="€1,0000">
                                                 </div>
                                             </div>
+
                                         </div>
 
                                         <!----------------User---------------------------------->
