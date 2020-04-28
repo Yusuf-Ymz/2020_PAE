@@ -94,6 +94,7 @@ class DalServicesImpl implements DalServices, DalBackendServices {
       }
 
       conn.rollback();
+      conn.close();
       this.connection.set(null);
     } catch (SQLException exception) {
       exception.printStackTrace();

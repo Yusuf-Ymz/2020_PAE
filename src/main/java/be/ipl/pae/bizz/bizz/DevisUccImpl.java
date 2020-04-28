@@ -260,6 +260,23 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
+  @Override
+  public List<String> listerPrenomsClients(String prenom) {
+    try {
+      dal.startTransaction();
+
+      List<String> prenomsClients = devisdao.rechercherPrenomsClients(prenom);
+
+      dal.commitTransaction();
+      return prenomsClients;
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+
 
   @Override
   public List<String> listerAmenagementsTousLesClients(String amenagement) {
@@ -280,13 +297,13 @@ class DevisUccImpl implements DevisUcc {
 
 
   @Override
-  public List<DevisDto> listerTousLesDevisAffine(String client, String typeAmenagement,
-      String dateDevis, int montantMin, int montantMax) {
+  public List<DevisDto> listerTousLesDevisAffine(String nomClient, String prenomClient,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax) {
     try {
       dal.startTransaction();
 
-      List<DevisDto> devis = devisdao.rechercherTousLesDevisAffine(client, typeAmenagement,
-          dateDevis, montantMin, montantMax);
+      List<DevisDto> devis = devisdao.rechercherTousLesDevisAffine(nomClient, prenomClient,
+          typeAmenagement, dateDevis, montantMin, montantMax);
 
       dal.commitTransaction();
       return devis;
@@ -347,7 +364,5 @@ class DevisUccImpl implements DevisUcc {
       throw e;
     }
   }
-
-
 
 }

@@ -91,6 +91,9 @@ public class DevisServlet extends HttpServlet {
             case "getNom":
               listerNomsClientsRecherches(resp, req.getParameter("keyword"), status);
               break;
+            case "getPrenom":
+              listerPrenomsClientsRecherches(resp, req.getParameter("keyword"), status);
+              break;
             case "getTypes":
               listerAmenagementsTousLesClientsRecherches(resp, req.getParameter("keyword"), status);
               break;
@@ -223,6 +226,14 @@ public class DevisServlet extends HttpServlet {
     ServletUtils.sendResponse(resp, json, status);
   }
 
+  private void listerPrenomsClientsRecherches(HttpServletResponse resp, String keyword,
+      int status) {
+    List<String> prenoms = devisUcc.listerPrenomsClients(keyword);
+    String objetSerialize = genson.serialize(prenoms);
+    String json = "{\"prenoms\":" + objetSerialize + "}";
+    ServletUtils.sendResponse(resp, json, status);
+  }
+
   /**
    * Gère la requête permettant d'afficher dans la barre des recherches les types d'aménagements
    * correspondant au keyword.
@@ -248,10 +259,10 @@ public class DevisServlet extends HttpServlet {
    */
   private void listerTousLesDevisAffine(HttpServletResponse resp, HttpServletRequest req,
       int status) {
-    final String client = req.getParameter("client");
+    final String nomClient = req.getParameter("nomClient");
+    final String prenomClient = req.getParameter("prenomClient");
     final String typeAmenagement = req.getParameter("type");
     final String dateDevis = req.getParameter("date");
-    System.out.println(dateDevis);
 
     int montantMin = Integer.MIN_VALUE;
     if (!req.getParameter("montantMin").trim().isEmpty()) {
@@ -261,8 +272,8 @@ public class DevisServlet extends HttpServlet {
     if (!req.getParameter("montantMax").trim().isEmpty()) {
       montantMax = Integer.parseInt(req.getParameter("montantMax"));
     }
-    List<DevisDto> devis = devisUcc.listerTousLesDevisAffine(client, typeAmenagement, dateDevis,
-        montantMin, montantMax);
+    List<DevisDto> devis = devisUcc.listerTousLesDevisAffine(nomClient, prenomClient,
+        typeAmenagement, dateDevis, montantMin, montantMax);
 
     String objetSerialize = genson.serialize(devis, new GenericType<List<DevisDto>>() {});
     String json = "{\"devis\":" + objetSerialize + "}";

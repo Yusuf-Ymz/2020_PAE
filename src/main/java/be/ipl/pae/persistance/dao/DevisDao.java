@@ -89,12 +89,20 @@ public interface DevisDao {
   PhotoDto insererPhotoApresAmenagement(PhotoDto photo);
 
   /**
-   * Renvoie une liste des tous les clients dont le nom est similaire au paramètre.
+   * Renvoie une liste des noms tous les clients dont le nom est similaire au paramètre.
    * 
    * @param nom : caractères à match
    * @return liste des noms
    */
   List<String> rechercherNomsClients(String nom);
+
+  /**
+   * Renvoie une liste des prénoms tous les clients dont le nom est similaire au paramètre.
+   * 
+   * @param prenom : caractères à match
+   * @return liste des prénoms
+   */
+  List<String> rechercherPrenomsClients(String prenom);
 
   /**
    * Renvoie une liste des tous les types d'aménagements du client dont le libelle est similaire au
@@ -131,15 +139,16 @@ public interface DevisDao {
   /**
    * Renvoie une liste de devis dont les attributs sont similaires aux paramètres.
    * 
-   * @param client : le nom du client
+   * @param nomClient : le nom du client
+   * @param prenomClient : le prenom du client
    * @param typeAmenagement : le type d'aménagement
    * @param dateDevis : la date du devis
    * @param montantMin : le montant minimum
    * @param montantMax : le montant maximum
    * @return la liste des devis correspondant
    */
-  List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
-      String dateDevis, int montantMin, int montantMax);
+  List<DevisDto> rechercherTousLesDevisAffine(String nomClient, String prenomClient,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax);
 
   public void repousserDateTraveaux(int idDevis, String newDate);
 }

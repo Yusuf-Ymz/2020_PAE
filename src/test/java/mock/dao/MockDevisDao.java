@@ -135,52 +135,62 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
-      String dateDevis, int montantMin, int montantMax) {
+  public List<DevisDto> rechercherTousLesDevisAffine(String nomClient, String prenomClient,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax) {
     List<DevisDto> devis = new ArrayList<DevisDto>();
 
-    if (client == "yusuf" && typeAmenagement == null && montantMin == -1 && montantMax == -1
-        && dateDevis == null) {
+    if (nomClient == "yusuf" && prenomClient == null && typeAmenagement == null && montantMin == -1
+        && montantMax == -1 && dateDevis == null) {
       devis.add(dtoFactory.getDevisDto());
     }
 
-    if (client == null && typeAmenagement == "test" && dateDevis == null && montantMin == -1
-        && montantMax == -1) {
+    if (nomClient == null && prenomClient == "Elie" && typeAmenagement == null && montantMin == -1
+        && montantMax == -1 && dateDevis == null) {
       devis.add(dtoFactory.getDevisDto());
     }
 
-    if (client == null && typeAmenagement == null && dateDevis == null && montantMin == -1
-        && montantMax == 1000) {
-      devis.add(dtoFactory.getDevisDto());
-    }
-
-    if (client == null && typeAmenagement == null && dateDevis == null && montantMax == -1
-        && montantMin == 100) {
-      devis.add(dtoFactory.getDevisDto());
-    }
-
-    if (client == null && typeAmenagement == null && dateDevis != null && montantMax == -1
-        && montantMin == -1) {
-      devis.add(dtoFactory.getDevisDto());
-    }
-
-    if (client == "baptiste" && typeAmenagement == "basses-tiges" && dateDevis == null
+    if (nomClient == null && prenomClient == null && typeAmenagement == "test" && dateDevis == null
         && montantMin == -1 && montantMax == -1) {
       devis.add(dtoFactory.getDevisDto());
     }
 
-    if (client == "paul" && typeAmenagement == "basses-tiges" && dateDevis != null
-        && montantMin == -1 && montantMax == -1) {
+    if (nomClient == null && prenomClient == null && typeAmenagement == null && dateDevis == null
+        && montantMin == -1 && montantMax == 1000) {
       devis.add(dtoFactory.getDevisDto());
     }
 
-    if (client == "charles" && typeAmenagement == "basses-tiges" && dateDevis != null
-        && montantMin == 100 && montantMax == -1) {
+    if (nomClient == null && prenomClient == null && typeAmenagement == null && dateDevis == null
+        && montantMax == -1 && montantMin == 100) {
       devis.add(dtoFactory.getDevisDto());
     }
 
-    if (client == "albert" && typeAmenagement == "basses-tiges" && dateDevis != null
-        && montantMin == 100 && montantMax == 1000) {
+    if (nomClient == null && prenomClient == null && typeAmenagement == null && dateDevis != null
+        && montantMax == -1 && montantMin == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (nomClient == "baptiste" && prenomClient == "Dupont" && typeAmenagement == null
+        && dateDevis == null && montantMin == -1 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (nomClient == "baptiste" && prenomClient == "Dupont" && typeAmenagement == "basses-tiges"
+        && dateDevis == null && montantMin == -1 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (nomClient == "paul" && prenomClient == "Dupont" && typeAmenagement == "basses-tiges"
+        && dateDevis != null && montantMin == -1 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (nomClient == "charles" && prenomClient == "Dupont" && typeAmenagement == "basses-tiges"
+        && dateDevis != null && montantMin == 100 && montantMax == -1) {
+      devis.add(dtoFactory.getDevisDto());
+    }
+
+    if (nomClient == "albert" && prenomClient == "Dupont" && typeAmenagement == "basses-tiges"
+        && dateDevis != null && montantMin == 100 && montantMax == 1000) {
       devis.add(dtoFactory.getDevisDto());
     }
 
@@ -246,4 +256,9 @@ public class MockDevisDao implements DevisDao {
 
   }
 
+  @Override
+  public List<String> rechercherPrenomsClients(String prenom) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

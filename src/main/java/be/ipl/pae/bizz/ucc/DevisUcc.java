@@ -77,9 +77,17 @@ public interface DevisUcc {
    * Renvoie une liste des noms des clients possédant un devis.
    * 
    * @param nom : le nom du client
-   * @return liste des clients
+   * @return liste des noms
    */
   List<String> listerNomsClients(String nom);
+
+  /**
+   * Renvoie une liste des prénoms des clients possédant un devis.
+   * 
+   * @param prenom : le prénom du client
+   * @return liste des prénoms
+   */
+  List<String> listerPrenomsClients(String prenom);
 
   /**
    * Renvoie une liste des aménagements qui sont présents dans les devis d'un client.
@@ -114,15 +122,16 @@ public interface DevisUcc {
   /**
    * Renvoie une liste de devis dont les attributs sont similaires aux paramètres.
    * 
-   * @param client : le nom du client
+   * @param nomClient : le nom du client
+   * @param prenomClient : le prénom du client
    * @param typeAmenagement : le type d'aménagement
    * @param dateDevis : la date du devis
    * @param montantMin : le montant minimum
    * @param montantMax : le montant maximum
    * @return la liste des devis correspondant
    */
-  List<DevisDto> listerTousLesDevisAffine(String client, String typeAmenagement, String dateDevis,
-      int montantMin, int montantMax);
+  List<DevisDto> listerTousLesDevisAffine(String nomClient, String prenomClient,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax);
 
   public void repousserDate(int devisId, String date);
 

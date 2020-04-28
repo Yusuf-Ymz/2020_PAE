@@ -175,28 +175,34 @@ class DevisUccTest {
 
   @Test
   void testlisterlisterTousLesDevisAffine() {
-    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", null, null, -1, -1).size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", "test", null, -1, -1).size() == 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", null, null, null, -1, -1).size() > 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", null, "test", null, -1, -1).size() == 0);
     assertTrue(
-        devisUcc.listerTousLesDevisAffine("yusuf", "test", "28/10/2015", -1, -1).size() == 0);
-    assertTrue(
-        devisUcc.listerTousLesDevisAffine("yusuf", "test", "28/10/2015", 100, -1).size() == 0);
-    assertTrue(
-        devisUcc.listerTousLesDevisAffine("yusuf", "test", "28/10/2015", 100, 1000).size() == 0);
+        devisUcc.listerTousLesDevisAffine("yusuf", null, "test", "28/10/2015", -1, -1).size() == 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", null, "test", "28/10/2015", 100, -1)
+        .size() == 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine("yusuf", null, "test", "28/10/2015", 100, 1000)
+        .size() == 0);
 
 
 
-    assertTrue(devisUcc.listerTousLesDevisAffine(null, "test", null, -1, -1).size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, null, -1, 1000).size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, null, 100, -1).size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, "28/10/2015", -1, -1).size() > 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, "test", null, -1, -1).size() > 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, null, null, -1, 1000).size() > 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine(null, null, null, null, 100, -1).size() > 0);
     assertTrue(
-        devisUcc.listerTousLesDevisAffine("baptiste", "basses-tiges", null, -1, -1).size() > 0);
+        devisUcc.listerTousLesDevisAffine(null, null, null, "28/10/2015", -1, -1).size() > 0);
     assertTrue(
-        devisUcc.listerTousLesDevisAffine("paul", "basses-tiges", "28/10/2015", -1, -1).size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine("charles", "basses-tiges", "28/10/2015", 100, -1)
+        devisUcc.listerTousLesDevisAffine("baptiste", "Dupont", null, null, -1, -1).size() > 0);
+    assertTrue(devisUcc.listerTousLesDevisAffine("baptiste", "Dupont", "basses-tiges", null, -1, -1)
         .size() > 0);
-    assertTrue(devisUcc.listerTousLesDevisAffine("albert", "basses-tiges", "28/10/2015", 100, 1000)
+    assertTrue(
+        devisUcc.listerTousLesDevisAffine("paul", "Dupont", "basses-tiges", "28/10/2015", -1, -1)
+            .size() > 0);
+    assertTrue(devisUcc
+        .listerTousLesDevisAffine("charles", "Dupont", "basses-tiges", "28/10/2015", 100, -1)
+        .size() > 0);
+    assertTrue(devisUcc
+        .listerTousLesDevisAffine("albert", "Dupont", "basses-tiges", "28/10/2015", 100, 1000)
         .size() > 0);
   }
 }

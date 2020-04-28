@@ -457,6 +457,31 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
+  public List<String> rechercherPrenomsClients(String prenom) {
+    // TODO Auto-generated method stub
+    prenom = prenom.replace("%", "\\" + "%");
+    prenom += "%";
+    String query = "SELECT DISTINCT c.prenom FROM pae.clients c, pae.devis d "
+        + "WHERE d.client=c.client_id AND "
+        + "LOWER(c.prenom) LIKE LOWER(?) ORDER BY 1 ASC LIMIT 5 ";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+    List<String> prenoms = new ArrayList<String>();
+    try {
+      prepareStatement.setString(1, prenom);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        String prenomDb = rs.getString(1);
+        prenoms.add(prenomDb);
+      }
+      return prenoms;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+      throw new FatalException(exception.getMessage());
+    }
+  }
+
+  @Override
   public List<String> rechercherAmenagementsTousLesClients(String amenagement) {
     amenagement = amenagement.replace("%", "\\" + "%");
     amenagement += "%";
@@ -482,47 +507,65 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public List<DevisDto> rechercherTousLesDevisAffine(String client, String typeAmenagement,
-      String dateDevis, int montantMin, int montantMax) {
-    client = client.replace("%", "\\" + "%");
-    client += "%";
-
-    typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
-    typeAmenagement += "%";
-
+  public List<DevisDto> rechercherTousLesDevisAffine(String nomClient, String prenomClient,
+      String typeAmenagement, String dateDevis, int montantMin, int montantMax) {
     String query = null;
 
-    if (dateDevis.isEmpty()) {
-      query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
-              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
-              + "tr.type_amenagement=ta.type_amenagement AND " + "LOWER(c.nom) LIKE LOWER(?) AND "
-              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.montant_total BETWEEN ? AND ?"
-              + " ORDER BY d.date_debut";
-    } else {
-      query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
-              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
-              + "tr.type_amenagement=ta.type_amenagement AND " + "LOWER(c.nom) LIKE LOWER(?) AND "
-              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.date_devis=? AND "
-              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
+    query =
+        "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+            + "pae.clients c ";
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += ",pae.travaux tr, pae.types_amenagements ta ";
     }
+
+    query += "WHERE c.client_id=d.client AND ";
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND ";
+    }
+
+    query += "LOWER(c.nom) LIKE LOWER(?) AND " + "LOWER(c.prenom) LIKE LOWER(?) AND ";
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += "LOWER(ta.libelle) LIKE LOWER(?) AND ";
+    }
+
+    if (!dateDevis.isEmpty()) {
+      query += "d.date_devis=? AND ";
+    }
+
+    query += "d.montant_total BETWEEN ? AND ? ";
+    query += "ORDER BY d.date_debut";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
 
+    nomClient = nomClient.replace("%", "\\" + "%");
+    nomClient += "%";
+
+    prenomClient = prenomClient.replace("%", "\\" + "%");
+    prenomClient += "%";
+
     try {
-      prepareStatement.setString(1, client);
-      prepareStatement.setString(2, typeAmenagement);
-      if (!dateDevis.isEmpty()) {
-        prepareStatement.setDate(3, Date.valueOf(dateDevis));
-        prepareStatement.setInt(4, montantMin);
-        prepareStatement.setInt(5, montantMax);
-      } else {
-        prepareStatement.setInt(3, montantMin);
-        prepareStatement.setInt(4, montantMax);
+      prepareStatement.setString(1, nomClient);
+      prepareStatement.setString(2, prenomClient);
+      int i = 3;
+
+      if (!typeAmenagement.trim().isEmpty()) {
+        typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
+        typeAmenagement += "%";
+        prepareStatement.setString(i, typeAmenagement);
+        i++;
       }
+
+
+      if (!dateDevis.isEmpty()) {
+        prepareStatement.setDate(i, Date.valueOf(dateDevis));
+        i++;
+      }
+
+      prepareStatement.setInt(i, montantMin);
+      prepareStatement.setInt(i + 1, montantMax);
 
       return rechercherDevisAffine(prepareStatement);
 
@@ -562,43 +605,55 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Override
   public List<DevisDto> rechercherMesDevisAffine(int clientId, String typeAmenagement,
       String dateDevis, int montantMin, int montantMax) {
-
-    typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
-    typeAmenagement += "%";
-
     String query = null;
 
-    if (dateDevis.isEmpty()) {
-      query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
-              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
-              + "tr.type_amenagement=ta.type_amenagement AND " + " c.client_id= ? AND "
-              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.montant_total BETWEEN ? AND ?"
-              + " ORDER BY d.date_debut";
-    } else {
-      query =
-          "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
-              + "pae.clients c, pae.travaux tr, pae.types_amenagements ta "
-              + "WHERE c.client_id=d.client AND tr.devis_id=d.devis_id AND "
-              + "tr.type_amenagement=ta.type_amenagement AND " + "c.client_id= ? AND "
-              + "LOWER(ta.libelle) LIKE LOWER(?) AND " + "d.date_devis=? AND "
-              + "d.montant_total BETWEEN ? AND ?" + " ORDER BY d.date_debut";
+
+    query =
+        "SELECT * FROM pae.devis d LEFT OUTER JOIN pae.photos p ON p.photo_id=d.photo_preferee, "
+            + "pae.clients c ";
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += ",pae.travaux tr, pae.types_amenagements ta ";
     }
+
+    query += "WHERE c.client_id=d.client AND c.client_id = ? AND ";
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += "tr.devis_id=d.devis_id AND " + "tr.type_amenagement=ta.type_amenagement AND ";
+    }
+
+    if (!typeAmenagement.trim().isEmpty()) {
+      query += "LOWER(ta.libelle) LIKE LOWER(?) AND ";
+    }
+
+    if (!dateDevis.isEmpty()) {
+      query += "d.date_devis=? AND ";
+    }
+
+    query += "d.montant_total BETWEEN ? AND ? ";
+    query += "ORDER BY d.date_debut";
+
 
     PreparedStatement prepareStatement = dal.createStatement(query);
 
     try {
       prepareStatement.setInt(1, clientId);
-      prepareStatement.setString(2, typeAmenagement);
-      if (!dateDevis.isEmpty()) {
-        prepareStatement.setDate(3, Date.valueOf(dateDevis));
-        prepareStatement.setInt(4, montantMin);
-        prepareStatement.setInt(5, montantMax);
-      } else {
-        prepareStatement.setInt(3, montantMin);
-        prepareStatement.setInt(4, montantMax);
+      int i = 2;
+
+      if (!typeAmenagement.trim().isEmpty()) {
+        typeAmenagement = typeAmenagement.replace("%", "\\" + "%");
+        typeAmenagement += "%";
+        prepareStatement.setString(i, typeAmenagement);
+        i++;
       }
+
+      if (!dateDevis.isEmpty()) {
+        prepareStatement.setDate(i, Date.valueOf(dateDevis));
+        i++;
+      }
+
+      prepareStatement.setInt(i, montantMin);
+      prepareStatement.setInt(i + 1, montantMax);
 
       return rechercherDevisAffine(prepareStatement);
 
