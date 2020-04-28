@@ -4,26 +4,6 @@ import { homeWorker } from "./index.js";
 
 import { onGetMesDevisListOuvrier } from "./rechercherDevis.js";
 
-$(document).ready(function () {
-
-    $('#rechercher_tous_les_clients').on('click', function (e) {
-
-        homeWorker();
-        let token = localStorage.getItem("token");
-        const data = {
-            action: "listerClients"
-        }
-
-        getData("/client", data, token, onGetClientList, onClientListError);
-    });
-
-
-
-
-
-});
-
-
 function onGetClientList(response) {
 
     $("#titre-page").text("Liste des clients");
@@ -51,14 +31,16 @@ function doGetClientDevis(url, data) {
 function onClientListError(err) {
     console.error(err);
     $('#loader').hide();
-    Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        timerProgressBar: true,
-        title: err.responseJSON.error,
-        showConfirmButton: false,
-        timer: 1500
-    })
+    if (err.responseJSON) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            timerProgressBar: true,
+            title: err.responseJSON.error,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
 }
 
-export { onGetClientList };
+export { onGetClientList, onClientListError };

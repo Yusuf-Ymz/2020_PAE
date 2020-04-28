@@ -46,7 +46,7 @@ function getData(url = "", data = "", token, onGet, onError) {
 
   let headers = chooseHeaderForRequest(token);
 
-  $.ajax({
+  let ajx = $.ajax({
     type: "get",
     url: url,
     headers: headers,
@@ -63,6 +63,7 @@ function getData(url = "", data = "", token, onGet, onError) {
     success: onGet,
     error: onError
   });
+  return ajx;
 }
 
 function getDataWithoutLoader(url = "", data = "", token, onGet, onError) {

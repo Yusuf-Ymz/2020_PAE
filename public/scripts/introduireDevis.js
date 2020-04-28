@@ -44,7 +44,7 @@ function onPostAmenagement(response) {
     $("#amenagements").append(div);
 }
 
-function displayAmenagements(response) {
+function displayAmenagementsDevis(response) {
     let amenagements = response.amenagements;
     let divAmenagements = $("#amenagements")[0];
     $("#amenagements").text("");
@@ -94,28 +94,6 @@ $(document).ready(function (e) {
 
     $("#ajouterAmenagementModal").click(function (e) {
         ajouterAmenagement();
-    });
-
-    $("#indroduire_devis").click(function (e) {
-        e.preventDefault();
-        homeWorker();
-        $("#introduireDevis").show();
-        $("#searchCard").show();
-        $("#card").show();
-        $("#selectAmenagementAccueil").hide();
-        $("#filtre_client").show();
-        $("#filtre_user").hide();
-        $("#filtre_amenagement").hide();
-        if (idClient > 0) {
-            $("#searchContent").hide();
-            $("#searchDisplayClient").hide();
-        } else {
-            $("#searchContent").show();
-            $("#searchDisplayClient").show();
-        }
-        $("#titre-page").text("Introduire un nouveau devis");
-        getData("/amenagement", null, localStorage.getItem("token"), displayAmenagements, onError);
-        getListClient();
     });
 
     $("#btn_remove_client").click(function (e) {
@@ -199,12 +177,12 @@ $(document).ready(function (e) {
                 email: $("#emailC").val(),
                 telephone: $("#telC").val(),
             };
-            postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
+            postData("/client", data, localStorage.getItem("token"), onPostInsertClientSuccess, onPostError);
         }
 
     });
 
-    function onPostSuccess(response) {
+    function onPostInsertClientSuccess(response) {
         getListClient();
         $("#myModal").modal('hide');
         let client = response.client;
@@ -310,4 +288,4 @@ function selectionnerClient(url, data) {
     $("#btn_remove_client").show();
 }
 
-export { displayClient } 
+export { displayClient, getListClient, displayAmenagementsDevis } 

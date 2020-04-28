@@ -14,9 +14,6 @@ $(document).ready(function () {
 
         getData("/user", data, token, onGetUserList, onUserListError);
     });
-
-
-
 });
 
 function onGetUserList(response) {
@@ -37,14 +34,16 @@ function onGetUserList(response) {
 function onUserListError(err) {
     console.error(err);
     $('#loader').hide();
-    Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        timerProgressBar: true,
-        title: err.responseJSON.error,
-        showConfirmButton: false,
-        timer: 1500
-    })
+    if (err.responseJSON) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            timerProgressBar: true,
+            title: err.responseJSON.error,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
 }
 
-export { onGetUserList }
+export { onGetUserList, onUserListError }

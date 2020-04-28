@@ -2,6 +2,7 @@
 import { getData, postData } from "./utilsAPI.js";
 import { printTable } from "./utilsHtml.js";
 import { homeWorker } from "./index.js";
+import {afficherVueConfirmerUtilisateur} from "./index.js";
 import notify from "./utils.js";
 
 let token = localStorage.getItem("token");
@@ -17,35 +18,10 @@ function afficherNotif(msg) {
   })
 }
 
-function afficherVueConfirmerUtilisateur() {
-
-  homeWorker();
-  
-  $("#searchCard").show();
-  $("#searchContent").show();
-
-  $("#filtre_user").show();
-  $("#filtre_client").hide();
-  $("#filtre_amenagement").hide();
-  
-  const data = {
-    action: 'confirmerInscription'
-  };
-  
-  token = localStorage.getItem("token");
-
-  getData("/user", data, token, onGet, onError);
-
-}
-
 
 $(document).ready(function () {
 
-  $("#confirmed_inscriptions").on("click", function () {
-    $("#titre-page").text("Confirmer inscription");
-    $("#selectAmenagementAccueil").hide();
-    afficherVueConfirmerUtilisateur();
-  });
+  
   
   $("#ajouterClientLier").click(function (e) {
     e.preventDefault();

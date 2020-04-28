@@ -1,6 +1,5 @@
 
 function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom, lesFonction = [], url = "") {
-
   $("#carouselContent").hide();
 
   let div_container = document.getElementById(containerElementId);
