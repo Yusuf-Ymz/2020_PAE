@@ -2,7 +2,7 @@
 import { getData, postData } from "./utilsAPI.js";
 import { printTable } from "./utilsHtml.js";
 import { homeWorker } from "./index.js";
-import {afficherVueConfirmerUtilisateur} from "./index.js";
+import { afficherVueConfirmerUtilisateur } from "./index.js";
 import notify from "./utils.js";
 
 let token = localStorage.getItem("token");
@@ -21,8 +21,8 @@ function afficherNotif(msg) {
 
 $(document).ready(function () {
 
-  
-  
+
+
   $("#ajouterClientLier").click(function (e) {
     e.preventDefault();
     if (!$("#nomCLier")[0].checkValidity()) {
@@ -56,8 +56,16 @@ $(document).ready(function () {
         email: $("#emailCLier").val(),
         telephone: $("#telCLier").val(),
       };
-      $("input").val("");
-      postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
+
+        $("#nomCLier").val("");
+        $("#prenomCLier").val("");
+        $("#rueCLier").val("");
+        $("#numCLier").val("");
+        $("#cpCLier").val("");
+        $("#villeCLier").val("");
+        $("#emailCLier").val("");
+        $("#telCLier").val("");
+        postData("/client", data, localStorage.getItem("token"), onPostSuccess, onPostError);
     }
 
   });
@@ -80,15 +88,15 @@ function onPostError(response) {
 }
 
 function onGet(response) {
-  
+
   $("#confirmedInscriptionContent").show();
   $("#searchCard").show();
   $("#searchContent").show();
   $("#filtre_user").show();
   $("#filtre_client").hide();
   $("#filtre_amenagement").hide();
-  
-  
+
+
   printTable("table_users_preinscrit", response.data, ["Valider ouvrier", "Lier à un client"], "N° utilisateur", [confirmerOuvrier, lierUtilisateurClient], "/user");
 }
 
@@ -122,7 +130,7 @@ const lierUtilisateurClient = (url, data) => {
   $("#filtre_client").show();
   $("#filtre_amenagement").hide();
   data["action"] = 'recupererUtilisateur';
-  
+
   $("#titre-page").text("Lier les utilisateurs aux clients");
   getData(url, data, token, onGetUtilisateur, onErrorGetUtilisateur);
 }
@@ -173,12 +181,12 @@ function onPostLier(response) {
 }
 
 const lierUtilisateurClientTable = (url, data) => {
-  
+
   data["action"] = 'confirmerInscription/lierUtilisateurClient'
   data["idUser"] = $("#idUserLier").text();
   postData(url, data, token, onPostLier, onErrorLier);
 }
 
 
-export {onGet, onGetLier};
+export { onGet, onGetLier };
 
