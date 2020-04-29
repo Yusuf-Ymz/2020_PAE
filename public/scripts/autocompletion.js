@@ -23,7 +23,7 @@ const urlDevis = "/devis";
 
 function doResponse(response) {
 
-    console.log(response);
+    
     $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
 
     $(".nettoyerInput").val("");
@@ -54,6 +54,7 @@ function doResponse(response) {
             if ($('#listeDeTousLesDevis').css('display') != "none") {
                 onGetTousLesDevisList(response);
             } else {
+                console.log(response.devis);
                 onGetMesDevisList(response);
             }
             break;
@@ -104,7 +105,8 @@ $(document).ready(function () {
                     action = "tousLesDevis"
 
                 } else {
-                    action = "devisDuClient"
+                   
+                    action = "mesDevis"
                 }
                 break;
             default:

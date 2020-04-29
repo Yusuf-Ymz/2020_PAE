@@ -12,7 +12,7 @@ function consulterDevisEntantQueOuvrier(url, data) {
     data["action"] = "consulterDevisEnTantQueOuvrier";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
-    $("#selectAmenagementAccueil").hide();
+   
     $('.ouvrier').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
@@ -26,7 +26,7 @@ function consulterDevisEntantQueClient(url, data) {
     data["action"] = "consulterDevisEnTantQueClient";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
-    $("#selectAmenagementAccueil").hide();
+
     $('.client').val("");
     $("#searchCard").show();
     $('#searchContent').hide();

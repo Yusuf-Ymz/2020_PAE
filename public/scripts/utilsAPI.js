@@ -56,7 +56,8 @@ function getData(url = "", data = "", token, onGet, onError) {
       $('#body').hide();
       $('#loader').show();
     },
-    complete: function () {
+    complete: function (response) {
+      console.log(response);
       $('#loader').hide();
       $('#body').show();
     },
