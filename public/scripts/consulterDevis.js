@@ -267,5 +267,14 @@ $(document).ready(function () {
             postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
         }
     })
+
+    $('#annulerDemande').click(function(){
+        console.log("Click");
+        const data = {
+            action: "annulerDemande",
+            id: devisID
+        };
+        postData("/devis", data, null, onPostCheckBox, onCheckBoxError);
+    })
 });
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };

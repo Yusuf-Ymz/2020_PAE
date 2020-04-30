@@ -13,6 +13,7 @@ import be.ipl.pae.persistance.dao.AmenagementDao;
 import be.ipl.pae.persistance.dao.ClientDao;
 import be.ipl.pae.persistance.dao.DevisDao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,33 +159,38 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Le devis n'existe pas");
       }
 
-      System.out.println(etatActuel);
+      if (newEtat.equalsIgnoreCase("Annulé")) {
+        if (etatActuel.equalsIgnoreCase("Devis introduit")
+            || etatActuel.equalsIgnoreCase("Commande confirmée")
+            || etatActuel.equalsIgnoreCase("Acompte payé")) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        }
+      } else {
+        switch (etatActuel) {
 
-      switch (etatActuel) {
-
-
-        case "Devis introduit":
-          if (newEtat.equalsIgnoreCase("Commande confirmée")) {
-            devisdao.changerEtatDevis(idDevis, newEtat);
-          }
-          break;
-        case "Commande confirmée":
-          if (newEtat.equalsIgnoreCase("Acompte payé")) {
-            devisdao.changerEtatDevis(idDevis, newEtat);
-          }
-          break;
-        case "Acompte payé":
-          if (newEtat.equalsIgnoreCase("Facture milieu chantier envoyée")) {
-            devisdao.changerEtatDevis(idDevis, newEtat);
-          }
-          break;
-        case "Facture milieu chantier envoyée":
-          if (newEtat.equalsIgnoreCase("Visible")) {
-            devisdao.changerEtatDevis(idDevis, newEtat);
-          }
-          break;
-        default:
-          throw new BizException("Changement impossible.");
+          case "Devis introduit":
+            if (newEtat.equalsIgnoreCase("Commande confirmée")) {
+              devisdao.changerEtatDevis(idDevis, newEtat);
+            }
+            break;
+          case "Commande confirmée":
+            if (newEtat.equalsIgnoreCase("Acompte payé")) {
+              devisdao.changerEtatDevis(idDevis, newEtat);
+            }
+            break;
+          case "Acompte payé":
+            if (newEtat.equalsIgnoreCase("Facture milieu chantier envoyée")) {
+              devisdao.changerEtatDevis(idDevis, newEtat);
+            }
+            break;
+          case "Facture milieu chantier envoyée":
+            if (newEtat.equalsIgnoreCase("Visible")) {
+              devisdao.changerEtatDevis(idDevis, newEtat);
+            }
+            break;
+          default:
+            throw new BizException("Changement impossible.");
+        }
       }
 
       dal.commitTransaction();
@@ -356,8 +362,11 @@ class DevisUccImpl implements DevisUcc {
   public void repousserDate(int devisId, String date) {
     try {
       dal.startTransaction();
-
-      devisdao.repousserDateTravaux(devisId, date);
+      if (checkDate(devisId, date)) {
+        devisdao.repousserDateTravaux(devisId, date);
+      } else {
+        throw new IllegalArgumentException("Cette datte n'est pas autorisée.");
+      }
 
       dal.commitTransaction();
     } catch (Exception exception) {
@@ -365,6 +374,16 @@ class DevisUccImpl implements DevisUcc {
       dal.rollbackTransaction();
       throw exception;
     }
+  }
+
+  public boolean checkDate(int devisId, String date) {
+    String oldDate = devisdao.getDateDebut(devisId);
+
+    System.out.println(oldDate);
+    if (LocalDate.parse(oldDate).isBefore(LocalDate.parse(date))) {
+      return true;
+    }
+    return false;
   }
 
 }

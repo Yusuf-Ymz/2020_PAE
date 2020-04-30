@@ -157,4 +157,12 @@ public interface DevisDao {
    * @param newDate : la nouvelle date à laquelle va débuter les travaux
    */
   void repousserDateTravaux(int idDevis, String newDate);
+
+  /**
+   * Permet d'obtenir la date actuelle du début des traveaux pour un devis.
+   *
+   * @param idDevis: l'id du devis dont on veut récupérer la date.
+   * @return La date du devis sous forme de chaine de caractères.
+   */
+  public String getDateDebut(int idDevis);
 }

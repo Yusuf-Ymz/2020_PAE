@@ -682,4 +682,22 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
+  public String getDateDebut(int idDevis) {
+    String query = "SELECT date_debut FROM pae.devis WHERE devis_id = ?;";
+
+    PreparedStatement stmt = dal.createStatement(query);
+    if (getEtatActuel(idDevis).equalsIgnoreCase("Annulé")) {
+      throw new IllegalArgumentException();
+    }
+    try {
+      stmt.setInt(1, idDevis);
+      ResultSet rs = stmt.executeQuery();
+      rs.next();
+      return (String) rs.getObject(1).toString();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    throw new IllegalArgumentException();
+  }
+
 }

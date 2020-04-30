@@ -327,6 +327,10 @@ public class DevisServlet extends HttpServlet {
       case "rendreVisible":
         changerEtat(body, resp, action);
         break;
+      case "annulerDemande":
+        System.out.println("cick");
+        changerEtat(body, resp, action);
+        break;
       default:
         super.doPost(req, resp);
         break;
@@ -415,6 +419,7 @@ public class DevisServlet extends HttpServlet {
           json = "{\"date\":\"" + body.get("newDate").toString() + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
+          // Ne peut pas être avant la date actuelle.
           break;
 
         case "indiquerFactureMilieuPayee":
@@ -429,6 +434,12 @@ public class DevisServlet extends HttpServlet {
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
+
+        case "annulerDemande":
+          devisUcc.changerEtatDevis(devisId, "Annulé");
+          json = "{\"etat\":\"Annulé\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
         default:
           break;
       }

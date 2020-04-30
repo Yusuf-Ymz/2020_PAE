@@ -51,7 +51,7 @@ public class RootServlet extends DefaultServlet {
    * @throws IOException : l'exception lancée
    */
   private String readHtmlContent() throws IOException {
-
+    System.out.println("test");
     String basePathDirectories = "./public/views/";
 
     String body = new String(Files.readAllBytes(Paths.get(basePathDirectories + "index.html")));

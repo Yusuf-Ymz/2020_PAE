@@ -261,4 +261,10 @@ public class MockDevisDao implements DevisDao {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public String getDateDebut(int idDevis) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
