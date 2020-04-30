@@ -695,8 +695,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       if (rs.next()) {
         return (String) rs.getObject(1).toString();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
     throw new IllegalArgumentException();
   }
