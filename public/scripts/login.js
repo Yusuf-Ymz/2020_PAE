@@ -18,6 +18,7 @@ const LoginForm = (errorMessage = "") => {
   $("#login_form").show();
   $("#confirmedInscriptionContent").hide();
   $("#card").show();
+  $("#selectAmenagementAccueil").hide();
 };
 
 
@@ -27,7 +28,7 @@ function onPostLogin(response) {
   $("#mdp").val("");
 
   localStorage.setItem("token", response.token);
-  $("#selectAmenagementAccueil").hide();
+  
   window.glob = response.user;
   console.log(window.glob);
   let user = window.glob;
@@ -81,6 +82,7 @@ const RegisterForm = (errorMessage = "") => {
   $("#login_form").hide();
   $("#confirmedInscriptionContent").hide();
   $("#card").show();
+  $("#selectAmenagementAccueil").hide();
 
 };
 

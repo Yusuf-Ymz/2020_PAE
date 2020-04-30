@@ -23,11 +23,10 @@ const urlDevis = "/devis";
 
 function doResponse(response) {
 
-    console.log(response);
+    
     $("#result").html("Resultat(s) pour (" + currentRequestValue + ")");
 
-    // à ne pas faire car cela pourrait tout faire planter
-    //$(':input').val('');
+    $(".nettoyerInput").val("");
 
     if ($("#introduireDevis").css('display') != 'none') {
         displayClient(response);
@@ -55,6 +54,7 @@ function doResponse(response) {
             if ($('#listeDeTousLesDevis').css('display') != "none") {
                 onGetTousLesDevisList(response);
             } else {
+                console.log(response.devis);
                 onGetMesDevisList(response);
             }
             break;
@@ -105,7 +105,8 @@ $(document).ready(function () {
                     action = "tousLesDevis"
 
                 } else {
-                    action = "devisDuClient"
+                   
+                    action = "mesDevis"
                 }
                 break;
             default:
