@@ -692,8 +692,9 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     try {
       stmt.setInt(1, idDevis);
       ResultSet rs = stmt.executeQuery();
-      rs.next();
-      return (String) rs.getObject(1).toString();
+      if (rs.next()) {
+        return (String) rs.getObject(1).toString();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }

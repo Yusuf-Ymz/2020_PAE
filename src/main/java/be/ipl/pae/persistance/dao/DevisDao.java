@@ -164,5 +164,5 @@ public interface DevisDao {
    * @param idDevis: l'id du devis dont on veut récupérer la date.
    * @return La date du devis sous forme de chaine de caractères.
    */
-  public String getDateDebut(int idDevis);
+  String getDateDebut(int idDevis);
 }
