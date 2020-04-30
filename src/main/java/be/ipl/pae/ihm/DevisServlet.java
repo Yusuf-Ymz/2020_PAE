@@ -331,6 +331,7 @@ public class DevisServlet extends HttpServlet {
         System.out.println("cick");
         changerEtat(body, resp, action);
         break;
+
       default:
         super.doPost(req, resp);
         break;
