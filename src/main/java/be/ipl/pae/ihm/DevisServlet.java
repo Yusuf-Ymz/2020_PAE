@@ -441,6 +441,7 @@ public class DevisServlet extends HttpServlet {
           json = "{\"etat\":\"Annulé\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
+          break;
         default:
           break;
       }
