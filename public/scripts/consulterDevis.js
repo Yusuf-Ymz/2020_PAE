@@ -8,7 +8,7 @@ let devisID = -1;
 
 function consulterDevisEntantQueOuvrier(url, data) {
     console.log(url);
-    homeWorker();
+    homeWorker("");
     data["action"] = "consulterDevisEnTantQueOuvrier";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
@@ -22,7 +22,7 @@ function consulterDevisEntantQueOuvrier(url, data) {
 };
 
 function consulterDevisEntantQueClient(url, data) {
-    homeWorker();
+    homeWorker("");
     data["action"] = "consulterDevisEnTantQueClient";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);

@@ -6,7 +6,7 @@ import { onGetTousLesDevisList, onGetMesDevisList, onDevisListError } from "./re
 
 const firstViewWorker = () => {
   
-  homeWorker();
+  homeWorker("");
   let token = localStorage.getItem("token");
   console.log("token = " + token);
   const data = {
@@ -18,7 +18,7 @@ const firstViewWorker = () => {
 //premier page que l'utilisateur voit quand il se connecte!!!
 const firstViewUser = () => {
   
-  HomeUser();
+  HomeUser("");
   let token = localStorage.getItem("token");
 
   const data = {

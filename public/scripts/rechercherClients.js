@@ -20,7 +20,7 @@ function onGetClientList(response) {
 
 function doGetClientDevis(url, data) {
 
-    homeWorker();
+    homeWorker("");
     let token = localStorage.getItem("token");
     data["action"] = "devisDuClient";
     console.log(data["N° client"]);

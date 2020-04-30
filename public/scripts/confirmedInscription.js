@@ -123,7 +123,7 @@ function onPostConfirmerOuvrierError() {
 
 const lierUtilisateurClient = (url, data) => {
 
-  homeWorker();
+  homeWorker("");
   $("#searchCard").show();
   $("#searchContent").show();
   $("#filtre_user").hide();

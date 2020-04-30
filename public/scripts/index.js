@@ -63,7 +63,7 @@ $(document).ready(function () {
     HideToHomeWhenNotConnect();
   });
   $('#rechercher_tous_les_devis').on('click', function (e) {
-    homeWorker();
+    homeWorker("");
     let token = localStorage.getItem("token");
 
     const data = {
@@ -75,7 +75,7 @@ $(document).ready(function () {
   });
 
   $('#rechercher_mes_devis').on('click', function (e) {
-    HomeUser();
+    HomeUser("");
     let token = localStorage.getItem("token");
     const data = {
       action: "mesDevis"
@@ -86,12 +86,12 @@ $(document).ready(function () {
 
   $("#indroduire_devis").click(function (e) {
     e.preventDefault();
-    homeWorker();
+    homeWorker("");
     $("#introduireDevis").show();
     $("#searchCard").show();
     $("#card").show();
     $("#selectAmenagementAccueil").hide();
-  
+
     $("#filtre_client").show();
     $("#filtre_user").hide();
     $("#filtre_amenagement").hide();
@@ -110,7 +110,7 @@ $(document).ready(function () {
 
   $('#rechercher_tous_les_clients').on('click', function (e) {
 
-    homeWorker();
+    homeWorker("");
     let token = localStorage.getItem("token");
     const data = {
       action: "listerClients"
@@ -120,7 +120,7 @@ $(document).ready(function () {
   });
 
   $("#rechercher_user").on('click', function (e) {
-    homeWorker();
+    homeWorker("");
     let token = localStorage.getItem("token");
     const data = {
       action: 'listeUser'
@@ -132,7 +132,7 @@ $(document).ready(function () {
   $("#confirmed_inscriptions").on("click", function () {
     $("#titre-page").text("Confirmer inscription");
     $("#selectAmenagementAccueil").hide();
-   
+
     afficherVueConfirmerUtilisateur();
   });
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
 
 function afficherVueConfirmerUtilisateur() {
 
-  homeWorker();
+  homeWorker("");
 
   $("#searchCard").show();
   $("#searchContent").show();
@@ -210,9 +210,9 @@ const HideToHomeWhenConnect = (response) => {
   $("#listeDeTousLesDevis").hide();
   $("#listerClients").hide();
   $("#searchCard").hide();
-  
+
   $("#selectAmenagementAccueil").hide();
-  $("#selectAmenagementAccueil").css('display','none');
+  $("#selectAmenagementAccueil").css('display', 'none');
 
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
@@ -240,10 +240,10 @@ const HideToCarousel = () => {
   $("#confirmedInscriptionContent").hide();
   $("#listeDeTousLesDevis").hide();
   $("#listerClients").hide();
-  $("#searchCard").hide();  
+  $("#searchCard").hide();
   $("#selectAmenagementAccueil").show();
-  
-  
+
+
 
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
@@ -277,23 +277,48 @@ const SameHide = () => {
   $('#listeDeMesDevis').hide();
   $("#searchContent").hide();
   $("#table_clients_noUsers").hide();
- 
+
   $("#selectAmenagementAccueil").hide();
   $("#selectAmenagementAccueil").css('display', 'none');
 }
 
 
-const HomeUser = () => {
+const HomeUser = (response = "") => {
+
+
+  if (response !== "") {
+    window.glob = response.user;
+  } else {
+    SameHide();
+    $('#rechercher_mes_devis').show();
+    if (token) {
+      const data = {
+        action: "obtenirUser"
+      };
+      getDataWithoutLoader('/user', data, token, homeWorker, onErrorRefresh);
+    }
+  }
+
   
-  SameHide();
-  $('#rechercher_mes_devis').show();
 }
 
-const homeWorker = () => {
+const homeWorker = (response = "") => {
 
-  SameHide();
 
-  $('#rechercher_mes_devis').hide();
+  if (response !== "") {
+    window.glob = response.user;
+  } else {
+    SameHide();
+    $('#rechercher_mes_devis').hide();
+    if (token) {
+      const data = {
+        action: "obtenirUser"
+      };
+      getDataWithoutLoader('/user', data, token, homeWorker, onErrorRefresh);
+    }
+  }
+
+ 
 
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
@@ -305,7 +330,7 @@ const homeWorker = () => {
 const initialisation = () => {
   $('#loader').hide();
   let token = localStorage.getItem("token");
- 
+
   if (token) {
     const data = {
       action: "obtenirUser"
@@ -372,7 +397,7 @@ function remplirCarrousel(token) {
 function afficherCarrousel(response) {
 
   $("#selectAmenagementAccueil").show();
- 
+
   let photosCarrousel = response.photosCarrousel;
   if (photosCarrousel.length == 0) {
     notify("info", "Pas de photo(s) après aménagement disponible pour le moment");
