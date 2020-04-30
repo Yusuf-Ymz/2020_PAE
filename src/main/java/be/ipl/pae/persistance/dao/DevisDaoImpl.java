@@ -682,6 +682,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
+  @Override
   public String getDateDebut(int idDevis) {
     String query = "SELECT date_debut FROM pae.devis WHERE devis_id = ?;";
 
