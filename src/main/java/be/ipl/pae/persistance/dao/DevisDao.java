@@ -161,7 +161,7 @@ public interface DevisDao {
   /**
    * Permet d'obtenir la date actuelle du début des traveaux pour un devis.
    *
-   * @param idDevis: l'id du devis dont on veut récupérer la date.
+   * @param idDevis : l'id du devis dont on veut récupérer la date.
    * @return La date du devis sous forme de chaine de caractères.
    * @throws IllegalArgumentException : Si le devis n'est pas trouvé.
    */
