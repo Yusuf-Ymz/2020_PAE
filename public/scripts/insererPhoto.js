@@ -207,6 +207,7 @@ function createModal(image, idDevis) {
     $(buttonAjouter).click(function (e) {
         e.preventDefault();
         let currentModalOpen = $("#" + e.target.value);
+        console.log(idDevis);
         let data = {
             action: "ajouterPhotoApresAmenagement",
             idDevis: idDevis,

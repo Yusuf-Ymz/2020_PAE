@@ -262,7 +262,8 @@ class ServletUtils {
               object.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
           .writeString("Date devis",
               object.getDateDevis().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
-          .writeNumber("devisId", object.getDevisId()).writeNumber("duree", object.getDuree())
+          .writeNumber("devisId", object.getDevisId())
+          .writeString("duree", object.getDuree() + " jour(s)")
           .writeString("État d'avancement", object.getEtat())
           .writeNumber("Montant total", object.getMontantTotal());
 

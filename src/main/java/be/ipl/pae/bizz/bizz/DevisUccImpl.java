@@ -55,6 +55,11 @@ class DevisUccImpl implements DevisUcc {
 
       dal.startTransaction();
 
+      ClientDto client = this.clientDao.getClientById(idClient);
+      if (client == null) {
+        throw new BizException("le client n'existe pas");
+      }
+
       List<DevisDto> devis = this.devisdao.obtenirSesDevis(idClient);
 
       dal.commitTransaction();

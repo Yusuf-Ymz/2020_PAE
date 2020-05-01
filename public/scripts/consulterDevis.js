@@ -202,7 +202,7 @@ $(document).ready(function () {
 
     $("#inputFileApres").on("change",function (e) {
         var file = e.target.files[0];
-        ajouterPhotoApresAmenagement(file,amenagements,devisID);
+        ajouterPhotoApresAmenagement(file,devisID);
     });
 
     //Eventuelles erreurs à corriger et ajouter taprès ceci!

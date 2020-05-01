@@ -67,6 +67,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
           amenagements += element[propriete][i].libelle + ",\n";
         }
 
+        amenagements = amenagements.substring(0, amenagements.length -2);
 
         monChamp.innerHTML = amenagements;
       } else if (propriete === "Photo préférée") {
