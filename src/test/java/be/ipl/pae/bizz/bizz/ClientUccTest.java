@@ -2,6 +2,7 @@ package be.ipl.pae.bizz.bizz;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.ClientDto;
@@ -68,6 +69,7 @@ class ClientUccTest {
     List<String> liste = clientUcc.listerPrenomsClients("so");
     assertNotNull(liste);
     assertEquals(2, liste.size());
+
   }
 
   @Test
@@ -87,11 +89,57 @@ class ClientUccTest {
 
   @Test
   void testListerClientsAvecCriteresOk() {
-    assertNotNull(this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1"));
-    assertEquals(1,
-        this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1").size());
+    assertTrue(this.clientUcc.listerClientsAvecCriteres("Terieur", "Alex", "Bruxelles", "1070")
+        .size() == 1);
+    assertTrue(
+        this.clientUcc.listerClientsAvecCriteres("Terieur", "Alain", "Liege", "4031").size() == 1);
+    assertTrue(this.clientUcc.listerClientsAvecCriteres("Croche", "Sara", "Bruxelles", "1020")
+        .size() == 1);
+    assertTrue(this.clientUcc.listerClientsAvecCriteres("Menvussa", "Gerard", "Namur", "5000")
+        .size() == 1);
+    assertTrue(this.clientUcc.listerClientsAvecCriteres("Voir", "Rihanna", "Bruxelles", "1000")
+        .size() == 1);
+
   }
 
+  @Test
+  void testListerClientsAvecCriteresVide() {
+    assertEquals(0,
+        this.clientUcc.listerClientsAvecCriteres("nom1", "prenom1", "ville1", "cp1").size());
+
+  }
+
+  @Test
+  void testlisterClientNonLieAvecCriteresOk() {
+    this.testListerClientsAvecCriteresOk();
+  }
+
+  @Test
+  void testlisterClientNonLieAvecCriteresVide() {
+    this.testListerClientsAvecCriteresVide();
+  }
+
+
+  @Test
+  void testListerNomsClientsNonlieOk() {
+    this.testListerNomsClientsOk();
+  }
+
+
+  @Test
+  void testListerPrenomsClientsNonLieOk() {
+    this.testListerPrenomsClientsOk();
+  }
+
+  @Test
+  void testListerVillesNonLieOk() {
+    this.testListerVillesOk();
+  }
+
+  @Test
+  void testListerCpNonLieOk() {
+    this.testListerCpOk();
+  }
 
 
   @Test
@@ -101,5 +149,6 @@ class ClientUccTest {
     assertEquals(5, this.clientUcc.listerClientsPasUtilisateur().size());
 
   }
+
 
 }

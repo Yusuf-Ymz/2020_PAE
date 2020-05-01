@@ -47,16 +47,31 @@ public class MockClientDao implements ClientDao {
   @Override
   public List<ClientDto> rechercherClients(String ville, String codePostal, String nomClient,
       String prenomClient) {
-    // TODO Auto-generated method stub
-    ClientDto mockClient = this.dtoFactory.getClientDto();
-
-    mockClient.setVille(ville);
-    mockClient.setCodePostal(codePostal);
-    mockClient.setNom(nomClient);
-    mockClient.setPrenom(prenomClient);
 
     List<ClientDto> listeClient = new ArrayList<ClientDto>();
-    listeClient.add(mockClient);
+    ClientDto mockClient = this.dtoFactory.getClientDto();
+
+    if (ville.equals("Bruxelles") && codePostal.equals("1070") && prenomClient.equals("Alex")
+        && nomClient.equals("Terieur")) {
+      listeClient.add(mockClient);
+    }
+    if (ville.equals("Liege") && codePostal.equals("4031") && prenomClient.equals("Alain")
+        && nomClient.equals("Terieur")) {
+      listeClient.add(mockClient);
+    }
+    if (ville.equals("Bruxelles") && codePostal.equals("1020") && prenomClient.equals("Sara")
+        && nomClient.equals("Croche")) {
+      listeClient.add(mockClient);
+    }
+    if (ville.equals("Namur") && codePostal.equals("5000") && prenomClient.equals("Gerard")
+        && nomClient.equals("Menvussa")) {
+      listeClient.add(mockClient);
+    }
+
+    if (ville.equals("Bruxelles") && codePostal.equals("1000") && prenomClient.equals("Rihanna")
+        && nomClient.equals("Voir")) {
+      listeClient.add(mockClient);
+    }
 
     return listeClient;
   }
