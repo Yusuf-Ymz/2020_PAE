@@ -675,4 +675,21 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     modifierDateDebut(idDevis, date);
   }
 
+  @Override
+  public void supprimerDateDebutTravaux(int idDevis, String etat) {
+
+    String query = "UPDATE pae.devis SET date_debut = null,etat = ?  WHERE  devis_id =?";
+
+    PreparedStatement prepareStatement = dal.createStatement(query);
+
+    try {
+      prepareStatement.setString(1, etat);
+      prepareStatement.setInt(2, idDevis);
+      prepareStatement.execute();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+
+  }
+
 }

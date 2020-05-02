@@ -406,7 +406,7 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Vous ne pouvez pas repousser la date de début des travaux");
       }
       if (!devis.getDateDebut().isBefore(date)) {
-        throw new BizException("Cette datte n'est pas autorisée.");
+        throw new BizException("Cette date n'est pas autorisée.");
       }
 
       devisdao.repousserDateTravaux(devisId, date);
@@ -417,6 +417,35 @@ class DevisUccImpl implements DevisUcc {
       dal.rollbackTransaction();
       throw exception;
     }
+  }
+
+
+  @Override
+  public void supprimerDateDebutTravaux(int idDevis) {
+
+    try {
+      dal.startTransaction();
+      DevisDto devis = devisdao.obtenirDevisById(idDevis);
+      dal.commitTransaction();
+
+      if (devis == null) {
+        throw new BizException("Devis inexistant");
+      }
+
+      if (!devis.getEtat().equalsIgnoreCase(Etat.COMMANDE_CONFIRMEE.getEtat())) {
+        throw new BizException("Vous ne pouvez pas supprimer la date de début des travaux");
+      }
+
+      dal.startTransaction();
+      devisdao.supprimerDateDebutTravaux(idDevis, Etat.ABSENCE_PAYEMENT_ACOMPTE.getEtat());
+      dal.commitTransaction();
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      dal.rollbackTransaction();
+      throw exception;
+    }
+
   }
 
 

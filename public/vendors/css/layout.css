@@ -427,7 +427,7 @@ svg {
   cursor: pointer;
 }
 
-#checkBox1:hover .checkBox1 {
+#checkBox1:hover ~ .checkBox1 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -436,7 +436,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox2:hover  .checkBox2{
+#checkBox2:hover ~ .checkBox2{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -445,7 +445,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox3:hover  .checkBox3{
+#checkBox3:hover  ~ .checkBox3{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -454,7 +454,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox4:hover  .checkBox4 {
+#checkBox4:hover ~ .checkBox4 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -463,7 +463,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox5:hover  .checkBox5 {
+#checkBox5:hover ~ .checkBox5 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -472,7 +472,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox6:hover   .checkBox6{
+#checkBox6:hover  ~ .checkBox6{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -480,6 +480,16 @@ svg {
   animation-timing-function: ease-in;
   animation-name: shakeAnim;
 }
+
+#checkBox7:hover  ~ .checkBox7{
+  position: relative;
+  animation-name: shake;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-name: shakeAnim;
+}
+
 
 
 @keyframes shakeAnim {

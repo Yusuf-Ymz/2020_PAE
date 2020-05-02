@@ -162,5 +162,13 @@ public interface DevisDao {
   void confirmerCommandeAmenagement(int idDevis, LocalDate date);
 
 
+  /**
+   * Permet de supprimer la date debut des travaux
+   * 
+   * @param idDevis
+   */
+  void supprimerDateDebutTravaux(int idDevis, String etat);
+
+
 
 }

@@ -250,5 +250,11 @@ public class MockDevisDao implements DevisDao {
 
   }
 
+  @Override
+  public void supprimerDateDebutTravaux(int idDevis, String etat) {
+    // TODO Auto-generated method stub
+
+  }
+
 
 }

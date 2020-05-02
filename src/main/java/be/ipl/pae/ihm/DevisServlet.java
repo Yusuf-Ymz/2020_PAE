@@ -330,7 +330,9 @@ public class DevisServlet extends HttpServlet {
       case "annulerDemande":
         changerEtat(body, resp, action);
         break;
-
+      case "supprimerDateDebut":
+        changerEtat(body, resp, action);
+        break;
       default:
         super.doPost(req, resp);
         break;
@@ -440,6 +442,12 @@ public class DevisServlet extends HttpServlet {
         case "annulerDemande":
           devisUcc.changerEtatDevis(devisId, "Annulé");
           json = "{\"etat\":\"Annulé\"}";
+          status = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, status);
+          break;
+        case "supprimerDateDebut":
+          devisUcc.supprimerDateDebutTravaux(devisId);
+          json = "{\"etat\":\"Absence paiement de l'acompte\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
