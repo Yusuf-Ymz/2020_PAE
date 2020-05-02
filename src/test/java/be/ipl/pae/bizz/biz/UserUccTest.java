@@ -1,4 +1,4 @@
-package be.ipl.pae.bizz.bizz;
+package be.ipl.pae.bizz.biz;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.biz.DtoFactoryImpl;
+import be.ipl.pae.bizz.biz.UserUccImpl;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;

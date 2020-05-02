@@ -3,6 +3,7 @@ package be.ipl.pae.bizz.ucc;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DevisUcc {
@@ -139,6 +140,6 @@ public interface DevisUcc {
    * @param devisId : le devis
    * @param date : la nouvelle date à laquelle va débuter les travaux
    */
-  void repousserDate(int devisId, String date);
+  void repousserDate(int devisId, LocalDate date);
 
 }

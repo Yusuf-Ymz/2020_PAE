@@ -1,4 +1,4 @@
-package be.ipl.pae.bizz.bizz;
+package be.ipl.pae.bizz.biz;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;

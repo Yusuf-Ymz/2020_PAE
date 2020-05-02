@@ -1,4 +1,4 @@
-package be.ipl.pae.bizz.bizz;
+package be.ipl.pae.bizz.biz;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
@@ -102,7 +102,7 @@ class DevisUccImpl implements DevisUcc {
 
   @Override
   public DevisDto consulterDevisEnTantQueUtilisateur(int clientId, int idDevis) {
-    // TODO Auto-generated method stub
+
     try {
 
       dal.startTransaction();
@@ -158,44 +158,55 @@ class DevisUccImpl implements DevisUcc {
   public void changerEtatDevis(int idDevis, String newEtat) {
     try {
       dal.startTransaction();
-      String etatActuel = devisdao.getEtatActuel(idDevis);
+      DevisDto devis = devisdao.obtenirDevisById(idDevis);
 
-      if (etatActuel == null) {
+      if (devis == null) {
         throw new BizException("Le devis n'existe pas");
       }
 
-      if (newEtat.equalsIgnoreCase("Annulé")) {
-        if (etatActuel.equalsIgnoreCase("Devis introduit")
-            || etatActuel.equalsIgnoreCase("Commande confirmée")
-            || etatActuel.equalsIgnoreCase("Acompte payé")) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        }
-      } else {
-        switch (etatActuel) {
+      String etatActuel = devis.getEtat();
 
-          case "Devis introduit":
-            if (newEtat.equalsIgnoreCase("Commande confirmée")) {
-              devisdao.changerEtatDevis(idDevis, newEtat);
-            }
-            break;
-          case "Commande confirmée":
-            if (newEtat.equalsIgnoreCase("Acompte payé")) {
-              devisdao.changerEtatDevis(idDevis, newEtat);
-            }
-            break;
-          case "Acompte payé":
-            if (newEtat.equalsIgnoreCase("Facture milieu chantier envoyée")) {
-              devisdao.changerEtatDevis(idDevis, newEtat);
-            }
-            break;
-          case "Facture milieu chantier envoyée":
-            if (newEtat.equalsIgnoreCase("Visible")) {
-              devisdao.changerEtatDevis(idDevis, newEtat);
-            }
-            break;
-          default:
-            throw new BizException("Changement impossible.");
+      if (Etat.ANNULE.getEtat().equalsIgnoreCase(newEtat)) {
+        if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)
+            || Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)
+            || Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
         }
+      } else if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(newEtat)
+            || Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.VISIBLE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.VISIBLE.getEtat().equalsIgnoreCase(etatActuel)) {
+        throw new BizException("L'état ne peut pas être modifié");
       }
 
       dal.commitTransaction();
@@ -222,6 +233,9 @@ class DevisUccImpl implements DevisUcc {
 
       if (devis == null) {
         throw new BizException("Devis inexistant");
+      }
+      if (!devis.getEtat().equalsIgnoreCase(Etat.VISIBLE.getEtat())) {
+        throw new BizException("Vous ne pouvez pas ajouter de photos après aménagements");
       }
 
       if (preferee && devis.getPhotoPreferee().getPhotoId() != 0) {
@@ -329,7 +343,6 @@ class DevisUccImpl implements DevisUcc {
 
   @Override
   public List<String> listerAmenagementsRecherches(String amenagement, int clientId) {
-    // TODO Auto-generated method stub
     try {
       dal.startTransaction();
 
@@ -364,14 +377,21 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public void repousserDate(int devisId, String date) {
+  public void repousserDate(int devisId, LocalDate date) {
     try {
       dal.startTransaction();
-      if (checkDate(devisId, date)) {
-        devisdao.repousserDateTravaux(devisId, date);
-      } else {
-        throw new IllegalArgumentException("Cette datte n'est pas autorisée.");
+      DevisDto devis = devisdao.obtenirDevisById(devisId);
+      if (devis == null) {
+        throw new BizException("Devis inexistant");
       }
+      if (!devis.getEtat().equalsIgnoreCase(Etat.COMMANDE_CONFIRMEE.getEtat())) {
+        throw new BizException("Vous ne pouvez pas repousser la date de début des travaux");
+      }
+      if (!devis.getDateDebut().isBefore(date)) {
+        throw new BizException("Cette datte n'est pas autorisée.");
+      }
+
+      devisdao.repousserDateTravaux(devisId, date);
 
       dal.commitTransaction();
     } catch (Exception exception) {
@@ -381,14 +401,6 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public boolean checkDate(int devisId, String date) {
-    String oldDate = devisdao.getDateDebut(devisId);
 
-    System.out.println(oldDate);
-    if (LocalDate.parse(oldDate).isBefore(LocalDate.parse(date))) {
-      return true;
-    }
-    return false;
-  }
 
 }

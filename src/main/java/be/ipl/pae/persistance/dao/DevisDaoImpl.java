@@ -37,7 +37,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
         fillObject(devis, rs);
-
+        devis.setEtat(rs.getString("etat"));
         ClientDto client = fact.getClientDto();
         fillObject(client, rs);
         devis.setClient(client);
@@ -73,6 +73,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       while (rs.next()) {
         DevisDto devis = fact.getDevisDto();
         fillObject(devis, rs);
+        devis.setEtat(rs.getString("etat"));
 
         PhotoDto photoPreferee = fact.getPhotoDto();
         fillObject(photoPreferee, rs);
@@ -179,6 +180,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
 
       DevisDto devis = fact.getDevisDto();
       fillObject(devis, rs);
+      devis.setEtat(rs.getString("etat"));
 
       ClientDto client = fact.getClientDto();
       fillObject(client, rs);
@@ -249,14 +251,13 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   @Override
   public DevisDto insererDevis(DevisDto devis, String[] photos) {
     String query = "INSERT INTO pae.devis "
-        + "VALUES (DEFAULT,?,?,?,?,'Devis introduit',CURRENT_TIMESTAMP,NULL) "
-        + "RETURNING devis_id;";
+        + "VALUES (DEFAULT,?,NULL,?,?,'Devis introduit',?,NULL) " + "RETURNING devis_id;";
     PreparedStatement prepareStatement = dal.createStatement(query);
     try {
       prepareStatement.setInt(1, devis.getClient().getIdClient());
-      prepareStatement.setDate(2, Date.valueOf(devis.getDateDebut()));
-      prepareStatement.setInt(3, devis.getMontantTotal());
-      prepareStatement.setInt(4, devis.getDuree());
+      prepareStatement.setInt(2, devis.getMontantTotal());
+      prepareStatement.setInt(3, devis.getDuree());
+      prepareStatement.setDate(4, Date.valueOf(devis.getDateDevis()));
 
       ResultSet rs = prepareStatement.executeQuery();
       int idDevis = -1;
@@ -325,6 +326,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         PhotoDto photoPreferee = fact.getPhotoDto();
         fillObject(photoPreferee, rs);
         devis.setPhotoPreferee(photoPreferee);
+        devis.setEtat(rs.getString("etat"));
       }
       recupererLesAmenagementsDunDevis(devis);
 
@@ -349,26 +351,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     }
   }
 
-  @Override
-  public String getEtatActuel(int idDevis) {
-    String query = "SELECT etat FROM pae.devis WHERE devis_id = ?;";
-    PreparedStatement preparedStatement = dal.createStatement(query);
-    String etatActuel = null;
-    try {
-      preparedStatement.setInt(1, idDevis);
-      ResultSet rs = preparedStatement.executeQuery();
 
-      if (rs.next()) {
-        etatActuel = rs.getString(1);
-        return etatActuel;
-      }
-
-      return null;
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-  }
 
   @Override
   public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
@@ -650,6 +633,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     List<DevisDto> listeDevis = new ArrayList<DevisDto>();
     while (rs.next()) {
       DevisDto devis = fact.getDevisDto();
+      devis.setEtat(rs.getString("etat"));
       fillObject(devis, rs);
 
       if (!mesDevis) {
@@ -670,36 +654,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   @Override
-  public void repousserDateTravaux(int idDevis, String newDate) {
+  public void repousserDateTravaux(int idDevis, LocalDate newDate) {
     String query = "UPDATE pae.devis SET date_debut = ? WHERE devis_id = ?";
     PreparedStatement stmt = dal.createStatement(query);
     try {
       stmt.setInt(2, idDevis);
-      stmt.setDate(1, Date.valueOf(LocalDate.parse(newDate)));
+      stmt.setDate(1, Date.valueOf(newDate));
       stmt.execute();
     } catch (SQLException exception) {
       exception.printStackTrace();
     }
-  }
-
-  @Override
-  public String getDateDebut(int idDevis) {
-    String query = "SELECT date_debut FROM pae.devis WHERE devis_id = ?;";
-
-    PreparedStatement stmt = dal.createStatement(query);
-    if (getEtatActuel(idDevis).equalsIgnoreCase("Annulé")) {
-      throw new IllegalArgumentException();
-    }
-    try {
-      stmt.setInt(1, idDevis);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        return (String) rs.getObject(1).toString();
-      }
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
-    throw new IllegalArgumentException();
   }
 
 }

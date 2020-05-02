@@ -3,6 +3,7 @@ package be.ipl.pae.persistance.dao;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DevisDao {
@@ -72,13 +73,7 @@ public interface DevisDao {
    */
   void changerEtatDevis(int idDevis, String newEtat);
 
-  /**
-   * Permet de récupérer l'état actuel du devis.
-   * 
-   * @param idDevis l'id du devis duquel on doit récupérer l'état.
-   * @return l'etat actuel
-   */
-  String getEtatActuel(int idDevis);
+
 
   /**
    * Permet d'insérer une photo après aménagement.
@@ -156,14 +151,8 @@ public interface DevisDao {
    * @param idDevis : le devis
    * @param newDate : la nouvelle date à laquelle va débuter les travaux
    */
-  void repousserDateTravaux(int idDevis, String newDate);
+  void repousserDateTravaux(int idDevis, LocalDate newDate);
 
-  /**
-   * Permet d'obtenir la date actuelle du début des traveaux pour un devis.
-   *
-   * @param idDevis : l'id du devis dont on veut récupérer la date.
-   * @return La date du devis sous forme de chaine de caractères.
-   * @throws IllegalArgumentException : Si le devis n'est pas trouvé.
-   */
-  String getDateDebut(int idDevis);
+
+
 }

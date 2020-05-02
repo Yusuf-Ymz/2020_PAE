@@ -1,8 +1,9 @@
-package be.ipl.pae.bizz.bizz;
+package be.ipl.pae.bizz.biz;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import be.ipl.pae.bizz.biz.AmenagementUccImpl;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.main.Config;
 import be.ipl.pae.main.InjectionService;

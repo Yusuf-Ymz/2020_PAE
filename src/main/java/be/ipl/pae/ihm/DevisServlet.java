@@ -328,7 +328,6 @@ public class DevisServlet extends HttpServlet {
         changerEtat(body, resp, action);
         break;
       case "annulerDemande":
-        System.out.println("cick");
         changerEtat(body, resp, action);
         break;
 
@@ -368,7 +367,7 @@ public class DevisServlet extends HttpServlet {
       }
 
       DevisDto devis = fact.getDevisDto();
-      devis.setDateDebut(dateDebut);
+      devis.setDateDevis(dateDebut);
       devis.setDuree(nbJours);
       devis.setMontantTotal(montantTotal);
       int[] lesAmenagements = genson.deserialize(amenagements, int[].class);
@@ -390,7 +389,7 @@ public class DevisServlet extends HttpServlet {
       ServletUtils.sendResponse(resp, err, statusCode);
     } catch (Exception exception) {
       exception.printStackTrace();
-      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
     }
   }
 
@@ -416,15 +415,16 @@ public class DevisServlet extends HttpServlet {
           break;
 
         case "repousserDateDebut":
-          devisUcc.repousserDate(devisId, body.get("newDate").toString());
+          String strDate = body.get("newDate").toString();
+          LocalDate date = LocalDate.parse(strDate);
+          devisUcc.repousserDate(devisId, date);
           json = "{\"date\":\"" + body.get("newDate").toString() + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
-          // Ne peut pas être avant la date actuelle.
           break;
 
         case "indiquerFactureMilieuPayee":
-          devisUcc.changerEtatDevis(devisId, "Facture milieu chantier envoyée");
+          devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
           json = "{\"etat\":\"Facture milieu chantier envoyée\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
@@ -447,13 +447,18 @@ public class DevisServlet extends HttpServlet {
       }
     } catch (BizException exception) {
       exception.printStackTrace();
-      json = "{\"error\":\"État invalide\"}";
-      status = HttpServletResponse.SC_NOT_ACCEPTABLE;
+      json = "{\"error\":\"" + exception.getMessage() + "\"";
+      status = HttpServletResponse.SC_CONFLICT;
       ServletUtils.sendResponse(resp, json, status);
     } catch (FatalException exception) {
       exception.printStackTrace();
-      json = "{\"error\":\"interne\"}";
+      json = "{\"error\":\"" + exception.getMessage() + "\"";
       status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+      ServletUtils.sendResponse(resp, json, status);
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      json = "{\"error\":\"" + exception.getMessage() + "\"";
+      status = HttpServletResponse.SC_BAD_REQUEST;
       ServletUtils.sendResponse(resp, json, status);
     }
   }

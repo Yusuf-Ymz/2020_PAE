@@ -6,6 +6,7 @@ import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.persistance.dao.DevisDao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class MockDevisDao implements DevisDao {
   @Override
   public void changerEtatDevis(int idDevis, String newEtat) {}
 
-  @Override
+
   public String getEtatActuel(int idDevis) {
     if (idDevis == 1) {
       return "Date début confirmée";
@@ -251,20 +252,16 @@ public class MockDevisDao implements DevisDao {
   }
 
   @Override
-  public void repousserDateTravaux(int idDevis, String newDate) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
   public List<String> rechercherPrenomsClients(String prenom) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public String getDateDebut(int idDevis) {
+  public void repousserDateTravaux(int idDevis, LocalDate newDate) {
     // TODO Auto-generated method stub
-    return null;
+
   }
+
+
 }

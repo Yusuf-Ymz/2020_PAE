@@ -1,4 +1,4 @@
-package be.ipl.pae.bizz.bizz;
+package be.ipl.pae.bizz.biz;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
