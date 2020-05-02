@@ -8,13 +8,13 @@ import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 
 class DtoFactoryImpl implements DtoFactory {
-
+  @Override
   public UserDto getUserDto() {
     return new User();
   }
 
+  @Override
   public DevisDto getDevisDto() {
-    // TODO Auto-generated method stub
     return new Devis();
   }
 
@@ -31,7 +31,6 @@ class DtoFactoryImpl implements DtoFactory {
 
   @Override
   public PhotoDto getPhotoDto() {
-    // TODO Auto-generated method stub
     return new Photo();
   }
 }

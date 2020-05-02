@@ -44,7 +44,7 @@ public class MockAmenagementDao implements AmenagementDao {
   @Override
   public AmenagementDto ajouterAmenagment(AmenagementDto amenagement) {
     // TODO Auto-generated method stub
-    return null;
+    return amenagement;
   }
 
 }

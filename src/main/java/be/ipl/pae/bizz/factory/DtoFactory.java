@@ -15,11 +15,31 @@ public interface DtoFactory {
    */
   UserDto getUserDto();
 
+  /**
+   * Renvoie une instance d'une classe qui implémente DevisDto.
+   * 
+   * @return un DevisDto
+   */
   DevisDto getDevisDto();
 
+  /**
+   * Renvoie une instance d'une classe qui implémente AmenagementDto.
+   * 
+   * @return un AmenagementDto
+   */
   AmenagementDto getAmenagementDto();
 
+  /**
+   * Renvoie une instance d'une classe qui implémente ClientDto.
+   * 
+   * @return un ClientDto
+   */
   ClientDto getClientDto();
 
+  /**
+   * Renvoie une instance d'une classe qui implémente PhotoDto.
+   * 
+   * @return un PhotoDto
+   */
   PhotoDto getPhotoDto();
 }

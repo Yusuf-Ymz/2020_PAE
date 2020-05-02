@@ -80,25 +80,6 @@ public class MockDevisDao implements DevisDao {
   @Override
   public void changerEtatDevis(int idDevis, String newEtat) {}
 
-
-  public String getEtatActuel(int idDevis) {
-    if (idDevis == 1) {
-      return "Date début confirmée";
-    }
-
-    if (idDevis == 2) {
-      return "Commande confirmée";
-    }
-
-    if (idDevis == 3) {
-      return "Introduit";
-    }
-
-    return null;
-  }
-
-
-
   @Override
   public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
     // TODO Auto-generated method stub
