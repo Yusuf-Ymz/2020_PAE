@@ -94,44 +94,61 @@
                 </table>
             </div>
             <div class="col-6">
-                <div>
+                <div class="divColorCheckBox">
                     <label class="customcheck text-dark font-weight-bold" for="confirmerCommande">
-                        Confirmer la commande d'aménagements
-                        <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
-                        <span class="checkmark"></span>
+                        <span class="checkBox1"><i class="fas fa-check-circle fa-lg"></i></span> Confirmer la commande
+                        d'aménagements
+                        <input type="checkbox" name="" id="confirmerCommande " autocomplete="off">
+                        <span class="checkmark" id="checkBox1"></span>
                     </label>
                 </div>
-                <div>
+                <div class="divColorCheckBox">
                     <label class="customcheck text-dark font-weight-bold" for="confirmerDateDebut">
-                        Confirmer date de début des travaux (Acompte payé)
+                        <span class="checkBox2"><i class="fas fa-check-circle fa-lg"></i></span> Confirmer date de début
+                        des travaux (Acompte payé)
                         <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
-                        <span class="checkmark"></span>
+                        <span class="checkmark " id="checkBox2"></span>
                     </label>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row divColorCheckBox">
+                    <div class="col-md-8">
+
                         <label class="customcheck text-dark font-weight-bold" for="repousserDateDebut">
-                            Repousser la date de début des travaux
+                            <span class="checkBox3"><i class="far fa-calendar-alt fa-lg"></i></span> Repousser la date
+                            de
+                            début des travaux
                             <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
-                            <span class="checkmark"></span>
+                            <span class="checkmark " id="checkBox3"></span>
                         </label>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-1">
                         <input type="date" id="inputRepousser" min="2020-05-01">
                     </div>
-
                 </div>
-                <div><label class="customcheck text-dark font-weight-bold" for="indiquerFactureMilieu">
-                        Indiquer que la facture de milieu de chantier est envoyée
-                        <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
-                        <span class="checkmark"></span>
+                <div id="checkBox-delete">
+                    <label class="customcheck text-dark font-weight-bold" for="supprimerDateDebut">
+                        <span class="checkBox4"><i class="far fa-trash-alt fa-lg"></i></span> Supprimer la date de debut
+                        des travaux
+                        <input type="checkbox" id="supprimerDateDebut" name="" autocomplete="off">
+                        <span class="checkmark" id="checkBox4"></span>
                     </label>
                 </div>
-                <div>
+                <div class="divColorCheckBox">
+                    <label class="customcheck text-dark font-weight-bold" for="indiquerFactureMilieu">
+                        <span class="checkBox5"><i class="far fa-paper-plane fa-lg"></i></span> Indiquer que la
+                        facture de
+                        milieu de chantier est envoyée
+                        <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
+                        <span class="checkmark " id="checkBox5"></span>
+                    </label>
+                </div>
+                <div class="divColorCheckBox">
                     <label class="customcheck text-dark font-weight-bold" for="rendreVisible">
-                        Rendre la réalisation visible
+
+                        <span class="checkBox6"><i class="far fa-eye fa-lg"></i></span> Rendre la réalisation
+                        visible
                         <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
-                        <span class="checkmark"></span>
+                        <span class="checkmark " id="checkBox6"></span>
                     </label>
                 </div>
             </div>
@@ -167,8 +184,6 @@
 </div>
 </div>
 </div>
-
-
 <!--fin-->
 </div>
 </div>

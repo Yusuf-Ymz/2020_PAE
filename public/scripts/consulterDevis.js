@@ -1,6 +1,6 @@
 import { getData, postData } from "./utilsAPI.js";
 import { homeWorker } from "./index.js";
-import { ajouterPhotoApresAmenagement, ajouterPhoto,viderLesPhotoApresAmenagement,setAmenagements} from "./insererPhoto.js"
+import { ajouterPhotoApresAmenagement, ajouterPhoto, viderLesPhotoApresAmenagement, setAmenagements } from "./insererPhoto.js"
 import notify from "./utils.js";
 let checkBox;
 
@@ -13,7 +13,7 @@ function consulterDevisEntantQueOuvrier(url, data) {
     data["action"] = "consulterDevisEnTantQueOuvrier";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisOuvrier, onGetConsulterError);
-   
+
     $('.ouvrier').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
@@ -91,9 +91,9 @@ function onGetConsulterDevisClient(response) {
 }
 
 function onGetConsulterDevisOuvrier(response) {
-    
-    $("input[type=checkbox]").each(function(){
-        $(this).prop('checked',false);
+
+    $("input[type=checkbox]").each(function () {
+        $(this).prop('checked', false);
     });
     $("#titre-page").text("Détails du devis");
     $('#nomVersionOuvrier').html(response.devis["Nom du client"]);
@@ -157,7 +157,7 @@ function onPostCheckBox(response) {
 
 }
 
-function onNewDate(response){
+function onNewDate(response) {
     notify("success", "La date a bien été repoussée");
     $('#dateDebutVersionOuvrier').text(response.date);
     console.log(response.date);
@@ -165,14 +165,14 @@ function onNewDate(response){
 
 function onCheckBoxError(response) {
     console.log(response);
-    checkBox.prop('checked',false);
+    checkBox.prop('checked', false);
     notify("error", "Les modifications n'ont pas pu être effectuées");
-    
+
 }
 
 
 
-function  onErrorAmenagements(response){
+function onErrorAmenagements(response) {
     console.error(response);
 }
 
@@ -192,7 +192,7 @@ $(document).ready(function () {
         $(this).css('background', '#FFF');
         let fileList = e.originalEvent.dataTransfer.files;
         for (let x = 0; x < fileList.length; x++) {
-             ajouterPhotoApresAmenagement(fileList[x],devisID);
+            ajouterPhotoApresAmenagement(fileList[x], devisID);
         }
     });
 
@@ -205,9 +205,9 @@ $(document).ready(function () {
         $("#inputFileApres").trigger('click');
     });
 
-    $("#inputFileApres").on("change",function (e) {
+    $("#inputFileApres").on("change", function (e) {
         var file = e.target.files[0];
-        ajouterPhotoApresAmenagement(file,devisID);
+        ajouterPhotoApresAmenagement(file, devisID);
     });
 
     $('#confirmerCommande').change(function () {
@@ -217,8 +217,23 @@ $(document).ready(function () {
                 action: "confirmerCommande",
                 id: devisID
             };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError); 
+            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
         }
+    });
+
+    $("#supprimerDateDebut").change(function () {
+        if ($(this).is(":checked")) {
+
+            checkBox = ($(this));
+
+            const data = {
+                action: "supprimerDateDebut",
+                id: devisID
+            }
+
+            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+        }
+
     });
 
     $('#confirmerDateDebut').change(function () {
@@ -244,8 +259,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#indiquerFactureMilieu').change(function(){
-        if ($(this).is(":checked")){
+    $('#indiquerFactureMilieu').change(function () {
+        if ($(this).is(":checked")) {
             checkBox = $(this);
             const data = {
                 action: "indiquerFactureMilieuPayee",
@@ -255,8 +270,8 @@ $(document).ready(function () {
         }
     })
 
-    $('#indiquerFactureFin').change(function(){
-        if ($(this).is(":checked")){
+    $('#indiquerFactureFin').change(function () {
+        if ($(this).is(":checked")) {
             checkBox = $(this);
             const data = {
                 action: "indiquerFactureFinPayee",
@@ -266,25 +281,25 @@ $(document).ready(function () {
         }
     })
 
-    $('#rendreVisible').change(function(){
-        if ($(this).is(":checked")){
+    $('#rendreVisible').change(function () {
+        if ($(this).is(":checked")) {
             checkBox = $(this);
             const data = {
                 action: "rendreVisible",
                 id: devisID
             };
-            postData("/devis", data,localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
         }
     })
 
-    $('#annulerDemande').click(function(){
+    $('#annulerDemande').click(function () {
         console.log("Click");
         checkBox = $(this);
         const data = {
             action: "annulerDemande",
             id: devisID
         };
-        postData("/devis", data,localStorage.getItem("token") , onPostCheckBox, onCheckBoxError);
+        postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
     })
 });
 export { consulterDevisEntantQueClient, consulterDevisEntantQueOuvrier };
