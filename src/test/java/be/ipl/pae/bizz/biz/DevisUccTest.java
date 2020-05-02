@@ -142,6 +142,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisCommandeConfirmeeKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(2, null));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Commande confirmée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Devis introduit"));
     assertThrows(BizException.class,
@@ -165,6 +166,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisAcomptePayeKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(3, null));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Devis Introduit"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Commande confirmée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Acompte payé"));
@@ -180,6 +182,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisFactureMilieuKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(4, null));
     assertThrows(BizException.class,
         () -> devisUcc.changerEtatDevis(4, "Facture de milieu chantier envoyée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Devis Introduit"));
@@ -198,6 +201,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisFactureFinKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(5, null));
     assertThrows(BizException.class,
         () -> devisUcc.changerEtatDevis(5, "Facture de milieu chantier envoyée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Devis Introduit"));
@@ -210,6 +214,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisVisibleKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(6, null));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Devis Introduit"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Commande confirmée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Acompte payé"));
@@ -231,6 +236,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisAbsenceKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(7, null));
     assertThrows(BizException.class,
         () -> devisUcc.repousserDate(7, LocalDate.parse("2018-01-01")));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7, "Devis Introduit"));
@@ -247,6 +253,7 @@ class DevisUccTest {
 
   @Test
   void testChangerEtatDevisAnnuleKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(8, null));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Devis Introduit"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Commande confirmée"));
     assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Acompte payé"));
