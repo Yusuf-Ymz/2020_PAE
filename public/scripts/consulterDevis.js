@@ -211,13 +211,19 @@ $(document).ready(function () {
     });
 
     $('#confirmerCommande').change(function () {
+        checkBox = $(this);
         if ($(this).is(":checked")) {
-            checkBox = $(this);
-            const data = {
-                action: "confirmerCommande",
-                id: devisID
-            };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            if ($("#inputDateDebut").val() != "") {
+                const data = {
+                    action: "confirmerCommande",
+                    date: $("#inputDateDebut").val(),
+                    id: devisID
+                };
+                postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            } else {
+                checkBox.prop('checked', false);
+                notify("error", "Veuillez saisir une date valide");
+            }
         }
     });
 
@@ -250,12 +256,17 @@ $(document).ready(function () {
     $('#repousserDateDebut').change(function () {
         if ($(this).is(":checked")) {
             checkBox = $(this);
-            const data = {
-                action: "repousserDateDebut",
-                newDate: $("#inputRepousser").val(),
-                id: devisID
-            };
-            postData("/devis", data, localStorage.getItem("token"), onNewDate, onCheckBoxError);
+            if ($("#inputRepousser").val() != "") {
+                const data = {
+                    action: "repousserDateDebut",
+                    newDate: $("#inputRepousser").val(),
+                    id: devisID
+                };
+                postData("/devis", data, localStorage.getItem("token"), onNewDate, onCheckBoxError);
+            } else {
+                checkBox.prop('checked', false);
+                notify("error", "Veuillez saisir une date valide");
+            }
         }
     });
 

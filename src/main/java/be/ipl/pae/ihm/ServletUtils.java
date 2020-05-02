@@ -254,12 +254,15 @@ class ServletUtils {
             .writeString("Prénom du client", object.getClient().getPrenom());
       }
 
+      writer.writeString("Types d'aménagements", gensonAmenagement
+          .serialize(object.getAmenagements(), new GenericType<List<AmenagementDto>>() {}));
+      if (object.getDateDebut() != null) {
+        writer.writeString("Date de début",
+            object.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+      } else {
+        writer.writeString("Date de début", "-");
+      }
       writer
-          .writeString("Types d'aménagements",
-              gensonAmenagement.serialize(object.getAmenagements(),
-                  new GenericType<List<AmenagementDto>>() {}))
-          .writeString("Date de début",
-              object.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
           .writeString("Date devis",
               object.getDateDevis().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
           .writeNumber("devisId", object.getDevisId())
@@ -285,13 +288,11 @@ class ServletUtils {
   private static class PhotoConverter implements Converter<PhotoDto> {
     @Override
     public PhotoDto deserialize(ObjectReader reader, Context ctx) throws Exception {
-      // TODO Auto-generated method stub
       return null;
     }
 
     @Override
     public void serialize(PhotoDto object, ObjectWriter writer, Context ctx) throws Exception {
-      // TODO Auto-generated method stub
       writer.beginObject();
 
       writer.writeNumber("Photo id", object.getPhotoId());
@@ -308,14 +309,12 @@ class ServletUtils {
   private static class AmenagementConverter implements Converter<AmenagementDto> {
     @Override
     public AmenagementDto deserialize(ObjectReader reader, Context ctx) throws Exception {
-      // TODO Auto-generated method stub
       return null;
     }
 
     @Override
     public void serialize(AmenagementDto object, ObjectWriter writer, Context ctx)
         throws Exception {
-      // TODO Auto-generated method stub
       writer.beginObject();
       writer.writeNumber("id", object.getId());
       writer.writeString("libelle", object.getLibelle());
