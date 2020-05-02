@@ -32,6 +32,7 @@ class DevisUccImpl implements DevisUcc {
   @Inject
   private DtoFactory dtoFact;
 
+  @Override
   public List<DevisDto> listerTousLesDevis() {
     try {
       dal.startTransaction();
@@ -48,7 +49,7 @@ class DevisUccImpl implements DevisUcc {
 
   }
 
-
+  @Override
   public List<DevisDto> listerDevisDUnCLient(int idClient) {
 
     try {
@@ -313,6 +314,7 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
+  @Override
   public void changerEtatDevis(int idDevis, String newEtat) {
     try {
       dal.startTransaction();
@@ -372,7 +374,8 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public void confirmerCommandeAmenagement(int idDevis, String newEtat, LocalDate date) {
+  @Override
+  public void confirmerCommandeAmenagement(int idDevis, LocalDate date) {
     try {
       dal.startTransaction();
       DevisDto devis = devisdao.obtenirDevisById(idDevis);
@@ -383,15 +386,10 @@ class DevisUccImpl implements DevisUcc {
 
       String etatActuel = devis.getEtat();
       if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.confirmerCommandeAmenagement(idDevis, date);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
+        devisdao.confirmerCommandeAmenagement(idDevis, date);
       } else {
         throw new BizException("L'état ne peut pas être modifié");
       }
-
       dal.commitTransaction();
     } catch (Exception exception) {
       exception.printStackTrace();
@@ -400,6 +398,7 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
+  @Override
   public void repousserDate(int devisId, LocalDate date) {
     try {
       dal.startTransaction();

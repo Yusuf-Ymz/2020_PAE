@@ -310,7 +310,7 @@ public class DevisServlet extends HttpServlet {
 
       case "confirmerCommande":
         LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
-        devisUcc.confirmerCommandeAmenagement(devisId, "Commande confirmée", dateDebut);
+        devisUcc.confirmerCommandeAmenagement(devisId, dateDebut);
         json = "{\"etat\":\"Commande confirmée\"}";
         status = HttpServletResponse.SC_OK;
         ServletUtils.sendResponse(resp, json, status);

@@ -89,7 +89,49 @@ public class MockDevisDao implements DevisDao {
   @Override
   public DevisDto obtenirDevisById(int id) {
     // TODO Auto-generated method stub
-    return null;
+    DevisDto devis = dtoFactory.getDevisDto();
+
+    if (id == -1) {
+      return null;
+    }
+
+    if (id == 1) {
+      devis.setEtat("Devis introduit");
+      devis.setDateDebut(LocalDate.parse("2019-01-01"));
+    }
+
+    if (id == 2) {
+      devis.setEtat("Commande confirmée");
+      devis.setDateDebut(LocalDate.parse("2020-02-01"));
+      devis.setDateDevis(LocalDate.parse("2020-01-01"));
+    }
+
+    if (id == 3) {
+      devis.setEtat("Acompte payé");
+    }
+
+    if (id == 4) {
+      devis.setEtat("Facture de milieu chantier envoyée");
+    }
+
+    if (id == 5) {
+      devis.setEtat("Facture de fin de chantier envoyée");
+    }
+
+    if (id == 6) {
+      devis.setEtat("Visible");
+    }
+
+    if (id == 7) {
+      devis.setEtat("Absence du paiement de l'acompte");
+      devis.setDateDevis(LocalDate.parse("2019-01-01"));
+    }
+
+    if (id == 8) {
+      devis.setEtat("Annulé");
+    }
+
+    return devis;
   }
 
   @Override
@@ -235,7 +277,13 @@ public class MockDevisDao implements DevisDao {
   @Override
   public List<String> rechercherPrenomsClients(String prenom) {
     // TODO Auto-generated method stub
-    return null;
+    List<String> prenoms = new ArrayList<>();
+
+    if (prenom.equals("test")) {
+      prenoms.add("hello");
+    }
+
+    return prenoms;
   }
 
   @Override
