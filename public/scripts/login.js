@@ -1,6 +1,5 @@
 import { postData } from "./utilsAPI.js";
-import { HomeUser, homeWorker, fillCardUserInfos } from "./index.js";
-import { firstViewWorker, firstViewUser } from "./premierVueConnexion.js";
+import { HomeUser, homeWorker, fillCardUserInfos, firstViewWorker, firstViewUser } from "./index.js";
 import notify from "./utils.js";
 
 

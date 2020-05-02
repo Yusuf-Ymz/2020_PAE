@@ -22,4 +22,16 @@ public interface PhotoUcc {
    */
   List<PhotoDto> listerPhotoParAmenagement(int idAmenagement);
 
+  /**
+   * Insére une photo après aménagements.
+   * 
+   * @param photo : la photo au format base64
+   * @param idAmenagement : l'id de l'aménagement
+   * @param idDevis : l'id du devis
+   * @param visible : si la photo est visble par tous
+   * @param preferee : si la photo est celle preférée
+   * @return la photo inserer
+   */
+  PhotoDto insererPhotoApresAmenagement(String photo, int idAmenagement, int idDevis,
+      boolean visible, boolean preferee);
 }

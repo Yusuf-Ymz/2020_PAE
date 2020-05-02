@@ -281,8 +281,10 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     try {
       ps.setInt(2, devis.getDevisId());
       for (String photo : photos) {
-        ps.setString(1, photo);
-        ps.execute();
+        if (photo.contains("image")) {
+          ps.setString(1, photo);
+          ps.execute();
+        }
       }
     } catch (SQLException exception) {
       exception.printStackTrace();
@@ -350,70 +352,6 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
       exception.printStackTrace();
       throw new FatalException("Impossible de changer l'état du devis.");
     }
-  }
-
-
-
-  @Override
-  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
-    String query = "INSERT INTO pae.photos VALUES (DEFAULT,?,TRUE,?,?,?) RETURNING photo_id";
-    PreparedStatement ps = dal.createStatement(query);
-    try {
-      ps.setString(1, photo.getPhoto());
-      ps.setBoolean(2, photo.isVisible());
-      ps.setInt(3, photo.getAmenagement().getId());
-      ps.setInt(4, photo.getDevis().getDevisId());
-      ResultSet rs = ps.executeQuery();
-      PhotoDto newPhoto = null;
-      if (rs.next()) {
-        int idPhoto = rs.getInt(1);
-        if (photo.isPreferee()) {
-          insererPhotoPreferee(photo.getDevis().getDevisId(), idPhoto);
-        }
-        newPhoto = getPhotoById(idPhoto);
-      }
-      return newPhoto;
-
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-
-  }
-
-
-
-  private PhotoDto getPhotoById(int idPhoto) {
-    String query = "SELECT * FROM pae.photos WHERE photo_id = ?";
-    PreparedStatement ps = dal.createStatement(query);
-    PhotoDto photo = fact.getPhotoDto();
-    try {
-      ps.setInt(1, idPhoto);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        fillObject(photo, rs);
-        return photo;
-      }
-      return null;
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-
-  }
-
-  private void insererPhotoPreferee(int devisId, int idPhoto) {
-    String query = "UPDATE pae.devis SET photo_preferee = ? WHERE devis_id = ?";
-    PreparedStatement ps = dal.createStatement(query);
-    try {
-      ps.setInt(1, idPhoto);
-      ps.setInt(2, devisId);
-      ps.execute();
-    } catch (SQLException exception) {
-      exception.printStackTrace();
-      throw new FatalException();
-    }
-
   }
 
   @Override

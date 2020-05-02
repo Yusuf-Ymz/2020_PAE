@@ -1,7 +1,6 @@
 package be.ipl.pae.persistance.dao;
 
 import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.dto.PhotoDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -74,14 +73,6 @@ public interface DevisDao {
   void changerEtatDevis(int idDevis, String newEtat);
 
 
-
-  /**
-   * Permet d'insérer une photo après aménagement.
-   * 
-   * @param photo : la photo à insérer
-   * @return la photo qui a été insérer
-   */
-  PhotoDto insererPhotoApresAmenagement(PhotoDto photo);
 
   /**
    * Renvoie une liste des noms tous les clients dont le nom est similaire au paramètre.

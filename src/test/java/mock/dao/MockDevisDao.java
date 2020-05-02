@@ -80,11 +80,7 @@ public class MockDevisDao implements DevisDao {
   @Override
   public void changerEtatDevis(int idDevis, String newEtat) {}
 
-  @Override
-  public PhotoDto insererPhotoApresAmenagement(PhotoDto photo) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+
 
   @Override
   public DevisDto obtenirDevisById(int id) {

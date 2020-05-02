@@ -85,8 +85,6 @@ function onError(err) {
 }
 
 $(document).ready(function (e) {
-
-    console.log(idClient);
     $("#insererAmenagement").click(function (e) {
         e.preventDefault();
         $("#amenagementModal").modal('show');
@@ -122,8 +120,6 @@ $(document).ready(function (e) {
             im = im.replace(",", "?????");
             photos.push(im);
         }
-        console.log(amenagements);
-        console.log(photos);
         let data = {
             action: "insererDevis",
             idClient: $("#idClient").val(),
@@ -142,6 +138,9 @@ $(document).ready(function (e) {
         idClient = -1;
         $("#searchContent").show();
         $("#searchDisplayClient").show();
+        $("#btn_remove_client").hide();
+        $("#drop-container").find("img").remove();
+        $("input[type=checkbox]").prop('checked', false);
         notify("success", "Devis Introduit");
 
     }
@@ -190,6 +189,9 @@ $(document).ready(function (e) {
         $("#idClient").val(idClient);
         $("#nomInfo").val(client.nom);
         $("#prenomInfo").val(client.prenom);
+        $("#searchContent").fadeOut();
+        $("#searchDisplayClient").fadeOut();
+        $("#btn_remove_client").fadeIn();
         notify("success", "Client ajouté");
     }
 

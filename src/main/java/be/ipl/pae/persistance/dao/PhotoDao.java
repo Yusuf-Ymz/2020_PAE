@@ -21,4 +21,12 @@ public interface PhotoDao {
    * @return une liste de photo
    */
   List<PhotoDto> recupererLesPhotosVisibleParAmenagement(int idAmenagement);
+
+  /**
+   * Permet d'insérer une photo après aménagement.
+   * 
+   * @param photo : la photo à insérer
+   * @return la photo qui a été insérer
+   */
+  PhotoDto insererPhotoApresAmenagement(PhotoDto photo);
 }

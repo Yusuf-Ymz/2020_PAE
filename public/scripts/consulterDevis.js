@@ -3,7 +3,7 @@ import { homeWorker } from "./index.js";
 import { ajouterPhotoApresAmenagement, ajouterPhoto, viderLesPhotoApresAmenagement, setAmenagements } from "./insererPhoto.js"
 import notify from "./utils.js";
 let checkBox;
-
+let etatDevis;
 let token = localStorage.getItem("token");
 let devisID = -1;
 
@@ -112,7 +112,7 @@ function onGetConsulterDevisOuvrier(response) {
     $('#dureeVersionOuvrier').html(response.devis["duree"]);
     $('#typesVersionOuvrier').html(amenagements);
     $('#etatVersionOuvrier').html(response.devis["État d'avancement"]);
-
+    etatDevis = response.devis["État d'avancement"];
     let photosAvantJson = response.devis["Photos Avant"];
     photosAvantJson = JSON.parse(photosAvantJson);
     let tablePhotosAvant = document.getElementById("photosAvantVersionOuvrier");
@@ -153,6 +153,7 @@ function onGetConsulterError(err) {
 function onPostCheckBox(response) {
     notify("success", "L'état a bien été mis à jour");
     $('#etatVersionOuvrier').text(response.etat);
+    etatDevis = response.etat;
 
 }
 
@@ -162,11 +163,17 @@ function onNewDate(response) {
     console.log(response.date);
 }
 
+function onNewDateCommande(response) {
+    notify("success", "L'état a bien été mis à jour");
+    $('#dateDebutVersionOuvrier').text(response.date);
+    console.log(response.date);
+}
+
+
 function onCheckBoxError(response) {
     console.log(response);
     checkBox.prop('checked', false);
     notify("error", "Les modifications n'ont pas pu être effectuées");
-
 }
 
 
@@ -190,8 +197,12 @@ $(document).ready(function () {
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#FFF');
         let fileList = e.originalEvent.dataTransfer.files;
-        for (let x = 0; x < fileList.length; x++) {
-            ajouterPhotoApresAmenagement(fileList[x], devisID);
+        if(etatDevis != "Visible"){
+            notify("error","Vous ne pouvez pas ajouter de photos après aménagements");
+        }else{
+            for (let x = 0; x < fileList.length; x++) {
+                ajouterPhotoApresAmenagement(fileList[x], devisID);
+            }
         }
     });
 
@@ -218,7 +229,7 @@ $(document).ready(function () {
                     date: $("#inputDateDebut").val(),
                     id: devisID
                 };
-                postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+                postData("/devis", data, localStorage.getItem("token"), onNewDateCommande, onCheckBoxError);
             } else {
                 checkBox.prop('checked', false);
                 notify("error", "Veuillez saisir une date valide");

@@ -5,7 +5,6 @@ import { getListClient, displayAmenagementsDevis } from "./introduireDevis.js";
 import { onGetClientList, onClientListError } from "./rechercherClients.js";
 import { onGetUserList, onUserListError } from "./rechercherUtilisateur.js";
 import { onGet } from "./confirmedInscription.js";
-import { firstViewUser, firstViewWorker } from "./premierVueConnexion.js";
 import notify from "./utils.js";
 let previousRequest;
 let token = undefined;
@@ -62,6 +61,7 @@ $(document).ready(function () {
     })
     HideToHomeWhenNotConnect();
   });
+  
   $('#rechercher_tous_les_devis').on('click', function (e) {
     homeWorker("");
     let token = localStorage.getItem("token");
@@ -185,6 +185,31 @@ const HideToHomeWhenNotConnect = () => {
 
 }
 
+const firstViewWorker = () => {
+  
+  homeWorker("");
+  let token = localStorage.getItem("token");
+  console.log("token = " + token);
+  const data = {
+    action: "tousLesDevis"
+  }
+  abortPreviousRequest();
+  previousRequest = getData("/devis", data, token, onGetTousLesDevisList, onDevisListError);
+}
+
+//premier page que l'utilisateur voit quand il se connecte!!!
+const firstViewUser = () => {
+  
+  HomeUser("");
+  let token = localStorage.getItem("token");
+
+  const data = {
+    action: "mesDevis"
+  }
+  abortPreviousRequest();
+  previousRequest = getData("/devis", data, token, onGetMesDevisList, onDevisListError);
+
+}
 
 const HideToHomeWhenConnect = (response) => {
 
@@ -391,7 +416,7 @@ function remplirCarrousel(token) {
   const data = {
     action: "afficherPhotoCarrousel"
   };
-  getData('/photo', data, token, afficherCarrousel, onErrorRefresh);
+  previousRequest = getData('/photo', data, token, afficherCarrousel, onErrorRefresh);
 }
 
 function afficherCarrousel(response) {
@@ -470,4 +495,4 @@ function dateFormating(date) {
 
 }
 
-export { HomeUser, homeWorker, fillCardUserInfos, afficherVueConfirmerUtilisateur };
+export { HomeUser, homeWorker, fillCardUserInfos, afficherVueConfirmerUtilisateur ,firstViewWorker, firstViewUser};

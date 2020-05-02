@@ -1,7 +1,6 @@
 package be.ipl.pae.bizz.ucc;
 
 import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.dto.PhotoDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -61,18 +60,7 @@ public interface DevisUcc {
    */
   void changerEtatDevis(int idDevis, String newEtat);
 
-  /**
-   * Insére une photo après aménagements.
-   * 
-   * @param photo : la photo au format base64
-   * @param idAmenagement : l'id de l'aménagement
-   * @param idDevis : l'id du devis
-   * @param visible : si la photo est visble par tous
-   * @param preferee : si la photo est celle preférée
-   * @return la photo inserer
-   */
-  PhotoDto insererPhotoApresAmenagement(String photo, int idAmenagement, int idDevis,
-      boolean visible, boolean preferee);
+
 
   /**
    * Renvoie une liste des noms des clients possédant un devis.

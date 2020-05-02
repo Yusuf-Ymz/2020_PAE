@@ -2,7 +2,6 @@ package be.ipl.pae.ihm;
 
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.PhotoDto;
-import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.bizz.ucc.PhotoUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
@@ -23,9 +22,6 @@ public class PhotoServlet extends HttpServlet {
 
   @Inject
   private PhotoUcc photoUcc;
-
-  @Inject
-  private DevisUcc devisUcc;
 
   private Genson genson;
   private static final long serialVersionUID = 1L;
@@ -144,7 +140,7 @@ public class PhotoServlet extends HttpServlet {
     String json = "{\"error\":\"Erreur du serveur\"";
     try {
       final PhotoDto newPhoto =
-          devisUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
+          photoUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);
       json = "{\"success\":\"Photo ajouté\",\"photo\":"
           + genson.serialize(newPhoto, new GenericType<PhotoDto>() {}) + "}";
       ServletUtils.sendResponse(resp, json, HttpServletResponse.SC_OK);
