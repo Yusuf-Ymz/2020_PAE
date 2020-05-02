@@ -401,7 +401,8 @@ public class DevisServlet extends HttpServlet {
     try {
       switch (nouvelEtat) {
         case "confirmerCommande":
-          devisUcc.changerEtatDevis(devisId, "Commande confirmée");
+          LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
+          devisUcc.confirmerCommandeAmenagement(devisId, "Commande confirmée", dateDebut);
           json = "{\"etat\":\"Commande confirmée\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);

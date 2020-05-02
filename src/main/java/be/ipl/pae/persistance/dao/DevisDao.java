@@ -153,6 +153,14 @@ public interface DevisDao {
    */
   void repousserDateTravaux(int idDevis, LocalDate newDate);
 
+  /**
+   * Permet de confirmer une commande d'aménagement en spécifiant une date de début des travaux.
+   * 
+   * @param idDevis : l'id du devis
+   * @param date : la date de début des travaux
+   */
+  void confirmerCommandeAmenagement(int idDevis, LocalDate date);
+
 
 
 }

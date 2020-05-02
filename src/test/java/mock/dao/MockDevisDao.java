@@ -263,5 +263,11 @@ public class MockDevisDao implements DevisDao {
 
   }
 
+  @Override
+  public void confirmerCommandeAmenagement(int idDevis, LocalDate date) {
+    // TODO Auto-generated method stub
+
+  }
+
 
 }

@@ -653,8 +653,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     return listeDevis;
   }
 
-  @Override
-  public void repousserDateTravaux(int idDevis, LocalDate newDate) {
+  private void modifierDateDebut(int idDevis, LocalDate newDate) {
     String query = "UPDATE pae.devis SET date_debut = ? WHERE devis_id = ?";
     PreparedStatement stmt = dal.createStatement(query);
     try {
@@ -664,6 +663,16 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
     } catch (SQLException exception) {
       exception.printStackTrace();
     }
+  }
+
+  @Override
+  public void repousserDateTravaux(int idDevis, LocalDate newDate) {
+    modifierDateDebut(idDevis, newDate);
+  }
+
+  @Override
+  public void confirmerCommandeAmenagement(int idDevis, LocalDate date) {
+    modifierDateDebut(idDevis, date);
   }
 
 }

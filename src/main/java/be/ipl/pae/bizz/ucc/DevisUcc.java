@@ -142,4 +142,13 @@ public interface DevisUcc {
    */
   void repousserDate(int devisId, LocalDate date);
 
+  /**
+   * Permet de confirmer une commande d'aménagement en spécifiant la date de début des travaux.
+   * 
+   * @param idDevis : l'id du devis
+   * @param newEtat : le nouvel état
+   * @param date : la date de début des travaux
+   */
+  void confirmerCommandeAmenagement(int idDevis, String newEtat, LocalDate date);
+
 }

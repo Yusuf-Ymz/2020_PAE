@@ -155,69 +155,6 @@ class DevisUccImpl implements DevisUcc {
     }
   }
 
-  public void changerEtatDevis(int idDevis, String newEtat) {
-    try {
-      dal.startTransaction();
-      DevisDto devis = devisdao.obtenirDevisById(idDevis);
-
-      if (devis == null) {
-        throw new BizException("Le devis n'existe pas");
-      }
-
-      String etatActuel = devis.getEtat();
-
-      if (Etat.ANNULE.getEtat().equalsIgnoreCase(newEtat)) {
-        if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)
-            || Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)
-            || Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(newEtat)
-            || Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
-        if (Etat.VISIBLE.getEtat().equalsIgnoreCase(newEtat)) {
-          devisdao.changerEtatDevis(idDevis, newEtat);
-        } else {
-          throw new BizException("L'état ne peut pas être modifié");
-        }
-      } else if (Etat.VISIBLE.getEtat().equalsIgnoreCase(etatActuel)) {
-        throw new BizException("L'état ne peut pas être modifié");
-      }
-
-      dal.commitTransaction();
-    } catch (Exception exception) {
-      dal.rollbackTransaction();
-      exception.printStackTrace();
-      throw exception;
-    }
-  }
-
-
   @Override
   public PhotoDto insererPhotoApresAmenagement(String strPhoto, int idAmenagement, int idDevis,
       boolean visible, boolean preferee) {
@@ -305,7 +242,6 @@ class DevisUccImpl implements DevisUcc {
 
   @Override
   public List<String> listerAmenagementsTousLesClients(String amenagement) {
-    // TODO Auto-generated method stub
     try {
       dal.startTransaction();
 
@@ -373,6 +309,88 @@ class DevisUccImpl implements DevisUcc {
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  public void changerEtatDevis(int idDevis, String newEtat) {
+    try {
+      dal.startTransaction();
+      DevisDto devis = devisdao.obtenirDevisById(idDevis);
+
+      if (devis == null) {
+        throw new BizException("Le devis n'existe pas");
+      }
+
+      String etatActuel = devis.getEtat();
+
+      if (Etat.ANNULE.getEtat().equalsIgnoreCase(newEtat)) {
+        if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)
+            || Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)
+            || Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.ACOMPTE_PAYE.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(newEtat)
+            || Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.FACTURE_MILIEU_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.VISIBLE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      } else if (Etat.VISIBLE.getEtat().equalsIgnoreCase(etatActuel)) {
+        throw new BizException("L'état ne peut pas être modifié");
+      }
+
+      dal.commitTransaction();
+    } catch (Exception exception) {
+      dal.rollbackTransaction();
+      exception.printStackTrace();
+      throw exception;
+    }
+  }
+
+  public void confirmerCommandeAmenagement(int idDevis, String newEtat, LocalDate date) {
+    try {
+      dal.startTransaction();
+      DevisDto devis = devisdao.obtenirDevisById(idDevis);
+
+      if (devis == null) {
+        throw new BizException("Le devis n'existe pas");
+      }
+
+      String etatActuel = devis.getEtat();
+      if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (Etat.COMMANDE_CONFIRMEE.getEtat().equalsIgnoreCase(newEtat)) {
+          devisdao.changerEtatDevis(idDevis, newEtat);
+        } else {
+          throw new BizException("L'état ne peut pas être modifié");
+        }
+      }
+
+      devisdao.confirmerCommandeAmenagement(idDevis, date);
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      dal.rollbackTransaction();
       throw exception;
     }
   }
