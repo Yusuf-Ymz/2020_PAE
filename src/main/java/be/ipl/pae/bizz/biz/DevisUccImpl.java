@@ -4,7 +4,6 @@ import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.dto.DevisDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.DevisUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.persistance.dal.DalServices;
@@ -28,8 +27,7 @@ class DevisUccImpl implements DevisUcc {
   private ClientDao clientDao;
   @Inject
   private AmenagementDao amenagementDao;
-  @Inject
-  private DtoFactory dtoFact;
+
 
   @Override
   public List<DevisDto> listerTousLesDevis() {
