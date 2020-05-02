@@ -153,9 +153,9 @@ public interface DevisUcc {
 
 
   /**
-   * Permet de supprimer la date debut des travaux
+   * Permet de supprimer la date debut des travaux.
    * 
-   * @param idDevis
+   * @param idDevis : l'id du devis
    */
   void supprimerDateDebutTravaux(int idDevis);
 
