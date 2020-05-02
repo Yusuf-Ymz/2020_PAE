@@ -138,8 +138,10 @@ class Devis implements DevisBiz {
       case "Facture de fin de chantier envoyée":
         this.etat = Etat.FACTURE_FIN_CHANTIER;
         break;
+      case "Absence du paiement de l'acompte":
+        this.etat = Etat.ABSENCE_PAYEMENT_ACOMPTE;
+        break;
       default:
-        this.etat = Etat.NO_ETAT;
         break;
     }
   }

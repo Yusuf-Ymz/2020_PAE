@@ -299,6 +299,9 @@ public class DevisServlet extends HttpServlet {
     Map<String, Object> body = ServletUtils.decoderBodyJson(req);
 
     String action = body.get("action").toString();
+    String json;
+    int status;
+    int devisId = Integer.parseInt(body.get("id").toString());
 
     switch (action) {
       case "insererDevis":
@@ -306,40 +309,69 @@ public class DevisServlet extends HttpServlet {
         break;
 
       case "confirmerCommande":
-        changerEtat(body, resp, action);
+        LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
+        devisUcc.confirmerCommandeAmenagement(devisId, "Commande confirmée", dateDebut);
+        json = "{\"etat\":\"Commande confirmée\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
 
       case "confirmerDateDebut":
-        changerEtat(body, resp, action);
+        devisUcc.changerEtatDevis(devisId, "Acompte payé");
+        json = "{\"etat\":\"Acompte payé\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
 
       case "repousserDateDebut":
-        changerEtat(body, resp, action);
+        String strDate = body.get("newDate").toString();
+        LocalDate date = LocalDate.parse(strDate);
+        devisUcc.repousserDate(devisId, date);
+        json = "{\"etat\":\"Acompte payé\" ,\"date\":\"" + body.get("newDate").toString() + "\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
 
-      case "indiquerFactureMilieuPayee":
-        changerEtat(body, resp, action);
+      case "indiquerFactureMilieuEnvoyee":
+        System.out.println("je passe");
+        devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
+        json = "{\"etat\":\"Facture milieu chantier envoyée\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
 
-      case "indiquerFactureFinPayee":
-        changerEtat(body, resp, action);
+      case "indiquerFactureFinEnvoyee":
+        devisUcc.changerEtatDevis(devisId, "Facture de fin de chantier envoyée");
+        json = "{\"etat\":\"Facture de fin de chantier envoyée\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
+
       case "rendreVisible":
-        changerEtat(body, resp, action);
+        devisUcc.changerEtatDevis(devisId, "Visible");
+        json = "{\"etat\":\"visible\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
+
       case "annulerDemande":
-        changerEtat(body, resp, action);
+        devisUcc.changerEtatDevis(devisId, "Annulé");
+        json = "{\"etat\":\"Annulé\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
       case "supprimerDateDebut":
-        changerEtat(body, resp, action);
+        devisUcc.supprimerDateDebutTravaux(devisId);
+        json = "{\"etat\":\"Absence paiement de l'acompte\"}";
+        status = HttpServletResponse.SC_OK;
+        ServletUtils.sendResponse(resp, json, status);
         break;
       default:
         super.doPost(req, resp);
         break;
+
     }
   }
-
-
 
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
     String err = "";
@@ -392,83 +424,6 @@ public class DevisServlet extends HttpServlet {
     } catch (Exception exception) {
       exception.printStackTrace();
       ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
-    }
-  }
-
-  private void changerEtat(Map<String, Object> body, HttpServletResponse resp, String nouvelEtat) {
-
-    int devisId = Integer.parseInt(body.get("id").toString());
-    String json;
-    int status;
-    try {
-      switch (nouvelEtat) {
-        case "confirmerCommande":
-          LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
-          devisUcc.confirmerCommandeAmenagement(devisId, "Commande confirmée", dateDebut);
-          json = "{\"etat\":\"Commande confirmée\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-
-        case "confirmerDateDebut":
-          devisUcc.changerEtatDevis(devisId, "Acompte payé");
-          json = "{\"etat\":\"Acompte payé\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-
-        case "repousserDateDebut":
-          String strDate = body.get("newDate").toString();
-          LocalDate date = LocalDate.parse(strDate);
-          devisUcc.repousserDate(devisId, date);
-          json = "{\"date\":\"" + body.get("newDate").toString() + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-
-        case "indiquerFactureMilieuPayee":
-          devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
-          json = "{\"etat\":\"Facture milieu chantier envoyée\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-        case "rendreVisible":
-          devisUcc.changerEtatDevis(devisId, "Visible");
-          json = "{\"etat\":\"visible\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-
-        case "annulerDemande":
-          devisUcc.changerEtatDevis(devisId, "Annulé");
-          json = "{\"etat\":\"Annulé\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-        case "supprimerDateDebut":
-          devisUcc.supprimerDateDebutTravaux(devisId);
-          json = "{\"etat\":\"Absence paiement de l'acompte\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-        default:
-          break;
-      }
-    } catch (BizException exception) {
-      exception.printStackTrace();
-      json = "{\"error\":\"" + exception.getMessage() + "\"";
-      status = HttpServletResponse.SC_CONFLICT;
-      ServletUtils.sendResponse(resp, json, status);
-    } catch (FatalException exception) {
-      exception.printStackTrace();
-      json = "{\"error\":\"" + exception.getMessage() + "\"";
-      status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-      ServletUtils.sendResponse(resp, json, status);
-    } catch (Exception exception) {
-      exception.printStackTrace();
-      json = "{\"error\":\"" + exception.getMessage() + "\"";
-      status = HttpServletResponse.SC_BAD_REQUEST;
-      ServletUtils.sendResponse(resp, json, status);
     }
   }
 }

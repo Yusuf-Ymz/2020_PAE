@@ -6,7 +6,7 @@ enum Etat {
       "Commande confirmée"), ACOMPTE_PAYE("Acompte payé"), FACTURE_MILIEU_CHANTIER(
           "Facture de milieu chantier envoyée"), VISIBLE("Visible"), FACTURE_FIN_CHANTIER(
               "Facture de fin de chantier envoyée"), ABSENCE_PAYEMENT_ACOMPTE(
-                  "Absence paiement de l'acompte"), NO_ETAT("");
+                  "Absence du paiement de l'acompte");
 
   private String etat;
 

@@ -327,6 +327,7 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
         fillObject(photoPreferee, rs);
         devis.setPhotoPreferee(photoPreferee);
         devis.setEtat(rs.getString("etat"));
+
       }
       recupererLesAmenagementsDunDevis(devis);
 
@@ -654,7 +655,8 @@ public class DevisDaoImpl extends DaoUtils implements DevisDao {
   }
 
   private void modifierDateDebut(int idDevis, LocalDate newDate) {
-    String query = "UPDATE pae.devis SET date_debut = ? WHERE devis_id = ?";
+    String query =
+        "UPDATE pae.devis SET date_debut = ? , etat='Commande confirmée' WHERE devis_id = ?";
     PreparedStatement stmt = dal.createStatement(query);
     try {
       stmt.setInt(2, idDevis);
