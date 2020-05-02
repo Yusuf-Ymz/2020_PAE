@@ -151,7 +151,6 @@ function onGetConsulterError(err) {
 }
 
 function onPostCheckBox(response) {
-    //console.log(response.etat);
     notify("success", "L'état a bien été mis à jour");
     $('#etatVersionOuvrier').text(response.etat);
 
@@ -274,7 +273,7 @@ $(document).ready(function () {
         if ($(this).is(":checked")) {
             checkBox = $(this);
             const data = {
-                action: "indiquerFactureMilieuPayee",
+                action: "indiquerFactureMilieuEnvoyee",
                 id: devisID
             };
             postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
@@ -285,7 +284,7 @@ $(document).ready(function () {
         if ($(this).is(":checked")) {
             checkBox = $(this);
             const data = {
-                action: "indiquerFactureFinPayee",
+                action: "indiquerFactureFinEnvoyee",
                 id: devisID
             };
             postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
