@@ -331,11 +331,11 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Le devis n'existe pas");
       }
 
-      if (date.isBefore(devis.getDateDevis()) || devis.getDateDevis().isEqual(date)) {
-        throw new BizException("La date doit être postérieure à la date du devis.");
-      }
       String etatActuel = devis.getEtat();
       if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
+        if (date.isBefore(devis.getDateDevis()) || devis.getDateDevis().isEqual(date)) {
+          throw new BizException("La date doit être postérieure à la date du devis.");
+        }
         devisdao.confirmerCommandeAmenagement(idDevis, date);
       } else {
         throw new BizException("L'état ne peut pas être modifié");

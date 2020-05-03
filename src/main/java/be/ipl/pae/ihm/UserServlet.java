@@ -96,11 +96,11 @@ public class UserServlet extends HttpServlet {
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
-      json = "{\"error\":\"" + exception.getMessage() + "\"";
+      json = "{\"error\":\"" + exception.getMessage() + "\"}";
       ServletUtils.sendResponse(resp, json, status);
     } catch (FatalException exception) {
       exception.printStackTrace();
-      json = "{\"error\":\"" + exception.getMessage() + "\"";
+      json = "{\"error\":\"" + exception.getMessage() + "\"}";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     } catch (Exception exception) {
@@ -276,6 +276,9 @@ public class UserServlet extends HttpServlet {
       }
     } catch (Exception exception) {
       exception.printStackTrace();
+      String json = "{\"error\":\"Champs invalides\"}";
+      int status = HttpServletResponse.SC_BAD_REQUEST;
+      ServletUtils.sendResponse(resp, json, status);
     }
   }
 

@@ -162,7 +162,7 @@ class UserUccImpl implements UserUcc {
       dal.startTransaction();
 
       UserDto user = this.userDao.obtenirUserAvecId(userId);
-
+      System.out.println(userId);
       if (user == null) {
         throw new BizException("utilisateur introuvable");
       }

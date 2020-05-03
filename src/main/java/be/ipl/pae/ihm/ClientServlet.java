@@ -105,7 +105,6 @@ public class ClientServlet extends HttpServlet {
           ClientDto client = fact.getClientDto();
           client.setNom(req.getParameter("nom"));
           client.setPrenom(req.getParameter("prenom"));
-          // client.setBoite(req.getParameter("boite"));
           client.setEmail(req.getParameter("email"));
           client.setCodePostal(req.getParameter("cp"));
           client.setTelephone(req.getParameter("telephone"));
@@ -161,13 +160,14 @@ public class ClientServlet extends HttpServlet {
       } else {
         ServletUtils.sendResponse(resp, json, statusCode);
       }
-      // this.listCustomer(req, resp);
     } catch (Exception exception) {
       exception.printStackTrace();
+      String json = "{\"error\":\"Champs invalides\"}";
+      int status = HttpServletResponse.SC_BAD_REQUEST;
+      ServletUtils.sendResponse(resp, json, status);
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -187,7 +187,6 @@ public class ClientServlet extends HttpServlet {
         ClientDto client = fact.getClientDto();
         client.setNom((String) body.get("nom"));
         client.setPrenom((String) body.get("prenom"));
-        // client.setBoite((String) body.get("boite"));
         client.setEmail((String) body.get("email"));
         client.setCodePostal((String) body.get("cp"));
         client.setTelephone((String) body.get("telephone"));

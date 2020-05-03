@@ -78,7 +78,7 @@ function onPostSuccess(response) {
   const actions = {
     "action": 'listeClientsPasUtilisateur'
   };
-  getData("/client", actions, token, onGetLier, onErrorLier);
+  getData("/client", actions, localStorage.getItem("token"), onGetLier, onErrorLier);
 }
 
 function onPostError(response) {
@@ -108,7 +108,7 @@ function onError(err) {
 
 const confirmerOuvrier = (url, data) => {
   data["action"] = 'confirmerInscription/worker';
-  postData(url, data, token, onPostConfirmerOuvrierSuccess, onPostConfirmerOuvrierError);
+  postData(url, data, localStorage.getItem("token"), onPostConfirmerOuvrierSuccess, onPostConfirmerOuvrierError);
 }
 
 function onPostConfirmerOuvrierSuccess() {
@@ -132,7 +132,7 @@ const lierUtilisateurClient = (url, data) => {
   data["action"] = 'recupererUtilisateur';
 
   $("#titre-page").text("Lier les utilisateurs aux clients");
-  getData(url, data, token, onGetUtilisateur, onErrorGetUtilisateur);
+  getData(url, data, localStorage.getItem("token"), onGetUtilisateur, onErrorGetUtilisateur);
 }
 
 function onGetUtilisateur(response) {
@@ -150,7 +150,7 @@ function onGetUtilisateur(response) {
   const actions = {
     action: 'listeClientsPasUtilisateur'
   };
-  getData("/client", actions, token, onGetLier, onErrorLier);
+  getData("/client", actions, localStorage.getItem("token"), onGetLier, onErrorLier);
 }
 
 function onErrorGetUtilisateur(err) {
@@ -184,7 +184,7 @@ const lierUtilisateurClientTable = (url, data) => {
 
   data["action"] = 'confirmerInscription/lierUtilisateurClient'
   data["idUser"] = $("#idUserLier").text();
-  postData(url, data, token, onPostLier, onErrorLier);
+  postData(url, data, localStorage.getItem("token"), onPostLier, onErrorLier);
 }
 
 
