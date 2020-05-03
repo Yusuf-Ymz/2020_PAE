@@ -14,6 +14,7 @@ import com.owlike.genson.Genson;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -306,18 +307,20 @@ public class DevisServlet extends HttpServlet {
       insererDevis(body, resp);
     } else {
       int devisId = Integer.parseInt(body.get("id").toString());
+      String nouvelEtat = "";
       switch (action) {
         case "confirmerCommande":
           LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
-          devisUcc.confirmerCommandeAmenagement(devisId, dateDebut);
-          json = "{\"etat\":\"Commande confirmée\",\"date\":\"" + dateDebut.toString() + "\"}";
+          nouvelEtat = devisUcc.confirmerCommandeAmenagement(devisId, dateDebut);
+          json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
+              + dateDebut.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "confirmerDateDebut":
-          devisUcc.changerEtatDevis(devisId, "Acompte payé");
-          json = "{\"etat\":\"Acompte payé\"}";
+          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Acompte payé");
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
@@ -325,43 +328,44 @@ public class DevisServlet extends HttpServlet {
         case "repousserDateDebut":
           String strDate = body.get("newDate").toString();
           LocalDate date = LocalDate.parse(strDate);
-          devisUcc.repousserDate(devisId, date);
-          json = "{\"etat\":\"Acompte payé\" ,\"date\":\"" + body.get("newDate").toString() + "\"}";
+          nouvelEtat = devisUcc.repousserDate(devisId, date);
+          json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
+              + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "indiquerFactureMilieuEnvoyee":
           System.out.println("je passe");
-          devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
-          json = "{\"etat\":\"Facture milieu chantier envoyée\"}";
+          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "indiquerFactureFinEnvoyee":
-          devisUcc.changerEtatDevis(devisId, "Facture de fin de chantier envoyée");
-          json = "{\"etat\":\"Facture de fin de chantier envoyée\"}";
+          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de fin de chantier envoyée");
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "rendreVisible":
-          devisUcc.changerEtatDevis(devisId, "Visible");
-          json = "{\"etat\":\"Visible\"}";
+          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Visible");
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
 
         case "annulerDemande":
-          devisUcc.changerEtatDevis(devisId, "Annulé");
-          json = "{\"etat\":\"Annulé\"}";
+          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Annulé");
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;
         case "supprimerDateDebut":
-          devisUcc.supprimerDateDebutTravaux(devisId);
-          json = "{\"etat\":\"Absence paiement de l'acompte\"}";
+          nouvelEtat = devisUcc.supprimerDateDebutTravaux(devisId);
+          json = "{\"etat\":\"" + nouvelEtat + "\"}";
           status = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, status);
           break;

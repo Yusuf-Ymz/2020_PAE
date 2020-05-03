@@ -57,8 +57,9 @@ public interface DevisUcc {
    * 
    * @param idDevis : l'id du devis à changer.
    * @param newEtat : le nouvel état.
+   * @return le nouvel état
    */
-  void changerEtatDevis(int idDevis, String newEtat);
+  String changerEtatDevis(int idDevis, String newEtat);
 
 
 
@@ -127,24 +128,27 @@ public interface DevisUcc {
    * 
    * @param devisId : le devis
    * @param date : la nouvelle date à laquelle va débuter les travaux
+   * @return le nouvel état
    */
-  void repousserDate(int devisId, LocalDate date);
+  String repousserDate(int devisId, LocalDate date);
 
   /**
    * Permet de confirmer une commande d'aménagement en spécifiant la date de début des travaux.
    * 
    * @param idDevis : l'id du devis
    * @param date : la date de début des travaux
+   * @return le nouvel état
    */
-  void confirmerCommandeAmenagement(int idDevis, LocalDate date);
+  String confirmerCommandeAmenagement(int idDevis, LocalDate date);
 
 
   /**
    * Permet de supprimer la date debut des travaux.
    * 
    * @param idDevis : l'id du devis
+   * @return le nouvel état
    */
-  void supprimerDateDebutTravaux(int idDevis);
+  String supprimerDateDebutTravaux(int idDevis);
 
 
 }

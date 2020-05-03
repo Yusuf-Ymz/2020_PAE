@@ -261,7 +261,7 @@ class DevisUccImpl implements DevisUcc {
   }
 
   @Override
-  public void changerEtatDevis(int idDevis, String newEtat) {
+  public String changerEtatDevis(int idDevis, String newEtat) {
     try {
       dal.startTransaction();
       DevisDto devis = devisdao.obtenirDevisById(idDevis);
@@ -297,7 +297,6 @@ class DevisUccImpl implements DevisUcc {
         if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(newEtat)) {
           devisdao.changerEtatDevis(idDevis, newEtat);
         } else {
-          System.out.println("la");
           throw new BizException("L'état ne peut pas être modifié");
         }
       } else if (Etat.FACTURE_FIN_CHANTIER.getEtat().equalsIgnoreCase(etatActuel)) {
@@ -313,6 +312,8 @@ class DevisUccImpl implements DevisUcc {
       }
 
       dal.commitTransaction();
+
+      return newEtat;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
@@ -321,7 +322,7 @@ class DevisUccImpl implements DevisUcc {
   }
 
   @Override
-  public void confirmerCommandeAmenagement(int idDevis, LocalDate date) {
+  public String confirmerCommandeAmenagement(int idDevis, LocalDate date) {
     try {
       dal.startTransaction();
       DevisDto devis = devisdao.obtenirDevisById(idDevis);
@@ -330,6 +331,9 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Le devis n'existe pas");
       }
 
+      if (date.isBefore(devis.getDateDevis()) || devis.getDateDevis().isEqual(date)) {
+        throw new BizException("La date doit être postérieure à la date du devis.");
+      }
       String etatActuel = devis.getEtat();
       if (Etat.INTRODUIT.getEtat().equalsIgnoreCase(etatActuel)) {
         devisdao.confirmerCommandeAmenagement(idDevis, date);
@@ -337,6 +341,8 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("L'état ne peut pas être modifié");
       }
       dal.commitTransaction();
+
+      return Etat.COMMANDE_CONFIRMEE.getEtat();
     } catch (Exception exception) {
       exception.printStackTrace();
       dal.rollbackTransaction();
@@ -345,7 +351,7 @@ class DevisUccImpl implements DevisUcc {
   }
 
   @Override
-  public void repousserDate(int devisId, LocalDate date) {
+  public String repousserDate(int devisId, LocalDate date) {
     try {
       dal.startTransaction();
       DevisDto devis = devisdao.obtenirDevisById(devisId);
@@ -357,11 +363,6 @@ class DevisUccImpl implements DevisUcc {
         throw new BizException("Vous ne pouvez pas repousser la date de début des travaux");
       }
 
-      if (devis.getDateDebut() != null && date.isBefore(devis.getDateDebut())
-          && date.isEqual(devis.getDateDebut())) {
-        throw new BizException("La date doit être postérieure à la date du début des travaux.");
-      }
-
       if (date.isBefore(devis.getDateDevis()) || devis.getDateDevis().isEqual(date)) {
         throw new BizException("La date doit être postérieure à la date du devis.");
       }
@@ -369,6 +370,8 @@ class DevisUccImpl implements DevisUcc {
       devisdao.repousserDateTravaux(devisId, date);
 
       dal.commitTransaction();
+
+      return Etat.COMMANDE_CONFIRMEE.getEtat();
     } catch (Exception exception) {
       exception.printStackTrace();
       dal.rollbackTransaction();
@@ -378,7 +381,7 @@ class DevisUccImpl implements DevisUcc {
 
 
   @Override
-  public void supprimerDateDebutTravaux(int idDevis) {
+  public String supprimerDateDebutTravaux(int idDevis) {
 
     try {
       dal.startTransaction();
@@ -394,8 +397,10 @@ class DevisUccImpl implements DevisUcc {
 
 
       devisdao.supprimerDateDebutTravaux(idDevis, Etat.ABSENCE_PAYEMENT_ACOMPTE.getEtat());
+
       dal.commitTransaction();
 
+      return Etat.ABSENCE_PAYEMENT_ACOMPTE.getEtat();
     } catch (Exception exception) {
       exception.printStackTrace();
       dal.rollbackTransaction();

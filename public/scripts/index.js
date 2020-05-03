@@ -20,8 +20,7 @@ $(document).ready(function () {
     $('.slide-nav').toggleClass("active");
     e.preventDefault();
   });
-  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
-
+  
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
     getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
@@ -32,11 +31,6 @@ $(document).ready(function () {
       HideToHomeWhenNotConnect();
     }
   });
-
-
-
-
-
 
   $("#selectAmenagementAccueil").click(function (e) {
     e.preventDefault();
@@ -167,7 +161,6 @@ function abortPreviousRequest() {
 }
 
 const HideToHomeWhenNotConnect = () => {
-  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
   remplirCarrousel(token);
   $(".user-info").hide();
   $("#nav_connect").show();
@@ -364,7 +357,6 @@ const initialisation = () => {
     getDataWithoutLoader('/user', data, token, HideToHomeWhenConnect, onErrorRefresh);
     return token;
   } else {
-    getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
     HideToHomeWhenNotConnect();
     return;
   }

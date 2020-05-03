@@ -214,37 +214,32 @@ function onGetConsulterError(err) {
 function onPostCheckBox(response) {
     notify("success", "L'état a bien été mis à jour");
     $('#etatVersionOuvrier').text(response.etat);
-
     etatDevis = response.etat;
-   
-    let data = {
-        devisId: devisID
-    }
-
-    consulterDevisEntantQueOuvrier("/devis", data);
-
+    hideTheRightCheckBoxForState(etatDevis);
 }
 
 function onNewDate(response) {
-    notify("success", "La date a bien été repoussée");
+    notify("success", "La date de début des travaux a bien été modifiée");
     $('#dateDebutVersionOuvrier').text(response.date);
-    console.log(response.date);
-    let data = {
-        devisId: devisID
-    }
+    $('#etatVersionOuvrier').text(response.etat);
+    etatDevis = response.etat;
+    hideTheRightCheckBoxForState(etatDevis);
+}
 
-    consulterDevisEntantQueOuvrier("/devis", data);
+function onDeleteDate(response){
+    notify("success", "La date a bien été supprimée");
+    $('#dateDebutVersionOuvrier').text("-");
+    $('#etatVersionOuvrier').text(response.etat);
+    etatDevis = response.etat;
+    hideTheRightCheckBoxForState(etatDevis);
 }
 
 function onNewDateCommande(response) {
     notify("success", "L'état a bien été mis à jour");
     $('#dateDebutVersionOuvrier').text(response.date);
-    console.log(response.date);
-    let data = {
-        devisId: devisID
-    }
-
-    consulterDevisEntantQueOuvrier("/devis", data);
+    $('#etatVersionOuvrier').text(response.etat);
+    etatDevis = response.etat;
+    hideTheRightCheckBoxForState(etatDevis);
 }
 
 
@@ -326,7 +321,7 @@ $(document).ready(function () {
                 id: devisID
             }
 
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            postData("/devis", data, localStorage.getItem("token"), onDeleteDate, onCheckBoxError);
         }
 
     });
