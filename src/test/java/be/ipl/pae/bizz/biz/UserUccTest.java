@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.annotation.Inject;
-import be.ipl.pae.bizz.biz.DtoFactoryImpl;
-import be.ipl.pae.bizz.biz.UserUccImpl;
 import be.ipl.pae.bizz.dto.UserDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.UserUcc;
@@ -187,41 +185,48 @@ class UserUccTest {
     assertTrue(ucc.listerUtilisateursAvecCriteres("yaffa", "elie", null).size() > 0);
     assertTrue(ucc.listerUtilisateursAvecCriteres("okou", "gnakouri", "bxl").size() > 0);
   }
-  //////
+
 
   @Test
   public void testlisterNomsUtilisateursNonConfirmeOk() {
-    this.testlisterNomsUtilisateursOk();
+    assertTrue(ucc.listerNomsUtilisateursNonConfirme("test").size() > 0);
   }
 
   @Test
   public void testlisterNomsUtilisateursNonConfirmeVide() {
-    this.testlisterNomsUtilisateursVide();
+    assertTrue(ucc.listerNomsUtilisateursNonConfirme("yusuf").size() == 0);
   }
 
   @Test
   public void testlisterPrenomsUtilisateursNonConfirmeOk() {
-    this.testlisterPrenomsUtilisateursOk();
+    assertTrue(ucc.listerPrenomsUtilisateursNonConfirme("test").size() > 0);
   }
 
   @Test
   public void testlisterPrenomsUtilisateursNonConfirmeVide() {
-    this.testlisterPrenomsUtilisateursVide();
+    assertTrue(ucc.listerNomsUtilisateursNonConfirme("yusuf").size() == 0);
   }
 
   @Test
   public void testlisterVillesUtilisateursNonConfirmeOk() {
-    this.testlisterVillesUtilisateursOk();
+    assertTrue(ucc.listerVillesUtilisateursNonConfirme("test").size() > 0);
   }
 
   @Test
   public void testlisterVillesUtilisateursNonConfirmeVide() {
-    this.testlisterVillesUtilisateursVide();
+    assertTrue(ucc.listerVillesUtilisateursNonConfirme("yusuf").size() == 0);
   }
 
   @Test
   public void testlisterUtilisateursNonConfirmeAvecCriteres() {
-    this.testlisterUtilisateursAvecCriteres();
+    assertTrue(ucc.listerUtilisateursNonConfirmeAvecCriteres("yilmaz", null, null).size() > 0);
+    assertTrue(ucc.listerUtilisateursNonConfirmeAvecCriteres("yilmaz", "yusuf", null).size() == 0);
+    assertTrue(
+        ucc.listerUtilisateursNonConfirmeAvecCriteres("yilmaz", "yusuf", "paris").size() == 0);
+
+    assertTrue(ucc.listerUtilisateursNonConfirmeAvecCriteres("yaffa", "elie", null).size() > 0);
+    assertTrue(ucc.listerUtilisateursNonConfirmeAvecCriteres("okou", "gnakouri", "bxl").size() > 0);
+
   }
 
 

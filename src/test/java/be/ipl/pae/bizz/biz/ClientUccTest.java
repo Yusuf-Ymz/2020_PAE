@@ -111,34 +111,51 @@ class ClientUccTest {
 
   @Test
   void testlisterClientNonLieAvecCriteresOk() {
-    this.testListerClientsAvecCriteresOk();
+    assertTrue(this.clientUcc
+        .listerClientsNonLieAvecCriteres("Terieur", "Alex", "Bruxelles", "1070").size() == 1);
+    assertTrue(this.clientUcc.listerClientsNonLieAvecCriteres("Terieur", "Alain", "Liege", "4031")
+        .size() == 1);
+    assertTrue(this.clientUcc.listerClientsNonLieAvecCriteres("Croche", "Sara", "Bruxelles", "1020")
+        .size() == 1);
+    assertTrue(this.clientUcc.listerClientsNonLieAvecCriteres("Menvussa", "Gerard", "Namur", "5000")
+        .size() == 1);
+    assertTrue(this.clientUcc
+        .listerClientsNonLieAvecCriteres("Voir", "Rihanna", "Bruxelles", "1000").size() == 1);
   }
 
   @Test
   void testlisterClientNonLieAvecCriteresVide() {
-    this.testListerClientsAvecCriteresVide();
+    assertEquals(0,
+        this.clientUcc.listerClientsNonLieAvecCriteres("nom1", "prenom1", "ville1", "cp1").size());
   }
 
 
   @Test
   void testListerNomsClientsNonlieOk() {
-    this.testListerNomsClientsOk();
+    List<String> liste = clientUcc.listerNomsClientsNonLie("so");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
 
   @Test
   void testListerPrenomsClientsNonLieOk() {
-    this.testListerPrenomsClientsOk();
+    List<String> liste = clientUcc.listerPrenomsClientsNonLie("so");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
   @Test
   void testListerVillesNonLieOk() {
-    this.testListerVillesOk();
+    List<String> liste = this.clientUcc.listerVillesClientsNonLie("br");
+    assertNotNull(liste);
+    assertEquals(2, liste.size());
   }
 
   @Test
   void testListerCpNonLieOk() {
-    this.testListerCpOk();
+    assertNotNull(this.clientUcc.listerCpClientsNonLie("10"));
+    assertEquals(2, this.clientUcc.listerCpClientsNonLie("10").size());
   }
 
 
