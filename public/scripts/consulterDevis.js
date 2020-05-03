@@ -100,7 +100,7 @@ function hideTheRightCheckBoxForState(state) {
 
     switch (state) {
         case "Commande confirmée":
-            console.log("je passe");
+
             $("#hideCheckBox2").show();
             $("#hideCheckBox3").show();
             $("#hideCheckBox4").show();
@@ -115,12 +115,12 @@ function hideTheRightCheckBoxForState(state) {
 
             $("#hideCheckBox5").show();
             $("#hideCheckBox6").show();
-            $("#hideCheckBox7").show();
+
             break;
         case "Facture de milieu chantier envoyée":
 
             $("#hideCheckBox6").show();
-            $("#hideCheckBox7").show();
+
             $("#annulerDemande").hide();
             break;
         case "Facture de fin de chantier envoyée":
@@ -133,6 +133,9 @@ function hideTheRightCheckBoxForState(state) {
             $("#noCheckbox").hide();
             $("#changeSizeRow").css("width", "50%");
             $("#hideDropContainer").css("margin-top", "-15%");
+            break;
+        case "Annulé":
+            $("#annulerDemande").hide();
             break;
         default:
             $("#hideCheckBox1").show();
@@ -177,12 +180,12 @@ function onGetConsulterDevisOuvrier(response) {
             tablePhotosAvant.appendChild(tr);
         }
         let td = document.createElement("td");
-       
-      
+
+
         td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'id='" + photosAvantJson[i]['Photo id'] + "'/>";
 
         tr.appendChild(td);
-   
+
 
     }
 
@@ -211,7 +214,14 @@ function onGetConsulterError(err) {
 function onPostCheckBox(response) {
     notify("success", "L'état a bien été mis à jour");
     $('#etatVersionOuvrier').text(response.etat);
+
     etatDevis = response.etat;
+   
+    let data = {
+        devisId: devisID
+    }
+
+    consulterDevisEntantQueOuvrier("/devis", data);
 
 }
 
@@ -219,12 +229,22 @@ function onNewDate(response) {
     notify("success", "La date a bien été repoussée");
     $('#dateDebutVersionOuvrier').text(response.date);
     console.log(response.date);
+    let data = {
+        devisId: devisID
+    }
+
+    consulterDevisEntantQueOuvrier("/devis", data);
 }
 
 function onNewDateCommande(response) {
     notify("success", "L'état a bien été mis à jour");
     $('#dateDebutVersionOuvrier').text(response.date);
     console.log(response.date);
+    let data = {
+        devisId: devisID
+    }
+
+    consulterDevisEntantQueOuvrier("/devis", data);
 }
 
 
