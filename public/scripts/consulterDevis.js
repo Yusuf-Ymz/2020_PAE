@@ -1,8 +1,8 @@
 import { getData, postData } from "./utilsAPI.js";
-import { homeWorker,HomeUser } from "./index.js";
+import { homeWorker, HomeUser } from "./index.js";
 import { ajouterPhotoApresAmenagement, ajouterPhoto, viderLesPhotoApresAmenagement, setAmenagements } from "./insererPhoto.js"
 import notify from "./utils.js";
-let checkBox;
+
 let etatDevis;
 let token = localStorage.getItem("token");
 let devisID = -1;
@@ -27,7 +27,7 @@ function consulterDevisEntantQueClient(url, data) {
     data["action"] = "consulterDevisEnTantQueClient";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
-    
+
     $('.client').val("");
     $("#searchCard").show();
     $('#searchContent').hide();
@@ -226,7 +226,7 @@ function onNewDate(response) {
     hideTheRightCheckBoxForState(etatDevis);
 }
 
-function onDeleteDate(response){
+function onDeleteDate(response) {
     notify("success", "La date a bien été supprimée");
     $('#dateDebutVersionOuvrier').text("-");
     $('#etatVersionOuvrier').text(response.etat);
@@ -245,7 +245,6 @@ function onNewDateCommande(response) {
 
 function onCheckBoxError(response) {
     console.log(response);
-    checkBox.prop('checked', false);
     notify("error", "Les modifications n'ont pas pu être effectuées");
 }
 
@@ -294,104 +293,89 @@ $(document).ready(function () {
         ajouterPhotoApresAmenagement(file, devisID);
     });
 
-    $('#confirmerCommande').change(function () {
-        checkBox = $(this);
-        if ($(this).is(":checked")) {
-            if ($("#inputDateDebut").val() != "") {
-                const data = {
-                    action: "confirmerCommande",
-                    date: $("#inputDateDebut").val(),
-                    id: devisID
-                };
-                postData("/devis", data, localStorage.getItem("token"), onNewDateCommande, onCheckBoxError);
-            } else {
-                checkBox.prop('checked', false);
-                notify("error", "Veuillez saisir une date valide");
-            }
-        }
-    });
+    $('#confirmerCommande').click(function () {
 
-    $("#supprimerDateDebut").change(function () {
-        if ($(this).is(":checked")) {
-
-            checkBox = ($(this));
-
+        if ($("#inputDateDebut").val() != "") {
             const data = {
-                action: "supprimerDateDebut",
-                id: devisID
-            }
-
-            postData("/devis", data, localStorage.getItem("token"), onDeleteDate, onCheckBoxError);
-        }
-
-    });
-
-    $('#confirmerDateDebut').change(function () {
-        if ($(this).is(":checked")) {
-            checkBox = $(this);
-            const data = {
-                action: "confirmerDateDebut",
+                action: "confirmerCommande",
+                date: $("#inputDateDebut").val(),
                 id: devisID
             };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            postData("/devis", data, localStorage.getItem("token"), onNewDateCommande, onCheckBoxError);
+        } else {
+            notify("error", "Veuillez saisir une date valide");
         }
+
     });
 
-    $('#repousserDateDebut').change(function () {
-        if ($(this).is(":checked")) {
-            checkBox = $(this);
-            if ($("#inputRepousser").val() != "") {
-                const data = {
-                    action: "repousserDateDebut",
-                    newDate: $("#inputRepousser").val(),
-                    id: devisID
-                };
-                postData("/devis", data, localStorage.getItem("token"), onNewDate, onCheckBoxError);
-            } else {
-                checkBox.prop('checked', false);
-                notify("error", "Veuillez saisir une date valide");
-            }
+    $("#supprimerDateDebut").click(function () {
+
+        const data = {
+            action: "supprimerDateDebut",
+            id: devisID
         }
+
+        postData("/devis", data, localStorage.getItem("token"), onDeleteDate, onCheckBoxError);
+
     });
 
-    $('#indiquerFactureMilieu').change(function () {
-        if ($(this).is(":checked")) {
-            checkBox = $(this);
+    $('#confirmerDateDebut').click(function () {
+        const data = {
+            action: "confirmerDateDebut",
+            id: devisID
+        };
+        postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+    });
+
+    $('#repousserDateDebut').click(function () {
+
+        if ($("#inputRepousser").val() != "") {
             const data = {
-                action: "indiquerFactureMilieuEnvoyee",
+                action: "repousserDateDebut",
+                newDate: $("#inputRepousser").val(),
                 id: devisID
             };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+            postData("/devis", data, localStorage.getItem("token"), onNewDate, onCheckBoxError);
+        } else {
+            notify("error", "Veuillez saisir une date valide");
         }
+
+    });
+
+    $('#indiquerFactureMilieu').click(function () {
+
+        const data = {
+            action: "indiquerFactureMilieuEnvoyee",
+            id: devisID
+        };
+        postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+
     })
 
-    $('#indiquerFactureFin').change(function () {
-        if ($(this).is(":checked")) {
-            checkBox = $(this);
-            const data = {
-                action: "indiquerFactureFinEnvoyee",
-                id: devisID
-            };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
-        }
+    $('#indiquerFactureFin').click(function () {
+
+        const data = {
+            action: "indiquerFactureFinEnvoyee",
+            id: devisID
+        };
+        postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+
     })
 
-    $('#rendreVisible').change(function () {
-        if ($(this).is(":checked")) {
-            hideTheRightCheckBoxForState("Visible");
+    $('#rendreVisible').click(function () {
 
-            checkBox = $(this);
-            const data = {
-                action: "rendreVisible",
-                id: devisID
-            };
-            postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
-        }
+        hideTheRightCheckBoxForState("Visible");
+
+        const data = {
+            action: "rendreVisible",
+            id: devisID
+        };
+        postData("/devis", data, localStorage.getItem("token"), onPostCheckBox, onCheckBoxError);
+
     })
 
     $('#annulerDemande').click(function () {
         console.log("Click");
-        checkBox = $(this);
         const data = {
             action: "annulerDemande",
             id: devisID

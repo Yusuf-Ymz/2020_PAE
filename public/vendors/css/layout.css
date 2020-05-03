@@ -422,7 +422,7 @@ svg {
 
 }
 
-#checkBox1:hover ~ .checkBox1 {
+#confirmerCommande:hover ~ .checkBox1 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -431,7 +431,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox2:hover ~ .checkBox2{
+#repousserDateDebut:hover ~ .checkBox2{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -440,7 +440,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox3:hover  ~ .checkBox3{
+#supprimerDateDebut:hover  ~ .checkBox3{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -449,7 +449,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox4:hover ~ .checkBox4 {
+#confirmerDateDebut:hover ~ .checkBox4 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -458,7 +458,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox5:hover ~ .checkBox5 {
+#indiquerFactureMilieu:hover ~ .checkBox5 {
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -467,7 +467,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox6:hover  ~ .checkBox6{
+#indiquerFactureFin:hover  ~ .checkBox6{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -476,7 +476,7 @@ svg {
   animation-name: shakeAnim;
 }
 
-#checkBox7:hover  ~ .checkBox7{
+#rendreVisible:hover  ~ .checkBox7{
   position: relative;
   animation-name: shake;
   animation-duration: 5s;
@@ -510,4 +510,5 @@ svg {
   6% {left: 3px}
   7% {left: 0}
 }
+
 
