@@ -25,7 +25,7 @@ $(document).ready(function () {
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
     getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
-    remplirCarrousel(token);
+
     if (token)
       HideToCarousel();
     else {
@@ -61,7 +61,7 @@ $(document).ready(function () {
     })
     HideToHomeWhenNotConnect();
   });
-  
+
   $('#rechercher_tous_les_devis').on('click', function (e) {
     homeWorker("");
     let token = localStorage.getItem("token");
@@ -167,6 +167,7 @@ function abortPreviousRequest() {
 }
 
 const HideToHomeWhenNotConnect = () => {
+  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
   remplirCarrousel(token);
   $(".user-info").hide();
   $("#nav_connect").show();
@@ -186,7 +187,7 @@ const HideToHomeWhenNotConnect = () => {
 }
 
 const firstViewWorker = () => {
-  
+
   homeWorker("");
   let token = localStorage.getItem("token");
   console.log("token = " + token);
@@ -199,7 +200,7 @@ const firstViewWorker = () => {
 
 //premier page que l'utilisateur voit quand il se connecte!!!
 const firstViewUser = () => {
-  
+
   HomeUser("");
   let token = localStorage.getItem("token");
 
@@ -324,7 +325,7 @@ const HomeUser = (response = "") => {
     }
   }
 
-  
+
 }
 
 const homeWorker = (response = "") => {
@@ -343,7 +344,7 @@ const homeWorker = (response = "") => {
     }
   }
 
- 
+
 
   if (window.glob.ouvrier === true) {
     $("#slide-menu").show();
@@ -460,14 +461,16 @@ function afficherCarrousel(response) {
 function onErrorRefresh(err) {
   console.error(err);
   $('#loader').hide();
-  Swal.fire({
-    position: 'top-end',
-    icon: 'error',
-    timerProgressBar: true,
-    title: err.responseJSON.error,
-    showConfirmButton: false,
-    timer: 1500
-  })
+  if (err.responseJSON) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      timerProgressBar: true,
+      title: err.responseJSON.error,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
 }
 
 function fillCardUserInfos(pseudo, name, city, email, date) {
@@ -495,4 +498,4 @@ function dateFormating(date) {
 
 }
 
-export { HomeUser, homeWorker, fillCardUserInfos, afficherVueConfirmerUtilisateur ,firstViewWorker, firstViewUser};
+export { HomeUser, homeWorker, fillCardUserInfos, afficherVueConfirmerUtilisateur, firstViewWorker, firstViewUser };

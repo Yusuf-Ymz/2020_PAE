@@ -387,7 +387,7 @@ public class DevisServlet extends HttpServlet {
       final int nbJours = Integer.parseInt(body.get("nbJours").toString());
       final String amenagements = body.get("amenagements").toString();
       if (amenagements.equals("[]")) {
-        err = "Veuillez renseigner des aménagements";
+        err = "Veuillez renseigner au moins un aménagement";
         ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
         return;
       }
