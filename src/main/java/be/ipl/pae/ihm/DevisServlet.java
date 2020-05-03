@@ -115,11 +115,11 @@ public class DevisServlet extends HttpServlet {
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       ServletUtils.sendResponse(resp, json, status);
     } catch (FatalException exception) {
       exception.printStackTrace();
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     }
@@ -295,87 +295,94 @@ public class DevisServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    // super.doPost(req, resp);
-    // TODO il faut tester si c'est un ouvrier
-    Map<String, Object> body = ServletUtils.decoderBodyJson(req);
 
-    String action = body.get("action").toString();
-    String json;
-    int status;
 
-    if (action.equalsIgnoreCase("insererDevis")) {
-      insererDevis(body, resp);
-    } else {
-      int devisId = Integer.parseInt(body.get("id").toString());
-      String nouvelEtat = "";
-      switch (action) {
-        case "confirmerCommande":
-          LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
-          nouvelEtat = devisUcc.confirmerCommandeAmenagement(devisId, dateDebut);
-          json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
-              + dateDebut.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
+    String token = req.getHeader("Authorization");
+    int idUser = ServletUtils.estConnecte(token);
+    String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+    int status = HttpServletResponse.SC_UNAUTHORIZED;
+    if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
+      Map<String, Object> body = ServletUtils.decoderBodyJson(req);
 
-        case "confirmerDateDebut":
-          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Acompte payé");
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
+      String action = body.get("action").toString();
 
-        case "repousserDateDebut":
-          String strDate = body.get("newDate").toString();
-          LocalDate date = LocalDate.parse(strDate);
-          nouvelEtat = devisUcc.repousserDate(devisId, date);
-          json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
-              + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
 
-        case "indiquerFactureMilieuEnvoyee":
-          System.out.println("je passe");
-          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
 
-        case "indiquerFactureFinEnvoyee":
-          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de fin de chantier envoyée");
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
+      if (action.equalsIgnoreCase("insererDevis")) {
+        insererDevis(body, resp);
+      } else {
+        int devisId = Integer.parseInt(body.get("id").toString());
+        String nouvelEtat = "";
+        switch (action) {
+          case "confirmerCommande":
+            LocalDate dateDebut = LocalDate.parse(body.get("date").toString());
+            nouvelEtat = devisUcc.confirmerCommandeAmenagement(devisId, dateDebut);
+            json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
+                + dateDebut.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
 
-        case "rendreVisible":
-          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Visible");
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
+          case "confirmerDateDebut":
+            nouvelEtat = devisUcc.changerEtatDevis(devisId, "Acompte payé");
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
 
-        case "annulerDemande":
-          nouvelEtat = devisUcc.changerEtatDevis(devisId, "Annulé");
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-        case "supprimerDateDebut":
-          nouvelEtat = devisUcc.supprimerDateDebutTravaux(devisId);
-          json = "{\"etat\":\"" + nouvelEtat + "\"}";
-          status = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, status);
-          break;
-        default:
-          super.doPost(req, resp);
-          break;
+          case "repousserDateDebut":
+            String strDate = body.get("newDate").toString();
+            LocalDate date = LocalDate.parse(strDate);
+            nouvelEtat = devisUcc.repousserDate(devisId, date);
+            json = "{\"etat\":\"" + nouvelEtat + "\",\"date\":\""
+                + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
 
+          case "indiquerFactureMilieuEnvoyee":
+            System.out.println("je passe");
+            nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
+
+          case "indiquerFactureFinEnvoyee":
+            nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de fin de chantier envoyée");
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
+
+          case "rendreVisible":
+            nouvelEtat = devisUcc.changerEtatDevis(devisId, "Visible");
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
+
+          case "annulerDemande":
+            nouvelEtat = devisUcc.changerEtatDevis(devisId, "Annulé");
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
+          case "supprimerDateDebut":
+            nouvelEtat = devisUcc.supprimerDateDebutTravaux(devisId);
+            json = "{\"etat\":\"" + nouvelEtat + "\"}";
+            status = HttpServletResponse.SC_OK;
+            ServletUtils.sendResponse(resp, json, status);
+            break;
+          default:
+            super.doPost(req, resp);
+            break;
+
+        }
       }
+    } else {
+      ServletUtils.sendResponse(resp, json, status);
     }
-
   }
 
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {

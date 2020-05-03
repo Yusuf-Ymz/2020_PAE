@@ -3,6 +3,7 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.annotation.Inject;
 import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.ucc.PhotoUcc;
+import be.ipl.pae.bizz.ucc.UserUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.exception.FatalException;
 
@@ -22,7 +23,8 @@ public class PhotoServlet extends HttpServlet {
 
   @Inject
   private PhotoUcc photoUcc;
-
+  @Inject
+  private UserUcc userUcc;
   private Genson genson;
   private static final long serialVersionUID = 1L;
 
@@ -48,18 +50,18 @@ public class PhotoServlet extends HttpServlet {
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       ServletUtils.sendResponse(resp, json, status);
     } catch (FatalException exception) {
       exception.printStackTrace();
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     }
   }
 
   private void listerPhotoParAmenagement(HttpServletRequest req, HttpServletResponse resp) {
-    String json = "\"error\":\"Erreur champ aménagement\"";
+    String json = "{\"error\":\"Erreur champ aménagement\"}";
     try {
       int idAmenagement = Integer.parseInt(req.getParameter("amenagement").toString());
 
@@ -105,29 +107,38 @@ public class PhotoServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     try {
-      Map<String, Object> body = ServletUtils.decoderBodyJson(req);
-      String action = body.get("action").toString();
+      String token = req.getHeader("Authorization");
+      int idUser = ServletUtils.estConnecte(token);
+      String json = "{\"error\":\"Vous n'avez pas accès à ces informations\"}";
+      int status = HttpServletResponse.SC_UNAUTHORIZED;
+      if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
+        Map<String, Object> body = ServletUtils.decoderBodyJson(req);
+        String action = body.get("action").toString();
 
-      switch (action) {
-        case "ajouterPhotoApresAmenagement":
-          ajouterPhotoApresApresAmenagement(body, resp);
-          break;
-        default:
-          super.doPost(req, resp);
-          break;
+        switch (action) {
+          case "ajouterPhotoApresAmenagement":
+            ajouterPhotoApresApresAmenagement(body, resp);
+            break;
+          default:
+            super.doPost(req, resp);
+            break;
+        }
+      } else {
+        ServletUtils.sendResponse(resp, json, status);
       }
-
     } catch (BizException exception) {
       exception.printStackTrace();
       int status = HttpServletResponse.SC_FORBIDDEN;
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       ServletUtils.sendResponse(resp, json, status);
     } catch (FatalException exception) {
       exception.printStackTrace();
-      String json = "{\"error\":\"" + exception.getMessage() + "\"";
+      String json = "{\"error\":\"" + exception.getMessage() + "\"}";
       int status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       ServletUtils.sendResponse(resp, json, status);
     }
+
+
   }
 
   private void ajouterPhotoApresApresAmenagement(Map<String, Object> body,
@@ -137,7 +148,7 @@ public class PhotoServlet extends HttpServlet {
     int idDevis = Integer.parseInt(body.get("idDevis").toString());
     boolean visible = Boolean.parseBoolean(body.get("photoVisible").toString());
     boolean preferee = Boolean.parseBoolean(body.get("photoPreferee").toString());
-    String json = "{\"error\":\"Erreur du serveur\"";
+    String json = "{\"error\":\"Erreur du serveur\"}";
     try {
       final PhotoDto newPhoto =
           photoUcc.insererPhotoApresAmenagement(photo, idAmenagement, idDevis, visible, preferee);

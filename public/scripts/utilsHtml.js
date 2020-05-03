@@ -5,6 +5,10 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
   let div_container = document.getElementById(containerElementId);
   div_container.innerHTML = "";
   $("#" + containerElementId).show();
+  if(arrayToPrint.length == 0){
+    div_container.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">Aucun résultat trouvé</div>";
+    return;
+  }
   let table = document.createElement("table");
 
   table.className = "table table-bordered";
@@ -18,7 +22,8 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
 
   let headers = arrayToPrint[0];
   for (const attribute in headers) {
-    if (attribute !== idNom) {
+
+    if (attribute !== idNom && attribute !== "N° utilisateur") {
       let th = document.createElement("th");
       th.innerHTML = attribute;
       tr.appendChild(th);
@@ -77,7 +82,7 @@ function printTable(containerElementId, arrayToPrint, tabButtonValue = [], idNom
         monChamp.innerHTML = element[propriete];
       }
 
-      if (propriete !== "userId") {
+      if (propriete !== "N° utilisateur") {
         trData.appendChild(monChamp);
       }
     }
