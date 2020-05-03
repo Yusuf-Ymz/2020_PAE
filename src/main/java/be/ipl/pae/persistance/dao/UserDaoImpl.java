@@ -284,7 +284,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     nom = nom.replace("%", "\\" + "%");
     nom += "%";
     String query = "SELECT DISTINCT u.nom FROM pae.utilisateurs u "
-        + "WHERE LOWER(u.nom) LIKE LOWER (?) AND u.confirme ='false'";
+        + "WHERE LOWER(u.nom) LIKE LOWER (?) AND u.confirme ='false' ";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> noms = new ArrayList<String>();
