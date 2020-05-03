@@ -422,11 +422,6 @@ svg {
 
 }
 
-#checkBox-delete{
- 
-  cursor: pointer;
-}
-
 #checkBox1:hover ~ .checkBox1 {
   position: relative;
   animation-name: shake;

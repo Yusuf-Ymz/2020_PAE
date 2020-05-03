@@ -38,12 +38,12 @@
                     <p class="d-inline text-dark font-weight-bold">L'état d'avancement:</p>
                     <p class="d-inline client" id="etatVersionClient"></p>
                 </div>
-                Photo(s) avant aménagements:
+                <h6 class="text-dark font-weight-bold">Photo(s) avant aménagements:</h6>
                 <table id="photosAvantVersionClient" class="table-responsive client">
                 </table>
             </div>
             <div class="col-6">
-                Photo(s) après aménagements:
+                <h6 class="text-dark font-weight-bold">Photo(s) après aménagements:</h6>
                 <table id="photosApresVersionClient" class="table-responsive client">
                 </table>
             </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="container-fluid" id="versionOuvrier">
-        <div class="row m-0">
+        <div class="row m-0 " id="changeSizeRow">
             <div class="col-6">
                 <div id="nomClientDevisVersionOuvrier">
                     <p class="d-inline text-dark font-weight-bold"> Nom: </p>
@@ -89,14 +89,13 @@
                     <p class="d-inline ouvrier" id="etatVersionOuvrier">
                     </p>
                 </div>
-                Photo(s) avant aménagements:
+                <h6 class="text-dark font-weight-bold"> Photo(s) avant aménagements: </h6>
                 <table id="photosAvantVersionOuvrier" class="table-responsive ouvrier">
                 </table>
             </div>
-            <div class="col-6">
-                <div class="row divColorCheckBox">
+            <div class="col-6" id="noCheckbox">
+                <div class="row hideAllCheckBox" id="hideCheckBox1">
                     <div class="col-md-8">
-
                         <label class="customcheck text-dark font-weight-bold" for="confirmerCommande">
                             <input type="checkbox" name="" id="confirmerCommande" autocomplete="off">
                             <span class="checkmark" id="checkBox1"></span>
@@ -109,54 +108,49 @@
                         <input type="date" id="inputDateDebut" min="2020-05-01">
                     </div>
                 </div>
-                <div class="row divColorCheckBox">
+                <div class="row hideAllCheckBox" id="hideCheckBox2">
                     <div class="col-md-8">
                         <label class="customcheck text-dark font-weight-bold" for="repousserDateDebut">
                             <input type="checkbox" name="" id="repousserDateDebut" autocomplete="off">
-                            <span class="checkmark " id="checkBox3"></span>
-                            <span class="checkBox3"><i class="far fa-calendar-alt fa-lg"></i></span> Repousser/modifier
+                            <span class="checkmark " id="checkBox2"></span>
+                            <span class="checkBox2"><i class="far fa-calendar-alt fa-lg"></i></span> Repousser/modifier
                             la date
                             de
                             début des travaux
-
                         </label>
                     </div>
                     <div class="col-md-1">
                         <input type="date" id="inputRepousser" min="2020-05-01">
                     </div>
                 </div>
-                <div id="checkBox-delete">
-
+                <div class="hideAllCheckBox" id="hideCheckBox3">
                     <label class="customcheck text-dark font-weight-bold" for="supprimerDateDebut">
                         <input type="checkbox" id="supprimerDateDebut" name="" autocomplete="off">
-                        <span class="checkmark" id="checkBox4"></span>
-                        <span class="checkBox4"><i class="far fa-trash-alt fa-lg"></i></span> Supprimer la date de debut
+                        <span class="checkmark" id="checkBox3"></span>
+                        <span class="checkBox3"><i class="far fa-trash-alt fa-lg"></i></span> Supprimer la date de debut
                         des travaux
-
                     </label>
                 </div>
-                <div class="divColorCheckBox">
+                <div class="hideAllCheckBox" id="hideCheckBox4">
 
                     <label class="customcheck text-dark font-weight-bold" for="confirmerDateDebut">
                         <input type="checkbox" name="" id="confirmerDateDebut" autocomplete="off">
-                        <span class="checkmark " id="checkBox2"></span>
-                        <span class="checkBox2"><i class="fas fa-check-circle fa-lg"></i></span> Confirmer date de début
+                        <span class="checkmark " id="checkBox4"></span>
+                        <span class="checkBox4"><i class="fas fa-check-circle fa-lg"></i></span> Confirmer date de début
                         des travaux (Acompte payé)
-
                     </label>
                 </div>
-                
-                <div class="divColorCheckBox">
+
+                <div class="hideAllCheckBox" id="hideCheckBox5">
                     <label class="customcheck text-dark font-weight-bold" for="indiquerFactureMilieu">
                         <input type="checkbox" name="" id="indiquerFactureMilieu" autocomplete="off">
                         <span class="checkmark " id="checkBox5"></span>
                         <span class="checkBox5"><i class="far fa-paper-plane fa-lg"></i></span> Indiquer que la
                         facture de
                         milieu de chantier a été envoyée
-
                     </label>
                 </div>
-                <div class="divColorCheckBox">
+                <div class="hideAllCheckBox" id="hideCheckBox6">
                     <label class="customcheck text-dark font-weight-bold" for="indiquerFactureFin">
                         <input type="checkbox" name="" id="indiquerFactureFin" autocomplete="off">
                         <span class="checkmark " id="checkBox6"></span>
@@ -165,25 +159,24 @@
                     </label>
                 </div>
 
-                <div class="divColorCheckBox">
+                <div class="hideAllCheckBox" id="hideCheckBox7">
                     <label class="customcheck text-dark font-weight-bold" for="rendreVisible">
                         <input type="checkbox" name="" id="rendreVisible" autocomplete="off">
                         <span class="checkmark " id="checkBox7"></span>
                         <span class="checkBox7"><i class="far fa-eye fa-lg"></i></span> Rendre la réalisation
                         visible
-
                     </label>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                Photo(s) après aménagements:
+                <h6 class="text-dark font-weight-bold">Photo(s) après aménagements:</h6>
                 <table id="photosApresVersionOuvrier" class="table-responsive ouvrier">
                 </table>
             </div>
-            <div class="col-6 ">
-                <p class="text-dark font-weight-bold "> Insérer des photos après aménagements :</p>
+            <div class="col-6 " id="hideDropContainer">
+                <h6 class="text-dark font-weight-bold"> Insérer des photos après aménagements :</h6>
                 <div id="drop-container-apres">
                     <div>
                         <p class="drop-area-text "><a style="font-size: 1em;color: #e0dfdf;" href=""
@@ -196,7 +189,7 @@
         </div>
 
         <div class="row">
-            <div class="offset-6 col-6 " style="margin-right: -20px;">
+            <div class="offset-6 col-6 mb-5 " style="margin-right: -20px;">
                 <button class="btn btn-danger btn-md  btn-block text-white" id="annulerDemande"
                     autocomplete="off">Annuler
                     la demande

@@ -90,6 +90,56 @@ function onGetConsulterDevisClient(response) {
     }
 }
 
+function hideTheRightCheckBoxForState(state) {
+    $(".hideAllCheckBox").hide();
+    $("#changeSizeRow").css("width", "100%");
+    $("#annulerDemande").show();
+    $("#hideDropContainer").hide();
+    $("#noCheckbox").show();
+
+
+    switch (state) {
+        case "Commande confirmée":
+            console.log("je passe");
+            $("#hideCheckBox2").show();
+            $("#hideCheckBox3").show();
+            $("#hideCheckBox4").show();
+
+            break;
+        case "Absence du paiement de l'acompte":
+
+            $("#hideCheckBox2").show();
+
+            break;
+        case "Acompte payé":
+
+            $("#hideCheckBox5").show();
+            $("#hideCheckBox6").show();
+            $("#hideCheckBox7").show();
+            break;
+        case "Facture de milieu chantier envoyée":
+
+            $("#hideCheckBox6").show();
+            $("#hideCheckBox7").show();
+            $("#annulerDemande").hide();
+            break;
+        case "Facture de fin de chantier envoyée":
+            $("#hideCheckBox7").show();
+            $("#annulerDemande").hide();
+            break;
+        case "Visible":
+            $("#hideDropContainer").show();
+            $("#annulerDemande").hide();
+            $("#noCheckbox").hide();
+            $("#changeSizeRow").css("width", "50%");
+            $("#hideDropContainer").css("margin-top", "-15%");
+            break;
+        default:
+            $("#hideCheckBox1").show();
+            break;
+    }
+}
+
 function onGetConsulterDevisOuvrier(response) {
 
     $("input[type=checkbox]").each(function () {
@@ -106,6 +156,9 @@ function onGetConsulterDevisOuvrier(response) {
     for (let i = 0; i < types.length; i++) {
         amenagements += types[i].libelle + ",\n";
     }
+    let etat = response.devis["État d'avancement"];
+
+    hideTheRightCheckBoxForState(etat);
 
     $('#dateDebutVersionOuvrier').html(response.devis["Date de début"]);
     $('#dateVersionOuvrier').html(response.devis["Date devis"]);
@@ -124,8 +177,13 @@ function onGetConsulterDevisOuvrier(response) {
             tablePhotosAvant.appendChild(tr);
         }
         let td = document.createElement("td");
+       
+      
         td.innerHTML = "<img class='image' src='" + photosAvantJson[i].Photo + "'id='" + photosAvantJson[i]['Photo id'] + "'/>";
+
         tr.appendChild(td);
+   
+
     }
 
     let photosApresJson = response.devis["Photos Apres"];
@@ -187,6 +245,7 @@ $(document).ready(function () {
     $("#drop-container-apres").on('dragenter', function (e) {
         e.preventDefault();
         console.log("dragenter");
+
         $(this).css('border', '#39b311 2px dashed');
         $(this).css('background', '#f1ffef');
     });
@@ -197,9 +256,9 @@ $(document).ready(function () {
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#FFF');
         let fileList = e.originalEvent.dataTransfer.files;
-        if(etatDevis != "Visible"){
-            notify("error","Vous ne pouvez pas ajouter de photos après aménagements");
-        }else{
+        if (etatDevis != "Visible") {
+            notify("error", "Vous ne pouvez pas ajouter de photos après aménagements");
+        } else {
             for (let x = 0; x < fileList.length; x++) {
                 ajouterPhotoApresAmenagement(fileList[x], devisID);
             }
@@ -304,6 +363,8 @@ $(document).ready(function () {
 
     $('#rendreVisible').change(function () {
         if ($(this).is(":checked")) {
+            hideTheRightCheckBoxForState("Visible");
+
             checkBox = $(this);
             const data = {
                 action: "rendreVisible",
