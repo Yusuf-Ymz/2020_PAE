@@ -139,20 +139,24 @@ class DevisUccTest {
   }
 
 
-  /*
-   * @Test void testChangerEtatDevisCommandeConfirmeeKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(2, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(2, "Commande confirmée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(2, "Devis introduit")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(2, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2,
-   * "Facture de fin de chantier envoyée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(2, "Visible")); assertThrows(BizException.class, () ->
-   * devisUcc.repousserDate(2, LocalDate.parse("2020-01-01"))); assertThrows(BizException.class, ()
-   * -> devisUcc.repousserDate(2, LocalDate.parse("2004-01-01")));
-   * 
-   * }
-   */
+
+  @Test
+  void testChangerEtatDevisCommandeConfirmeeKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(2, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Devis introduit"));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(2, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(2, "Facture de fin de chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(2, "Visible"));
+    assertThrows(BizException.class,
+        () -> devisUcc.repousserDate(2, LocalDate.parse("2020-01-01")));
+    assertThrows(BizException.class,
+        () -> devisUcc.repousserDate(2, LocalDate.parse("2004-01-01")));
+
+  }
+
 
   @Test
   void testChangerEtatDevisAcomptePayeOk() {
@@ -161,106 +165,120 @@ class DevisUccTest {
     assertDoesNotThrow(() -> devisUcc.changerEtatDevis(3, "Annulé"));
   }
 
-  /*
-   * @Test void testChangerEtatDevisAcomptePayeKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(3, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(3, "Devis Introduit")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(3, "Commande confirmée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(3, "Acompte payé")); assertThrows(BizException.class, () ->
-   * devisUcc.supprimerDateDebutTravaux(3)); assertThrows(BizException.class, () ->
-   * devisUcc.repousserDate(3, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(3, "Visible")); }/*
-   * 
-   * @Test void testChangerEtatDevisFactureMilieuOk() { assertDoesNotThrow(() ->
-   * devisUcc.changerEtatDevis(4, "Facture de fin de chantier envoyée")); }
-   */
+
+  @Test
+  void testChangerEtatDevisAcomptePayeKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(3, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(3));
+    assertThrows(BizException.class, () -> devisUcc.repousserDate(3, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(3, "Visible"));
+  }
+
+  @Test
+  void testChangerEtatDevisFactureMilieuOk() {
+    assertDoesNotThrow(() -> devisUcc.changerEtatDevis(4, "Facture de fin de chantier envoyée"));
+  }
 
 
 
-  /*
-   * @Test void testChangerEtatDevisFactureMilieuKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(4, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(4, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Devis Introduit"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Commande confirmée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Acompte payé"));
-   * assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(4));
-   * assertThrows(BizException.class, () -> devisUcc.repousserDate(4, null));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Visible"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Annulé")); }
-   */
+  @Test
+  void testChangerEtatDevisFactureMilieuKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(4, null));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(4, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(4));
+    assertThrows(BizException.class, () -> devisUcc.repousserDate(4, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Visible"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(4, "Annulé"));
+  }
+
 
   @Test
   void testChangerEtatDevisFactureFinOk() {
     assertDoesNotThrow(() -> devisUcc.changerEtatDevis(5, "Visible"));
   }
 
-  /*
-   * @Test void testChangerEtatDevisFactureFinKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(5, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(5, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Devis Introduit"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Commande confirmée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Acompte payé"));
-   * assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(5));
-   * assertThrows(BizException.class, () -> devisUcc.repousserDate(5, null));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Annulé")); }
-   */
+
+  @Test
+  void testChangerEtatDevisFactureFinKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(5, null));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(5, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(5));
+    assertThrows(BizException.class, () -> devisUcc.repousserDate(5, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(5, "Annulé"));
+  }
 
 
-  /*
-   * 
-   * @Test void testChangerEtatDevisVisibleKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(6, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Devis Introduit")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Commande confirmée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Acompte payé")); assertThrows(BizException.class, () ->
-   * devisUcc.supprimerDateDebutTravaux(6)); assertThrows(BizException.class, () ->
-   * devisUcc.repousserDate(6, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6,
-   * "Facture de fin de chantier envoyée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Visible")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(6, "Annulé"));
-   * 
-   * }
-   */
+
+  @Test
+  void testChangerEtatDevisVisibleKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(6, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(6));
+    assertThrows(BizException.class, () -> devisUcc.repousserDate(6, null));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(6, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(6, "Facture de fin de chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Visible"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(6, "Annulé"));
+
+  }
+
 
   @Test
   void testChangerEtatDevisAbsenceOk() {
     assertDoesNotThrow(() -> devisUcc.repousserDate(7, LocalDate.parse("2020-01-01")));
   }
 
-  /*
-   * @Test void testChangerEtatDevisAbsenceKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(7, null)); assertThrows(BizException.class, () ->
-   * devisUcc.repousserDate(7, LocalDate.parse("2018-01-01"))); assertThrows(BizException.class, ()
-   * -> devisUcc.changerEtatDevis(7, "Devis Introduit")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(7, "Commande confirmée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(7, "Acompte payé")); assertThrows(BizException.class, () ->
-   * devisUcc.supprimerDateDebutTravaux(7)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(7, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7,
-   * "Facture de fin de chantier envoyée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(7, "Visible"));
-   * 
-   * }
-   */
 
-  /*
-   * @Test void testChangerEtatDevisAnnuleKo() { assertThrows(BizException.class, () ->
-   * devisUcc.confirmerCommandeAmenagement(8, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Devis Introduit")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Commande confirmée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Acompte payé")); assertThrows(BizException.class, () ->
-   * devisUcc.supprimerDateDebutTravaux(8)); assertThrows(BizException.class, () ->
-   * devisUcc.repousserDate(8, null)); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Facture de milieu chantier envoyée"));
-   * assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8,
-   * "Facture de fin de chantier envoyée")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Visible")); assertThrows(BizException.class, () ->
-   * devisUcc.changerEtatDevis(8, "Annulé")); }
-   */
+  @Test
+  void testChangerEtatDevisAbsenceKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(7, null));
+    assertThrows(BizException.class,
+        () -> devisUcc.repousserDate(7, LocalDate.parse("2018-01-01")));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(7));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(7, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(7, "Facture de fin de chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(7, "Visible"));
+
+  }
+
+
+
+  @Test
+  void testChangerEtatDevisAnnuleKo() {
+    assertThrows(BizException.class, () -> devisUcc.confirmerCommandeAmenagement(8, null));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Devis Introduit"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Commande confirmée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Acompte payé"));
+    assertThrows(BizException.class, () -> devisUcc.supprimerDateDebutTravaux(8));
+    assertThrows(BizException.class, () -> devisUcc.repousserDate(8, null));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(8, "Facture de milieu chantier envoyée"));
+    assertThrows(BizException.class,
+        () -> devisUcc.changerEtatDevis(8, "Facture de fin de chantier envoyée"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Visible"));
+    assertThrows(BizException.class, () -> devisUcc.changerEtatDevis(8, "Annulé"));
+  }
+
 
   @Test
   void testListerNomsClientsOk() {

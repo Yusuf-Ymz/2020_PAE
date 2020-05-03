@@ -1,6 +1,7 @@
 package mock.dao;
 
 import be.ipl.pae.annotation.Inject;
+import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.DevisDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
@@ -125,6 +126,36 @@ public class MockDevisDao implements DevisDao {
 
     if (id == 8) {
       devis.setEtat("Annulé");
+    }
+
+    if (id == 9) {
+      devis.setEtat("Visible");
+      List<AmenagementDto> listAmenagement = new ArrayList<AmenagementDto>();
+      AmenagementDto amenagement = dtoFactory.getAmenagementDto();
+      amenagement.setId(1);
+      listAmenagement.add(amenagement);
+      devis.setAmenagements(listAmenagement);
+    }
+
+    if (id == 10) {
+      devis.setEtat("Visible");
+      List<AmenagementDto> listAmenagement = new ArrayList<AmenagementDto>();
+      AmenagementDto amenagement = dtoFactory.getAmenagementDto();
+      amenagement.setId(1);
+      listAmenagement.add(amenagement);
+      devis.setAmenagements(listAmenagement);
+      PhotoDto photo = dtoFactory.getPhotoDto();
+      photo.setPhotoId(1);
+      devis.setPhotoPreferee(photo);
+    }
+
+    if (id == 11) {
+      devis.setEtat("Visible");
+      List<AmenagementDto> listAmenagement = new ArrayList<AmenagementDto>();
+      AmenagementDto amenagement = dtoFactory.getAmenagementDto();
+      amenagement.setId(2);
+      listAmenagement.add(amenagement);
+      devis.setAmenagements(listAmenagement);
     }
 
     return devis;
