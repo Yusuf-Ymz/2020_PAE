@@ -1,5 +1,5 @@
 import { getData, postData } from "./utilsAPI.js";
-import { homeWorker } from "./index.js";
+import { homeWorker,HomeUser } from "./index.js";
 import { ajouterPhotoApresAmenagement, ajouterPhoto, viderLesPhotoApresAmenagement, setAmenagements } from "./insererPhoto.js"
 import notify from "./utils.js";
 let checkBox;
@@ -23,11 +23,11 @@ function consulterDevisEntantQueOuvrier(url, data) {
 };
 
 function consulterDevisEntantQueClient(url, data) {
-    homeWorker("");
+    HomeUser("");
     data["action"] = "consulterDevisEnTantQueClient";
     token = localStorage.getItem("token");
     getData(url, data, token, onGetConsulterDevisClient, onGetConsulterError);
-
+    
     $('.client').val("");
     $("#searchCard").show();
     $('#searchContent').hide();

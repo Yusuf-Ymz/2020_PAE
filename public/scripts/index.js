@@ -303,7 +303,7 @@ const SameHide = () => {
   $('#listeDeMesDevis').hide();
   $("#searchContent").hide();
   $("#table_clients_noUsers").hide();
-
+  $(".nettoyerInput").val("");
   $("#selectAmenagementAccueil").hide();
   $("#selectAmenagementAccueil").css('display', 'none');
 }
