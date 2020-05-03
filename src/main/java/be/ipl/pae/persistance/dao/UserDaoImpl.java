@@ -197,7 +197,8 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   public List<String> rechercherNomsUtilisateurs(String nom) {
     nom = nom.replace("%", "\\" + "%");
     nom += "%";
-    String query = "SELECT DISTINCT u.nom FROM pae.utilisateurs u " + "WHERE LOWER(u.nom) LIKE (?)";
+    String query =
+        "SELECT DISTINCT u.nom FROM pae.utilisateurs u " + "WHERE LOWER(u.nom) LIKE LOWER(?)";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> noms = new ArrayList<String>();
@@ -219,8 +220,8 @@ class UserDaoImpl extends DaoUtils implements UserDao {
   public List<String> rechercherPrenomsUtilisateurs(String prenom) {
     prenom = prenom.replace("%", "\\" + "%");
     prenom += "%";
-    String query =
-        "SELECT DISTINCT u.prenom FROM pae.utilisateurs u " + "WHERE LOWER(u.prenom) LIKE (?)";
+    String query = "SELECT DISTINCT u.prenom FROM pae.utilisateurs u "
+        + "WHERE LOWER(u.prenom) LIKE LOWER (?)";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> prenoms = new ArrayList<String>();
@@ -243,7 +244,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     ville = ville.replace("%", "\\" + "%");
     ville += "%";
     String query =
-        "SELECT DISTINCT u.ville FROM pae.utilisateurs u " + "WHERE LOWER(u.ville) LIKE (?)";
+        "SELECT DISTINCT u.ville FROM pae.utilisateurs u " + "WHERE LOWER(u.ville) LIKE LOWER (?)";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> villes = new ArrayList<String>();
@@ -283,7 +284,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     nom = nom.replace("%", "\\" + "%");
     nom += "%";
     String query = "SELECT DISTINCT u.nom FROM pae.utilisateurs u "
-        + "WHERE LOWER(u.nom) LIKE (?) AND u.confirme ='false'";
+        + "WHERE LOWER(u.nom) LIKE LOWER (?) AND u.confirme ='false'";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> noms = new ArrayList<String>();
@@ -307,7 +308,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     prenom = prenom.replace("%", "\\" + "%");
     prenom += "%";
     String query = "SELECT DISTINCT u.prenom FROM pae.utilisateurs u "
-        + "WHERE LOWER(u.prenom) LIKE (?) AND u.confirme ='false' ";
+        + "WHERE LOWER(u.prenom) LIKE LOWER (?) AND u.confirme ='false' ";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> prenoms = new ArrayList<String>();
@@ -330,7 +331,7 @@ class UserDaoImpl extends DaoUtils implements UserDao {
     ville = ville.replace("%", "\\" + "%");
     ville += "%";
     String query = "SELECT DISTINCT u.ville FROM pae.utilisateurs u "
-        + "WHERE LOWER(u.ville) LIKE (?) AND u.confirme ='false' ";
+        + "WHERE LOWER(u.ville) LIKE LOWER (?) AND u.confirme ='false' ";
 
     PreparedStatement prepareStatement = dal.createStatement(query);
     List<String> villes = new ArrayList<String>();
