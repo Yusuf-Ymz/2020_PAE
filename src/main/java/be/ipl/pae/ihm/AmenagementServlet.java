@@ -53,6 +53,12 @@ public class AmenagementServlet extends HttpServlet {
     if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
       Map<String, Object> body = ServletUtils.decoderBodyJson(req);
       String libelle = body.get("libelle").toString();
+      if (libelle.trim().equals("")) {
+        json = "{\"error\":\"Champ libelle incorrect\"}";
+        statusCode = HttpServletResponse.SC_BAD_REQUEST;
+        ServletUtils.sendResponse(resp, json, statusCode);
+        return;
+      }
       AmenagementDto amenagement = dtoFactory.getAmenagementDto();
       amenagement.setLibelle(libelle);
       try {

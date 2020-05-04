@@ -79,7 +79,7 @@ function displayAmenagementsDevis(response) {
 
 function onError(err) {
     $('#loader').hide();
-    notify("error", err.responseText);
+    notify("error", err.responseJSON.error);
 }
 
 $(document).ready(function (e) {
