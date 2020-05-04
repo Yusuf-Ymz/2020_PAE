@@ -7,7 +7,7 @@ import java.util.List;
 public interface PhotoUcc {
 
   /**
-   * Renvoie une liste de photos après aménagement visible.
+   * Renvoie une liste de photos après aménagements visible.
    * 
    * @return une liste de photo
    */
