@@ -130,7 +130,7 @@ function hideTheRightCheckBoxForState(state) {
             $("#annulerDemande").hide();
             $("#noCheckbox").hide();
             $("#changeSizeRow").css("width", "50%");
-            $("#hideDropContainer").css("margin-top", "-15%");
+            $("#hideDropContainer").css("margin-top", "-5%");
             break;
         case "Annulé":
             $("#annulerDemande").hide();
