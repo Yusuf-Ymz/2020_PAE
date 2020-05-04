@@ -20,33 +20,29 @@ class ClientUccImpl implements ClientUcc {
   public ClientDto insertClient(ClientDto client) {
     try {
       dal.startTransaction();
-      return clientDao.insererClient(client);
+      ClientDto clientBis = clientDao.insererClient(client);
+      dal.commitTransaction();
+      return clientBis;
     } catch (Exception exception) {
       exception.printStackTrace();
       dal.rollbackTransaction();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
   public List<ClientDto> listerClients() {
 
     try {
-
       dal.startTransaction();
-      return this.clientDao.listerClients();
+      List<ClientDto> clients = this.clientDao.listerClients();
+      dal.commitTransaction();
+      return clients;
     } catch (Exception exception) {
       exception.printStackTrace();
       dal.rollbackTransaction();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
-
   }
 
   @Override
@@ -54,16 +50,14 @@ class ClientUccImpl implements ClientUcc {
       String cp) {
     try {
       dal.startTransaction();
-
-      return clientDao.rechercherClients(ville, cp, nom, prenom);
+      List<ClientDto> clients = clientDao.rechercherClients(ville, cp, nom, prenom);
+      dal.commitTransaction();
+      return clients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -72,15 +66,13 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> nomsClients = clientDao.rechercherNoms(nom);
+      dal.commitTransaction();
       return nomsClients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -89,15 +81,13 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> villes = clientDao.rechercherVilles(ville);
+      dal.commitTransaction();
       return villes;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -106,15 +96,13 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> cpx = clientDao.rechercheCodePostaux(cp);
+      dal.commitTransaction();
       return cpx;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
@@ -123,29 +111,26 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> prenomsClients = clientDao.rechercherPrenoms(prenom);
+      dal.commitTransaction();
       return prenomsClients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
-
   }
 
   @Override
   public List<ClientDto> listerClientsPasUtilisateur() {
     try {
       dal.startTransaction();
-
-      return clientDao.rechercherClientsPasUtilisateur();
+      List<ClientDto> clients = clientDao.rechercherClientsPasUtilisateur();
+      dal.commitTransaction();
+      return clients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -155,13 +140,12 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> nomsClients = clientDao.rechercherNomsClientNonLie(nom);
+      dal.commitTransaction();
       return nomsClients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -171,13 +155,12 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> prenomsClients = clientDao.rechercherPrenomsClientNonLie(prenom);
+      dal.commitTransaction();
       return prenomsClients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -188,13 +171,12 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> villes = clientDao.rechercherVillesClientNonLie(ville);
+      dal.commitTransaction();
       return villes;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -204,13 +186,12 @@ class ClientUccImpl implements ClientUcc {
       dal.startTransaction();
 
       List<String> cpx = clientDao.rechercheCodePostauxClientNonLie(cp);
+      dal.commitTransaction();
       return cpx;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
 
@@ -219,16 +200,13 @@ class ClientUccImpl implements ClientUcc {
       String cp) {
     try {
       dal.startTransaction();
-
-      return clientDao.rechercherClientsNonLie(ville, cp, nom, prenom);
+      List<ClientDto> clients = clientDao.rechercherClientsNonLie(ville, cp, nom, prenom);
+      dal.commitTransaction();
+      return clients;
     } catch (Exception exception) {
       dal.rollbackTransaction();
       exception.printStackTrace();
       throw exception;
-    } finally {
-      dal.commitTransaction();
     }
   }
-
-
 }
