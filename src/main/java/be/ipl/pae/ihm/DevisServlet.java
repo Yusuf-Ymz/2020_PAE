@@ -394,7 +394,19 @@ public class DevisServlet extends HttpServlet {
       err = "Champ \"montant total\" incorrect";
       final int montantTotal = Integer.parseInt(body.get("montant").toString());
       err = "Champ \"durée des travaux\" incorrect";
+      if (montantTotal < 0) {
+        err = "{\"error\":\"Champ montant total incorrect\"}";
+        int statusCode = HttpServletResponse.SC_BAD_REQUEST;
+        ServletUtils.sendResponse(resp, err, statusCode);
+        return;
+      }
       final int nbJours = Integer.parseInt(body.get("nbJours").toString());
+      if (nbJours < 0) {
+        err = "{\"error\":\"Champ durée des travaux incorrect\"}";
+        int statusCode = HttpServletResponse.SC_BAD_REQUEST;
+        ServletUtils.sendResponse(resp, err, statusCode);
+        return;
+      }
       final String amenagements = body.get("amenagements").toString();
       if (amenagements.equals("[]")) {
         err = "Veuillez renseigner au moins un aménagement";
