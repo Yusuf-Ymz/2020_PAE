@@ -181,7 +181,7 @@ public class ClientServlet extends HttpServlet {
           }
           err = "{\"error\":\"Champ prénom invalide \"}";
           String prenom = body.get("prenom").toString();
-          if (nom.trim().isEmpty()) {
+          if (prenom.trim().isEmpty()) {
             ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
             return;
           }
