@@ -78,9 +78,7 @@ function displayAmenagementsDevis(response) {
 }
 
 function onError(err) {
-    console.log(err);
     $('#loader').hide();
-    console.log(err.responseText);
     notify("error", err.responseText);
 }
 
@@ -196,12 +194,11 @@ $(document).ready(function (e) {
     }
 
     function onPostError(response) {
-        console.log(response.error);
+        notify("error","Erreur dans la requête");
     }
 
     $("#drop-container").on('dragenter', function (e) {
         e.preventDefault();
-        console.log("dragenter");
         $(this).css('border', '#39b311 2px dashed');
         $(this).css('background', '#f1ffef');
     });
@@ -209,7 +206,6 @@ $(document).ready(function (e) {
     /* cassé
     $("#drop-container").on('dragleave', function(e) {
         e.preventDefault();
-        console.log("dragleave");
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#ffffff');
     });*/
@@ -217,11 +213,9 @@ $(document).ready(function (e) {
 
     $("#drop-container").on('drop', function (element) {
         element.preventDefault();
-        console.log("drop");
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#FFF');
         let fileList = element.originalEvent.dataTransfer.files;
-        console.log(fileList);
         for (let x = 0; x < fileList.length; x++) {
             let file = fileList[x];
             converFile(file);
@@ -265,24 +259,18 @@ function getListClient() {
 
 
 function displayClient(response) {
-    console.log(response);
     let nombtnTab = ["Sélectionner"];
     let div_container = $("#tableClients")[0];
     printTable("tableClients", response.clients, nombtnTab, "N° client", [selectionnerClient]);
 }
 
 function selectionnerClient(url, data) {
-    console.log(data);
     idClient = data["N° client"];
-    console.log(idClient);
     $("#idClient").val(idClient);
     let tr = $("#tableClients").find("#" + idClient);
 
-    console.log(tr);
     let nom = $("#tableClients").find("#" + idClient).find("td:first-child").html();
     let prenom = $("#tableClients").find("#" + idClient).find("td:nth-child(2)").html();
-    //onsole.log(nom);
-    //console.log(prenom);
     $("#nomInfo").val(nom);
     $("#prenomInfo").val(prenom);
     $("#searchContent").fadeOut();

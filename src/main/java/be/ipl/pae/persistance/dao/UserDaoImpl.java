@@ -134,7 +134,6 @@ class UserDaoImpl extends DaoUtils implements UserDao {
       prepareStatement.setString(7, user.getEmail());
 
       prepareStatement.execute();
-      System.out.println("Ajout complet");
     } catch (SQLException exception) {
       exception.printStackTrace();
     }

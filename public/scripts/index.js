@@ -34,7 +34,6 @@ $(document).ready(function () {
 
   $("#selectAmenagementAccueil").click(function (e) {
     e.preventDefault();
-    console.log("ici");
     $("#amenagementsAccueil").fadeIn();
   })
 
@@ -183,7 +182,6 @@ const firstViewWorker = () => {
 
   homeWorker("");
   let token = localStorage.getItem("token");
-  console.log("token = " + token);
   const data = {
     action: "tousLesDevis"
   }
@@ -209,7 +207,6 @@ const HideToHomeWhenConnect = (response) => {
 
   if (response !== "") {
     window.glob = response.user;
-    console.log(window.glob);
     let user = window.glob;
     fillCardUserInfos(user.pseudo, user.prenom + " " + user.nom, user.ville, user.email, user.dateInscription);
   }
@@ -366,7 +363,6 @@ function displayAmenagements(response) {
   let divAmenagements = $("#amenagementsAccueil");
   divAmenagements.text("");
   let amenagements = response.amenagements;
-  console.log(amenagements);
   let row = document.createElement("div");
   row.className = "row mt-2";
   divAmenagements.append(row);
@@ -387,7 +383,6 @@ function displayAmenagements(response) {
     button.addEventListener('click', function (e) {
       e.preventDefault();
       let id = e.target.value;
-      console.log(id);
       let data = {
         action: "afficherPhotoAmenagement",
         amenagement: id,
@@ -402,7 +397,7 @@ function displayAmenagements(response) {
 }
 
 function onError(response) {
-  console.log(response);
+  notify("Error","Erreur dans la requête");
 }
 
 function remplirCarrousel(token) {
@@ -426,7 +421,6 @@ function afficherCarrousel(response) {
   let indicator = $(".carousel-indicators");
   indicator.text("");
   inner.text("");
-  console.log(photosCarrousel);
   for (let i = 0; i < photosCarrousel.length; i++) {
     let div = document.createElement("div");
     let li = document.createElement("li");
@@ -451,7 +445,6 @@ function afficherCarrousel(response) {
 }
 
 function onErrorRefresh(err) {
-  console.error(err);
   $('#loader').hide();
   if (err.responseJSON) {
     Swal.fire({
@@ -477,7 +470,6 @@ function fillCardUserInfos(pseudo, name, city, email, date) {
 function dateFormating(date) {
 
   let day = JSON.stringify(date.dayOfMonth);
-  console.log("taille = " + day.length);
   if (day.length == 1) {
     day = "0" + day;
   }

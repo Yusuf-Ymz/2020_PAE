@@ -207,7 +207,6 @@ function createModal(image, idDevis) {
     $(buttonAjouter).click(function (e) {
         e.preventDefault();
         let currentModalOpen = $("#" + e.target.value);
-        console.log(idDevis);
         let data = {
             action: "ajouterPhotoApresAmenagement",
             idDevis: idDevis,
@@ -234,8 +233,6 @@ function createModal(image, idDevis) {
             },
             success: function (response) {
                 notify("success", "Photo ajouté");
-                console.log(response);
-                console.log(response.photo);
                 ajouterPhoto(response.photo);
                 currentModalOpen.modal('hide');
             },
@@ -248,7 +245,6 @@ function createModal(image, idDevis) {
 
 
 function onError(response) {
-    console.log(response);
     notify("error", response.responseJSON.error);
 }
 

@@ -29,7 +29,6 @@ function onPostLogin(response) {
   localStorage.setItem("token", response.token);
   
   window.glob = response.user;
-  console.log(window.glob);
   let user = window.glob;
   fillCardUserInfos(user.pseudo, user.prenom + " " + user.nom, user.ville, user.email, user.dateInscription);
   if (window.glob.ouvrier === true) {
@@ -40,7 +39,6 @@ function onPostLogin(response) {
 }
 
 function onErrorLogin(err) {
-  console.error(err.responseJSON.error);
   $('#loader').hide();
   LoginForm(err.responseJSON.error);
 
@@ -60,7 +58,6 @@ function onPostInscription(response) {
 }
 
 function onErrorInscription(err) {
-  console.error("Error :" + err.responseJSON.error);
   RegisterForm(err.responseJSON.error);
   $('#loader').hide();
 }

@@ -350,7 +350,6 @@ class ClientDaoImpl extends DaoUtils implements ClientDao {
         fillObject(client, rs);
         clients.add(client);
       }
-      System.out.println(clients);
       return clients;
     } catch (SQLException exception) {
       exception.printStackTrace();

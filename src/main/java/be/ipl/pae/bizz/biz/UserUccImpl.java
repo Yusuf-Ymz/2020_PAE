@@ -162,7 +162,6 @@ class UserUccImpl implements UserUcc {
       dal.startTransaction();
 
       UserDto user = this.userDao.obtenirUserAvecId(userId);
-      System.out.println(userId);
       if (user == null) {
         throw new BizException("utilisateur introuvable");
       }
@@ -227,7 +226,6 @@ class UserUccImpl implements UserUcc {
 
   @Override
   public List<UserDto> listerUtilisateursAvecCriteres(String nom, String prenom, String ville) {
-    // TODO Auto-generated method stub
     try {
       dal.startTransaction();
 

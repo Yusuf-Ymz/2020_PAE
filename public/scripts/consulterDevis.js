@@ -8,7 +8,6 @@ let token = localStorage.getItem("token");
 let devisID = -1;
 
 function consulterDevisEntantQueOuvrier(url, data) {
-    console.log(url);
     homeWorker("");
     data["action"] = "consulterDevisEnTantQueOuvrier";
     token = localStorage.getItem("token");
@@ -43,7 +42,6 @@ function onGetConsulterDevisClient(response) {
     $('#nomVersionClient').html(response.devis["Nom du client"]);
     $('#prenomVersionClient').html(response.devis["Prénom du client"]);
     $("#titre-page").text("Détails du devis");
-    console.log(response);
     let types = response.devis["Types d'aménagements"];
     let amenagements = "";
     devisID = response.devis["devisId"];
@@ -207,7 +205,7 @@ function onGetConsulterDevisOuvrier(response) {
 }
 
 function onGetConsulterError(err) {
-    console.error(err.responseJSON.error);
+    notify("error","Erreur");
     $('#loader').hide();
 }
 
@@ -244,29 +242,25 @@ function onNewDateCommande(response) {
 
 
 function onCheckBoxError(response) {
-    console.log(response);
     notify("error", "Les modifications n'ont pas pu être effectuées");
 }
 
 
 
 function onErrorAmenagements(response) {
-    console.error(response);
+    notify("error","Erreur dans la requête");
 }
 
 $(document).ready(function () {
 
     $("#drop-container-apres").on('dragenter', function (e) {
         e.preventDefault();
-        console.log("dragenter");
-
         $(this).css('border', '#39b311 2px dashed');
         $(this).css('background', '#f1ffef');
     });
 
     $("#drop-container-apres").on('drop', function (e) {
         e.preventDefault();
-        console.log("ici");
         $(this).css('border', '#07c6f1 2px dashed');
         $(this).css('background', '#FFF');
         let fileList = e.originalEvent.dataTransfer.files;
@@ -375,7 +369,6 @@ $(document).ready(function () {
     })
 
     $('#annulerDemande').click(function () {
-        console.log("Click");
         const data = {
             action: "annulerDemande",
             id: devisID

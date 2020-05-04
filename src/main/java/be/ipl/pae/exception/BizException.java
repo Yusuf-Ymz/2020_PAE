@@ -4,7 +4,6 @@ package be.ipl.pae.exception;
 public class BizException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
-  private int statusCode;
 
   /**
    * Constructeur par défaut permettant de créer une exception (Qui sera appelée dans la couche
@@ -23,13 +22,6 @@ public class BizException extends RuntimeException {
     super(message);
   }
 
-  public BizException(String message, int statusCode) {
-    super(message);
-    this.statusCode = statusCode;
-  }
 
-  public int getStatusCode() {
-    return this.statusCode;
 
-  }
 }

@@ -7,7 +7,6 @@ $(document).ready(function () {
     $("#rechercher_user").on('click', function (e) {
         homeWorker("");
         let token = localStorage.getItem("token");
-        console.log(token);
         const data = {
             action: 'listeUser'
         };
@@ -32,7 +31,6 @@ function onGetUserList(response) {
 
 
 function onUserListError(err) {
-    console.error(err);
     $('#loader').hide();
     if (err.responseJSON) {
         Swal.fire({

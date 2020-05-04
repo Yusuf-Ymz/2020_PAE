@@ -82,7 +82,6 @@ function onPostSuccess(response) {
 }
 
 function onPostError(response) {
-  console.log(response.error);
   $('#loader').hide();
   notify("error", "Le client n'a pas pu être ajouté");
 }
@@ -101,7 +100,6 @@ function onGet(response) {
 }
 
 function onError(err) {
-  console.log(err);
   $('#loader').hide();
   $("#table_users_preinscrit").html("<i class='far fa-frown'></i>  " + err.text);
 }
@@ -158,7 +156,6 @@ function onErrorGetUtilisateur(err) {
 }
 
 function onGetLier(response) {
-  console.log(response.data);
   $("#linkUserClientContent").show();
   $("#searchCard").show();
   $("#searchContent").show();
@@ -170,7 +167,6 @@ function onGetLier(response) {
 }
 
 function onErrorLier(err) {
-  console.log(err);
   $('#loader').hide();
   $("#table_clients_noUsers").html("<i class='far fa-frown'></i>  " + err.text);
 }

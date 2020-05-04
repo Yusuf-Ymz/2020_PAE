@@ -4,6 +4,7 @@ import { onGetUserList } from "./rechercherUtilisateur.js";
 import { onGet, onGetLier } from "./confirmedInscription.js";
 import { displayClient } from "./introduireDevis.js";
 import { onGetTousLesDevisList, onGetMesDevisList } from "./rechercherDevis.js";
+import notify from "./utils.js";
 
 let action, url, currentRequestValue, idOfInputCurruntlyClicked;
 const getVille = "getVille";
@@ -54,7 +55,6 @@ function doResponse(response) {
             if ($('#listeDeTousLesDevis').css('display') != "none") {
                 onGetTousLesDevisList(response);
             } else {
-                console.log(response.devis);
                 onGetMesDevisList(response);
             }
             break;
@@ -65,7 +65,7 @@ function doResponse(response) {
 }
 
 function onError(err) {
-    console.log(err);
+    notify("error","Erreur dans la requête");
 }
 
 $(document).ready(function () {
@@ -80,7 +80,6 @@ $(document).ready(function () {
         chooseUrl();
 
         let data;
-        console.log("-> " + url);
         switch (url) {
             case urlClient:
 
@@ -271,7 +270,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         if ($('#table_clients_noUsers').css('display') != 'none') {
-            console.log("je passe")
             action = "getPrenomsClientNonLie";
         } else {
             action = getPrenom;
@@ -296,7 +294,6 @@ $(document).ready(function () {
         } else {
             action = getVilleNonConfirme;
         }
-        console.log("action " + action);
         idOfInputCurruntlyClicked = "#ville_utilisateur";
 
         let auto = $(idOfInputCurruntlyClicked).autocomplete({
@@ -398,7 +395,7 @@ function doAutocompleteRequest(request, reponse) {
             }));
         },
         error: function (err) {
-            console.log(err);
+            notify("error","Erreur dans la requête")
             $('#loader').hide();
 
         }

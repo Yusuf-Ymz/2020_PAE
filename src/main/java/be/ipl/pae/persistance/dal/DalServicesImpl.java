@@ -79,12 +79,6 @@ class DalServicesImpl implements DalServices, DalBackendServices {
     }
   }
 
-  /*
-   * public void commitTransaction() { try { Connection conn = connection.get(); conn.commit();
-   * conn.close(); } catch (SQLException exception) { exception.printStackTrace(); throw new
-   * FatalException(exception.getMessage()); } }
-   */
-
   public void rollbackTransaction() {
     try {
       Connection conn = null;

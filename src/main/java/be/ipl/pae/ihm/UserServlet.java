@@ -45,8 +45,6 @@ public class UserServlet extends HttpServlet {
 
       String token = req.getHeader("Authorization");
       int userId = ServletUtils.estConnecte(token);
-      System.out.println(token);
-      System.out.println(userId);
       UserDto user = userUcc.obtenirUtilisateur(userId);
 
       if (userId != -1) {
@@ -166,7 +164,6 @@ public class UserServlet extends HttpServlet {
     String ville = req.getParameter("ville");
 
     List<UserDto> users = userUcc.listerUtilisateursAvecCriteres(nom, prenom, ville);
-    System.out.println(users.size());
 
     String json =
         "{\"listeUser\":" + genson.serialize(users, new GenericType<List<UserDto>>() {}) + "}";
@@ -216,7 +213,6 @@ public class UserServlet extends HttpServlet {
     String ville = req.getParameter("ville");
 
     List<UserDto> users = userUcc.listerUtilisateursNonConfirmeAvecCriteres(nom, prenom, ville);
-    System.out.println(users.size());
 
     String json = "{\"data\":" + genson.serialize(users, new GenericType<List<UserDto>>() {}) + "}";
     int statusCode = HttpServletResponse.SC_OK;
@@ -224,6 +220,7 @@ public class UserServlet extends HttpServlet {
   }
 
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -235,16 +232,11 @@ public class UserServlet extends HttpServlet {
         Genson genson = new Genson();
         Map<String, Object> map = genson.deserialize(req.getReader(), Map.class);
         String action = map.get("action").toString();
-        System.out.println(action);
-        System.out.println("map" + map.toString());
+
         if (action.equals("confirmerInscription/worker")) {
-          // String email = map.get("email").toString();
-          System.out.println(map.toString());
+
           int idConfirmed = Integer.parseInt((String) map.get("N° utilisateur"));
-          // String nom = map.get("nom").toString();
-          // String prenom = map.get("prenom").toString();
-          // String pseudo = map.get("pseudo").toString();
-          // String ville = map.get("ville").toString();
+
           UserDto userDto = userUcc.confirmWorker(idConfirmed);
           if (userDto == null) {
             String json = "{\"error\":\"Vous n'avez pas accés à ces informations\"}";

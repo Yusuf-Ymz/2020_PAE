@@ -341,7 +341,6 @@ public class DevisServlet extends HttpServlet {
             break;
 
           case "indiquerFactureMilieuEnvoyee":
-            System.out.println("je passe");
             nouvelEtat = devisUcc.changerEtatDevis(devisId, "Facture de milieu chantier envoyée");
             json = "{\"etat\":\"" + nouvelEtat + "\"}";
             status = HttpServletResponse.SC_OK;
@@ -411,8 +410,6 @@ public class DevisServlet extends HttpServlet {
       for (int i = 0; i < lphotos.length; i++) {
         lphotos[i] = lphotos[i].replace("?????", ",");
       }
-      System.out.println("Length " + lphotos.length);
-      System.out.println("inside" + lphotos[0] + "inside");
       DevisDto devis = fact.getDevisDto();
       devis.setDateDevis(dateDebut);
       devis.setDuree(nbJours);

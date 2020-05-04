@@ -47,7 +47,6 @@ function onGetMesDevisListOuvrier(response) {
 }
 
 function onDevisListError(err) {
-    console.error(err);
     $('#loader').hide();
     if (err.responseJSON) {
         Swal.fire({

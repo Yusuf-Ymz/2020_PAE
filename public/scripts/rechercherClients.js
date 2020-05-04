@@ -23,13 +23,11 @@ function doGetClientDevis(url, data) {
     homeWorker("");
     let token = localStorage.getItem("token");
     data["action"] = "devisDuClient";
-    console.log(data["N° client"]);
     $("#listeDeMesDevis").show();
     getData(url, data, token, onGetMesDevisListOuvrier, onClientListError);
 }
 
 function onClientListError(err) {
-    console.error(err);
     $('#loader').hide();
     if (err.responseJSON) {
         Swal.fire({

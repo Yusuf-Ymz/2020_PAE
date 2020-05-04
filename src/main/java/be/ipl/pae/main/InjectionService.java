@@ -31,13 +31,11 @@ public class InjectionService {
           String implName = Config.getConfiguration(classAInjecterName);
           if (dependencies.containsKey(implName)) {
             fieldObjet = dependencies.get(implName);
-            // System.out.println("contenu " + fieldObjet.getClass().getCanonicalName());
           } else {
             Class<?> classImpl = Class.forName(implName);
             Constructor<?> constructor = classImpl.getDeclaredConstructor();
             constructor.setAccessible(true);
             fieldObjet = constructor.newInstance();
-            // System.out.println("pas contenu " + fieldObjet.getClass().getCanonicalName());
             injectDependencies(fieldObjet);
             dependencies.put(implName, fieldObjet);
           }

@@ -23,7 +23,6 @@ public class Main {
    */
   public static void main(String[] args) throws Exception {
     WebAppContext context = new WebAppContext();
-    System.out.println(context.getContextPath());
     context.setContextPath("/");
     context.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
 
