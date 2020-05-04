@@ -19,7 +19,6 @@ class Client implements ClientBiz {
   @FieldDb("numero")
   private String numero;
 
-
   @FieldDb("ville")
   private String ville;
 

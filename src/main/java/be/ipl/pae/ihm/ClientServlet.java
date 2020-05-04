@@ -5,6 +5,7 @@ import be.ipl.pae.bizz.dto.ClientDto;
 import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.ClientUcc;
 import be.ipl.pae.bizz.ucc.UserUcc;
+import be.ipl.pae.exception.FatalException;
 
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
@@ -101,20 +102,6 @@ public class ClientServlet extends HttpServlet {
           json = "{\"prenoms\":" + genson.serialize(prenoms) + "}";
           statusCode = HttpServletResponse.SC_OK;
           ServletUtils.sendResponse(resp, json, statusCode);
-        } else if (ACTIONINSERTCLIENT.equalsIgnoreCase(action)) {
-          ClientDto client = fact.getClientDto();
-          client.setNom(req.getParameter("nom"));
-          client.setPrenom(req.getParameter("prenom"));
-          client.setEmail(req.getParameter("email"));
-          client.setCodePostal(req.getParameter("cp"));
-          client.setTelephone(req.getParameter("telephone"));
-          client.setRue(req.getParameter("rue"));
-          client.setVille(req.getParameter("ville"));
-          client.setNumero(req.getParameter("numero"));
-          client = clientUcc.insertClient(client);
-          json = "{\"client\":" + genson.serialize(client) + "}";
-          statusCode = HttpServletResponse.SC_OK;
-          ServletUtils.sendResponse(resp, json, statusCode);
         } else if (ACTIONCLIENTPASUTILISATEUR.equalsIgnoreCase(action)) {
           List<ClientDto> clients = clientUcc.listerClientsPasUtilisateur();
           String listeSerialisee =
@@ -184,19 +171,76 @@ public class ClientServlet extends HttpServlet {
     if (idUser != -1 && this.userUcc.obtenirUtilisateur(idUser).isOuvrier()) {
 
       if (ACTIONINSERTCLIENT.equalsIgnoreCase(action)) {
-        ClientDto client = fact.getClientDto();
-        client.setNom((String) body.get("nom"));
-        client.setPrenom((String) body.get("prenom"));
-        client.setEmail((String) body.get("email"));
-        client.setCodePostal((String) body.get("cp"));
-        client.setTelephone((String) body.get("telephone"));
-        client.setRue((String) body.get("rue"));
-        client.setVille((String) body.get("ville"));
-        client.setNumero((String) body.get("numero"));
-        client = clientUcc.insertClient(client);
-        json = "{\"client\":" + genson.serialize(client) + "}";
-        statusCode = HttpServletResponse.SC_OK;
-        ServletUtils.sendResponse(resp, json, statusCode);
+        System.out.println("inserer");
+        try {
+          String err = "{\"error\":\"Champ nom invalide\"}";
+          String nom = body.get("nom").toString();
+          if (nom.trim().isEmpty()) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ prénom invalide \"}";
+          String prenom = body.get("prenom").toString();
+          if (nom.trim().isEmpty()) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ ville invalide\"}";
+          String ville = body.get("ville").toString();
+          if (ville.trim().isEmpty()) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ code postal invalide\"}";
+          String cp = body.get("cp").toString();
+          System.out.println(cp);
+          if (!cp.matches("^[0-9]{4,}$")) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ email invalide\"}";
+          String email = body.get("email").toString();
+          if (!email.matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,4})+$")) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ téléphone invalide\"}";
+          String tel = body.get("telephone").toString();
+          if (!tel.matches(".{9,}")) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ rue invalide\"}";
+          String rue = body.get("rue").toString();
+          if (!rue.matches("[a-zA-Z]{4,}")) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          err = "{\"error\":\"Champ numéro invalide\"}";
+          String numero = body.get("numero").toString();
+          if (!numero.matches("[0-9]{1,}")) {
+            ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+            return;
+          }
+          ClientDto client = fact.getClientDto();
+          client.setNom(nom);
+          client.setPrenom(prenom);
+          client.setEmail(email);
+          client.setCodePostal(cp);
+          client.setTelephone(tel);
+          client.setRue(rue);
+          client.setVille(ville);
+          client.setNumero(numero);
+          client = clientUcc.insertClient(client);
+          json = "{\"client\":" + genson.serialize(client) + "}";
+          statusCode = HttpServletResponse.SC_OK;
+          ServletUtils.sendResponse(resp, json, statusCode);
+        } catch (FatalException exception) {
+          exception.printStackTrace();
+          String err = "{\"error\":\" Erreur serveur \"}";
+          statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+          ServletUtils.sendResponse(resp, err, statusCode);
+        }
       }
 
     } else {

@@ -113,14 +113,50 @@ public class AuthentificationServlet extends HttpServlet {
    * @throws Exception if something went wrong.
    */
   private void registerUser(HttpServletResponse resp, Map<String, Object> body) throws Exception {
+    String err = "{\"error\":\"Champ nom invalide\"}";
+    String nom = body.get("nom").toString();
+    if (nom.trim().isEmpty()) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    err = "{\"error\":\"Champ prenom invalide\"}";
+    String prenom = body.get("prenom").toString();
+    if (prenom.trim().isEmpty()) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    err = "{\"error\":\"Champ pseudo invalide\"}";
+    String pseudo = body.get("pseudo").toString();
+    if (pseudo.trim().isEmpty()) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    err = "{\"error\":\"Champ email invalide\"}";
+    String email = body.get("email").toString();
+    if (!email.matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,4})+$")) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    err = "{\"error\":\"Champ ville invalide\"}";
+    String ville = body.get("ville").toString();
+    if (ville.trim().isEmpty()) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    err = "{\"error\":\"Champ password mot de passe invalide\"}";
+    String mdp = body.get("mdp").toString();
+    if (mdp.trim().isEmpty()) {
+      ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
     UserDto dto = dtoFactory.getUserDto();
 
-    dto.setNom((String) body.get("nom"));
-    dto.setPrenom((String) body.get("prenom"));
-    dto.setPseudo((String) body.get("pseudo"));
-    dto.setEmail((String) body.get("email"));
-    dto.setVille((String) body.get("ville"));
-    dto.setPassword((String) body.get("mdp"));
+    dto.setNom(nom);
+    dto.setPrenom(prenom);
+    dto.setPseudo(pseudo);
+    dto.setEmail(email);
+    dto.setVille(ville);
+    dto.setPassword(mdp);
 
     String json = "{\"msg\":\"Wouhou! Connexion acceptée et en attente de confirmation.\"}";
     int status = HttpServletResponse.SC_OK;
