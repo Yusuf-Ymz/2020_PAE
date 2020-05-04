@@ -409,12 +409,11 @@ public class DevisServlet extends HttpServlet {
       }
       final String amenagements = body.get("amenagements").toString();
       if (amenagements.equals("[]")) {
-        err = "Veuillez renseigner au moins un aménagement";
-        ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_PRECONDITION_FAILED);
+        err = "{\"error\":\"Veuillez renseigner au moins un aménagement\"}";
+        ServletUtils.sendResponse(resp, err, HttpServletResponse.SC_BAD_REQUEST);
         return;
       }
       String photos = body.get("photos").toString();
-      err = "Veuillez sélectionner des aménagements";
 
       photos = photos.replace("[", "");
       photos = photos.replace("]", "");
