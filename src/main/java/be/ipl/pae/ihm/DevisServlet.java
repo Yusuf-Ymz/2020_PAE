@@ -387,13 +387,13 @@ public class DevisServlet extends HttpServlet {
   private void insererDevis(Map<String, Object> body, HttpServletResponse resp) {
     String err = "";
     try {
-      err = "Veuillez renseigner un client";
+      err = "{\"error\":\"Veuillez renseigner un client\"}";
       final int idClient = Integer.parseInt((String) body.get("idClient"));
-      err = "Veuillez saisir une date";
+      err = "{\"error\":\"Veuillez saisir une date\"}";
       final LocalDate dateDebut = LocalDate.parse(body.get("dateDebut").toString());
-      err = "Champ \"montant total\" incorrect";
+      err = "{\"error\":\"Champ montant total incorrect\"}";
       final int montantTotal = Integer.parseInt(body.get("montant").toString());
-      err = "Champ \"durée des travaux\" incorrect";
+
       if (montantTotal < 0) {
         err = "{\"error\":\"Champ montant total incorrect\"}";
         int statusCode = HttpServletResponse.SC_BAD_REQUEST;
@@ -401,6 +401,7 @@ public class DevisServlet extends HttpServlet {
         return;
       }
       final int nbJours = Integer.parseInt(body.get("nbJours").toString());
+      err = "{\"error\":\"Champ durée des travaux incorrect\"}";
       if (nbJours < 0) {
         err = "{\"error\":\"Champ durée des travaux incorrect\"}";
         int statusCode = HttpServletResponse.SC_BAD_REQUEST;
