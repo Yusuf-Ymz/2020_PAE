@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import be.ipl.pae.bizz.dto.AmenagementDto;
 import be.ipl.pae.bizz.dto.PhotoDto;
-import be.ipl.pae.bizz.factory.DtoFactory;
 import be.ipl.pae.bizz.ucc.PhotoUcc;
 import be.ipl.pae.exception.BizException;
 import be.ipl.pae.main.Config;
@@ -19,20 +17,13 @@ import java.util.List;
 
 class PhotoUccTest {
   private PhotoUcc photoUcc;
-  private AmenagementDto amenagementDto;
-  private PhotoDto photo;
-  private DtoFactory dtoFactory;
 
-  private
-
-  @BeforeEach void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     Config.load("test.properties");
     InjectionService injecSvc = new InjectionService();
     this.photoUcc = new PhotoUccImpl();
     injecSvc.injectDependencies(photoUcc);
-    this.amenagementDto = null;
-    this.photo = null;
-    this.dtoFactory = new DtoFactoryImpl();
   }
 
   @Test
