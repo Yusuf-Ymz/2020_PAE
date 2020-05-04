@@ -283,8 +283,10 @@ $(document).ready(function () {
     });
 
     $("#inputFileApres").on("change", function (e) {
-        var file = e.target.files[0];
-        ajouterPhotoApresAmenagement(file, devisID);
+        var files = e.target.files;
+        for(let i =0;i<files.length;i++){
+            ajouterPhotoApresAmenagement(files[i], devisID);
+        }
     });
 
     $('#confirmerCommande').click(function () {

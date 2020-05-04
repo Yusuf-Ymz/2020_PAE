@@ -234,8 +234,10 @@ $(document).ready(function (e) {
         reader.readAsDataURL(file);
     }
     $("#inputFile").on("change", function (e) {
-        var file = e.target.files[0];
-        converFile(file);
+        var files = e.target.files;
+        for(let i = 0;i<files.length;i++){
+            converFile(files[i]);
+        }
     });
     $("#drop-container").on('dragover', function (e) {
         e.preventDefault();
