@@ -20,20 +20,21 @@ $(document).ready(function () {
     $('.slide-nav').toggleClass("active");
     e.preventDefault();
   });
-  
+
   $(".home").on('click', function (e) {
     token = localStorage.getItem("token");
-    getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
 
-    if (token)
+    if (token) {
+      getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
       HideToCarousel();
-    else {
+    } else {
       HideToHomeWhenNotConnect();
     }
   });
 
   $("#selectAmenagementAccueil").click(function (e) {
     e.preventDefault();
+    console.log("click");
     $("#amenagementsAccueil").fadeIn();
   })
 
@@ -160,6 +161,7 @@ function abortPreviousRequest() {
 }
 
 const HideToHomeWhenNotConnect = () => {
+  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
   remplirCarrousel(token);
   $(".user-info").hide();
   $("#nav_connect").show();
@@ -344,9 +346,10 @@ const homeWorker = (response = "") => {
 
 
 const initialisation = () => {
+
   $('#loader').hide();
   let token = localStorage.getItem("token");
-
+  getDataWithoutLoader("/amenagement", null, token, displayAmenagements, onError);
   if (token) {
     const data = {
       action: "obtenirUser"
@@ -397,7 +400,7 @@ function displayAmenagements(response) {
 }
 
 function onError(response) {
-  notify("Error","Erreur dans la requête");
+  notify("Error", "Erreur dans la requête");
 }
 
 function remplirCarrousel(token) {
